@@ -36,11 +36,11 @@ public class ContactListRestService {
 	public String getContact(@FirstResult int first, @MaxResults int max) {
 		try {
 			List contacts = this.service.listContacts(first, max);
-			String json = HttpResult.createSuccessHttpResult(contacts).toJson();
+			String json = HttpResult.createSuccessfulHttpResult(contacts).toJson();
 			return json;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return HttpResult.createFaileHttpResult(e.getCause().getClass().getName(),e.getMessage()).toJson();
+			return HttpResult.createFailedHttpResult(e.getCause().getClass().getName(),e.getMessage()).toJson();
 		}
 	}
 }
