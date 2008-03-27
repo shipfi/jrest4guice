@@ -1,0 +1,40 @@
+<div uiAttachPoint="portletContainer" style="margin:4px 2px 0 2px;background: #FFF;">
+	<div class="porlettitle" style="height:24px;cursor:move;" uiAttachPoint="titleContainer" uiAttachEvent="ondblclick:onTitleDbclick;onmouseover:onTitleBarMouseOver;onmouseout:onTtitleBarMouseOut;onmouseup:onTtitleBarMouseOut;">
+		<div uiAttachPoint="disActiveTitleBar" style="height: 24px;">
+			<div style="width:18px;text-align:center;float: left">
+				<img src="#{loadingActionIcon}" uiAttachPoint="loadingAction" style="margin-top: 6px;" />
+			</div>
+			<div unselectable="on" style="float: left">
+				<div unselectable="on" uiAttachPoint="titileEditAction" uiAttachEvent="onclick:onTitleEdit" style="line-height: 24px;">#{title}</div>
+			</div>
+		</div>
+		<div uiAttachPoint="activeTitleBar" style="display:none;height:22px;width: 100%;">
+			<div style="width:18px; text-align:center; cursor:pointer;float: left">
+				<img src="#{hideActionIcon}" uiAttachPoint="hideAction" uiAttachEvent="onclick:onHide;onmouseover:changeIcon;onmouseout:changeIcon" style="margin-top: 7px;" />
+			</div>
+			<div unselectable="on" style="float: left;">
+				<div unselectable="on" uiAttachPoint="activeTitileEditAction" uiAttachEvent="onclick:onTitleEdit" style="line-height: 24px;">#{title}</div>
+			</div>
+			
+			<div style="float: right;margin-right: 5px;width: 70px;">
+				<div style="width:14px;text-align:center; cursor:pointer;float: right;">
+					<img title="删除" src="#{closeActionIcon}" uiAttachPoint="closeAction" uiAttachEvent="onclick:onCloseWindow;onmouseover:changeIcon;onmouseout:changeIcon" style="margin-top: 7px;" />
+				</div>
+				<div style="width:14px;text-align:center; cursor:pointer;float: right;display: none;">
+						<img title="编辑" src="#{editActionIcon}" uiAttachPoint="editAction" uiAttachEvent="onclick:onPortletEdit;onmouseover:changeIcon;onmouseout:changeIcon" style="margin-top: 7px;" />
+				</div>
+				<div style="width:14px;text-align:center; cursor:pointer;float: right;display: none;">
+					<img title="最大化" src="#{resizeWindowActionIcon}" uiAttachPoint="resizeWindowAction" uiAttachEvent="onclick:onResize;onmouseover:changeIcon;onmouseout:changeIcon" style="margin-top: 7px;" />
+				</div>
+				<div style="width:14px;text-align:center; cursor:pointer;float: right;">
+					<img title="刷新" src="#{refreshActionIcon}" uiAttachPoint="refreshAction" uiAttachEvent="onclick:onRefresh;onmouseover:changeIcon;onmouseout:changeIcon" style="margin-top: 7px;" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div uiAttachPoint="contentContainerTr" >
+		<div style="border-top: 1px solid #CACFD3;overflow: hidden;" uiAttachPoint="contentContainer"></div>
+		<div style="clear: both;height: 1px;"><!--适应高度  //--></div>
+	</div>
+</div>
