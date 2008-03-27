@@ -20,7 +20,7 @@ function getContactList(){
 	_contactList = $.elem("contactList");
 	var data = {first:0,max:100};
 	$.ajax({
-		url:"/contacts",
+		url:"contacts",
 		type:"GET",
 		dataType:'json',
 		data:data,

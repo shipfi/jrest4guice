@@ -48,8 +48,70 @@ public class ResourceFilter implements Filter {
 	public static final String METHOD_OF_DELETE = "delete";
 
 	private ResourceRegistry resourceReg = new ResourceRegistry();
+	
+	private static Set<String> extNameExcludes;
+	static{
+		extNameExcludes = new HashSet<String>(11);
+		extNameExcludes.add("js");
+		extNameExcludes.add("jsp");
+		extNameExcludes.add("jspa");
+		extNameExcludes.add("do");
+		extNameExcludes.add("html");
+		extNameExcludes.add("htm");
+		extNameExcludes.add("jpg");
+		extNameExcludes.add("gif");
+		extNameExcludes.add("png");
+		extNameExcludes.add("bmp");
+		extNameExcludes.add("swf");
+	}
 
 	public static Injector injector;
+
+	@Override
+	public void init(FilterConfig config) throws ServletException {
+		//初始化需要被过滤器忽略的资源扩展名
+		String _extNameExcludes = config.getInitParameter("extNameExcludes");
+		if (_extNameExcludes != null && !_extNameExcludes.trim().equals("")) {
+			String[] exts = _extNameExcludes.split(",");
+			for(String ext:exts)
+				extNameExcludes.add(ext);
+		}
+		
+		List<Class<?>> resources = new ArrayList<Class<?>>(0);
+		// 获取要扫描的资源所对应的包路径
+		String resource_package = config.getInitParameter("resource-package");
+		if (resource_package != null && !resource_package.trim().equals("")) {
+			String[] packages = resource_package.split(",");
+			for (String packageName : packages)
+				this.scanResource(resources, packageName);
+		}
+
+		// 加载Guice的模块
+		String guiceModuleClass = config.getInitParameter("GuiceModuleClass");
+		final List<Module> modules = new ArrayList<Module>(0);
+		modules.add(new JRestModule());
+		modules.add(this.generateGuiceProviderModule(resources));
+
+		try {
+			if (guiceModuleClass != null && !guiceModuleClass.trim().equals("")) {
+				modules.add((Module) Class.forName(guiceModuleClass)
+						.newInstance());
+			}
+		} catch (Exception e) {
+			throw new ServletException("初始化ResourceFilter错误：\n"
+					+ e.getMessage());
+		}
+		// 初始化Guice的注入器
+		injector = Guice.createInjector(new Iterable<Module>() {
+			@Override
+			public Iterator<Module> iterator() {
+				return modules.iterator();
+			}
+		});
+
+		// 注册资源
+		this.registResource(resources);
+	}
 
 	@Override
 	public void doFilter(ServletRequest servletReqest,
@@ -68,11 +130,13 @@ public class ResourceFilter implements Filter {
 
 		// 忽略以下的文件不处理
 		String _uri = uri.trim().toLowerCase();
-		if (_uri.endsWith(".js") || _uri.endsWith(".css")
-				|| _uri.endsWith(".jpg") || _uri.endsWith(".png")
-				|| _uri.endsWith(".gif") || _uri.endsWith(".flash")) {
-			filterChain.doFilter(request, response);
-			return;
+		int index = _uri.lastIndexOf(".");
+		if(index != -1){
+			String ext_name = _uri.substring(index+1);
+			if (extNameExcludes.contains(ext_name)) {
+				filterChain.doFilter(request, response);
+				return;
+			}
 		}
 
 		if (uri == null || "".equals(uri)) {
@@ -108,7 +172,6 @@ public class ResourceFilter implements Filter {
 				else
 					filterChain.doFilter(servletReqest, servletResponse);
 			}
-		} catch (Exception e) {
 		} finally {
 			// 清除上下文中的环境变量
 			IocContextManager.clearContext();
@@ -170,50 +233,6 @@ public class ResourceFilter implements Filter {
 			e.printStackTrace();
 		}
 
-	}
-
-	@Override
-	public void init(FilterConfig config) throws ServletException {
-		String resListFile = config.getInitParameter("resourceListFile");
-		if ("".equals(resListFile)) {
-			System.out.println("[WARNING]No resource specified");
-			return;
-		}
-
-		List<Class<?>> resources = new ArrayList<Class<?>>(0);
-		// 获取要扫描的资源所对应的包路径
-		String resource_package = config.getInitParameter("resource-package");
-		if (resource_package != null && !resource_package.trim().equals("")) {
-			String[] packages = resource_package.split(",");
-			for (String packageName : packages)
-				this.scanResource(resources, packageName);
-		}
-
-		// 加载Guice的模块
-		String guiceModuleClass = config.getInitParameter("GuiceModuleClass");
-		final List<Module> modules = new ArrayList<Module>(0);
-		modules.add(new JRestModule());
-		modules.add(this.generateGuiceProviderModule(resources));
-
-		try {
-			if (guiceModuleClass != null && !guiceModuleClass.trim().equals("")) {
-				modules.add((Module) Class.forName(guiceModuleClass)
-						.newInstance());
-			}
-		} catch (Exception e) {
-			throw new ServletException("初始化ResourceFilter错误：\n"
-					+ e.getMessage());
-		}
-		// 初始化Guice的注入器
-		injector = Guice.createInjector(new Iterable<Module>() {
-			@Override
-			public Iterator<Module> iterator() {
-				return modules.iterator();
-			}
-		});
-
-		// 注册资源
-		this.registResource(resources);
 	}
 
 	private void scanResource(List<Class<?>> resources, String packageName) {
