@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-web>
-	<context-root>/</context-root>
-	<virtual-host>www.jrest.cnoss.org</virtual-host>
+	<context-root>/JRest4Guice</context-root>
 </jboss-web>
