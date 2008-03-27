@@ -23,12 +23,19 @@
 	<filter>
 		<filter-name>RESTfulFilter</filter-name>
 		<filter-class>org.cnoss.jrest.ResourceFilter</filter-class>
+		<!-- 需要被过滤器忽略的资源扩展名，文件名之前用","隔开 -->
+		<init-param>
+			<param-name>extNameExcludes</param-name>
+			<param-value>gzjs,zip</param-value>
+		</init-param>
+		<!-- 用户Guice的Module -->
 		<init-param>
 			<param-name>GuiceModuleClass</param-name>
 			<param-value>
 				org.cnoss.jrest.test.ContactGuiceModule
 			</param-value>
 		</init-param>
+		<!-- 需要被自动扫描的包名，多个包名之间用","隔开 -->
 		<init-param>
 			<param-name>resource-package</param-name>
 			<param-value>org.cnoss</param-value>
