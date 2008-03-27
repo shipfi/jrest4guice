@@ -19,7 +19,6 @@ import org.cnoss.jrest.test.service.entity.Contact;
 import com.google.inject.Inject;
 
 @Restful(uri = { "/contact", "/contact/{contactId}" })
-@SuppressWarnings("unchecked")
 public class ContactRestService {
 	@Inject
 	private ModelMap modelMap;
@@ -37,13 +36,13 @@ public class ContactRestService {
 	@HttpMethod(type = HttpMethodType.POST)
 	public String createContact(String name, @RequestParameter("homePhone") String homePhone, @ModelBean Contact contact) {
 		if (contact == null)
-			throw new RuntimeException("联系人信息不能为空");
+			return HttpResult.createFailedHttpResult("-1","联系人信息不能为空").toJson();
 		String contactId = null;
 		try {
 			contactId = this.service.createContact(contact);
-			return HttpResult.createSuccessHttpResult(contactId).toJson();
+			return HttpResult.createSuccessfulHttpResult(contactId).toJson();
 		} catch (RemoteException e) {
-			return HttpResult.createFaileHttpResult(e.getClass().getName(),e.getMessage()).toJson();
+			return HttpResult.createFailedHttpResult(e.getClass().getName(),e.getMessage()).toJson();
 		}
 	}
 
@@ -52,13 +51,13 @@ public class ContactRestService {
 	String contactId, @ModelBean
 	Contact contact) {
 		if (contactId == null)
-			throw new RuntimeException("没有指定对应的联系人标识符");
+			return HttpResult.createFailedHttpResult("-1","没有指定对应的联系人标识符").toJson();
 
 		try {
 			this.service.updateContact(contact);
-			return HttpResult.createSuccessHttpResult("修改成功").toJson();
+			return HttpResult.createSuccessfulHttpResult("修改成功").toJson();
 		} catch (RemoteException e) {
-			return HttpResult.createFaileHttpResult(e.getClass().getName(),e.getMessage()).toJson();
+			return HttpResult.createFailedHttpResult(e.getClass().getName(),e.getMessage()).toJson();
 		}
 	}
 
@@ -67,9 +66,9 @@ public class ContactRestService {
 	String contactId) {
 		try {
 			Contact contactDto = this.service.findContactById(contactId);
-			return HttpResult.createSuccessHttpResult(contactDto).toJson();
+			return HttpResult.createSuccessfulHttpResult(contactDto).toJson();
 		} catch (Exception e) {
-			return HttpResult.createFaileHttpResult(e.getClass().getName(),e.getMessage()).toJson();
+			return HttpResult.createFailedHttpResult(e.getClass().getName(),e.getMessage()).toJson();
 		}
 	}
 
@@ -78,9 +77,9 @@ public class ContactRestService {
 	String contactId) {
 		try {
 			this.service.deleteContact(contactId);
-			return HttpResult.createSuccessHttpResult("删除成功").toJson();
+			return HttpResult.createSuccessfulHttpResult("删除成功").toJson();
 		} catch (Exception e) {
-			return HttpResult.createFaileHttpResult(e.getClass().getName(),e.getMessage()).toJson();
+			return HttpResult.createFailedHttpResult(e.getClass().getName(),e.getMessage()).toJson();
 		}
 	}
 }

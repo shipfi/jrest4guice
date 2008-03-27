@@ -64,11 +64,11 @@ public class HttpResult {
 		return new HttpResult(content);
 	}
 
-	public static HttpResult createSuccessHttpResult(Object content) {
+	public static HttpResult createSuccessfulHttpResult(Object content) {
 		return new HttpResult(content);
 	}
 
-	public static HttpResult createFaileHttpResult(String errorCode,
+	public static HttpResult createFailedHttpResult(String errorCode,
 			String errorMessage) {
 		return new HttpResult(errorCode, errorMessage);
 	}
