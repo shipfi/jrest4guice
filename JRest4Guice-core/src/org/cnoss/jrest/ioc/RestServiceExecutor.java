@@ -144,8 +144,4 @@ public class RestServiceExecutor {
 
 		return value;
 	}
-	
-	public static void main(String[] args) {
-		System.out.println("getUserName".startsWith("Get"));
-	}
 }
