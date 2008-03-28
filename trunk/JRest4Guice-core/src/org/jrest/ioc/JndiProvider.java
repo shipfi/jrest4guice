@@ -1,4 +1,4 @@
-package org.cnoss.jrest.ioc;
+package org.jrest.ioc;
 
 import javax.naming.Context;
 import javax.naming.NamingException;

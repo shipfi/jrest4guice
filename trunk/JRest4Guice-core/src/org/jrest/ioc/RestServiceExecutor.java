@@ -1,4 +1,4 @@
-package org.cnoss.jrest.ioc;
+package org.jrest.ioc;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.cnoss.jrest.ResourceFilter;
-import org.cnoss.jrest.annotation.FirstResult;
-import org.cnoss.jrest.annotation.HttpMethod;
-import org.cnoss.jrest.annotation.HttpMethodType;
-import org.cnoss.jrest.annotation.MaxResults;
-import org.cnoss.jrest.annotation.ModelBean;
-import org.cnoss.jrest.annotation.RequestParameter;
-import org.cnoss.jrest.util.ParameterNameDiscoverer;
+import org.jrest.ResourceFilter;
+import org.jrest.annotation.FirstResult;
+import org.jrest.annotation.HttpMethod;
+import org.jrest.annotation.HttpMethodType;
+import org.jrest.annotation.MaxResults;
+import org.jrest.annotation.ModelBean;
+import org.jrest.annotation.RequestParameter;
+import org.jrest.util.ParameterNameDiscoverer;
 
 @SuppressWarnings("unchecked")
 public class RestServiceExecutor {

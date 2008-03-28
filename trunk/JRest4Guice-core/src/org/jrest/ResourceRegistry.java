@@ -1,4 +1,4 @@
-package org.cnoss.jrest;
+package org.jrest;
 
 import java.util.Map;
 import java.util.regex.Matcher;

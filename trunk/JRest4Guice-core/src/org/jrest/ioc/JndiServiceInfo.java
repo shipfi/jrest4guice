@@ -1,4 +1,4 @@
-package org.cnoss.jrest.ioc;
+package org.jrest.ioc;
 
 public class JndiServiceInfo {
 	private Class serviceClass;

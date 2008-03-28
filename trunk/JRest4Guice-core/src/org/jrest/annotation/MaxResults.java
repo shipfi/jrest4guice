@@ -1,4 +1,4 @@
-package org.cnoss.jrest.annotation;
+package org.jrest.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface JndiResource {
-	String jndi();
+@Target(ElementType.PARAMETER)
+public @interface MaxResults {
+	String name() default "max"; ;
 }

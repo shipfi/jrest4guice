@@ -1,4 +1,4 @@
-package org.cnoss.jrest.annotation;
+package org.jrest.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface RequestParameter {
-	String value();
+@Target(ElementType.METHOD)
+public @interface HttpMethod {
+	HttpMethodType type() default HttpMethodType.DEFAULT;
 }

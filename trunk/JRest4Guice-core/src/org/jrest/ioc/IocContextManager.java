@@ -1,4 +1,4 @@
-package org.cnoss.jrest.ioc;
+package org.jrest.ioc;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

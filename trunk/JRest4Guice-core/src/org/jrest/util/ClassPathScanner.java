@@ -1,4 +1,4 @@
-package org.cnoss.jrest.util;
+package org.jrest.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import org.cnoss.jrest.annotation.Restful;
+import org.jrest.annotation.Restful;
 
 public class ClassPathScanner {
 
