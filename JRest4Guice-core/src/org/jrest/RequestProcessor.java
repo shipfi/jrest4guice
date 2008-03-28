@@ -5,6 +5,7 @@ import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Enumeration;
 
@@ -37,6 +38,16 @@ public class RequestProcessor {
 	public void process(ServletRequest servletReqest,ServletResponse servletResponse){
 		HttpServletRequest request = (HttpServletRequest) servletReqest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
+		
+		//获取字符编码
+		charset = request.getCharacterEncoding();
+		if (charset == null || charset.trim().equals("")){
+			charset = "UTF-8";
+			try {
+				request.setCharacterEncoding(charset);
+			} catch (UnsupportedEncodingException e) {
+			}
+		}
 
 		String uri = request.getRequestURI();
 		uri = uri.replace(request.getContextPath(), "");
@@ -92,11 +103,8 @@ public class RequestProcessor {
 			params.put(name, request.getParameter(name));
 		}
 
+		// 以http body方式提交的参数
 		try {
-			// 以http body方式提交的参数
-			charset = request.getCharacterEncoding();
-			if (charset == null || charset.trim().equals(""))
-				charset = "UTF-8";
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					request.getInputStream(), charset));
 			// Read the request
@@ -125,7 +133,12 @@ public class RequestProcessor {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * 向客户端写回服务端的输出结果
+	 * @param response
+	 * @param result
+	 */
 	private void writeResult(HttpServletResponse response, Object result) {
 		if (result == null)
 			return;
