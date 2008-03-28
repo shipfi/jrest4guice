@@ -1,4 +1,4 @@
-package org.cnoss.common.filter;
+package org.jrest.test;
 
 import java.io.IOException;
 import java.util.HashMap;
