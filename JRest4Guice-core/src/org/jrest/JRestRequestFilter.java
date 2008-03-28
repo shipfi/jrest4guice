@@ -92,5 +92,6 @@ public class JRestRequestFilter implements Filter {
 
 	@Override
 	public void destroy() {
+		this.requestProcessor = null;
 	}
 }
