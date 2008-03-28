@@ -1,4 +1,4 @@
-package org.cnoss.jrest.ioc;
+package org.jrest.ioc;
 
 
 import com.google.inject.Provider;

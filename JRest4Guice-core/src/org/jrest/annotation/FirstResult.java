@@ -1,4 +1,4 @@
-package org.cnoss.jrest.annotation;
+package org.jrest.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

@@ -1,4 +1,4 @@
-package org.cnoss.jrest;
+package org.jrest;
 
 import java.io.BufferedReader;
 import java.io.CharArrayWriter;
@@ -23,17 +23,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.cnoss.jrest.annotation.HttpMethodType;
-import org.cnoss.jrest.annotation.JndiResource;
-import org.cnoss.jrest.annotation.Restful;
-import org.cnoss.jrest.ioc.IocContextManager;
-import org.cnoss.jrest.ioc.JRestModule;
-import org.cnoss.jrest.ioc.JndiProvider;
-import org.cnoss.jrest.ioc.JndiServiceInfo;
-import org.cnoss.jrest.ioc.ModelMap;
-import org.cnoss.jrest.ioc.RestServiceExecutor;
-import org.cnoss.jrest.util.ClassPathScanner;
-import org.cnoss.jrest.util.ClassPathScanner.ClassFilter;
+import org.jrest.annotation.HttpMethodType;
+import org.jrest.annotation.JndiResource;
+import org.jrest.annotation.Restful;
+import org.jrest.ioc.IocContextManager;
+import org.jrest.ioc.JRestModule;
+import org.jrest.ioc.JndiProvider;
+import org.jrest.ioc.JndiServiceInfo;
+import org.jrest.ioc.ModelMap;
+import org.jrest.ioc.RestServiceExecutor;
+import org.jrest.util.ClassPathScanner;
+import org.jrest.util.ClassPathScanner.ClassFilter;
 
 import com.google.inject.Binder;
 import com.google.inject.Guice;

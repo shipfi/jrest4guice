@@ -1,4 +1,4 @@
-package org.cnoss.jrest;
+package org.jrest;
 
 import net.sf.json.JSONObject;
 

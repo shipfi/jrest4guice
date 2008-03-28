@@ -1,4 +1,4 @@
-package org.cnoss.jrest;
+package org.jrest;
 
 import java.util.HashMap;
 import java.util.Map;

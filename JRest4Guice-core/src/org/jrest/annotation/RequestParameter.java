@@ -1,4 +1,4 @@
-package org.cnoss.jrest.annotation;
+package org.jrest.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-public @interface ModelBean {
+public @interface RequestParameter {
+	String value();
 }
