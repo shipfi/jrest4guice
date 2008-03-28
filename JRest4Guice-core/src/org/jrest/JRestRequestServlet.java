@@ -34,7 +34,7 @@ public class JRestRequestServlet extends HttpServlet {
 	public void service(ServletRequest servletReqest,
 			ServletResponse servletResponse) throws IOException,
 			ServletException {
-		requestProcessor.process(servletReqest, servletResponse);
+		this.requestProcessor.process(servletReqest, servletResponse);
 	}
 
 	@Override
