@@ -1,20 +1,20 @@
-package org.cnoss.jrest.test;
+package org.jrest.test;
 
 import java.rmi.RemoteException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.cnoss.jrest.HttpResult;
-import org.cnoss.jrest.annotation.HttpMethod;
-import org.cnoss.jrest.annotation.HttpMethodType;
-import org.cnoss.jrest.annotation.JndiResource;
-import org.cnoss.jrest.annotation.ModelBean;
-import org.cnoss.jrest.annotation.RequestParameter;
-import org.cnoss.jrest.annotation.Restful;
-import org.cnoss.jrest.ioc.ModelMap;
-import org.cnoss.jrest.test.service.ContactService;
-import org.cnoss.jrest.test.service.entity.Contact;
+import org.jrest.HttpResult;
+import org.jrest.annotation.HttpMethod;
+import org.jrest.annotation.HttpMethodType;
+import org.jrest.annotation.JndiResource;
+import org.jrest.annotation.ModelBean;
+import org.jrest.annotation.RequestParameter;
+import org.jrest.annotation.Restful;
+import org.jrest.context.ModelMap;
+import org.jrest.test.service.ContactService;
+import org.jrest.test.service.entity.Contact;
 
 import com.google.inject.Inject;
 

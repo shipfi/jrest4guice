@@ -1,4 +1,4 @@
-package org.cnoss.jrest.test;
+package org.jrest.test;
 
 import java.util.Hashtable;
 

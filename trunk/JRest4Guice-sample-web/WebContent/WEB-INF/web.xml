@@ -4,10 +4,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	<display-name>JRest</display-name>
+
+	<!-- 过滤所有的被压缩过的Javascript（*.gzjs） -->
 	<filter>
 		<filter-name>AddHeaderFilter</filter-name>
 		<filter-class>
-			org.cnoss.common.filter.AddHeaderFilter
+			org.jrest.test.AddHeaderFilter
 		</filter-class>
 		<init-param>
 			<param-name>headers</param-name>
@@ -20,9 +22,11 @@
 		<url-pattern>*.gzjs</url-pattern>
 	</filter-mapping>
 
+	<!-- 方式（1） -->
+	<!-- 以Filter方式处理所有Restful请求 -->
 	<filter>
-		<filter-name>RESTfulFilter</filter-name>
-		<filter-class>org.cnoss.jrest.ResourceFilter</filter-class>
+		<filter-name>JRestRequestFilter</filter-name>
+		<filter-class>org.jrest.JRestRequestFilter</filter-class>
 		<!-- 需要被过滤器忽略的资源扩展名，文件名之前用","隔开 -->
 		<init-param>
 			<param-name>extNameExcludes</param-name>
@@ -32,17 +36,45 @@
 		<init-param>
 			<param-name>GuiceModuleClass</param-name>
 			<param-value>
-				org.cnoss.jrest.test.ContactGuiceModule
+				org.jrest.test.ContactGuiceModule
 			</param-value>
 		</init-param>
 		<!-- 需要被自动扫描的包名，多个包名之间用","隔开 -->
 		<init-param>
 			<param-name>resource-package</param-name>
-			<param-value>org.cnoss</param-value>
+			<param-value>org.jrest.test</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>RESTfulFilter</filter-name>
+		<filter-name>JRestRequestFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<!-- 方式（2） -->
+	<!-- 以Servlet方式处理所有Restful请求 -->
+	<!-- 
+	<servlet>
+		<servlet-name>JRestRequestServlet</servlet-name>
+		<servlet-class>org.jrest.JRestRequestServlet</servlet-class>
+		<init-param>
+			<param-name>GuiceModuleClass</param-name>
+			<param-value>
+				org.jrest.test.ContactGuiceModule
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>resource-package</param-name>
+			<param-value>org.jrest.test</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>JRestRequestServlet</servlet-name>
+		<url-pattern>/contacts</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>JRestRequestServlet</servlet-name>
+		<url-pattern>/contact/*</url-pattern>
+	</servlet-mapping>
+	-->
 </web-app>

@@ -1,19 +1,19 @@
-package org.cnoss.jrest.test;
+package org.jrest.test;
 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.cnoss.jrest.HttpResult;
-import org.cnoss.jrest.annotation.FirstResult;
-import org.cnoss.jrest.annotation.HttpMethod;
-import org.cnoss.jrest.annotation.HttpMethodType;
-import org.cnoss.jrest.annotation.JndiResource;
-import org.cnoss.jrest.annotation.MaxResults;
-import org.cnoss.jrest.annotation.Restful;
-import org.cnoss.jrest.ioc.ModelMap;
-import org.cnoss.jrest.test.service.ContactService;
+import org.jrest.HttpResult;
+import org.jrest.annotation.FirstResult;
+import org.jrest.annotation.HttpMethod;
+import org.jrest.annotation.HttpMethodType;
+import org.jrest.annotation.JndiResource;
+import org.jrest.annotation.MaxResults;
+import org.jrest.annotation.Restful;
+import org.jrest.context.ModelMap;
+import org.jrest.test.service.ContactService;
 
 import com.google.inject.Inject;
 
