@@ -5,6 +5,7 @@
 	<projects>
 		<project>JRest4Guice-core</project>
 		<project>Cnoss-core</project>
+		<project>Jpa4Guice-core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
