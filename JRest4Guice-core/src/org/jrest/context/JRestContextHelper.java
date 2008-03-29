@@ -2,6 +2,7 @@ package org.jrest.context;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,8 +21,9 @@ class JRestContextHelper {
 		List<Class<?>> resources = new ArrayList<Class<?>>(0);
 		// 获取要扫描的资源所对应的包路径
 		String resource_package = config.getInitParameter("resource-package");
+		String[] packages = null;
 		if (resource_package != null && !resource_package.trim().equals("")) {
-			String[] packages = resource_package.split(",");
+			packages = resource_package.split(",");
 			for (String packageName : packages)
 				this.scanResource(resources, packageName);
 		}
@@ -44,7 +46,7 @@ class JRestContextHelper {
 
 		
 		
-		GuiceContext.getInstance().init(modules, guiceModuleClass);
+		GuiceContext.getInstance().init(modules, Arrays.asList(packages));
 		
 		// 注册资源
 		this.registResource(resources);
