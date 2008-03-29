@@ -3,7 +3,6 @@
 	<name>JRest4Guice-sample-ear</name>
 	<comment></comment>
 	<projects>
-		<project>JRest4Guice-sample-ejb</project>
 		<project>JRest4Guice-sample-web</project>
 		<project>JRest4Guice-core</project>
 		<project>Cnoss-core</project>
