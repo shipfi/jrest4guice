@@ -3,15 +3,13 @@ package org.jrest.context;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.inject.Injector;
+import org.cnoss.guice.GuiceContext;
 
 @SuppressWarnings("unchecked")
 public class JRestContext {
 	private ServiceRoute root = new ServiceRoute();
 	private Pattern paramPattern = Pattern.compile("\\{([a-zA-Z_]+[0-9]*)\\}");
 	private static final String PARAM_KEY = "_$__PARAM_$__";
-
-	public Injector injector;
 
 	private JRestContext() {
 	}
@@ -25,7 +23,7 @@ public class JRestContext {
 	}
 
 	public void initContext(ContextConfig config) throws Exception{
-		this.injector = new JRestContextHelper().constructGuiceInector(config);
+		new JRestContextHelper().constructGuiceInector(config);
 	}
 	
 	/**
@@ -91,7 +89,7 @@ public class JRestContext {
 		Class resourceClaz = current.getServiceClass();
 		if (resourceClaz != null) {
 			try {
-				service = injector.getInstance(resourceClaz);
+				service = GuiceContext.getInstance().getInstance(resourceClaz);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
