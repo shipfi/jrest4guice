@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="D:/Redhat/jboss-4.2.2.GA/server/default/lib/hibernate-entitymanager.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.6.0_04"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Cnoss-core"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
