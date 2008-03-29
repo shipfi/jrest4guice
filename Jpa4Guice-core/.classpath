@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="src-test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/aopalliance.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/asm-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/asm-commons-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/asm-util-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/ezmorph-1.0.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/guice-1.0.jar" sourcepath="/trunk"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/JRest4Guice-core"/>
+	<classpathentry kind="con" path="org.jboss.ide.eclipse.as.classpath.core.ejb3.classpathContainer/JBoss 4.2 Server"/>
+	<classpathentry kind="lib" path="D:/Redhat/jboss-4.2.2.GA/server/default/lib/hibernate3.jar"/>
+	<classpathentry kind="lib" path="D:/Redhat/jboss-4.2.2.GA/server/default/lib/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="D:/Redhat/jboss-4.2.2.GA/server/default/lib/hibernate-entitymanager.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
