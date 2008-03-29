@@ -25,12 +25,15 @@ public class GuiceContext {
 		return SingletonHolder.instance;
 	}
 
-	public void init(List<Module> modules,String scanPath) {
-		List<Class<?>> list = new ClassPathScanner(scanPath, new ClassFilter() {
-			public boolean accept(Class<?> clazz) {
-				return GuiceSupportAble.class.isAssignableFrom(clazz);
-			}
-		}).scan();
+	public void init(List<Module> modules,List<String> scanPaths) {
+		List<Class<?>> list = new ArrayList<Class<?>>();
+		for(String scanPath:scanPaths){
+			list.addAll(new ClassPathScanner(scanPath, new ClassFilter() {
+				public boolean accept(Class<?> clazz) {
+					return GuiceSupportAble.class.isAssignableFrom(clazz);
+				}
+			}).scan());
+		}
 
 		final List<Module> _modules = new ArrayList<Module>(0);
 		if(modules != null)
