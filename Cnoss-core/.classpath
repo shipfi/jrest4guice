@@ -25,7 +25,7 @@
 	<classpathentry kind="lib" path="/JRest4Guice-core/lib/javassist.jar"/>
 	<classpathentry kind="lib" path="/JRest4Guice-core/lib/jboss-archive-browsing.jar"/>
 	<classpathentry kind="lib" path="/JRest4Guice-core/lib/json-2.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="/JRest4Guice-core/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
