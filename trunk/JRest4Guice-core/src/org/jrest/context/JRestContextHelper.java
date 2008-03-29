@@ -2,11 +2,11 @@ package org.jrest.context;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.cnoss.guice.GuiceContext;
 import org.cnoss.util.ClassPathScanner;
 import org.cnoss.util.ClassPathScanner.ClassFilter;
@@ -43,10 +43,13 @@ class JRestContextHelper {
 			throw new Exception("初始化 JRestContextHelper 错误：\n"
 					+ e.getMessage());
 		}
+		
+		List<String> packageList = new ArrayList<String>();
+		
+		CollectionUtils.addAll(packageList, packages);
 
-		
-		
-		GuiceContext.getInstance().init(modules, Arrays.asList(packages));
+		//初始化Guice上下文
+		GuiceContext.getInstance().init(modules, packageList);
 		
 		// 注册资源
 		this.registResource(resources);
