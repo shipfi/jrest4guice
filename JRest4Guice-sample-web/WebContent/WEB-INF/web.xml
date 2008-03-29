@@ -32,13 +32,6 @@
 			<param-name>extNameExcludes</param-name>
 			<param-value>gzjs,zip</param-value>
 		</init-param>
-		<!-- 用户Guice的Module -->
-		<init-param>
-			<param-name>GuiceModuleClass</param-name>
-			<param-value>
-				org.jrest.test.ContactGuiceModule
-			</param-value>
-		</init-param>
 		<!-- 需要被自动扫描的包名，多个包名之间用","隔开 -->
 		<init-param>
 			<param-name>resource-package</param-name>
@@ -56,12 +49,6 @@
 	<servlet>
 		<servlet-name>JRestRequestServlet</servlet-name>
 		<servlet-class>org.jrest.JRestRequestServlet</servlet-class>
-		<init-param>
-			<param-name>GuiceModuleClass</param-name>
-			<param-value>
-				org.jrest.test.ContactGuiceModule
-			</param-value>
-		</init-param>
 		<init-param>
 			<param-name>resource-package</param-name>
 			<param-value>org.jrest.test</param-value>
