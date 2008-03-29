@@ -39,6 +39,9 @@
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/JRest4Guice-core/lib/servlet-api.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/Cnoss-core/Cnoss-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="JRest4Guice-sample-web"/>
         <property name="java-output-path" value="build/classes"/>
     </wb-module>
