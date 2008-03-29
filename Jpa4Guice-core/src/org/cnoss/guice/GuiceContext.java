@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.cnoss.guice.ClassPathScanner.ClassFilter;
+import org.cnoss.util.ClassPathScanner;
+import org.cnoss.util.ClassPathScanner.ClassFilter;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="src-test"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/JRest4Guice-core/lib/aopalliance.jar"/>
 	<classpathentry kind="lib" path="/JRest4Guice-core/lib/asm-2.2.3.jar"/>
 	<classpathentry kind="lib" path="/JRest4Guice-core/lib/asm-commons-2.2.3.jar"/>
@@ -16,5 +15,7 @@
 	<classpathentry kind="lib" path="D:/Redhat/jboss-4.2.2.GA/server/default/lib/hibernate3.jar"/>
 	<classpathentry kind="lib" path="D:/Redhat/jboss-4.2.2.GA/server/default/lib/hibernate-annotations.jar"/>
 	<classpathentry kind="lib" path="D:/Redhat/jboss-4.2.2.GA/server/default/lib/hibernate-entitymanager.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.6.0_04"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
