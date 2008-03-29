@@ -3,22 +3,20 @@ package org.jrest.context;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.cnoss.guice.GuiceContext;
+import org.cnoss.util.ClassPathScanner;
+import org.cnoss.util.ClassPathScanner.ClassFilter;
 import org.jrest.annotation.JndiResource;
 import org.jrest.annotation.Restful;
-import org.jrest.util.ClassPathScanner;
-import org.jrest.util.ClassPathScanner.ClassFilter;
 
 import com.google.inject.Binder;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.google.inject.Module;
 
 class JRestContextHelper {
-	public Injector constructGuiceInector(ContextConfig config) throws Exception{
+	public void constructGuiceInector(ContextConfig config) throws Exception{
 		List<Class<?>> resources = new ArrayList<Class<?>>(0);
 		// 获取要扫描的资源所对应的包路径
 		String resource_package = config.getInitParameter("resource-package");
@@ -45,18 +43,11 @@ class JRestContextHelper {
 		}
 
 		
-		// 初始化Guice的注入器
-		Injector injector = Guice.createInjector(new Iterable<Module>() {
-			@Override
-			public Iterator<Module> iterator() {
-				return modules.iterator();
-			}
-		});
+		
+		GuiceContext.getInstance().init(modules, guiceModuleClass);
 		
 		// 注册资源
 		this.registResource(resources);
-		
-		return injector;
 	}
 
 	private void scanResource(List<Class<?>> resources, String packageName) {
