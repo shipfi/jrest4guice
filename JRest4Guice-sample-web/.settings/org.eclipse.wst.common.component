@@ -30,13 +30,7 @@
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/JRest4Guice-core/lib/guice-1.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/JRest4Guice-core/lib/guice-servlet-1.0.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/JRest4Guice-core/lib/json-2.jar">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/JRest4Guice-core/lib/servlet-api.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/Cnoss-core/Cnoss-core">
