@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/aopalliance.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/guice-1.0.jar" sourcepath="/trunk"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/asm-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/asm-commons-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/asm-util-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-core/lib/commons-lang-2.3.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget/JBoss 4.2 Runtime"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
