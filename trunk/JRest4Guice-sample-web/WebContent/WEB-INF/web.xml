@@ -32,6 +32,11 @@
 			<param-name>extNameExcludes</param-name>
 			<param-value>gzjs,zip</param-value>
 		</init-param>
+		<!-- 注册自动扫描的监听器，多个之前用","隔开 -->
+		<init-param>
+			<param-name>scanListeners</param-name>
+			<param-value>org.jpa4guice.JpaDaoScanListener</param-value>
+		</init-param>
 		<!-- 需要被自动扫描的包名，多个包名之间用","隔开 -->
 		<init-param>
 			<param-name>resource-package</param-name>
