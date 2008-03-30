@@ -4,6 +4,6 @@ import java.util.List;
 
 import com.google.inject.Module;
 
-public interface GuiceSupportAble {
+public interface GuiceModuleProvider {
 	public List<Module> getModules();
 }
