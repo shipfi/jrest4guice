@@ -6,10 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jrest.HttpResult;
-import org.jrest.annotation.FirstResult;
 import org.jrest.annotation.HttpMethod;
 import org.jrest.annotation.HttpMethodType;
-import org.jrest.annotation.MaxResults;
 import org.jrest.annotation.Restful;
 import org.jrest.context.ModelMap;
 import org.jrest.test.service.ContactService;
@@ -31,7 +29,7 @@ public class ContactListController {
 	private ContactService service;
 
 	@HttpMethod(type = HttpMethodType.GET)
-	public String getContact(@FirstResult int first, @MaxResults int max) {
+	public String getContact(int first, int max) {
 		try {
 			List contacts = this.service.listContacts(first, max);
 			String json = HttpResult.createSuccessfulHttpResult(contacts).toJson();

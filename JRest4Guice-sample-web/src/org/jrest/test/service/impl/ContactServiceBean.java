@@ -3,9 +3,8 @@ package org.jrest.test.service.impl;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.jpa4guice.annotation.Transactional;
+import org.jrest.test.dao.ContactDao;
 import org.jrest.test.entity.Contact;
 import org.jrest.test.service.ContactService;
 
@@ -14,18 +13,18 @@ import com.google.inject.Inject;
 @SuppressWarnings("unchecked")
 public class ContactServiceBean implements ContactService {
 	@Inject
-	private EntityManager entityManager;
-
+	private ContactDao dao;
+	
 	@Transactional
 	public String createContact(Contact contact) throws RemoteException {
 		if (contact == null)
 			throw new RemoteException("联系人的内容不能为空");
 		
-		if(this.entityManager.createNamedQuery("byName").setParameter("name", contact.getName()).getResultList().size()>0){
+		if(this.dao.findContactByName(contact.getName()).size()>0){
 			throw new RemoteException("联系人的姓名相同，请重新输入");
 		}
 
-		this.entityManager.persist(contact);
+		this.dao.createContact(contact);
 		return contact.getId();
 	}
 
@@ -35,19 +34,17 @@ public class ContactServiceBean implements ContactService {
 		if (contact == null)
 			throw new RemoteException("联系人不存在");
 
-		this.entityManager.remove(contact);
+		this.dao.deleteContact(contact);
 	}
 
-	@Transactional
 	public Contact findContactById(String contactId) throws RemoteException {
-		return this.entityManager.find(Contact.class, contactId);
+		Contact contact = this.dao.findContactById(contactId);
+		return contact;
 	}
 
-	@Transactional
 	public List<Contact> listContacts(int first, int max)
 			throws RemoteException {
-		return this.entityManager.createNamedQuery("list").setFirstResult(first)
-				.setMaxResults(max).getResultList();
+		return this.dao.listContacts(first,max);
 	}
 
 	@Transactional
@@ -55,6 +52,6 @@ public class ContactServiceBean implements ContactService {
 		if (contact == null)
 			throw new RemoteException("联系人的内容不能为空");
 
-		this.entityManager.merge(contact);
+		this.dao.updateContact(contact);
 	}
 }
