@@ -11,6 +11,10 @@ import org.jrest.test.entity.Contact;
 
 import com.google.inject.name.Named;
 
+/**
+ * 负责联系持久化处理的DAO
+ * @author cnoss
+ */
 @Dao
 public interface ContactDao {
 	@DaoMethod(type=DaoMethodType.PERSIST)
@@ -19,7 +23,7 @@ public interface ContactDao {
 	@DaoMethod(type=DaoMethodType.LIST,namedQuery="list")
 	public List<Contact> listContacts(@FirstResult int first,@MaxResults int max);
 	
-	@DaoMethod(type=DaoMethodType.LIST,namedQuery="byName")
+	@DaoMethod(type=DaoMethodType.LIST,query="select e from Contact e where e.name=:name")
 	public List<Contact> findContactByName(@Named("name") String name);
 
 	@DaoMethod(type=DaoMethodType.FIND)
