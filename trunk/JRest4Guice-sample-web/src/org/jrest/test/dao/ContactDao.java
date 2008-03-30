@@ -12,7 +12,7 @@ import org.jrest.test.entity.Contact;
 import com.google.inject.name.Named;
 
 /**
- * 负责联系持久化处理的DAO
+ * 负责联人系持久化处理的DAO
  * @author cnoss
  */
 @Dao
