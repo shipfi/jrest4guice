@@ -6,7 +6,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 
-class EntityManagerFactoryProvider implements Provider<EntityManagerFactory> {
+public class EntityManagerFactoryProvider implements Provider<EntityManagerFactory> {
     private final EntityManagerFactoryHolder emFactoryHolder;
 
     @Inject

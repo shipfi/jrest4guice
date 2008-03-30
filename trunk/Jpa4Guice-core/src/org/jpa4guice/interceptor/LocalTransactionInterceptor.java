@@ -8,7 +8,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.cnoss.guice.GuiceContext;
 import org.jpa4guice.transaction.EntityManagerFactoryHolder;
 
-public class TransactionInterceptor implements MethodInterceptor {
+public class LocalTransactionInterceptor implements MethodInterceptor {
 	@Override
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable {
 		EntityManagerFactoryHolder emfH = GuiceContext.getInstance().getInstance(EntityManagerFactoryHolder.class);
@@ -30,10 +30,14 @@ public class TransactionInterceptor implements MethodInterceptor {
 			//提交事务
 			transaction.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			//回滚当前事务
 			transaction.rollback();
 			throw e;
 		}
+		
+		emfH.closeEntityManager();
+		
 		//返回业务方法的执行结果
 		return result;
 	}
