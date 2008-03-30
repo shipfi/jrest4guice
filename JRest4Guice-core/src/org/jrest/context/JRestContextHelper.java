@@ -8,8 +8,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.cnoss.guice.GuiceContext;
-import org.cnoss.util.ClassPathScanner;
-import org.cnoss.util.ClassPathScanner.ClassFilter;
+import org.cnoss.util.ClassScanListener;
 import org.jrest.annotation.JndiResource;
 import org.jrest.annotation.Restful;
 
@@ -18,52 +17,73 @@ import com.google.inject.Module;
 
 class JRestContextHelper {
 	public void constructGuiceInector(ContextConfig config) throws Exception{
-		List<Class<?>> resources = new ArrayList<Class<?>>(0);
+		final List<Class<?>> resources = new ArrayList<Class<?>>(0);
+		final Set<String> packageList = new HashSet<String>();
+		final List<Module> modules = new ArrayList<Module>(0);
+		modules.add(new JRestModule());
+
 		// 获取要扫描的资源所对应的包路径
 		String resource_package = config.getInitParameter("resource-package");
 		String[] packages = null;
 		if (resource_package != null && !resource_package.trim().equals("")) {
 			packages = resource_package.split(",");
 			for (String packageName : packages)
-				this.scanResource(resources, packageName);
+				packageList.add(packageName);
 		}
-
+		
 		// 加载Guice的模块
 		String guiceModuleClass = config.getInitParameter("GuiceModuleClass");
-		final List<Module> modules = new ArrayList<Module>(0);
-		modules.add(new JRestModule());
-		modules.add(this.generateGuiceProviderModule(resources));
-
 		try {
 			if (guiceModuleClass != null && !guiceModuleClass.trim().equals("")) {
-				modules.add((Module) Class.forName(guiceModuleClass)
-						.newInstance());
+				String[] arrays = guiceModuleClass.split(",");
+				for(String className :arrays)
+					modules.add((Module) Class.forName(className)
+							.newInstance());
 			}
 		} catch (Exception e) {
 			throw new Exception("初始化 JRestContextHelper 错误：\n"
 					+ e.getMessage());
 		}
 		
-		List<String> packageList = new ArrayList<String>();
+		List<ClassScanListener> listeners = new ArrayList<ClassScanListener>();
 		
+		String scanListeners = config.getInitParameter("scanListeners");
+		try {
+			if (scanListeners != null && !scanListeners.trim().equals("")) {
+				String[] arrays = scanListeners.split(",");
+				for(String className :arrays)
+					listeners.add((ClassScanListener) Class.forName(className)
+							.newInstance());
+			}
+		} catch (Exception e) {
+			throw new Exception("初始化 JRestContextHelper 错误：\n"
+					+ e.getMessage());
+		}
+		
+		
+		ClassScanListener restfulListener = new ClassScanListener(){
+			@Override
+			public void onComplete(List<Module> modules) {
+				modules.add(JRestContextHelper.this.generateGuiceProviderModule(resources));
+				// 注册资源
+				JRestContextHelper.this.registResource(resources);
+			}
+			@Override
+			public void onScan(Class<?> clazz) {
+				if(clazz.isAnnotationPresent(Restful.class))
+					resources.add(clazz);
+			}
+			@Override
+			public void onStart() {
+			}
+		};
+		
+		listeners.add(restfulListener);
+
 		CollectionUtils.addAll(packageList, packages);
 
 		//初始化Guice上下文
-		GuiceContext.getInstance().init(modules, packageList);
-		
-		// 注册资源
-		this.registResource(resources);
-	}
-
-	private void scanResource(List<Class<?>> resources, String packageName) {
-		List<Class<?>> list = new ClassPathScanner(packageName,
-				new ClassFilter() {
-					public boolean accept(Class<?> clazz) {
-						return clazz.isAnnotationPresent(Restful.class);
-					}
-				}).scan();
-
-		resources.addAll(list);
+		GuiceContext.getInstance().init(modules, packageList ,listeners);
 	}
 
 	/**
@@ -72,6 +92,7 @@ class JRestContextHelper {
 	 * @modelMap resources
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private Module generateGuiceProviderModule(List<Class<?>> resources) {
 		final Set<JndiServiceInfo> jndiServiceInfos = new HashSet<JndiServiceInfo>(
 				0);
