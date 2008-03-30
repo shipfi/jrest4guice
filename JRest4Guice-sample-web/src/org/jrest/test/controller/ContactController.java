@@ -1,7 +1,5 @@
 package org.jrest.test.controller;
 
-import java.rmi.RemoteException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,7 +37,7 @@ public class ContactController {
 		try {
 			contactId = this.service.createContact(contact);
 			return HttpResult.createSuccessfulHttpResult(contactId).toJson();
-		} catch (RemoteException e) {
+		} catch (RuntimeException e) {
 			return HttpResult.createFailedHttpResult(e.getClass().getName(),e.getMessage()).toJson();
 		}
 	}
@@ -54,7 +52,7 @@ public class ContactController {
 		try {
 			this.service.updateContact(contact);
 			return HttpResult.createSuccessfulHttpResult("修改成功").toJson();
-		} catch (RemoteException e) {
+		} catch (RuntimeException e) {
 			return HttpResult.createFailedHttpResult(e.getClass().getName(),e.getMessage()).toJson();
 		}
 	}
