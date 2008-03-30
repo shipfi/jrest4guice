@@ -13,10 +13,8 @@ import java.util.Map;
 import org.apache.commons.beanutils.BeanUtils;
 import org.cnoss.util.ParameterNameDiscoverer;
 import org.jrest.RequestProcessor;
-import org.jrest.annotation.FirstResult;
 import org.jrest.annotation.HttpMethod;
 import org.jrest.annotation.HttpMethodType;
-import org.jrest.annotation.MaxResults;
 import org.jrest.annotation.ModelBean;
 import org.jrest.annotation.RequestParameter;
 
@@ -92,10 +90,6 @@ public class RestServiceExecutor {
 						} else if (annotation instanceof ModelBean) {
 							value = parameterTypes[index].newInstance();
 							BeanUtils.populate(value, modelMap);
-						} else if (annotation instanceof FirstResult) {
-							pName = ((FirstResult) annotation).name();
-						} else if (annotation instanceof MaxResults) {
-							pName = ((MaxResults) annotation).name();
 						}
 					}
 
