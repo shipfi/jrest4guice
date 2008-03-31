@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/hibernate-entitymanager.jar"/>
 	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/guice-1.0.jar"/>
 	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/guice-servlet-1.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Jpa4Guice-core"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
