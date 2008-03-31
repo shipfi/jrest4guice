@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
  */
 public interface Action<A, T> {
 	
-	Object execute(Method method, Object... parameters);
+	Object execute(Method method, Object[] parameters);
 
 	void setAnnotation(A annotation);
 	

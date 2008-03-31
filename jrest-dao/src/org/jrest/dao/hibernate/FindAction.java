@@ -25,7 +25,7 @@ public class FindAction extends AbstractAction<Find, HibernateDaoContext> {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object execute(Object... parameters) {
+	public Object execute(Object[] parameters) {
 		Query query = getQuery();
 		QueryParameters queryPara = new QueryParameters(parameters, method.getParameterAnnotations());
 		fittingQuery(query, queryPara);

@@ -8,12 +8,16 @@ import org.jrest.dao.annotations.Delete;
 public class DeleteAction extends AbstractAction<Delete, JpaDaoContext> {
 
 	@Override
-	public Object execute(Object... parameters) {
+	public Object execute(Object[] parameters) {
 		if (parameters.length == 0)
 			return null;
 		EntityManager em = this.getContext().getEntityManager();
-		for (Object entity : parameters) {
-			em.remove(entity);
+		if (parameters[0].getClass().isArray()) {
+			for (Object entity : (Object[]) parameters[0]) {
+				em.remove(entity);
+			}
+		} else {
+			em.remove(parameters[0]);
 		}
 		return null;
 	}

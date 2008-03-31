@@ -7,12 +7,16 @@ import org.jrest.dao.annotations.Create;
 public class CreateAction extends AbstractAction<Create, HibernateDaoContext> {
 
 	@Override
-	public Object execute(Object... parameters) {
+	public Object execute(Object[] parameters) {
 		if (parameters.length == 0)
 			return null;
 		Session session = this.getContext().getSession();
-		for (Object obj : parameters) {
-			session.save(obj);
+		if (parameters[0].getClass().isArray()) {
+			for (Object obj : (Object[]) parameters[0]) {
+				session.save(obj);
+			}
+		} else {
+			session.save(parameters[0]);
 		}
 		return null;
 	}

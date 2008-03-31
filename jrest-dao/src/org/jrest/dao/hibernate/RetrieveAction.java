@@ -9,7 +9,7 @@ import org.jrest.dao.annotations.Retrieve;
 public class RetrieveAction extends AbstractAction<Retrieve, HibernateDaoContext> {
 
 	@Override
-	public Object execute(Object... parameters) {
+	public Object execute(Object[] parameters) {
 		if (parameters.length == 0)
 			return null;
 		Session session = this.getContext().getSession();
