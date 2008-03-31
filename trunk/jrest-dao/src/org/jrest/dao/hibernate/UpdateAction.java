@@ -7,12 +7,16 @@ import org.jrest.dao.annotations.Update;
 public class UpdateAction extends AbstractAction<Update, HibernateDaoContext> {
 
 	@Override
-	public Object execute(Object... parameters) {
+	public Object execute(Object[] parameters) {
 		if (parameters.length == 0)
 			return null;
 		Session session = this.getContext().getSession();
-		for (Object entity : parameters) {
-			session.update(entity);
+		if (parameters[0].getClass().isArray()) {
+			for (Object entity : (Object[]) parameters[0]) {
+				session.update(entity);
+			}
+		} else {
+			session.update(parameters[0]);
 		}
 		return null;
 	}

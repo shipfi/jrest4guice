@@ -14,10 +14,10 @@ import org.jrest.dao.test.entities.PackingInfo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 @ContextConfiguration(locations = {"applicationContext.xml"})
-public class TestCRUD extends AbstractTransactionalJUnit4SpringContextTests {
+public class TestCRUD extends AbstractJUnit4SpringContextTests {
 
 	private Log log = LogFactory.getLog(this.getClass());
 

@@ -41,7 +41,7 @@ public abstract class AbstractAction<A, T> implements Action<A, T> {
 	}
 
 	@Override
-	public Object execute(Method method, Object... parameters) {
+	public Object execute(Method method, Object[] parameters) {
 		this.method = method;
 		return execute(parameters);
 	}
@@ -59,6 +59,6 @@ public abstract class AbstractAction<A, T> implements Action<A, T> {
 	 */
 	abstract protected void initialize();
 	
-	abstract public Object execute(Object... parameters);
+	abstract public Object execute(Object[] parameters);
 	
 }
