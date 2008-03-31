@@ -26,7 +26,7 @@
 	<!-- 以Filter方式处理所有Restful请求 -->
 	<filter>
 		<filter-name>JRestRequestFilter</filter-name>
-		<filter-class>org.jrest.JRestRequestFilter</filter-class>
+		<filter-class>org.jrest.rest.JRestRequestFilter</filter-class>
 		<!-- 需要被过滤器忽略的资源扩展名，文件名之前用","隔开 -->
 		<init-param>
 			<param-name>extNameExcludes</param-name>
@@ -35,7 +35,7 @@
 		<!-- 注册自动扫描的监听器，多个之前用","隔开 -->
 		<init-param>
 			<param-name>scanListeners</param-name>
-			<param-value>org.jpa4guice.JpaDaoScanListener</param-value>
+			<param-value>org.jrest.dao.jpa.JpaDaoScanListener</param-value>
 		</init-param>
 		<!-- 需要被自动扫描的包名，多个包名之间用","隔开 -->
 		<init-param>
@@ -53,7 +53,7 @@
 	<!-- 
 	<servlet>
 		<servlet-name>JRestRequestServlet</servlet-name>
-		<servlet-class>org.jrest.JRestRequestServlet</servlet-class>
+		<servlet-class>org.jrest.rest.JRestRequestServlet</servlet-class>
 		<init-param>
 			<param-name>resource-package</param-name>
 			<param-value>org.jrest.test</param-value>

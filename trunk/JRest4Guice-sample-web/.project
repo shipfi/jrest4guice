@@ -6,6 +6,7 @@
 		<project>Jpa4Guice-core</project>
 		<project>JRest4Guice-rest</project>
 		<project>JRest4Guice-core</project>
+		<project>JRest4Guice-dao</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
