@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.cnoss.guice.GuiceContext;
-import org.cnoss.util.ClassScanListener;
 import org.jrest.annotation.JndiResource;
 import org.jrest.annotation.Restful;
+import org.jrest.core.guice.GuiceContext;
+import org.jrest.core.util.ClassScanListener;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
