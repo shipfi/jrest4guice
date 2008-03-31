@@ -3,9 +3,9 @@ package org.jpa4guice;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cnoss.util.ClassScanListener;
 import org.jpa4guice.annotation.Dao;
 import org.jpa4guice.dao.DaoProvider;
+import org.jrest.core.util.ClassScanListener;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;

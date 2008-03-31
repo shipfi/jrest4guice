@@ -1,6 +1,6 @@
 package org.jpa4guice.dao;
 
-import org.cnoss.guice.GuiceContext;
+import org.jrest.core.guice.GuiceContext;
 
 import com.google.inject.Provider;
 

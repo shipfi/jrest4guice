@@ -5,8 +5,8 @@ import javax.persistence.EntityTransaction;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.cnoss.guice.GuiceContext;
 import org.jpa4guice.transaction.EntityManagerFactoryHolder;
+import org.jrest.core.guice.GuiceContext;
 
 public class LocalTransactionInterceptor implements MethodInterceptor {
 	@Override

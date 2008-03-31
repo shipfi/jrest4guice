@@ -6,11 +6,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import org.cnoss.guice.GuiceModuleProvider;
 import org.jpa4guice.annotation.Transactional;
 import org.jpa4guice.interceptor.LocalTransactionInterceptor;
 import org.jpa4guice.transaction.EntityManagerFactoryProvider;
 import org.jpa4guice.transaction.EntityManagerProvider;
+import org.jrest.core.guice.GuiceModuleProvider;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
