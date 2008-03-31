@@ -1,4 +1,4 @@
-package org.cnoss.util;
+package org.jrest.core.util;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

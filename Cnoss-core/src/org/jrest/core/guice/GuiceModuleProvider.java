@@ -1,4 +1,4 @@
-package org.cnoss.guice;
+package org.jrest.core.guice;
 
 import java.util.List;
 
