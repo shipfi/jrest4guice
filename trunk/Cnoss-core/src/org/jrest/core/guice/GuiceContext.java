@@ -1,4 +1,4 @@
-package org.cnoss.guice;
+package org.jrest.core.guice;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.cnoss.util.ClassPathScanner;
-import org.cnoss.util.ClassScanListener;
-import org.cnoss.util.ClassPathScanner.ClassFilter;
+import org.jrest.core.util.ClassPathScanner;
+import org.jrest.core.util.ClassScanListener;
+import org.jrest.core.util.ClassPathScanner.ClassFilter;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
