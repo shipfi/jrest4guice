@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import org.jrest.dao.DynamicProxy;
 import org.jrest.dao.test.entities.Author;
 import org.jrest.dao.test.entities.Book;
+import org.jrest.dao.test.entities.BookModel;
 import org.jrest.dao.test.entities.PackingInfo;
 import org.junit.After;
 import org.junit.Before;
@@ -42,6 +43,8 @@ public class FindTest extends AbstractTransactionalJUnit4SpringContextTests {
 		Assert.assertEquals(1, books.size());
 		books = dao.lengthMoreThan(10);
 		Assert.assertEquals(4, books.size());
+		List<BookModel> models = dao.findBookModelsPriceMoreThan(10);
+		Assert.assertEquals(4, models.size());
 		
 		tx.commit();
 		session.close();

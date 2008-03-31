@@ -8,8 +8,13 @@ public class CreateAction extends AbstractAction<Create, HibernateDaoContext> {
 
 	@Override
 	public Object execute(Object... parameters) {
+		if (parameters.length == 0)
+			return null;
 		Session session = this.getContext().getSession();
-		return session.save(parameters[0]);
+		for (Object obj : parameters) {
+			session.save(obj);
+		}
+		return null;
 	}
 
 	@Override

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+
+	<persistence-unit name="testPU" transaction-type="RESOURCE_LOCAL">
+
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<class>org.jrest.dao.test.entities.Book</class>
+		<class>org.jrest.dao.test.entities.Category</class>
+
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+		<properties>
+			<!-- Hibernate 设置 -->
+			<property name="hibernate.connection.driver_class"
+				value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url"
+				value="jdbc:mysql://127.0.0.1:3306/test" />
+			<property name="hibernate.connection.username"
+				value="MapAdmin" />
+			<property name="hibernate.connection.password"
+				value="yidong" />
+			<!-- <property name="hibernate.connection.autocommit" value="true" /> -->
+
+			<property name="hibernate.c3p0.max_size" value="10" />
+			<property name="hibernate.c3p0.min_size" value="2" />
+			<property name="hibernate.c3p0.timeout" value="1800" />
+
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.MySQLInnoDBDialect" />
+			<property name="hibernate.cache.provider_class"
+				value="org.hibernate.cache.EhCacheProvider" />
+			<property name="hibernate.query.substitutions"
+				value="true 1, false 0, yes 1, no 0" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.cache.use_query_cache" value="2" />
+
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+		</properties>
+	</persistence-unit>
+</persistence>

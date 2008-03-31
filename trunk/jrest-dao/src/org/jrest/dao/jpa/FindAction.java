@@ -1,4 +1,4 @@
-package org.jrest.dao.hibernate;
+package org.jrest.dao.jpa;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -7,22 +7,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import org.apache.commons.beanutils.ConstructorUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.jrest.dao.actions.AbstractAction;
 import org.jrest.dao.annotations.Find;
 import org.jrest.dao.annotations.Find.FirstResult;
 import org.jrest.dao.annotations.Find.MaxResults;
 import org.jrest.dao.annotations.Find.Named;
 
-public class FindAction extends AbstractAction<Find, HibernateDaoContext> {
-	
+public class FindAction extends AbstractAction<Find, JpaDaoContext> {
+
 	protected final static Log log = LogFactory.getLog(FindAction.class);
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object execute(Object... parameters) {
@@ -30,10 +31,10 @@ public class FindAction extends AbstractAction<Find, HibernateDaoContext> {
 		QueryParameters queryPara = new QueryParameters(parameters, method.getParameterAnnotations());
 		fittingQuery(query, queryPara);
 		Find find = this.getAnnotation();
-		if (!find.resultClass().equals(void.class)) {
-			return toProjectionalList(find.resultClass(), query.list());
+		if (!find.resultClass().equals(void.class) && !find.nativeQuery()) {
+			return toProjectionalList(find.resultClass(), query.getResultList());
 		}
-		return query.list();
+		return query.getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -83,24 +84,24 @@ public class FindAction extends AbstractAction<Find, HibernateDaoContext> {
 
 	private Query getQuery() {
 		Find find = this.getAnnotation();
-		if (StringUtils.isNotBlank(find.namedQuery())) {
-			return this.getSession().getNamedQuery(find.namedQuery());
-		}
+		EntityManager em = this.getContext().getEntityManager();
+		if (StringUtils.isNotBlank(find.namedQuery()))
+			return em.createNamedQuery(find.namedQuery());
 		if (find.nativeQuery()) {
-			return this.getSession().createSQLQuery(find.query());
+			if (find.resultClass().equals(void.class)) {
+				return em.createNativeQuery(find.query());
+			} else {
+				return em.createNativeQuery(find.query(), find.resultClass());
+			}
 		} else {
-			return this.getSession().createQuery(find.query());
+			return em.createQuery(find.query());
 		}
 	}
 	
-	private Session getSession() {
-		return this.getContext().getSession();
-	}
-
 	@Override
 	protected void initialize() {
 		this.annotationClass = Find.class;
-		this.contextClass = HibernateDaoContext.class;
+		this.contextClass = JpaDaoContext.class;
 	}
 
 	class QueryParameters {
