@@ -48,7 +48,7 @@ public class GuiceContext {
 		}
 
 		//添加jpa4guice到扫描库
-		scanPaths.add("org.jpa4guice");
+		scanPaths.add("org.jrest.dao");
 		try{
 			for(ClassScanListener listener :listeners)
 				listener.onStart();
@@ -87,7 +87,7 @@ public class GuiceContext {
 		});
 	}
 
-	public <T> T getInstance(Class<T> key) {
+	public <T> T getBean(Class<T> key) {
 		return this.injector.getInstance(key);
 	}
 }
