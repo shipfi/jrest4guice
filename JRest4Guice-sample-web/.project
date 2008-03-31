@@ -3,9 +3,9 @@
 	<name>JRest4Guice-sample-web</name>
 	<comment></comment>
 	<projects>
-		<project>JRest4Guice-core</project>
-		<project>Cnoss-core</project>
 		<project>Jpa4Guice-core</project>
+		<project>JRest4Guice-rest</project>
+		<project>JRest4Guice-core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
