@@ -3,13 +3,13 @@ package org.jrest.test.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jrest.HttpResult;
-import org.jrest.annotation.HttpMethod;
-import org.jrest.annotation.HttpMethodType;
-import org.jrest.annotation.ModelBean;
-import org.jrest.annotation.RequestParameter;
-import org.jrest.annotation.Restful;
-import org.jrest.context.ModelMap;
+import org.jrest.rest.HttpResult;
+import org.jrest.rest.annotation.HttpMethod;
+import org.jrest.rest.annotation.HttpMethodType;
+import org.jrest.rest.annotation.ModelBean;
+import org.jrest.rest.annotation.RequestParameter;
+import org.jrest.rest.annotation.Restful;
+import org.jrest.rest.context.ModelMap;
 import org.jrest.test.entity.Contact;
 import org.jrest.test.service.ContactService;
 
