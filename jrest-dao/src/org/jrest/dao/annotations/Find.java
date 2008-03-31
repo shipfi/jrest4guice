@@ -16,6 +16,7 @@ public @interface Find {
 	String query() default "";
 	String namedQuery() default "";
 	boolean nativeQuery() default false;
+	Class<?> resultClass() default void.class;
 	
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target({ElementType.PARAMETER})

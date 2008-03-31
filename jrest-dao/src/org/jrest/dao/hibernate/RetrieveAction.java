@@ -10,6 +10,8 @@ public class RetrieveAction extends AbstractAction<Retrieve, HibernateDaoContext
 
 	@Override
 	public Object execute(Object... parameters) {
+		if (parameters.length == 0)
+			return null;
 		Session session = this.getContext().getSession();
 		Class<?> clazz = this.getMethodReturnType();
 		return session.get(clazz, (Serializable) parameters[0]);

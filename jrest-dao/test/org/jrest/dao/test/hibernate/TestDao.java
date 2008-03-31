@@ -11,6 +11,7 @@ import org.jrest.dao.annotations.Find.FirstResult;
 import org.jrest.dao.annotations.Find.MaxResults;
 import org.jrest.dao.annotations.Find.Named;
 import org.jrest.dao.test.entities.Book;
+import org.jrest.dao.test.entities.BookModel;
 import org.jrest.dao.test.entities.Category;
 
 public interface TestDao {
@@ -38,8 +39,9 @@ public interface TestDao {
 	
 	@Find(namedQuery = "Book.lengthMoreThan")
 	List<Book> lengthMoreThan(@Named("length")int i);
-
 	
+	@Find(query = "select b.id, b.title, b.price from Book b where b.price > :price", resultClass = BookModel.class)
+	List<BookModel> findBookModelsPriceMoreThan(@Named("price")float price);
 	
 	@Create
 	void createCategory(Category category);

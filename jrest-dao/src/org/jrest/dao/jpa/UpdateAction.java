@@ -1,18 +1,19 @@
-package org.jrest.dao.hibernate;
+package org.jrest.dao.jpa;
 
-import org.hibernate.Session;
+import javax.persistence.EntityManager;
+
 import org.jrest.dao.actions.AbstractAction;
 import org.jrest.dao.annotations.Update;
 
-public class UpdateAction extends AbstractAction<Update, HibernateDaoContext> {
+public class UpdateAction extends AbstractAction<Update, JpaDaoContext> {
 
 	@Override
 	public Object execute(Object... parameters) {
 		if (parameters.length == 0)
 			return null;
-		Session session = this.getContext().getSession();
+		EntityManager em = this.getContext().getEntityManager();
 		for (Object entity : parameters) {
-			session.update(entity);
+			entity = em.merge(entity);
 		}
 		return null;
 	}
@@ -20,7 +21,7 @@ public class UpdateAction extends AbstractAction<Update, HibernateDaoContext> {
 	@Override
 	protected void initialize() {
 		this.annotationClass = Update.class;
-		this.contextClass = HibernateDaoContext.class;
+		this.contextClass = JpaDaoContext.class;
 	}
 
 }
