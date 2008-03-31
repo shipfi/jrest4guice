@@ -10,7 +10,12 @@
 	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/hibernate-commons-annotations.jar"/>
 	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/hibernate-entitymanager.jar"/>
 	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/guice-1.0.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/guice-servlet-1.0.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Jpa4Guice-core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/JRest4Guice-dao"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/commons-collections.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/jta.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

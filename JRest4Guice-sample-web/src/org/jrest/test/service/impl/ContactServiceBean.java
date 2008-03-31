@@ -2,7 +2,7 @@ package org.jrest.test.service.impl;
 
 import java.util.List;
 
-import org.jpa4guice.annotation.Transactional;
+import org.jrest.dao.annotations.Transactional;
 import org.jrest.test.dao.ContactDao;
 import org.jrest.test.entity.Contact;
 import org.jrest.test.service.ContactService;
