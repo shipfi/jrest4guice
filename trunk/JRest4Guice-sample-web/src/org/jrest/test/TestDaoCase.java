@@ -15,22 +15,22 @@ import org.junit.Test;
 
 public class TestDaoCase extends TestCase {
 	@Test
-	public void testDao() {
-		GuiceContext
-				.getInstance()
-				.init(
-						null,
-						new HashSet<String>(Arrays
-								.asList(new String[] { "org.jrest.test" })),
-						Arrays
-								.asList(new ClassScanListener[] { new JpaDaoScanListener() }));
-		
-		ContactDao dao = GuiceContext.getInstance().getBean(ContactDao.class);
+	public void testContactDao() {
+		GuiceContext guice = GuiceContext.getInstance();
+		//初始化Guice上下文
+		guice.init(null, new HashSet<String>(Arrays
+				.asList(new String[] { "org.jrest.test" })), Arrays
+				.asList(new ClassScanListener[] { new JpaDaoScanListener() }));
+
+		//从Guice上下文中获取联系人DAO实例
+		ContactDao dao = guice.getBean(ContactDao.class);
 		assertNotNull(dao);
-		List<Contact> contacts = dao.listContacts(1, 100);
-		assertTrue(contacts.size()>0);
 		
-		for(Contact contact :contacts)
-			System.out.println("我是"+contact.getName()+"，现住在"+contact.getAddress());
+		List<Contact> contacts = dao.listContacts(1, 100);
+		assertTrue(contacts.size() > 0);
+
+		for (Contact contact : contacts)
+			System.out.println("我是" + contact.getName() + "，现住在"
+					+ contact.getAddress());
 	}
 }
