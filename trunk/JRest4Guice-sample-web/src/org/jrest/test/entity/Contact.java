@@ -1,7 +1,7 @@
 package org.jrest.test.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Time;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity()
 @Table(name = "Contact_tb")
 @NamedQueries( {
+		@NamedQuery(name = "byDate", query = "select e from Contact e where e.changeDate<=:changeDate"),
 		@NamedQuery(name = "byName", query = "select e from Contact e where e.name=:name"),
 		@NamedQuery(name = "list", query = "select e from Contact e order by e.changeDate desc") })
 public class Contact implements Serializable {
@@ -50,7 +51,7 @@ public class Contact implements Serializable {
 	private String address;
 
 	@Column(name = "changeDate", nullable = true)
-	private Date changeDate = new Date();
+	private Time changeDate = new Time(System.currentTimeMillis());
 
 	public String getId() {
 		return id;

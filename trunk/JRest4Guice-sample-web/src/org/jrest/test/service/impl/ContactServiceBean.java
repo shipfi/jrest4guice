@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 @SuppressWarnings("unchecked")
 public class ContactServiceBean implements ContactService {
 	@Inject
-	private ContactDao dao;//注入联系人DAO
+	private ContactDao dao;// 注入联系人DAO
 
 	@Transactional
 	public String createContact(Contact contact) {
@@ -44,6 +44,11 @@ public class ContactServiceBean implements ContactService {
 	public List<Contact> listContacts(int first, int max)
 			throws RuntimeException {
 		return this.dao.listContacts(first, max);
+	}
+
+	public List<Contact> listContactByDate(Object time)
+			throws RuntimeException {
+		return this.dao.listContactsByDate(time);
 	}
 
 	@Transactional

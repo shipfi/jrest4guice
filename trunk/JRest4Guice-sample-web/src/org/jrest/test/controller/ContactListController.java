@@ -1,5 +1,6 @@
 package org.jrest.test.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,7 @@ public class ContactListController {
 	@HttpMethod(type = HttpMethodType.GET)
 	public String getContact(int first, int max) {
 		try {
-			List contacts = this.service.listContacts(first, max);
+			List contacts = this.service.listContactByDate(new Date(System.currentTimeMillis()));
 			String json = HttpResult.createSuccessfulHttpResult(contacts).toJson();
 			return json;
 		} catch (Exception e) {

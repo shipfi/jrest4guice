@@ -23,6 +23,9 @@ public interface ContactDao {
 	@DaoMethod(type=DaoMethodType.LIST,namedQuery="list")
 	public List<Contact> listContacts(@FirstResult int first,@MaxResults int max);
 	
+	@DaoMethod(type=DaoMethodType.LIST,namedQuery="byDate")
+	public List<Contact> listContactsByDate(@Named("changeDate") Object time);
+
 	@DaoMethod(type=DaoMethodType.LIST,query="select e from Contact e where e.name=:name")
 	public List<Contact> findContactByName(@Named("name") String name);
 
