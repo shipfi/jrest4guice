@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/aopalliance.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/guice-1.0.jar" sourcepath="/trunk"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/asm-2.2.3.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/asm-commons-2.2.3.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/asm-util-2.2.3.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/commons-beanutils-1.7.0.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/commons-lang-2.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.6.0_04"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/antlr.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/cglib.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/commons-collections.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/dom4j.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/ejb3-persistence.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/ezmorph-1.0.3.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/guice-servlet-1.0.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/hibernate3.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/hibernate-annotations.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/hibernate-commons-annotations.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/hibernate-entitymanager.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/hsqldb.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/javassist.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/jboss-archive-browsing.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/json-2.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/commons-logging.jar"/>
-	<classpathentry kind="lib" path="/JRest4Guice-core/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/antlr.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/aopalliance.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/asm-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/asm-commons-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/asm-util-2.2.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/cglib.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/commons-collections.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/dom4j.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/ejb3-persistence.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/ezmorph-1.0.3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/guice-1.0.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/guice-servlet-1.0.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/hibernate3.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/hibernate-commons-annotations.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/hibernate-entitymanager.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/hsqldb.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/javassist.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/jboss-archive-browsing.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/json-2.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice-rest/lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
