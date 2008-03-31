@@ -18,9 +18,7 @@ public class DaoProvider<T> implements Provider<T> {
 	}
 
 	public T get() {
-//		DynamicProxy proxy = new DynamicProxy();
-//		JpaRegister register = GuiceContext.getInstance().getInstance(JpaRegister.class);;
-		proxy.setRegister(register);
+		this.proxy.setRegister(register);
 		return (T) proxy.createDao(this.clazz);
 	}
 
