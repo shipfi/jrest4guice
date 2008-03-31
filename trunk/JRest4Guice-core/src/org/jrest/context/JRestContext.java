@@ -3,7 +3,7 @@ package org.jrest.context;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.cnoss.guice.GuiceContext;
+import org.jrest.core.guice.GuiceContext;
 
 @SuppressWarnings("unchecked")
 public class JRestContext {

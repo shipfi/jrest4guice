@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.cnoss.util.ParameterNameDiscoverer;
 import org.jrest.RequestProcessor;
 import org.jrest.annotation.HttpMethod;
 import org.jrest.annotation.HttpMethodType;
 import org.jrest.annotation.ModelBean;
 import org.jrest.annotation.RequestParameter;
+import org.jrest.core.util.ParameterNameDiscoverer;
 
 @SuppressWarnings("unchecked")
 public class RestServiceExecutor {
