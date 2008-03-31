@@ -14,11 +14,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jrest.annotation.HttpMethodType;
-import org.jrest.context.IocContextManager;
-import org.jrest.context.JRestContext;
-import org.jrest.context.ModelMap;
-import org.jrest.context.RestServiceExecutor;
+import org.jrest.rest.annotation.HttpMethodType;
+import org.jrest.rest.context.IocContextManager;
+import org.jrest.rest.context.JRestContext;
+import org.jrest.rest.context.ModelMap;
+import org.jrest.rest.context.RestServiceExecutor;
 
 @SuppressWarnings("unchecked")
 public class RequestProcessor {
