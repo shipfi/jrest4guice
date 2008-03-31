@@ -32,6 +32,7 @@ public class GuiceContext {
 	 * 初始化Guice中的模块
 	 * @param modules	用户指定的Guice模块
 	 * @param scanPaths 系统自动扫描的包名
+	 * @param listeners	系统自动扫描的监听器，用来加载用户的附加Guice module
 	 */
 	public void init(List<Module> modules, Set<String> scanPaths,final List<ClassScanListener> listeners) {
 		//如果已经初始化，则直接返回
