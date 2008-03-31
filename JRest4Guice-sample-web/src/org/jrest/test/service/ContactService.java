@@ -1,5 +1,6 @@
 package org.jrest.test.service;
 
+import java.sql.Time;
 import java.util.List;
 
 import org.jrest.test.entity.Contact;
@@ -13,6 +14,8 @@ public interface ContactService {
 	
 	public List<Contact> listContacts(int first,int max);
 	
+	public List<Contact> listContactByDate(Object time);
+
 	public Contact findContactById(String contactId);
 	
 	public void updateContact(Contact contact);
