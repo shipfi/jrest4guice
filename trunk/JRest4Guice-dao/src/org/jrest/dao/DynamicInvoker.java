@@ -20,6 +20,7 @@ public class DynamicInvoker implements InvocationHandler {
 
 	@SuppressWarnings("unchecked")
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		//? action 反复创建的问题
 		Action action = getAction(method);
 		if (action != null) {
 			return action.execute(method, args);
