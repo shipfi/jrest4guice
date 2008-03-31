@@ -13,8 +13,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jrest.context.ContextConfig;
-import org.jrest.context.JRestContext;
+import org.jrest.rest.context.ContextConfig;
+import org.jrest.rest.context.JRestContext;
 
 @SuppressWarnings("unchecked")
 public class JRestRequestFilter implements Filter {
