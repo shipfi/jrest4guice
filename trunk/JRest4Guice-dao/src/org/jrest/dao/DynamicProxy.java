@@ -9,6 +9,7 @@ public class DynamicProxy {
 	public void setRegister(Register register) {
 		this.register = register;
 	}
+	
 
 	public Object createDao(Class<?> daoClazz) {
 		DynamicInvoker invoker = new DynamicInvoker();
