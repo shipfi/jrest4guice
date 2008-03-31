@@ -18,7 +18,7 @@ public class DaoProvider<T> implements Provider<T> {
 	}
 
 	public T get() {
-		this.proxy.setRegister(register);
+		proxy.setRegister(register);
 		return (T) proxy.createDao(this.clazz);
 	}
 
