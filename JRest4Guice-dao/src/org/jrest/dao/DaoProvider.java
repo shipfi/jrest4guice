@@ -28,8 +28,12 @@ public class DaoProvider<T> implements Provider<T> {
 			default:
 				break;
 			}
-		}else
-			proxy.setRegister(register);
+		}
+		
+		if(this.register == null)
+			throw new RuntimeException("没有指定持久上下文的实现类型（如：JPA/HIBERNATE/DB4O/JDBC）");
+
+		proxy.setRegister(register);
 		
 		return (T) proxy.createDao(this.clazz);
 	}
