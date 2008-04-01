@@ -8,21 +8,33 @@ import com.google.inject.Provider;
 public class DaoProvider<T> implements Provider<T> {
 	@Inject
 	private DynamicProxy proxy;
-	@Inject
-	private JpaRegister register;
+	private Register register;
 
 	private Class<T> clazz;
 
-	public DaoProvider(Class<T> clazz) {
+	private DaoPersistProviderType persitProviderType;	
+
+	public DaoProvider(Class<T> clazz,DaoPersistProviderType persitProviderType) {
 		this.clazz = clazz;
+		this.persitProviderType = persitProviderType;
 	}
 
 	public T get() {
-		proxy.setRegister(register);
+		if(this.register == null){
+			switch (this.persitProviderType) {
+			case JPA:
+				this.register = new JpaRegister();
+				break;
+			default:
+				break;
+			}
+		}else
+			proxy.setRegister(register);
+		
 		return (T) proxy.createDao(this.clazz);
 	}
 
-	public static <T> Provider<T> create(Class<T> type) {
-		return new DaoProvider<T>(type);
+	public static <T> Provider<T> create(Class<T> providerType,DaoPersistProviderType persitProviderType) {
+		return new DaoProvider<T>(providerType,persitProviderType);
 	}
 }
