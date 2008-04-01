@@ -11,12 +11,28 @@ import com.google.inject.Module;
 
 @SuppressWarnings("unchecked")
 public class DaoScanListener implements ClassScanListener {
-	final List<Class<?>> daos;
+	private List<Class<?>> daos;
 	
 	private DaoPersistProviderType persitProviderType;
 	
+	public DaoScanListener(){
+		String persitProviderType = System.getProperty("persitProviderType");
+		if(persitProviderType == null || persitProviderType.trim().equals(""))
+			throw new RuntimeException("");
+		
+		if(persitProviderType.equalsIgnoreCase("JPA")){
+			this.persitProviderType = DaoPersistProviderType.JPA;
+		}else if(persitProviderType.equalsIgnoreCase("HIBERNATE")){
+			this.persitProviderType = DaoPersistProviderType.HIBERNATE;
+		}else if(persitProviderType.equalsIgnoreCase("DB4O")){
+			this.persitProviderType = DaoPersistProviderType.DB4O;
+		}else if(persitProviderType.equalsIgnoreCase("JDBC")){
+			this.persitProviderType = DaoPersistProviderType.JDBC;
+		}else
+			this.persitProviderType = DaoPersistProviderType.JPA;
+	}
+	
 	public DaoScanListener(DaoPersistProviderType persitProviderType){
-		daos = new ArrayList<Class<?>>(0);
 		this.persitProviderType = persitProviderType;
 	}
 	
@@ -42,5 +58,6 @@ public class DaoScanListener implements ClassScanListener {
 
 	@Override
 	public void onStart() {
+		this.daos = new ArrayList<Class<?>>(0);
 	}
 }
