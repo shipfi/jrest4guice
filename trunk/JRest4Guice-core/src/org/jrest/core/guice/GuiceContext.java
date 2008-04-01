@@ -30,30 +30,41 @@ public class GuiceContext {
 
 	/**
 	 * 初始化Guice中的模块
+	 * @param scanPaths 系统自动扫描的包名
+	 * @param listeners	系统自动扫描的监听器，用来加载用户的附加Guice module
+	 */
+	public void init(List<String> scanPaths,final List<ClassScanListener> listeners) {
+		this.init(null,scanPaths, listeners);
+	}
+
+	/**
+	 * 初始化Guice中的模块
 	 * @param modules	用户指定的Guice模块
 	 * @param scanPaths 系统自动扫描的包名
 	 * @param listeners	系统自动扫描的监听器，用来加载用户的附加Guice module
 	 */
-	public void init(List<Module> modules, Set<String> scanPaths,final List<ClassScanListener> listeners) {
+	public void init(List<Module> modules, List<String> scanPaths,final List<ClassScanListener> listeners) {
 		//如果已经初始化，则直接返回
 		if (this.injector != null)
 			return;
+		
+		Set<String> scanPathSet = new HashSet<String>();
 		
 		if(modules == null)
 			modules = new ArrayList<Module>(0);
 
 		List<Class<?>> list = new ArrayList<Class<?>>();
 
-		if (scanPaths == null) {
-			scanPaths = new HashSet<String>();
+		if (scanPaths != null) {
+			scanPathSet.addAll(scanPaths);
 		}
 
 		//添加jpa4guice到扫描库
-		scanPaths.add("org.jrest.dao");
+		scanPathSet.add("org.jrest.dao");
 		try{
 			for(ClassScanListener listener :listeners)
 				listener.onStart();
-			for (String scanPath : scanPaths) {
+			for (String scanPath : scanPathSet) {
 				list.addAll(new ClassPathScanner(scanPath, new ClassFilter() {
 					public boolean accept(Class<?> clazz) {
 						for(ClassScanListener listener :listeners)
