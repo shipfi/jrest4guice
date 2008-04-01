@@ -1,7 +1,6 @@
 package org.jrest.test;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -18,15 +17,15 @@ public class TestDaoCase extends TestCase {
 	@Test
 	public void testContactDao() {
 		GuiceContext guice = GuiceContext.getInstance();
-		//初始化Guice上下文
-		guice.init(null, new HashSet<String>(Arrays
-				.asList(new String[] { "org.jrest.test" })), Arrays
-				.asList(new ClassScanListener[] { new DaoScanListener(DaoPersistProviderType.JPA) }));
+		// 初始化Guice上下文
+		guice.init(Arrays.asList(new String[] { "org.jrest.test" }), Arrays
+				.asList(new ClassScanListener[] { new DaoScanListener(
+						DaoPersistProviderType.JPA) }));
 
-		//从Guice上下文中获取联系人DAO实例
+		// 从Guice上下文中获取联系人DAO实例
 		ContactDao dao = guice.getBean(ContactDao.class);
 		assertNotNull(dao);
-		
+
 		List<Contact> contacts = dao.listContacts(1, 100);
 		assertTrue(contacts.size() > 0);
 
