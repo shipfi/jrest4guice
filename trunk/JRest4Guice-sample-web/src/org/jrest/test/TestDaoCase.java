@@ -8,7 +8,8 @@ import junit.framework.TestCase;
 
 import org.jrest.core.guice.GuiceContext;
 import org.jrest.core.util.ClassScanListener;
-import org.jrest.dao.jpa.JpaDaoScanListener;
+import org.jrest.dao.DaoPersistProviderType;
+import org.jrest.dao.DaoScanListener;
 import org.jrest.test.dao.ContactDao;
 import org.jrest.test.entity.Contact;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class TestDaoCase extends TestCase {
 		//初始化Guice上下文
 		guice.init(null, new HashSet<String>(Arrays
 				.asList(new String[] { "org.jrest.test" })), Arrays
-				.asList(new ClassScanListener[] { new JpaDaoScanListener() }));
+				.asList(new ClassScanListener[] { new DaoScanListener(DaoPersistProviderType.JPA) }));
 
 		//从Guice上下文中获取联系人DAO实例
 		ContactDao dao = guice.getBean(ContactDao.class);
