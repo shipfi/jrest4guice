@@ -18,7 +18,7 @@ import com.google.inject.Module;
 class JRestContextHelper {
 	public void constructGuiceInector(ContextConfig config) throws Exception{
 		final List<Class<?>> resources = new ArrayList<Class<?>>(0);
-		final Set<String> packageList = new HashSet<String>();
+		final List<String> packageList = new ArrayList<String>();
 		final List<Module> modules = new ArrayList<Module>(0);
 		modules.add(new JRestModule());
 
