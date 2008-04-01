@@ -44,6 +44,10 @@ class JRestContextHelper {
 			throw new Exception("初始化 JRestContextHelper 错误：\n"
 					+ e.getMessage());
 		}
+
+		//持久层的实现类型
+		String persitProviderType = config.getInitParameter("persitProviderType");
+		System.setProperty("persitProviderType", persitProviderType);
 		
 		List<ClassScanListener> listeners = new ArrayList<ClassScanListener>();
 		
@@ -51,9 +55,11 @@ class JRestContextHelper {
 		try {
 			if (scanListeners != null && !scanListeners.trim().equals("")) {
 				String[] arrays = scanListeners.split(",");
-				for(String className :arrays)
-					listeners.add((ClassScanListener) Class.forName(className)
+				for(String className :arrays) {
+					Class<?> clazz = Class.forName(className);
+					listeners.add((ClassScanListener) clazz
 							.newInstance());
+				}
 			}
 		} catch (Exception e) {
 			throw new Exception("初始化 JRestContextHelper 错误：\n"
