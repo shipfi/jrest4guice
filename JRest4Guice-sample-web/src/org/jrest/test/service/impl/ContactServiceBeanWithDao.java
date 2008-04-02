@@ -19,7 +19,7 @@ public class ContactServiceBeanWithDao implements ContactService {
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");
 
-		if (this.dao.findContactByName(contact.getName()).size() > 0) {
+		if (this.dao.findContactByName(contact.getName())!= null) {
 			throw new RuntimeException("联系人的姓名相同，请重新输入");
 		}
 
