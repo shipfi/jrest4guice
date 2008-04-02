@@ -2,7 +2,7 @@ package org.jrest.test.service.impl;
 
 import java.util.List;
 
-import org.jrest.dao.annotations.Transactional;
+import org.jrest.core.transaction.annotations.Transactional;
 import org.jrest.test.dao.ContactDao;
 import org.jrest.test.entity.Contact;
 import org.jrest.test.service.ContactService;
@@ -10,7 +10,7 @@ import org.jrest.test.service.ContactService;
 import com.google.inject.Inject;
 
 @SuppressWarnings("unchecked")
-public class ContactServiceBean implements ContactService {
+public class ContactServiceBeanWithDao implements ContactService {
 	@Inject
 	private ContactDao dao;// 注入联系人DAO
 
