@@ -34,14 +34,19 @@ public class GuiceContext {
 	}
 	
 	public GuiceContext useJPA(){
-		scanPathSet.add("org.jrest.core");
+		this.addTransactionSupport();
 		this.persitProviderType = PersistProviderType.JPA;
 		return this;
 	}
 
 	public GuiceContext useDAO(){
+		this.addTransactionSupport();
 		scanPathSet.add("org.jrest.dao");
 		return this;
+	}
+	
+	private void addTransactionSupport(){
+		scanPathSet.add("org.jrest.core");
 	}
 	
 	public final PersistProviderType getPersitProviderType() {
@@ -115,8 +120,14 @@ public class GuiceContext {
 			}
 		});
 	}
-
-	public <T> T getBean(Class<T> key) {
-		return this.injector.getInstance(key);
+	
+	/**
+	 * 从Guice上下文中获取对象
+	 * @param <T>
+	 * @param clazz
+	 * @return
+	 */
+	public <T> T getBean(Class<T> clazz) {
+		return this.injector.getInstance(clazz);
 	}
 }
