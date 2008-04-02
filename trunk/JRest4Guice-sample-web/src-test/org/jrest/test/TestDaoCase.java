@@ -51,8 +51,8 @@ public class TestDaoCase {
 		Assert.assertNotNull(dao);
 		List<Contact> contacts = null;
 		
-		contacts = dao.findContactByName("王二小");
-		Assert.assertTrue(contacts.size() == 1);
+		Contact contact = dao.findContactByName("王二小");
+		Assert.assertNotNull(contact);
 		
 		dao.deleteContact(contacts.get(0));
 		

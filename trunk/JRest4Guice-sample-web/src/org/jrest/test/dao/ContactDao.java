@@ -29,8 +29,8 @@ public interface ContactDao {
 	@Find(namedQuery="byDate")
 	public List<Contact> listContactsByDate(@Named("changeDate") Object time);
 
-	@Find(query="select e from Contact e where e.name=:name")
-	public List<Contact> findContactByName(@Named("name") String name);
+	@Retrieve
+	public Contact findContactByName(@Named("name") String name);
 
 	@Retrieve
 	public Contact findContactById(@Named("id") String contactId);
