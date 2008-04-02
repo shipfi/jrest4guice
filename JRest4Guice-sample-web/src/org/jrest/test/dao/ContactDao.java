@@ -33,7 +33,7 @@ public interface ContactDao {
 	public List<Contact> findContactByName(@Named("name") String name);
 
 	@Retrieve
-	public Contact findContactById(String contactId);
+	public Contact findContactById(@Named("id") String contactId);
 	
 	@Update
 	public void updateContact(Contact contact);

@@ -32,16 +32,23 @@
 			<param-name>extNameExcludes</param-name>
 			<param-value>gzjs,zip</param-value>
 		</init-param>
-		<!-- 持久层的实现类型（JPA/HIBERNATE/DB4O） -->
+		<!-- 是否使用JPA -->
 		<init-param>
-			<param-name>persitProviderType</param-name>
-			<param-value>JPA</param-value>
+			<param-name>useJPA</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<!-- 是否使用DAO -->
+		<init-param>
+			<param-name>useDAO</param-name>
+			<param-value>true</param-value>
 		</init-param>
 		<!-- 注册自动扫描的监听器，多个之前用","隔开 -->
+		<!-- 
 		<init-param>
 			<param-name>scanListeners</param-name>
-			<param-value>org.jrest.dao.DaoScanListener</param-value>
+			<param-value>XXX</param-value>
 		</init-param>
+		-->
 		<!-- 需要被自动扫描的包名，多个包名之间用","隔开 -->
 		<init-param>
 			<param-name>resource-package</param-name>
