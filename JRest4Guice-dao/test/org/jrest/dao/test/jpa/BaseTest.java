@@ -8,7 +8,6 @@ import junit.framework.Assert;
 
 import org.jrest.core.guice.GuiceContext;
 import org.jrest.core.util.ClassScanListener;
-import org.jrest.dao.DaoPersistProviderType;
 import org.jrest.dao.DaoScanListener;
 import org.jrest.dao.test.entities.Author;
 import org.jrest.dao.test.entities.Book;
@@ -21,9 +20,8 @@ public class BaseTest {
 	public void test() {
 		GuiceContext guice = GuiceContext.getInstance();
 		// 初始化Guice上下文
-		guice.init(Arrays.asList(new String[] { "org.jrest.dao.test.jpa" }), Arrays
-				.asList(new ClassScanListener[] { new DaoScanListener(
-						DaoPersistProviderType.JPA) }));
+		guice.useJPA().useDAO().init(Arrays.asList(new String[] { "org.jrest.dao.test.jpa" }), Arrays
+				.asList(new ClassScanListener[] { new DaoScanListener() }));
 
 		// 从Guice上下文中获取联系人DAO实例
 		BookDao dao = guice.getBean(BookDao.class);
