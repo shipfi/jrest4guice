@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.jrest.core.guice.GuiceContext;
 import org.jrest.core.util.ClassScanListener;
 import org.jrest.dao.annotations.Dao;
 
@@ -17,29 +18,6 @@ public class DaoScanListener implements ClassScanListener {
 	
 	private List<Class<?>> daos;
 	
-	private DaoPersistProviderType persitProviderType;
-	
-	public DaoScanListener(){
-		String persitProviderType = System.getProperty("persitProviderType");
-		if(persitProviderType == null || persitProviderType.trim().equals(""))
-			throw new RuntimeException("");
-		
-		if(persitProviderType.equalsIgnoreCase("JPA")){
-			this.persitProviderType = DaoPersistProviderType.JPA;
-		}else if(persitProviderType.equalsIgnoreCase("HIBERNATE")){
-			this.persitProviderType = DaoPersistProviderType.HIBERNATE;
-		}else if(persitProviderType.equalsIgnoreCase("DB4O")){
-			this.persitProviderType = DaoPersistProviderType.DB4O;
-		}else if(persitProviderType.equalsIgnoreCase("JDBC")){
-			this.persitProviderType = DaoPersistProviderType.JDBC;
-		}else
-			this.persitProviderType = DaoPersistProviderType.JPA;
-	}
-	
-	public DaoScanListener(DaoPersistProviderType persitProviderType){
-		this.persitProviderType = persitProviderType;
-	}
-	
 	@Override
 	public void onComplete(List<Module> modules) {
 		Module module = new Module(){
@@ -51,7 +29,7 @@ public class DaoScanListener implements ClassScanListener {
 						continue;
 					
 					binds.add(name);
-					binder.bind(clazz).toProvider(DaoProvider.create(clazz,persitProviderType));
+					binder.bind(clazz).toProvider(DaoProvider.create(clazz,GuiceContext.getInstance().getPersitProviderType()));
 				}
 			}
 		};
