@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.jrest.core.persist.PersistProviderType;
 import org.jrest.core.util.ClassPathScanner;
 import org.jrest.core.util.ClassScanListener;
 import org.jrest.core.util.ClassPathScanner.ClassFilter;
@@ -16,8 +17,12 @@ import com.google.inject.Module;
 
 public class GuiceContext {
 	private Injector injector;
+	private Set<String> scanPathSet;
+
+	private PersistProviderType persitProviderType;
 
 	private GuiceContext() {
+		scanPathSet = new HashSet<String>();
 	}
 
 	private static class SingletonHolder {
@@ -26,6 +31,21 @@ public class GuiceContext {
 
 	public static GuiceContext getInstance() {
 		return SingletonHolder.instance;
+	}
+	
+	public GuiceContext useJPA(){
+		scanPathSet.add("org.jrest.core");
+		this.persitProviderType = PersistProviderType.JPA;
+		return this;
+	}
+
+	public GuiceContext useDAO(){
+		scanPathSet.add("org.jrest.dao");
+		return this;
+	}
+	
+	public final PersistProviderType getPersitProviderType() {
+		return persitProviderType;
 	}
 
 	/**
@@ -48,8 +68,6 @@ public class GuiceContext {
 		if (this.injector != null)
 			return;
 		
-		Set<String> scanPathSet = new HashSet<String>();
-		
 		if(modules == null)
 			modules = new ArrayList<Module>(0);
 
@@ -59,8 +77,6 @@ public class GuiceContext {
 			scanPathSet.addAll(scanPaths);
 		}
 
-		//添加jpa4guice到扫描库
-		scanPathSet.add("org.jrest.dao");
 		try{
 			for(ClassScanListener listener :listeners)
 				listener.onStart();
@@ -70,7 +86,7 @@ public class GuiceContext {
 						for(ClassScanListener listener :listeners)
 							listener.onScan(clazz);
 
-						return GuiceModuleProvider.class.isAssignableFrom(clazz);
+						return !clazz.isInterface()&& GuiceModuleProvider.class.isAssignableFrom(clazz);
 					}
 				}).scan());
 			}
@@ -88,6 +104,7 @@ public class GuiceContext {
 						.getModules());
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		// 初始化Guice的注入器
