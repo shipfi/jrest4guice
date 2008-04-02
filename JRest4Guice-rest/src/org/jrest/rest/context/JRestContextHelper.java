@@ -45,10 +45,18 @@ class JRestContextHelper {
 					+ e.getMessage());
 		}
 
-		//持久层的实现类型
-		String persitProviderType = config.getInitParameter("persitProviderType");
-		System.setProperty("persitProviderType", persitProviderType);
+		//=========================================================================
+		//持久层相关的参数设定
+		//=========================================================================
+		String useJPA = config.getInitParameter("useJPA");
+		if(useJPA != null && useJPA.trim().equalsIgnoreCase("true"))
+			GuiceContext.getInstance().useJPA();
+		String useDAO = config.getInitParameter("useDAO");
+		if(useDAO != null && useDAO.trim().equalsIgnoreCase("true"))
+			GuiceContext.getInstance().useDAO();
+		//=========================================================================
 		
+
 		List<ClassScanListener> listeners = new ArrayList<ClassScanListener>();
 		
 		String scanListeners = config.getInitParameter("scanListeners");
