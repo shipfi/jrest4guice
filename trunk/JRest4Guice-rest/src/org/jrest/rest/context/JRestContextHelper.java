@@ -16,7 +16,7 @@ import com.google.inject.Binder;
 import com.google.inject.Module;
 
 class JRestContextHelper {
-	public void constructGuiceInector(ContextConfig config) throws Exception{
+	public void constructGuiceInector(ContextConfig config) throws Exception {
 		final List<Class<?>> resources = new ArrayList<Class<?>>(0);
 		final List<String> packageList = new ArrayList<String>();
 		final List<Module> modules = new ArrayList<Module>(0);
@@ -30,74 +30,82 @@ class JRestContextHelper {
 			for (String packageName : packages)
 				packageList.add(packageName);
 		}
-		
+
 		// 加载Guice的模块
 		String guiceModuleClass = config.getInitParameter("GuiceModuleClass");
 		try {
 			if (guiceModuleClass != null && !guiceModuleClass.trim().equals("")) {
 				String[] arrays = guiceModuleClass.split(",");
-				for(String className :arrays)
-					modules.add((Module) Class.forName(className)
-							.newInstance());
+				for (String className : arrays)
+					modules
+							.add((Module) Class.forName(className)
+									.newInstance());
 			}
 		} catch (Exception e) {
-			throw new Exception("初始化 JRestContextHelper 错误：\n"
-					+ e.getMessage());
+			throw new Exception("初始化 JRestContextHelper 错误：\n" + e.getMessage());
 		}
-
-		//=========================================================================
-		//持久层相关的参数设定
-		//=========================================================================
-		String useJPA = config.getInitParameter("useJPA");
-		if(useJPA != null && useJPA.trim().equalsIgnoreCase("true"))
-			GuiceContext.getInstance().useJPA();
-		String useDAO = config.getInitParameter("useDAO");
-		if(useDAO != null && useDAO.trim().equalsIgnoreCase("true"))
-			GuiceContext.getInstance().useDAO();
-		//=========================================================================
-		
 
 		List<ClassScanListener> listeners = new ArrayList<ClassScanListener>();
-		
-		String scanListeners = config.getInitParameter("scanListeners");
-		try {
-			if (scanListeners != null && !scanListeners.trim().equals("")) {
-				String[] arrays = scanListeners.split(",");
-				for(String className :arrays) {
-					Class<?> clazz = Class.forName(className);
-					listeners.add((ClassScanListener) clazz
-							.newInstance());
-				}
+
+		// =========================================================================
+		// 持久层相关的参数设定
+		// =========================================================================
+		String useJPA = config.getInitParameter("useJPA");
+		if (useJPA != null && useJPA.trim().equalsIgnoreCase("true"))
+			GuiceContext.getInstance().useJPA();
+		String useDAO = config.getInitParameter("useDAO");
+		if (useDAO != null && useDAO.trim().equalsIgnoreCase("true")) {
+			GuiceContext.getInstance().useDAO();
+			try {
+				listeners.add((ClassScanListener)Class.forName("org.jrest.dao.DaoScanListener").newInstance());
+			} catch (Exception e) {
 			}
-		} catch (Exception e) {
-			throw new Exception("初始化 JRestContextHelper 错误：\n"
-					+ e.getMessage());
 		}
+
 		
-		
-		ClassScanListener restfulListener = new ClassScanListener(){
+		// =========================================================================
+		// 类扫描的监听器
+		// =========================================================================
+		String scanListeners = config.getInitParameter("scanListeners");
+		if (scanListeners != null && !scanListeners.trim().equals("")) {
+			try {
+				String[] arrays = scanListeners.split(",");
+				for (String className : arrays) {
+					Class<?> clazz = Class.forName(className);
+					listeners.add((ClassScanListener) clazz.newInstance());
+				}
+			} catch (Exception e) {
+				throw new Exception("初始化 JRestContextHelper 错误：\n"
+						+ e.getMessage());
+			}
+		}
+
+		ClassScanListener restfulListener = new ClassScanListener() {
 			@Override
 			public void onComplete(List<Module> modules) {
-				modules.add(JRestContextHelper.this.generateGuiceProviderModule(resources));
+				modules.add(JRestContextHelper.this
+						.generateGuiceProviderModule(resources));
 				// 注册资源
 				JRestContextHelper.this.registResource(resources);
 			}
+
 			@Override
 			public void onScan(Class<?> clazz) {
-				if(clazz.isAnnotationPresent(Restful.class))
+				if (clazz.isAnnotationPresent(Restful.class))
 					resources.add(clazz);
 			}
+
 			@Override
 			public void onStart() {
 			}
 		};
-		
+
 		listeners.add(restfulListener);
 
 		CollectionUtils.addAll(packageList, packages);
 
-		//初始化Guice上下文
-		GuiceContext.getInstance().init(modules, packageList ,listeners);
+		// 初始化Guice上下文
+		GuiceContext.getInstance().init(modules, packageList, listeners);
 	}
 
 	/**
