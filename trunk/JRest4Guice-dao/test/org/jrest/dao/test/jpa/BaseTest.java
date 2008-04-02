@@ -33,11 +33,11 @@ public class BaseTest {
 		Assert.assertNotNull(b1.getId());
 		Assert.assertNotNull(b2.getId());
 		
-//		dao.delete(b1, b2);
-//		b1 = dao.load(b1.getId());
-//		b2 = dao.load(b2.getId());
-//		Assert.assertNull(b1);
-//		Assert.assertNull(b2);
+		dao.delete(b1, b2);
+		b1 = dao.load(b1.getId());
+		b2 = dao.load(b2.getId());
+		Assert.assertNull(b1);
+		Assert.assertNull(b2);
 	}
 
 	private Book getNewBook(String title, float price, int length) {

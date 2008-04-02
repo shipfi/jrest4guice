@@ -27,11 +27,4 @@ public @interface Find {
 	@Target({ElementType.PARAMETER})
 	public @interface MaxResults {
 	}
-
-	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ElementType.PARAMETER})
-	public @interface Named {
-		String value();
-	}
-
 }
