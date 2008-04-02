@@ -59,7 +59,7 @@ public class TestDaoCase {
 		contacts = dao.listContacts(1, 100);
 		Assert.assertTrue(contacts.size() == 18);
 
-//		debugContacts(contacts);
+		debugContacts(contacts);
 	}
 
 	private void debugContacts(List<Contact> contacts) {
