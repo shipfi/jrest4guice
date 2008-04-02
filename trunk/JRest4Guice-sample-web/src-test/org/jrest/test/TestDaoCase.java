@@ -49,14 +49,17 @@ public class TestDaoCase {
 		ContactDao dao = guice.getBean(ContactDao.class);
 		
 		Assert.assertNotNull(dao);
+		List<Contact> contacts = null;
 		
-		List<Contact> contacts = dao.findContactByName("王二小");
-		Assert.assertTrue(contacts.size() > 0);
-
+		contacts = dao.findContactByName("王二小");
+		Assert.assertTrue(contacts.size() == 1);
+		
+		dao.deleteContact(contacts.get(0));
+		
 		contacts = dao.listContacts(1, 100);
-		Assert.assertTrue(contacts.size() > 0);
+		Assert.assertTrue(contacts.size() == 18);
 
-		debugContacts(contacts);
+//		debugContacts(contacts);
 	}
 
 	private void debugContacts(List<Contact> contacts) {
