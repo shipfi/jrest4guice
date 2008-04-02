@@ -17,7 +17,8 @@ import org.jrest.dao.actions.AbstractAction;
 import org.jrest.dao.annotations.Find;
 import org.jrest.dao.annotations.Find.FirstResult;
 import org.jrest.dao.annotations.Find.MaxResults;
-import org.jrest.dao.annotations.Find.Named;
+
+import com.google.inject.name.Named;
 
 public class FindAction extends AbstractAction<Find, HibernateDaoContext> {
 	
@@ -129,13 +130,13 @@ public class FindAction extends AbstractAction<Find, HibernateDaoContext> {
 					if (clazz.equals(Named.class)) {
 						final Named named = (Named) annotation;
 						this.getNamedParameters().put(named.value(), para);
-						break label1;
+						continue label1;
 					} else if (clazz.equals(FirstResult.class)) {
 						this.firstResult = (Integer) para;
-						break label1;
+						continue label1;
 					} else if (clazz.equals(MaxResults.class)) {
 						this.maxResults = (Integer) para;
-						break label1;
+						continue label1;
 					}
 				}
 				this.getPositionParameters().put(index, para);
