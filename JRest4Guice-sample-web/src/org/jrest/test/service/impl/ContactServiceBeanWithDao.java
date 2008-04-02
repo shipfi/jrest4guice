@@ -16,7 +16,6 @@ public class ContactServiceBeanWithDao implements ContactService {
 
 	@Transactional
 	public String createContact(Contact contact) {
-		System.out.println("createContact .....");
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");
 
