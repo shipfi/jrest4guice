@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jrest.core.guice.GuiceContext;
 import org.jrest.core.util.ClassScanListener;
 import org.jrest.dao.annotations.Dao;
 
@@ -29,7 +28,7 @@ public class DaoScanListener implements ClassScanListener {
 						continue;
 					
 					binds.add(name);
-					binder.bind(clazz).toProvider(DaoProvider.create(clazz,GuiceContext.getInstance().getPersitProviderType()));
+					binder.bind(clazz).toProvider(DaoProvider.create(clazz));
 				}
 			}
 		};

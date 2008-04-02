@@ -1,6 +1,6 @@
 package org.jrest.dao;
 
-import org.jrest.core.persist.PersistProviderType;
+import org.jrest.core.guice.GuiceContext;
 import org.jrest.dao.jpa.JpaRegister;
 
 import com.google.inject.Inject;
@@ -13,16 +13,13 @@ public class DaoProvider<T> implements Provider<T> {
 
 	private Class<T> clazz;
 
-	private PersistProviderType persitProviderType;	
-
-	public DaoProvider(Class<T> clazz,PersistProviderType persitProviderType) {
+	public DaoProvider(Class<T> clazz) {
 		this.clazz = clazz;
-		this.persitProviderType = persitProviderType;
 	}
 
 	public T get() {
 		if(this.register == null){
-			switch (this.persitProviderType) {
+			switch (GuiceContext.getInstance().getPersitProviderType()) {
 			case JPA:
 				this.register = new JpaRegister();
 				break;
@@ -39,7 +36,7 @@ public class DaoProvider<T> implements Provider<T> {
 		return (T) proxy.createDao(this.clazz);
 	}
 
-	public static <T> Provider<T> create(Class<T> providerType,PersistProviderType persitProviderType) {
-		return new DaoProvider<T>(providerType,persitProviderType);
+	public static <T> Provider<T> create(Class<T> providerType) {
+		return new DaoProvider<T>(providerType);
 	}
 }
