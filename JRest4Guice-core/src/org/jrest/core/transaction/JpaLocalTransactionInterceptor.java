@@ -37,7 +37,7 @@ public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 		}
 		
 		//关闭实体管理器
-//		emfH.closeEntityManager();
+		emfH.closeEntityManager();
 		
 		//返回业务方法的执行结果
 		return result;
