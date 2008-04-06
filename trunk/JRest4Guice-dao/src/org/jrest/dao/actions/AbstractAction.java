@@ -2,19 +2,19 @@ package org.jrest.dao.actions;
 
 import java.lang.reflect.Method;
 
-public abstract class AbstractAction<A, T> implements Action<A, T> {
+public abstract class AbstractAction<A, T extends ActionContext> implements Action<A, T> {
 
 	protected A annotation;
 	protected T context;
 	protected Method method;
-	
+
 	protected Class<T> contextClass;
 	protected Class<A> annotationClass;
-	
+
 	public AbstractAction() {
 		this.initialize();
 	}
-	
+
 	@Override
 	public A getAnnotation() {
 		return this.annotation;
@@ -35,10 +35,10 @@ public abstract class AbstractAction<A, T> implements Action<A, T> {
 		return this.annotationClass;
 	}
 
-	@Override
-	public void setContext(T context) {
-		this.context = context;
-	}
+	// @Override
+	// public void setContext(T context) {
+	// this.context = context;
+	// }
 
 	@Override
 	public Object execute(Method method, Object[] parameters) {
@@ -49,16 +49,16 @@ public abstract class AbstractAction<A, T> implements Action<A, T> {
 	public Class<?> getMethodReturnType() {
 		return this.method.getReturnType();
 	}
-	
+
 	public Class<T> getContextClass() {
 		return contextClass;
 	}
-	
+
 	/**
 	 * 初始化方法
 	 */
 	abstract protected void initialize();
-	
+
 	abstract public Object execute(Object[] parameters);
-	
+
 }

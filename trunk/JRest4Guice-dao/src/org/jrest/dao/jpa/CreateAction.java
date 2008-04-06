@@ -5,13 +5,15 @@ import javax.persistence.EntityManager;
 import org.jrest.dao.actions.AbstractAction;
 import org.jrest.dao.annotations.Create;
 
-public class CreateAction extends AbstractAction<Create, JpaDaoContext> {
+import com.google.inject.Inject;
+
+public class CreateAction extends AbstractAction<Create, JpaContext> {
 
 	@Override
 	public Object execute(Object[] parameters) {
 		if (parameters.length == 0)
 			return null;
-		EntityManager em = this.getContext().getEntityManager();
+		EntityManager em = getContext().getEntityManager();
 		if (parameters[0].getClass().isArray()) {
 			for (Object entity : (Object[]) parameters[0]) {
 				em.persist(entity);
@@ -24,8 +26,13 @@ public class CreateAction extends AbstractAction<Create, JpaDaoContext> {
 
 	@Override
 	protected void initialize() {
-		this.annotationClass = Create.class;
-		this.contextClass = JpaDaoContext.class;
+		annotationClass = Create.class;
+		contextClass = JpaContext.class;
 	}
 
+	@Inject
+	@Override
+	public void setContext(JpaContext context) {
+		this.context = context;
+	}
 }

@@ -18,25 +18,25 @@ import org.jrest.dao.annotations.Find;
 import org.jrest.dao.annotations.Find.FirstResult;
 import org.jrest.dao.annotations.Find.MaxResults;
 
+import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-public class FindAction extends AbstractAction<Find, HibernateDaoContext> {
-	
+public class FindAction extends AbstractAction<Find, HibernateContext> {
+
 	protected final static Log log = LogFactory.getLog(FindAction.class);
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object execute(Object[] parameters) {
 		Query query = getQuery();
 		QueryParameters queryPara = new QueryParameters(parameters, method.getParameterAnnotations());
 		fittingQuery(query, queryPara);
-		Find find = this.getAnnotation();
-		if (!find.resultClass().equals(void.class)) {
+		Find find = getAnnotation();
+		if (!find.resultClass().equals(void.class))
 			return toProjectionalList(find.resultClass(), query.list());
-		}
 		return query.list();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	protected List toProjectionalList(Class<?> clz, List<Object[]> records) {
 		List result = new ArrayList();
@@ -44,22 +44,22 @@ public class FindAction extends AbstractAction<Find, HibernateDaoContext> {
 			return result;
 		Object[] args = records.get(0);
 		Class parameterTypes[] = new Class[args.length];
-        for (int i = 0; i < args.length; i++) {
-            parameterTypes[i] = args[i].getClass();
-        }
-        Constructor constructor = ConstructorUtils.getAccessibleConstructor(clz, parameterTypes);
-        if (constructor == null) {
-        	String message = "找不到适合的构造方法:" + clz.getName() + "(" + StringUtils.join(parameterTypes, ", ") + ")";
-        	log.error(message);
-        	throw new IllegalArgumentException(message);
-        }
-        for (Object[] parameters : records) {
-        	try {
+		for (int i = 0; i < args.length; i++) {
+			parameterTypes[i] = args[i].getClass();
+		}
+		Constructor constructor = ConstructorUtils.getAccessibleConstructor(clz, parameterTypes);
+		if (constructor == null) {
+			String message = "找不到适合的构造方法:" + clz.getName() + "(" + StringUtils.join(parameterTypes, ", ") + ")";
+			log.error(message);
+			throw new IllegalArgumentException(message);
+		}
+		for (Object[] parameters : records) {
+			try {
 				result.add(constructor.newInstance(parameters));
 			} catch (Exception e) {
-				log.error("无法构建投影类型对象", e.getCause());	// 不应该出现该错误
+				log.error("无法构建投影类型对象", e.getCause()); // 不应该出现该错误
 			}
-        }
+		}
 		return result;
 	}
 
@@ -83,29 +83,33 @@ public class FindAction extends AbstractAction<Find, HibernateDaoContext> {
 	}
 
 	private Query getQuery() {
-		Find find = this.getAnnotation();
-		if (StringUtils.isNotBlank(find.namedQuery())) {
-			return this.getSession().getNamedQuery(find.namedQuery());
-		}
-		if (find.nativeQuery()) {
-			return this.getSession().createSQLQuery(find.query());
-		} else {
-			return this.getSession().createQuery(find.query());
-		}
+		Find find = getAnnotation();
+		if (StringUtils.isNotBlank(find.namedQuery()))
+			return getSession().getNamedQuery(find.namedQuery());
+		if (find.nativeQuery())
+			return getSession().createSQLQuery(find.query());
+		else
+			return getSession().createQuery(find.query());
 	}
-	
+
 	private Session getSession() {
-		return this.getContext().getSession();
+		return getContext().getSession();
 	}
 
 	@Override
 	protected void initialize() {
-		this.annotationClass = Find.class;
-		this.contextClass = HibernateDaoContext.class;
+		annotationClass = Find.class;
+		contextClass = HibernateContext.class;
+	}
+
+	@Inject
+	@Override
+	public void setContext(HibernateContext context) {
+		this.context = context;
 	}
 
 	class QueryParameters {
-		
+
 		Annotation[][] annotations;
 		Object[] parameters;
 		Integer firstResult;
@@ -118,41 +122,40 @@ public class FindAction extends AbstractAction<Find, HibernateDaoContext> {
 			this.parameters = parameters;
 			if (parameters == null)
 				return;
-			label1:
-			for (int index = 0; index < parameters.length; index++) {
+			label1: for (int index = 0; index < parameters.length; index++) {
 				final Object para = parameters[index];
 				if (this.annotations == null) {
-					this.getPositionParameters().put(index, para);
+					getPositionParameters().put(index, para);
 					continue;
 				}
 				for (final Annotation annotation : annotations[index]) {
 					final Class<? extends Annotation> clazz = annotation.annotationType();
 					if (clazz.equals(Named.class)) {
 						final Named named = (Named) annotation;
-						this.getNamedParameters().put(named.value(), para);
+						getNamedParameters().put(named.value(), para);
 						continue label1;
 					} else if (clazz.equals(FirstResult.class)) {
-						this.firstResult = (Integer) para;
+						firstResult = (Integer) para;
 						continue label1;
 					} else if (clazz.equals(MaxResults.class)) {
-						this.maxResults = (Integer) para;
+						maxResults = (Integer) para;
 						continue label1;
 					}
 				}
-				this.getPositionParameters().put(index, para);
+				getPositionParameters().put(index, para);
 			}
 		}
 
 		public Map<String, Object> getNamedParameters() {
-			if (this.namedParameters == null)
-				this.namedParameters = new HashMap<String, Object>();
+			if (namedParameters == null)
+				namedParameters = new HashMap<String, Object>();
 			return namedParameters;
 		}
 
 		public Map<Integer, Object> getPositionParameters() {
-			if (this.positionParameters == null)
-				this.positionParameters = new HashMap<Integer, Object>();
-			return this.positionParameters;
+			if (positionParameters == null)
+				positionParameters = new HashMap<Integer, Object>();
+			return positionParameters;
 		}
 	}
 }

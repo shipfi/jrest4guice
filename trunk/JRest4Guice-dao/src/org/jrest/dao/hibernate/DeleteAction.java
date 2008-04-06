@@ -4,13 +4,15 @@ import org.hibernate.Session;
 import org.jrest.dao.actions.AbstractAction;
 import org.jrest.dao.annotations.Delete;
 
-public class DeleteAction extends AbstractAction<Delete, HibernateDaoContext> {
+import com.google.inject.Inject;
+
+public class DeleteAction extends AbstractAction<Delete, HibernateContext> {
 
 	@Override
 	public Object execute(Object[] parameters) {
 		if (parameters.length == 0)
 			return null;
-		Session session = this.getContext().getSession();
+		Session session = getContext().getSession();
 		if (parameters[0].getClass().isArray()) {
 			for (Object entity : (Object[]) parameters[0]) {
 				session.delete(entity);
@@ -23,8 +25,14 @@ public class DeleteAction extends AbstractAction<Delete, HibernateDaoContext> {
 
 	@Override
 	protected void initialize() {
-		this.annotationClass = Delete.class;
-		this.contextClass = HibernateDaoContext.class;
+		annotationClass = Delete.class;
+		contextClass = HibernateContext.class;
+	}
+
+	@Inject
+	@Override
+	public void setContext(HibernateContext context) {
+		this.context = context;
 	}
 
 }
