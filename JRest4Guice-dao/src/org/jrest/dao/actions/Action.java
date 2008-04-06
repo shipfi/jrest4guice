@@ -8,20 +8,20 @@ import java.lang.reflect.Method;
  * @param <A> 该动作的注解类型
  * @param <T> 执行该动作所需的上下文环境类型
  */
-public interface Action<A, T> {
-	
+public interface Action<A, T extends ActionContext> {
+
 	Object execute(Method method, Object[] parameters);
 
 	void setAnnotation(A annotation);
-	
+
 	A getAnnotation();
-	
+
 	Class<A> getAnnotationClass();
-	
+
 	void setContext(T context);
-	
+
 	T getContext();
-	
+
 	Class<T> getContextClass();
-	
+
 }

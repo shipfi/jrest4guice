@@ -1,23 +1,52 @@
 package org.jrest.dao;
 
 import java.lang.annotation.Annotation;
+import java.util.HashMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jrest.dao.actions.Action;
 
-public interface Register {
-	
-	Object createContext(Class<?> clazz);
-	
-	boolean isContextClass(Class<?> clazz);
+import com.google.inject.Singleton;
 
-	void register(Class<?> contextClass);
+/**
+ * 动作注册器<br>
+ * 该对象负责登记可用的<code>Action</code>对象，并由该对象负责创建<code>Action</code>实例
+ * @author <a href="mailto:gzyangfan@gmail.com">gzYangfan</a>
+ */
+@Singleton
+public class Register {
+
+	private static final Log log = LogFactory.getLog(Register.class);
 
 	@SuppressWarnings("unchecked")
-	Action createAction(Annotation annotation);
+	private HashMap<Class<? extends Annotation>, Class<? extends Action>> actions = new HashMap<Class<? extends Annotation>, Class<? extends Action>>();
 
-	boolean isActionAnnotation(Class<? extends Annotation> clazz);
-	
 	@SuppressWarnings("unchecked")
-	void register(Class<? extends Annotation> annotation, Class<? extends Action> action);
-	
+	public Action createAction(Annotation annotation) {
+		Class<? extends Annotation> clazz = annotation.annotationType();
+		if (isActionAnnotation(clazz)) {
+			Class<? extends Action> target = actions.get(clazz);
+			return DaoContext.getInstance().getBean(target);
+		}
+		return null;
+	}
+
+	public boolean isActionAnnotation(Class<? extends Annotation> clazz) {
+		if (actions.containsKey(clazz))
+			return true;
+		return false;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void register(Class<Action> clz) {
+		try {
+			Action action = clz.newInstance();
+			actions.put(action.getAnnotationClass(), clz);
+		} catch (Exception e) {
+			// 不应该出现的错误
+			log.error("无法实例化 Action 类:" + clz.getName(), e);
+		}
+	}
+
 }

@@ -4,13 +4,15 @@ import org.hibernate.Session;
 import org.jrest.dao.actions.AbstractAction;
 import org.jrest.dao.annotations.Create;
 
-public class CreateAction extends AbstractAction<Create, HibernateDaoContext> {
+import com.google.inject.Inject;
+
+public class CreateAction extends AbstractAction<Create, HibernateContext> {
 
 	@Override
 	public Object execute(Object[] parameters) {
 		if (parameters.length == 0)
 			return null;
-		Session session = this.getContext().getSession();
+		Session session = getContext().getSession();
 		if (parameters[0].getClass().isArray()) {
 			for (Object obj : (Object[]) parameters[0]) {
 				session.save(obj);
@@ -23,7 +25,13 @@ public class CreateAction extends AbstractAction<Create, HibernateDaoContext> {
 
 	@Override
 	protected void initialize() {
-		this.annotationClass = Create.class;
-		this.contextClass = HibernateDaoContext.class;
+		annotationClass = Create.class;
+		contextClass = HibernateContext.class;
+	}
+
+	@Inject
+	@Override
+	public void setContext(HibernateContext context) {
+		this.context = context;
 	}
 }

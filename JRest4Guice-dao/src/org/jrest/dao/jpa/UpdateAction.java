@@ -5,13 +5,15 @@ import javax.persistence.EntityManager;
 import org.jrest.dao.actions.AbstractAction;
 import org.jrest.dao.annotations.Update;
 
-public class UpdateAction extends AbstractAction<Update, JpaDaoContext> {
+import com.google.inject.Inject;
+
+public class UpdateAction extends AbstractAction<Update, JpaContext> {
 
 	@Override
 	public Object execute(Object[] parameters) {
 		if (parameters.length == 0)
 			return null;
-		EntityManager em = this.getContext().getEntityManager();
+		EntityManager em = getContext().getEntityManager();
 		if (parameters[0].getClass().isArray()) {
 			for (Object entity : (Object[]) parameters[0]) {
 				entity = em.merge(entity);
@@ -24,8 +26,14 @@ public class UpdateAction extends AbstractAction<Update, JpaDaoContext> {
 
 	@Override
 	protected void initialize() {
-		this.annotationClass = Update.class;
-		this.contextClass = JpaDaoContext.class;
+		annotationClass = Update.class;
+		contextClass = JpaContext.class;
+	}
+
+	@Inject
+	@Override
+	public void setContext(JpaContext context) {
+		this.context = context;
 	}
 
 }

@@ -1,33 +1,32 @@
 package org.jrest.dao.test.jpa;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.Assert;
 
-import org.jrest.core.guice.GuiceContext;
-import org.jrest.core.util.ClassScanListener;
-import org.jrest.dao.DaoScanListener;
+import org.jrest.dao.DaoContext;
 import org.jrest.dao.test.entities.Author;
 import org.jrest.dao.test.entities.Book;
 import org.jrest.dao.test.entities.PackingInfo;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class FindActionTest {
-	
+
 	private static BookDao dao;
-	
-	@Before
-	public void setup() {
-		GuiceContext guice = GuiceContext.getInstance();
-		guice.useJPA().useDAO().init(Arrays.asList(new String[] { "org.jrest.dao.test.jpa" }), Arrays
-				.asList(new ClassScanListener[] { new DaoScanListener() }));
-		dao = guice.getBean(BookDao.class);
-		
-		/*
-		// 初始化数据
+
+	@BeforeClass
+	public static void setup() {
+		// GuiceContext guice = GuiceContext.getInstance();
+		// guice.useJPA().useDAO().init(Arrays.asList(new String[] {
+		// "org.jrest.dao.test.jpa" }), Arrays
+		// .asList(new ClassScanListener[] { new DaoScanListener() }));
+		DaoContext context = DaoContext.getInstance();
+		context.addScanPaths("org.jrest.dao.jpa", "org.jrest.dao.test.jpa");
+		context.init();
+		dao = context.getBean(BookDao.class);
+
 		Book b0 = getNewBook("Book 0", 10f, 10);
 		Book b1 = getNewBook("Book 1", 10f, 20);
 		Book b2 = getNewBook("Book 2", 10f, 30);
@@ -49,15 +48,14 @@ public class FindActionTest {
 		Assert.assertNotNull(b7.getId());
 		Assert.assertNotNull(b8.getId());
 		Assert.assertNotNull(b9.getId());
-		*/
 	}
-	
+
 	@Test
 	public void testFindPriceMoreThan() {
 		List<Book> books = dao.findPriceMoreThan(10f);
 		Assert.assertEquals(5, books.size());
 	}
-	
+
 	@Test
 	public void testFindLengthLessThan() {
 		List<Book> books = dao.findLengthLessThan(60);
@@ -74,14 +72,14 @@ public class FindActionTest {
 		PackingInfo info = new PackingInfo("平装", "铜版纸", length);
 		List<Author> authors = new ArrayList<Author>();
 		authors.add(new Author("gzYangfan"));
-		
+
 		Book book = new Book();
 		book.setTitle(title);
 		book.setSummary("java");
 		book.setPrice(price);
 		book.setPackingInfo(info);
 		book.setAuthors(authors);
-		
+
 		return book;
 	}
 

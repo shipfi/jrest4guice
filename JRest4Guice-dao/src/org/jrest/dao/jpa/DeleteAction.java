@@ -5,13 +5,15 @@ import javax.persistence.EntityManager;
 import org.jrest.dao.actions.AbstractAction;
 import org.jrest.dao.annotations.Delete;
 
-public class DeleteAction extends AbstractAction<Delete, JpaDaoContext> {
+import com.google.inject.Inject;
+
+public class DeleteAction extends AbstractAction<Delete, JpaContext> {
 
 	@Override
 	public Object execute(Object[] parameters) {
 		if (parameters.length == 0)
 			return null;
-		EntityManager em = this.getContext().getEntityManager();
+		EntityManager em = getContext().getEntityManager();
 		if (parameters[0].getClass().isArray()) {
 			for (Object entity : (Object[]) parameters[0]) {
 				em.remove(entity);
@@ -24,8 +26,14 @@ public class DeleteAction extends AbstractAction<Delete, JpaDaoContext> {
 
 	@Override
 	protected void initialize() {
-		this.annotationClass = Delete.class;
-		this.contextClass = JpaDaoContext.class;
+		annotationClass = Delete.class;
+		contextClass = JpaContext.class;
+	}
+
+	@Inject
+	@Override
+	public void setContext(JpaContext context) {
+		this.context = context;
 	}
 
 }
