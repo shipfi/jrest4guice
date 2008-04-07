@@ -1,8 +1,6 @@
 package org.jrest.dao;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 import org.jrest.core.guice.AbstractGuiceModuleProvider;
@@ -13,17 +11,9 @@ import com.google.inject.Module;
 
 @SuppressWarnings("unchecked")
 public class DaoGuiceModuleProvider extends AbstractGuiceModuleProvider {
-	public DaoGuiceModuleProvider() {
-		this(null);
-	}
 
 	public DaoGuiceModuleProvider(String[] packages) {
-		if (packages != null)
-			this
-					.setScanPackageList(new HashSet<String>(Arrays
-							.asList(packages)));
-		else
-			this.setScanPackageList(null);
+		super(packages);
 	}
 
 	@Override
