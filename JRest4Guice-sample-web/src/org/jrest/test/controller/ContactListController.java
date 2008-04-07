@@ -5,11 +5,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jrest.rest.HttpResult;
 import org.jrest.rest.annotation.HttpMethod;
 import org.jrest.rest.annotation.HttpMethodType;
 import org.jrest.rest.annotation.Restful;
-import org.jrest.rest.context.ModelMap;
+import org.jrest.rest.http.HttpResult;
+import org.jrest.rest.http.ModelMap;
 import org.jrest.test.service.ContactService;
 
 import com.google.inject.Inject;
