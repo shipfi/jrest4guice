@@ -29,12 +29,14 @@ public class JRestGuiceModuleProvider extends AbstractGuiceModuleProvider {
 		modules.add(new Module() {
 			@Override
 			public void configure(Binder binder) {
+				//绑定固定的上下文对象
 				binder.bind(HttpServletRequest.class).toProvider(
 						HttpRequestProvider.class);
 				binder.bind(HttpServletResponse.class).toProvider(
 						HttpResponseProvider.class);
 				binder.bind(ModelMap.class).toProvider(ModelMapProvider.class);
-
+				
+				//注册所有的Restful服务对象
 				JRestContext jRestContext = JRestContext.getInstance();
 				Restful annotation;
 				String[] uris;
