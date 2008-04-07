@@ -28,7 +28,7 @@ public class JRestContext {
 	 * @param uri			资源的路径
 	 * @param resourceClass	资源对应的实现类
 	 */
-	void addResource(String uri, Class resourceClass) {
+	public void addResource(String uri, Class resourceClass) {
 		String[] routePath = uri.split("/");
 		ServiceRoute current = root;
 		ServiceRoute child = null;
