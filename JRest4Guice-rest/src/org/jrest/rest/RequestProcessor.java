@@ -15,10 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jrest.rest.annotation.HttpMethodType;
-import org.jrest.rest.context.IocContextManager;
-import org.jrest.rest.context.JRestContext;
-import org.jrest.rest.context.ModelMap;
-import org.jrest.rest.context.RestServiceExecutor;
+import org.jrest.rest.http.HttpContextManager;
+import org.jrest.rest.http.JRestContext;
+import org.jrest.rest.http.ModelMap;
 
 @SuppressWarnings("unchecked")
 public class RequestProcessor {
@@ -55,7 +54,7 @@ public class RequestProcessor {
 		// REST资源的参数，这些参数都包含在URL中
 		ModelMap<String,String> params = new ModelMap<String, String>();
 		// 设置上下文中的环境变量
-		IocContextManager.setContext(request, response, params);
+		HttpContextManager.setContext(request, response, params);
 		try {
 			// 从REST资源注册表中查找此URI对应的资源
 			Object service = JRestContext.getInstance().lookupResource(uri);
@@ -65,21 +64,21 @@ public class RequestProcessor {
 				// 根据不同的请求方法调用REST对象的不同方法
 				String method = request.getMethod();
 				if (METHOD_OF_GET.equalsIgnoreCase(method))
-					writeResult(response, RestServiceExecutor.execute(service,
+					writeResult(response, JRestServiceExecutor.execute(service,
 							HttpMethodType.GET));
 				else if (METHOD_OF_POST.equalsIgnoreCase(method))
-					writeResult(response, RestServiceExecutor.execute(service,
+					writeResult(response, JRestServiceExecutor.execute(service,
 							HttpMethodType.POST));
 				else if (METHOD_OF_PUT.equalsIgnoreCase(method))
-					writeResult(response, RestServiceExecutor.execute(service,
+					writeResult(response, JRestServiceExecutor.execute(service,
 							HttpMethodType.PUT));
 				else if (METHOD_OF_DELETE.equalsIgnoreCase(method))
-					writeResult(response, RestServiceExecutor.execute(service,
+					writeResult(response, JRestServiceExecutor.execute(service,
 							HttpMethodType.DELETE));
 			}
 		} finally {
 			// 清除上下文中的环境变量
-			IocContextManager.clearContext();
+			HttpContextManager.clearContext();
 		}
 	}
 
