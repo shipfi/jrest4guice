@@ -22,10 +22,6 @@ public class JRestContext {
 		return SingletonHolder.instance;
 	}
 
-	public void initContext(ContextConfig config) throws Exception{
-		new JRestContextHelper().constructGuiceInector(config);
-	}
-	
 	/**
 	 * 添加资源到上下文
 	 * @param uri			资源的路径
