@@ -21,47 +21,47 @@ class JRestContextHelper {
 		final List<String> packageList = new ArrayList<String>();
 		final List<Module> modules = new ArrayList<Module>(0);
 		modules.add(new JRestModule());
-
+		
 		// 获取要扫描的资源所对应的包路径
 		String resource_package = config.getInitParameter("resource-package");
 		String[] packages = null;
 		if (resource_package != null && !resource_package.trim().equals("")) {
 			packages = resource_package.split(",");
-			for (String packageName : packages)
+			for (String packageName : packages) {
 				packageList.add(packageName);
+			}
 		}
-
+		
 		// 加载Guice的模块
 		String guiceModuleClass = config.getInitParameter("GuiceModuleClass");
 		try {
 			if (guiceModuleClass != null && !guiceModuleClass.trim().equals("")) {
 				String[] arrays = guiceModuleClass.split(",");
-				for (String className : arrays)
-					modules
-							.add((Module) Class.forName(className)
-									.newInstance());
+				for (String className : arrays) {
+					modules.add((Module) Class.forName(className).newInstance());
+				}
 			}
 		} catch (Exception e) {
 			throw new Exception("初始化 JRestContextHelper 错误：\n" + e.getMessage());
 		}
-
+		
 		List<ClassScanListener> listeners = new ArrayList<ClassScanListener>();
-
+		
 		// =========================================================================
 		// 持久层相关的参数设定
 		// =========================================================================
 		String useJPA = config.getInitParameter("useJPA");
-		if (useJPA != null && useJPA.trim().equalsIgnoreCase("true"))
+		if (useJPA != null && useJPA.trim().equalsIgnoreCase("true")) {
 			GuiceContext.getInstance().useJPA();
+		}
 		String useDAO = config.getInitParameter("useDAO");
 		if (useDAO != null && useDAO.trim().equalsIgnoreCase("true")) {
 			GuiceContext.getInstance().useDAO();
 			try {
-				listeners.add((ClassScanListener)Class.forName("org.jrest.dao.DaoScanListener").newInstance());
+				listeners.add((ClassScanListener) Class.forName("org.jrest.dao.DaoScanListener").newInstance());
 			} catch (Exception e) {
 			}
 		}
-
 		
 		// =========================================================================
 		// 类扫描的监听器
@@ -75,39 +75,33 @@ class JRestContextHelper {
 					listeners.add((ClassScanListener) clazz.newInstance());
 				}
 			} catch (Exception e) {
-				throw new Exception("初始化 JRestContextHelper 错误：\n"
-						+ e.getMessage());
+				throw new Exception("初始化 JRestContextHelper 错误：\n" + e.getMessage());
 			}
 		}
-
+		
 		ClassScanListener restfulListener = new ClassScanListener() {
-			@Override
-			public void onComplete(List<Module> modules) {
-				modules.add(JRestContextHelper.this
-						.generateGuiceProviderModule(resources));
-				// 注册资源
-				JRestContextHelper.this.registResource(resources);
-			}
-
 			@Override
 			public void onScan(Class<?> clazz) {
 				if (clazz.isAnnotationPresent(Restful.class))
 					resources.add(clazz);
 			}
-
+			
 			@Override
-			public void onStart() {
+			public Module onComplete() {
+				// 注册资源
+				JRestContextHelper.this.registResource(resources);
+				return JRestContextHelper.this.generateGuiceProviderModule(resources);
 			}
 		};
-
+		
 		listeners.add(restfulListener);
-
+		
 		CollectionUtils.addAll(packageList, packages);
-
+		
 		// 初始化Guice上下文
 		GuiceContext.getInstance().init(modules, packageList, listeners);
 	}
-
+	
 	/**
 	 * 生成Guice的Provider模块
 	 * 
@@ -116,36 +110,32 @@ class JRestContextHelper {
 	 */
 	@SuppressWarnings("unchecked")
 	private Module generateGuiceProviderModule(List<Class<?>> resources) {
-		final Set<JndiServiceInfo> jndiServiceInfos = new HashSet<JndiServiceInfo>(
-				0);
+		final Set<JndiServiceInfo> jndiServiceInfos = new HashSet<JndiServiceInfo>(0);
 		JndiResource annotation;
 		for (Class<?> clazz : resources) {
 			Field[] fields = clazz.getDeclaredFields();
 			for (Field field : fields) {
 				annotation = field.getAnnotation(JndiResource.class);
 				if (annotation != null) {
-					jndiServiceInfos.add(new JndiServiceInfo(field.getType(),
-							annotation.jndi()));
+					jndiServiceInfos.add(new JndiServiceInfo(field.getType(), annotation.jndi()));
 				}
 			}
 		}
-
+		
 		Module module = new Module() {
 			@Override
 			public void configure(Binder binder) {
 				Class serviceClass;
 				for (JndiServiceInfo info : jndiServiceInfos) {
 					serviceClass = info.getServiceClass();
-					binder.bind(serviceClass).toProvider(
-							JndiProvider.fromJndi(serviceClass, info
-									.getJndiName()));
+					binder.bind(serviceClass).toProvider(JndiProvider.fromJndi(serviceClass, info.getJndiName()));
 				}
 			}
 		};
-
+		
 		return module;
 	}
-
+	
 	private void registResource(List<Class<?>> resources) {
 		for (Class<?> clazz : resources) {
 			// 获取注解中的URI映射规则
