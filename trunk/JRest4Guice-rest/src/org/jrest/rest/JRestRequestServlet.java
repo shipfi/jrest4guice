@@ -8,8 +8,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 
-import org.jrest.rest.context.ContextConfig;
-import org.jrest.rest.context.JRestContext;
+import org.jrest.rest.http.ContextConfig;
+import org.jrest.rest.http.JRestContext;
 
 @SuppressWarnings("unchecked")
 public class JRestRequestServlet extends HttpServlet {
