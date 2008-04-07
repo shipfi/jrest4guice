@@ -16,11 +16,11 @@ import com.google.inject.Module;
  */
 @SuppressWarnings("unchecked")
 public class DaoScanListener implements ClassScanListener {
-
+	
 	class DaoModule extends AbstractModule {
-
-		private Set<String> binds = new HashSet<String>();
-
+		
+		private final Set<String> binds = new HashSet<String>();
+		
 		@Override
 		protected void configure() {
 			for (Class clazz : daos) {
@@ -31,26 +31,25 @@ public class DaoScanListener implements ClassScanListener {
 				bind(clazz).toProvider(DaoProvider.create(clazz));
 			}
 		}
-
+		
 	}
-
-	private List<Class<?>> daos = new ArrayList<Class<?>>();
-
+	
+	private final List<Class<?>> daos = new ArrayList<Class<?>>();
+	
 	public DaoScanListener(List<Class<?>> classes) {
 		for (Class<?> clz : classes)
 			onScan(clz);
 	}
-
+	
 	@Override
 	public Module onComplete() {
-		Module module = new DaoModule();
-		return module;
+		return new DaoModule();
 	}
-
+	
 	@Override
 	public void onScan(Class<?> clazz) {
 		if (clazz.isAnnotationPresent(Dao.class))
 			daos.add(clazz);
 	}
-
+	
 }
