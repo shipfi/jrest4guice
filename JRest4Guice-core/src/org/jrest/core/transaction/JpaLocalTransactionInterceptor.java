@@ -14,6 +14,14 @@ public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 		EntityManagerFactoryHolder emfH = GuiceContext.getInstance().getBean(EntityManagerFactoryHolder.class);
 		EntityManager entityManager = emfH.getEntityManager();
 		
+//		Transactional transactional = methodInvocation.getMethod().getAnnotation(Transactional.class);
+//		TransactionalType type = transactional.type();
+//		if(type == TransactionalType.REQUIRED){
+//		}
+		
+		System.out.println("current method : "+methodInvocation.getMethod());
+		System.out.println("current entityManager : "+entityManager);
+		
 		final EntityTransaction transaction = entityManager.getTransaction();
 		
 		if(transaction.isActive()){
