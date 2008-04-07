@@ -1,8 +1,6 @@
 package org.jrest.rest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,17 +19,8 @@ import com.google.inject.Module;
 
 @SuppressWarnings("unchecked")
 public class JRestGuiceModuleProvider extends AbstractGuiceModuleProvider {
-	public JRestGuiceModuleProvider() {
-		this(null);
-	}
-
 	public JRestGuiceModuleProvider(String[] packages) {
-		if (packages != null)
-			this
-					.setScanPackageList(new HashSet<String>(Arrays
-							.asList(packages)));
-		else
-			this.setScanPackageList(null);
+		super(packages);
 	}
 
 	@Override
