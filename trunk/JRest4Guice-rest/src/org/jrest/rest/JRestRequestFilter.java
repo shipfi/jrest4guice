@@ -53,7 +53,6 @@ public class JRestRequestFilter implements Filter {
 
 		try {
 			this.requestProcessor = new RequestProcessor();
-			JRestContext.getInstance().initContext(new ContextConfig(config));
 		} catch (Exception e) {
 			throw new ServletException("初始化 JRestRequestFilter 失败！", e);
 		}

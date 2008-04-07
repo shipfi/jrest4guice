@@ -24,7 +24,6 @@ public class JRestRequestServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		try {
 			this.requestProcessor = new RequestProcessor();
-			JRestContext.getInstance().initContext(new ContextConfig(config));
 		} catch (Exception e) {
 			throw new ServletException("初始化JRestRequestServlet失败！",e);
 		}
