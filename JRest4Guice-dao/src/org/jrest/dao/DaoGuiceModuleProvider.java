@@ -18,7 +18,12 @@ public class DaoGuiceModuleProvider extends AbstractGuiceModuleProvider {
 	}
 
 	public DaoGuiceModuleProvider(String[] packages) {
-		this.setScanPackageList(new HashSet<String>(Arrays.asList(packages)));
+		if (packages != null)
+			this
+					.setScanPackageList(new HashSet<String>(Arrays
+							.asList(packages)));
+		else
+			this.setScanPackageList(null);
 	}
 
 	@Override
