@@ -6,11 +6,12 @@ import javax.persistence.EntityManager;
 
 import org.jrest.core.transaction.annotations.Transactional;
 import org.jrest.test.entity.Contact;
+import org.jrest.test.service.ContactService;
 
 import com.google.inject.Inject;
 
 @SuppressWarnings("unchecked")
-public class ContactServiceBeanWithoutDao{
+public class ContactServiceBeanWithoutDao implements ContactService {
 	@Inject
 	private EntityManager em;
 

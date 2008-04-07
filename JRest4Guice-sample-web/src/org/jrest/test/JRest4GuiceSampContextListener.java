@@ -7,6 +7,7 @@ import org.jrest.core.guice.GuiceContext;
 import org.jrest.core.persist.jpa.JpaGuiceModuleProvider;
 import org.jrest.core.transaction.TransactionGuiceModuleProvider;
 import org.jrest.dao.DaoGuiceModuleProvider;
+import org.jrest.rest.JRestGuiceModuleProvider;
 
 public class JRest4GuiceSampContextListener implements ServletContextListener {
 	@Override
@@ -16,9 +17,12 @@ public class JRest4GuiceSampContextListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		GuiceContext.getInstance().addModuleProvider(
-				new TransactionGuiceModuleProvider()).addModuleProvider(
-				new JpaGuiceModuleProvider()).addModuleProvider(
-				new DaoGuiceModuleProvider(
-						new String[] { "org.jrest.test.dao" }));
+				new JRestGuiceModuleProvider(
+						new String[] { "org.jrest.test.controller" }))
+				.addModuleProvider(new TransactionGuiceModuleProvider())
+				.addModuleProvider(new JpaGuiceModuleProvider())
+				.addModuleProvider(
+						new DaoGuiceModuleProvider(
+								new String[] { "org.jrest.test.dao" })).init();
 	}
 }
