@@ -21,6 +21,11 @@
 		<filter-name>AddHeaderFilter</filter-name>
 		<url-pattern>*.gzjs</url-pattern>
 	</filter-mapping>
+	
+	<!-- 初始化Guice上下文的监听器 -->
+	<listener>
+		<listener-class>org.jrest.test.JRest4GuiceSampContextListener</listener-class>
+	</listener>
 
 	<!-- 方式（1） -->
 	<!-- 以Filter方式处理所有Restful请求 -->
@@ -31,28 +36,6 @@
 		<init-param>
 			<param-name>extNameExcludes</param-name>
 			<param-value>gzjs,zip</param-value>
-		</init-param>
-		<!-- 是否使用JPA -->
-		<init-param>
-			<param-name>useJPA</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<!-- 是否使用DAO -->
-		<init-param>
-			<param-name>useDAO</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<!-- 注册自动扫描的监听器，多个之前用","隔开 -->
-		<!-- 
-		<init-param>
-			<param-name>scanListeners</param-name>
-			<param-value>XXX</param-value>
-		</init-param>
-		-->
-		<!-- 需要被自动扫描的包名，多个包名之间用","隔开 -->
-		<init-param>
-			<param-name>resource-package</param-name>
-			<param-value>org.jrest.test</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>
@@ -66,10 +49,6 @@
 	<servlet>
 		<servlet-name>JRestRequestServlet</servlet-name>
 		<servlet-class>org.jrest.rest.JRestRequestServlet</servlet-class>
-		<init-param>
-			<param-name>resource-package</param-name>
-			<param-value>org.jrest.test</param-value>
-		</init-param>
 	</servlet>
 	
 	<servlet-mapping>
