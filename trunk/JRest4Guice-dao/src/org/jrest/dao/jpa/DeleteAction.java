@@ -2,12 +2,12 @@ package org.jrest.dao.jpa;
 
 import javax.persistence.EntityManager;
 
-import org.jrest.dao.actions.AbstractAction;
+import org.jrest.dao.actions.ActionTemplate;
 import org.jrest.dao.annotations.Delete;
 
 import com.google.inject.Inject;
 
-public class DeleteAction extends AbstractAction<Delete, JpaContext> {
+public class DeleteAction extends ActionTemplate<Delete, JpaContext> {
 
 	@Override
 	public Object execute(Object[] parameters) {

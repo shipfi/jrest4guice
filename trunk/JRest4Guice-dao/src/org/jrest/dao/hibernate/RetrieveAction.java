@@ -3,12 +3,12 @@ package org.jrest.dao.hibernate;
 import java.io.Serializable;
 
 import org.hibernate.Session;
-import org.jrest.dao.actions.AbstractAction;
+import org.jrest.dao.actions.ActionTemplate;
 import org.jrest.dao.annotations.Retrieve;
 
 import com.google.inject.Inject;
 
-public class RetrieveAction extends AbstractAction<Retrieve, HibernateContext> {
+public class RetrieveAction extends ActionTemplate<Retrieve, HibernateContext> {
 
 	@Override
 	public Object execute(Object[] parameters) {

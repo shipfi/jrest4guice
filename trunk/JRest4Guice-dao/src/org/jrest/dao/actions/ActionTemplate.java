@@ -2,7 +2,7 @@ package org.jrest.dao.actions;
 
 import java.lang.reflect.Method;
 
-public abstract class AbstractAction<A, T extends ActionContext> implements Action<A, T> {
+public abstract class ActionTemplate<A, T extends ActionContext> implements Action<A, T> {
 
 	protected A annotation;
 	protected T context;
@@ -11,7 +11,7 @@ public abstract class AbstractAction<A, T extends ActionContext> implements Acti
 	protected Class<T> contextClass;
 	protected Class<A> annotationClass;
 
-	public AbstractAction() {
+	public ActionTemplate() {
 		this.initialize();
 	}
 

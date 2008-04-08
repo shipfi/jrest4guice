@@ -13,7 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.jrest.dao.actions.AbstractAction;
+import org.jrest.dao.actions.ActionTemplate;
 import org.jrest.dao.annotations.Find;
 import org.jrest.dao.annotations.Find.FirstResult;
 import org.jrest.dao.annotations.Find.MaxResults;
@@ -21,7 +21,7 @@ import org.jrest.dao.annotations.Find.MaxResults;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-public class FindAction extends AbstractAction<Find, HibernateContext> {
+public class FindAction extends ActionTemplate<Find, HibernateContext> {
 
 	protected final static Log log = LogFactory.getLog(FindAction.class);
 

@@ -2,12 +2,12 @@ package org.jrest.dao.jpa;
 
 import javax.persistence.EntityManager;
 
-import org.jrest.dao.actions.AbstractAction;
+import org.jrest.dao.actions.ActionTemplate;
 import org.jrest.dao.annotations.Update;
 
 import com.google.inject.Inject;
 
-public class UpdateAction extends AbstractAction<Update, JpaContext> {
+public class UpdateAction extends ActionTemplate<Update, JpaContext> {
 
 	@Override
 	public Object execute(Object[] parameters) {

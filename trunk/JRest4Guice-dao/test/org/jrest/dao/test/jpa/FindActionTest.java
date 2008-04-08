@@ -5,7 +5,10 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.jrest.dao.DaoContext;
+import org.jrest.core.guice.GuiceContext;
+import org.jrest.core.persist.jpa.JpaGuiceModuleProvider;
+import org.jrest.dao.DaoModuleProvider;
+import org.jrest.dao.jpa.JpaContextProvider;
 import org.jrest.dao.test.entities.Author;
 import org.jrest.dao.test.entities.Book;
 import org.jrest.dao.test.entities.PackingInfo;
@@ -13,20 +16,19 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class FindActionTest {
-
+	
 	private static BookDao dao;
-
+	
+	@SuppressWarnings("unchecked")
 	@BeforeClass
 	public static void setup() {
-		// GuiceContext guice = GuiceContext.getInstance();
-		// guice.useJPA().useDAO().init(Arrays.asList(new String[] {
-		// "org.jrest.dao.test.jpa" }), Arrays
-		// .asList(new ClassScanListener[] { new DaoScanListener() }));
-		DaoContext context = DaoContext.getInstance();
-		context.addScanPaths("org.jrest.dao.jpa", "org.jrest.dao.test.jpa");
-		context.init();
+		GuiceContext context = GuiceContext.getInstance();
+		context.addModuleProvider(
+		        (new DaoModuleProvider("org.jrest.dao.test.jpa", "org.jrest.dao.jpa"))
+		                .addActionContextProviders(new JpaContextProvider()),
+		        new JpaGuiceModuleProvider()).init();
 		dao = context.getBean(BookDao.class);
-
+		
 		Book b0 = getNewBook("Book 0", 10f, 10);
 		Book b1 = getNewBook("Book 1", 10f, 20);
 		Book b2 = getNewBook("Book 2", 10f, 30);
@@ -49,38 +51,38 @@ public class FindActionTest {
 		Assert.assertNotNull(b8.getId());
 		Assert.assertNotNull(b9.getId());
 	}
-
+	
 	@Test
 	public void testFindPriceMoreThan() {
 		List<Book> books = dao.findPriceMoreThan(10f);
 		Assert.assertEquals(5, books.size());
 	}
-
+	
 	@Test
 	public void testFindLengthLessThan() {
 		List<Book> books = dao.findLengthLessThan(60);
 		Assert.assertEquals(5, books.size());
 	}
-
+	
 	@Test
 	public void testFindPriceAndLengthEqual() {
 		List<Book> books = dao.findPriceAndLengthEqual(10f, 50);
 		Assert.assertEquals(1, books.size());
 	}
-
+	
 	private static Book getNewBook(String title, float price, int length) {
 		PackingInfo info = new PackingInfo("平装", "铜版纸", length);
 		List<Author> authors = new ArrayList<Author>();
 		authors.add(new Author("gzYangfan"));
-
+		
 		Book book = new Book();
 		book.setTitle(title);
 		book.setSummary("java");
 		book.setPrice(price);
 		book.setPackingInfo(info);
 		book.setAuthors(authors);
-
+		
 		return book;
 	}
-
+	
 }

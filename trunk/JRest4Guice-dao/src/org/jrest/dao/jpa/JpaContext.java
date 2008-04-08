@@ -10,14 +10,18 @@ import org.jrest.dao.actions.ActionContext;
 
 import com.google.inject.Inject;
 
+/**
+ * JPA环境的<code>ActionContext</code>实现
+ * @author <a href="mailto:gzyangfan@gmail.com">gzYangfan</a>
+ */
 @SuppressWarnings("unchecked")
 public class JpaContext implements ActionContext {
-
+	
 	@Inject
 	private EntityManager entityManager;
 	private Action action;
 	private boolean withoutService = false;
-
+	
 	@Override
 	public Object execute(Method method, Object[] parameters) throws Throwable {
 		if (!withoutService)
@@ -35,20 +39,20 @@ public class JpaContext implements ActionContext {
 			}
 		}
 	}
-
+	
 	@Override
 	public void setAction(Action action) {
 		this.action = action;
 	}
-
+	
 	public EntityManager getEntityManager() {
 		return entityManager;
 	}
-
+	
 	public boolean isWithoutService() {
 		return withoutService;
 	}
-
+	
 	public void setWithoutService(boolean withoutService) {
 		this.withoutService = withoutService;
 	}
