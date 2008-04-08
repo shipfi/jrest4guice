@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jrest.dao.actions.Action;
 import org.jrest.dao.actions.ActionContext;
+import org.jrest.dao.actions.ActionRegister;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -25,7 +26,7 @@ public class DynamicProxy implements InvocationHandler {
 	private final static Log log = LogFactory.getLog(DynamicProxy.class);
 
 	@Inject
-	private Register register;
+	private ActionRegister register;
 
 	/**
 	 * 创建指定 DAO 接口的代理实现类

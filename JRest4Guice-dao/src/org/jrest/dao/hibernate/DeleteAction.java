@@ -1,12 +1,12 @@
 package org.jrest.dao.hibernate;
 
 import org.hibernate.Session;
-import org.jrest.dao.actions.AbstractAction;
+import org.jrest.dao.actions.ActionTemplate;
 import org.jrest.dao.annotations.Delete;
 
 import com.google.inject.Inject;
 
-public class DeleteAction extends AbstractAction<Delete, HibernateContext> {
+public class DeleteAction extends ActionTemplate<Delete, HibernateContext> {
 
 	@Override
 	public Object execute(Object[] parameters) {

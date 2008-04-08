@@ -1,12 +1,12 @@
 package org.jrest.dao.hibernate;
 
 import org.hibernate.Session;
-import org.jrest.dao.actions.AbstractAction;
+import org.jrest.dao.actions.ActionTemplate;
 import org.jrest.dao.annotations.Update;
 
 import com.google.inject.Inject;
 
-public class UpdateAction extends AbstractAction<Update, HibernateContext> {
+public class UpdateAction extends ActionTemplate<Update, HibernateContext> {
 
 	@Override
 	public Object execute(Object[] parameters) {

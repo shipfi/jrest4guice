@@ -2,12 +2,12 @@ package org.jrest.dao.jpa;
 
 import javax.persistence.EntityManager;
 
-import org.jrest.dao.actions.AbstractAction;
+import org.jrest.dao.actions.ActionTemplate;
 import org.jrest.dao.annotations.Create;
 
 import com.google.inject.Inject;
 
-public class CreateAction extends AbstractAction<Create, JpaContext> {
+public class CreateAction extends ActionTemplate<Create, JpaContext> {
 
 	@Override
 	public Object execute(Object[] parameters) {
