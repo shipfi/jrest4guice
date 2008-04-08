@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jrest.core.guice.AbstractGuiceModuleProvider;
+import org.jrest.core.guice.ModuleProviderTemplate;
 import org.jrest.rest.annotation.Restful;
 import org.jrest.rest.http.HttpRequestProvider;
 import org.jrest.rest.http.HttpResponseProvider;
@@ -18,7 +18,7 @@ import com.google.inject.Binder;
 import com.google.inject.Module;
 
 @SuppressWarnings("unchecked")
-public class JRestGuiceModuleProvider extends AbstractGuiceModuleProvider {
+public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 	public JRestGuiceModuleProvider(String[] packages) {
 		super(packages);
 	}
