@@ -6,7 +6,7 @@ import javax.servlet.ServletContextListener;
 import org.jrest.core.guice.GuiceContext;
 import org.jrest.core.persist.jpa.JpaGuiceModuleProvider;
 import org.jrest.core.transaction.TransactionGuiceModuleProvider;
-import org.jrest.dao.DaoGuiceModuleProvider;
+import org.jrest.dao.DaoModuleProvider;
 import org.jrest.rest.JRestGuiceModuleProvider;
 
 public class JRest4GuiceSampContextListener implements ServletContextListener {
@@ -22,7 +22,7 @@ public class JRest4GuiceSampContextListener implements ServletContextListener {
 				.addModuleProvider(new TransactionGuiceModuleProvider())
 				.addModuleProvider(new JpaGuiceModuleProvider())
 				.addModuleProvider(
-						new DaoGuiceModuleProvider(
+						new DaoModuleProvider(
 								new String[] { "org.jrest.test.dao" })).init();
 	}
 }
