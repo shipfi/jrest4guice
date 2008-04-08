@@ -6,12 +6,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import org.jrest.core.guice.AbstractGuiceModuleProvider;
+import org.jrest.core.guice.ModuleProviderTemplate;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
 
-public class JpaGuiceModuleProvider extends AbstractGuiceModuleProvider{
+public class JpaGuiceModuleProvider extends ModuleProviderTemplate{
 	@Override
 	public List<Module> getModules() {
 		List<Module> modules = new ArrayList<Module>(0);

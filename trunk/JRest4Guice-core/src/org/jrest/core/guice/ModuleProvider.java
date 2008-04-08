@@ -1,17 +1,24 @@
 package org.jrest.core.guice;
 
+import java.util.Collection;
+
 import com.google.inject.Module;
 
 /**
- * Module 提供者接口<br>
- * 用于实现不同模块需要与 Guice 绑定的配置信息
+ * 模块提供者 接口
  * @author <a href="mailto:gzyangfan@gmail.com">gzYangfan</a>
  */
 public interface ModuleProvider {
-
+	
 	/**
-	 * 获取 模块配置信息
+	 * 设置 需要扫描的程序包
+	 * @param packages 程序包
+	 */
+	void addScanPackages(String... packages);
+	
+	/**
+	 * 获取 该模块的模块配置信息集合
 	 * @return
 	 */
-	Module getModule();
+	Collection<? extends Module> getModules();
 }

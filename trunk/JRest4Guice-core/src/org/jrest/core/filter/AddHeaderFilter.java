@@ -14,17 +14,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@SuppressWarnings("unchecked")
 public class AddHeaderFilter implements Filter {
 	private final Map headers = new HashMap();
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see javax.servlet.Filter#destroy()
 	 */
 	public void destroy() {
 	}
-
+	
 	/**
 	 * @modelMap request
 	 * @modelMap response
@@ -32,37 +32,31 @@ public class AddHeaderFilter implements Filter {
 	 * @throws IOException
 	 * @throws ServletException
 	 */
-	public void doFilter(final HttpServletRequest request,
-			final HttpServletResponse response, final FilterChain chain)
-			throws IOException, ServletException {
-		for (final Iterator it = this.headers.entrySet().iterator(); it
-				.hasNext();) {
+	public void doFilter(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain)
+	        throws IOException, ServletException {
+		for (final Iterator it = headers.entrySet().iterator(); it.hasNext();) {
 			final Map.Entry entry = (Map.Entry) it.next();
-			response.addHeader((String) entry.getKey(), (String) entry
-					.getValue());
+			response.addHeader((String) entry.getKey(), (String) entry.getValue());
 		}
 		chain.doFilter(request, response);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
 	 *      javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
-	public void doFilter(final ServletRequest req, final ServletResponse res,
-			final FilterChain chain) throws IOException, ServletException {
+	public void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain)
+	        throws IOException, ServletException {
 		if (req instanceof HttpServletRequest) {
-			this.doFilter((HttpServletRequest) req, (HttpServletResponse) res,
-					chain);
+			this.doFilter((HttpServletRequest) req, (HttpServletResponse) res, chain);
 		} else {
 			chain.doFilter(req, res);
 		}
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
 	 */
 	public void init(final FilterConfig config) throws ServletException {

@@ -31,7 +31,27 @@ public abstract class Assert {
 	 * @throws IllegalArgumentException
 	 */
 	public static void isTrue(boolean expression) {
-		isTrue(expression, "[断言失败] - 表达式必须为真");
+		isTrue(expression, "[断言失败] - 表达式值必须为真");
+	}
+	
+	/**
+	 * 断言 布尔值表达式为假
+	 * @param expression 表达式
+	 * @param message 失败信息
+	 * @throws IllegalArgumentException
+	 */
+	public static void isFalse(boolean expression, String message) {
+		if (expression)
+			throw new IllegalArgumentException(message);
+	}
+	
+	/**
+	 * 断言 布尔值表达式为假
+	 * @param expression 表达式
+	 * @throws IllegalArgumentException
+	 */
+	public static void isFalse(boolean expression) {
+		isTrue(expression, "[断言失败] - 表达式值必须为假");
 	}
 	
 	/**
