@@ -2,7 +2,12 @@ package org.jrest.dao.actions;
 
 import java.lang.reflect.Method;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public abstract class ActionTemplate<A, T extends ActionContext> implements Action<A, T> {
+
+	protected final Log log = LogFactory.getLog(this.getClass());
 
 	protected A annotation;
 	protected T context;
