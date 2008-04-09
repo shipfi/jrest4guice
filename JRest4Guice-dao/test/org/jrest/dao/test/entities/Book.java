@@ -30,7 +30,9 @@ import org.hibernate.annotations.IndexColumn;
 @Table(name = "book")
 @NamedQueries({
 	@NamedQuery(name = "Book.lengthMoreThan", 
-			query = "from Book b where b.packingInfo.length > :length")
+		query = "from Book b where b.packingInfo.length > :length"),
+	@NamedQuery(name = "Book.loadByTitle", 
+		query = "from Book b where b.title = :title")
 })
 public class Book extends AbstractEntity {
 

@@ -10,21 +10,28 @@ import java.lang.annotation.Target;
  * @author <a href="mailto:gzyangfan@gmail.com">gzYangfan</a>
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target( { ElementType.METHOD })
 public @interface Find {
 	
+	/** 查询语句 */
 	String query() default "";
+	
+	/** 命名查询名 */
 	String namedQuery() default "";
+	
+	/** 查询是否原生SQL */
 	boolean nativeQuery() default false;
+	
+	/** 返回对象类型 */
 	Class<?> resultClass() default void.class;
 	
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ElementType.PARAMETER})
+	@Target( { ElementType.PARAMETER })
 	public @interface FirstResult {
 	}
-
+	
 	@Retention(RetentionPolicy.RUNTIME)
-	@Target({ElementType.PARAMETER})
+	@Target( { ElementType.PARAMETER })
 	public @interface MaxResults {
 	}
 }
