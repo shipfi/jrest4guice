@@ -1,5 +1,7 @@
 package org.jrest.dao.test.jpa;
 
+import java.io.Serializable;
+
 import org.jrest.dao.annotations.Dao;
 import org.jrest.dao.annotations.Retrieve;
 import org.jrest.dao.test.entities.Book;
@@ -9,13 +11,16 @@ import com.google.inject.name.Named;
 
 @Dao
 public interface RetrieveDao {
-
+	
 	@Retrieve
 	Book loadByPk(String id);
-
+	
+	@Retrieve
+	Book loadByTitle(@Named("title")String title);
+	
 	@Retrieve(query = "from Book b where b.title = ?")
 	Book loadByQuery(String title);
-
+	
 	@Retrieve(namedQuery = "Book.loadByTitle")
 	Book loadByNamedQuery(@Named("title")String title);
 
