@@ -1,7 +1,5 @@
 package org.jrest.dao.test.jpa;
 
-import java.io.Serializable;
-
 import org.jrest.dao.annotations.Dao;
 import org.jrest.dao.annotations.Retrieve;
 import org.jrest.dao.test.entities.Book;
