@@ -1,4 +1,4 @@
-package org.jrest.sample;
+package org.jrest.sample.listener;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
