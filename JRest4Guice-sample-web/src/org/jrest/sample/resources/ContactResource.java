@@ -11,7 +11,7 @@ import org.jrest.sample.service.ContactService;
 import com.google.inject.Inject;
 
 @Restful(uri = { "/contact", "/contact/{contactId}" })
-public class ContactController {
+public class ContactResource {
 	@Inject
 	private ContactService service;
 
