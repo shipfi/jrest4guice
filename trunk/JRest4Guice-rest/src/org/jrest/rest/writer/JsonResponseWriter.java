@@ -9,7 +9,7 @@ public class JsonResponseWriter extends TextResponseWriter {
 	}
 
 	@Override
-	public String getMimiType() {
+	public String getMimeType() {
 		return "application/json";
 	}
 }

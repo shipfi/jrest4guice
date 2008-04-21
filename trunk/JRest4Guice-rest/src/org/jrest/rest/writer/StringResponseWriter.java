@@ -9,7 +9,7 @@ public class StringResponseWriter extends TextResponseWriter {
 	}
 
 	@Override
-	public String getMimiType() {
+	public String getMimeType() {
 		return "text/plain,*/*";
 	}
 }

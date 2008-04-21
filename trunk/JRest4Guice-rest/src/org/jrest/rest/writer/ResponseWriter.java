@@ -10,5 +10,5 @@ public interface ResponseWriter {
 	 */
 	public abstract void writeResult(Object result, String charset);
 	
-	public String getMimiType();
+	public String getMimeType();
 }
