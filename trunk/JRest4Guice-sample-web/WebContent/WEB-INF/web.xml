@@ -24,7 +24,7 @@
 	
 	<!-- 初始化Guice上下文的监听器 -->
 	<listener>
-		<listener-class>org.jrest.test.JRest4GuiceSampContextListener</listener-class>
+		<listener-class>org.jrest.sample.JRest4GuiceSampContextListener</listener-class>
 	</listener>
 
 	<!-- 方式（1） -->

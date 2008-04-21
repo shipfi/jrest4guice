@@ -8,9 +8,9 @@ import org.jrest.core.guice.GuiceContext;
 import org.jrest.core.persist.jpa.JpaGuiceModuleProvider;
 import org.jrest.core.transaction.TransactionGuiceModuleProvider;
 import org.jrest.dao.DaoModuleProvider;
-import org.jrest.test.dao.ContactDao;
-import org.jrest.test.entity.Contact;
-import org.jrest.test.service.impl.ContactServiceBeanWithoutDao;
+import org.jrest.sample.dao.ContactDao;
+import org.jrest.sample.entity.Contact;
+import org.jrest.sample.service.impl.ContactServiceBeanWithoutDao;
 import org.junit.Test;
 
 public class TestDaoCase {
@@ -42,7 +42,7 @@ public class TestDaoCase {
 		GuiceContext guice = GuiceContext.getInstance();
 		// 初始化Guice上下文
 		guice.addModuleProvider(new TransactionGuiceModuleProvider()).addModuleProvider(new JpaGuiceModuleProvider())
-		        .addModuleProvider(new DaoModuleProvider("org.jrest.test.dao"));
+		        .addModuleProvider(new DaoModuleProvider("org.jrest.sample.dao"));
 		
 		// 从Guice上下文中获取联系人DAO实例
 		ContactDao dao = guice.getBean(ContactDao.class);

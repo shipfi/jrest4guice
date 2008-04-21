@@ -1,4 +1,4 @@
-package org.jrest.test;
+package org.jrest.sample;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -17,11 +17,11 @@ public class JRest4GuiceSampContextListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		GuiceContext.getInstance().addModuleProvider(
-				new JRestGuiceModuleProvider("org.jrest.test.controller"))
+				new JRestGuiceModuleProvider("org.jrest.sample.resources"))
 				.addModuleProvider(new TransactionGuiceModuleProvider())
 				.addModuleProvider(new JpaGuiceModuleProvider())
 				.addModuleProvider(
 						new DaoModuleProvider(
-								new String[] { "org.jrest.test.dao" })).init();
+								new String[] { "org.jrest.sample.dao" })).init();
 	}
 }

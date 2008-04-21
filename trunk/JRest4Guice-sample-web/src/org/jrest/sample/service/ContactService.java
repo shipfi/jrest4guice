@@ -1,9 +1,9 @@
-package org.jrest.test.service;
+package org.jrest.sample.service;
 
 import java.util.List;
 
-import org.jrest.test.entity.Contact;
-import org.jrest.test.service.impl.ContactServiceBeanWithoutDao;
+import org.jrest.sample.entity.Contact;
+import org.jrest.sample.service.impl.ContactServiceBeanWithoutDao;
 
 import com.google.inject.ImplementedBy;
 

@@ -1,4 +1,4 @@
-package org.jrest.test.entity;
+package org.jrest.sample.entity;
 
 import java.io.Serializable;
 import java.sql.Time;
