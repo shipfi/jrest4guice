@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ConsumeMime {
 	/**
-	 * MIME 类型集合. E.g. {"image/jpeg","image/gif"}
+	 * MIME 类型集合. E.g. "application/json，application/xml"
 	 */
-	String[] value() default "*/*";
+	String[] value() default MimeType.MIME_OF_JSON;
 }
