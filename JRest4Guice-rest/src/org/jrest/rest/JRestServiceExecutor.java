@@ -10,17 +10,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.jrest.core.util.ParameterNameDiscoverer;
 import org.jrest.rest.annotation.HttpMethod;
 import org.jrest.rest.annotation.HttpMethodType;
+import org.jrest.rest.annotation.MimeType;
 import org.jrest.rest.annotation.ModelBean;
+import org.jrest.rest.annotation.ProduceMime;
 import org.jrest.rest.annotation.RequestParameter;
 import org.jrest.rest.http.HttpContextManager;
+import org.jrest.rest.http.HttpResult;
 import org.jrest.rest.http.ModelMap;
+
+import com.google.inject.Inject;
 
 @SuppressWarnings("unchecked")
 public class JRestServiceExecutor {
+	@Inject
+	private HttpServletRequest request;
+	@Inject
+	private HttpServletResponse response;
+
 	private static Map<String, Map<HttpMethodType, Method>> restServiceBundles = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
 
@@ -31,7 +44,8 @@ public class JRestServiceExecutor {
 	 * @modelMap methodType
 	 * @return
 	 */
-	public static Object execute(Object service, HttpMethodType methodType) {
+	public Object execute(Object service, HttpMethodType methodType,
+			String charset) {
 		Object result = null;
 		String name = service.getClass().getName();
 		if (!restServiceBundles.containsKey(name)) {
@@ -43,15 +57,19 @@ public class JRestServiceExecutor {
 				if (m.isAnnotationPresent(HttpMethod.class)) {
 					HttpMethod annotation = m.getAnnotation(HttpMethod.class);
 					HttpMethodType type = annotation.type();
-					if(type == HttpMethodType.DEFAULT){
+					if (type == HttpMethodType.DEFAULT) {
 						String methodName = m.getName();
-						if(methodName.startsWith(RequestProcessor.METHOD_OF_GET)){
+						if (methodName
+								.startsWith(RequestProcessor.METHOD_OF_GET)) {
 							type = HttpMethodType.GET;
-						}else if(methodName.startsWith(RequestProcessor.METHOD_OF_POST)){
+						} else if (methodName
+								.startsWith(RequestProcessor.METHOD_OF_POST)) {
 							type = HttpMethodType.POST;
-						}else if(methodName.startsWith(RequestProcessor.METHOD_OF_PUT)){
+						} else if (methodName
+								.startsWith(RequestProcessor.METHOD_OF_PUT)) {
 							type = HttpMethodType.PUT;
-						}else if(methodName.startsWith(RequestProcessor.METHOD_OF_DELETE)){
+						} else if (methodName
+								.startsWith(RequestProcessor.METHOD_OF_DELETE)) {
 							type = HttpMethodType.DELETE;
 						}
 					}
@@ -63,9 +81,9 @@ public class JRestServiceExecutor {
 		}
 
 		Method method = restServiceBundles.get(name).get(methodType);
-		if(method == null)
+		if (method == null)
 			return null;
-		
+
 		ModelMap modelMap = HttpContextManager.getModelMap();
 		if (method != null) {
 			try {
@@ -107,18 +125,82 @@ public class JRestServiceExecutor {
 				// 执行业务方法
 				result = method.invoke(service, params.size() > 0 ? params
 						.toArray() : null);
+				writeResult(charset, result, method);
+
 			} catch (Exception e) {
-				e.printStackTrace();
+				writeResult(charset, e.getMessage(), method);
 			}
 		}
 
 		return result;
 	}
-
-	private static Object convertValue(Object value, Class type) {
-		if(value == null)
-			return null;
+	
+	/**
+	 * 根据服务方法中申明的返回类型与请求中的数据返回类型来输出数据到客户端，如果指定的返回类型不存在，则向客户端写回异常
+	 * @param charset	字符编码
+	 * @param result	要写加的结果
+	 * @param method	当前调用的服务方法
+	 */
+	private void writeResult(String charset, Object result, Method method) {
+		Class<?> returnType = method.getReturnType();
+		if (returnType.getName().toLowerCase().equals("void")) {
+			return;
+		}
 		
+		//缺省的返回类型是JSON
+		String mimeType = MimeType.MIME_OF_JSON;
+		
+		//获取客户端中的请求数据类型
+		String accepts = request.getHeader("accept").toLowerCase();
+		
+		//获取服务方法上的数据返回类型
+		if (method.isAnnotationPresent(ProduceMime.class)) {
+			ProduceMime pmAnnotation = method.getAnnotation(ProduceMime.class);
+			String[] mimeTypes = pmAnnotation.value();
+			String tmpMime = null;
+			for (String mime : mimeTypes) {
+				if (accepts.indexOf(mime) != -1) {
+					tmpMime = mime;
+					break;
+				}
+			}
+			//如果没有符合条件的返回类型，则检查客户请求中是否包含了”*/*",的数据类型
+			if(tmpMime == null && accepts.indexOf(MimeType.MIME_OF_ALL)==-1){
+				mimeType = null;
+			}else
+				mimeType = tmpMime;
+		}
+
+		String resultValue = "";
+		
+		if(mimeType == null){//如果不存在指定的返回类型数据，系统向客户端写回异常
+			resultValue = HttpResult.createFailedHttpResult("服务端没有提供{"+accepts+"}类型的数据返回").toJson();
+		}else{
+			if (mimeType.equalsIgnoreCase(MimeType.MIME_OF_JSON)) {
+				resultValue = HttpResult.createSuccessfulHttpResult(result)
+						.toJson();
+			} else if (mimeType.equalsIgnoreCase(MimeType.MIME_OF_XML)) {
+				resultValue = HttpResult.createSuccessfulHttpResult(result).toXML();
+			} else {
+				resultValue = HttpResult.createSuccessfulHttpResult(result)
+						.toTextPlain();
+			}
+		}
+		
+		//向客户端写回结果数据
+		new ResponseWriter().writeResult(response, resultValue, charset);
+	}
+	
+	/**
+	 * 转换参数值到指定的类型
+	 * @param value
+	 * @param type
+	 * @return
+	 */
+	private Object convertValue(Object value, Class type) {
+		if (value == null)
+			return null;
+
 		if (type == Date.class) {
 			value = new Date(value.toString());
 		} else if (type == String.class) {
