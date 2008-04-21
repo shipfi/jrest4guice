@@ -10,5 +10,9 @@ public interface ResponseWriter {
 	 */
 	public abstract void writeResult(Object result, String charset);
 	
+	/**
+	 * 返回当前Writer所对应的Mime类型
+	 * @return
+	 */
 	public String getMimeType();
 }
