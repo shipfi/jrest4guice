@@ -63,7 +63,7 @@ public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 						try {
 							ResponseWriter writer = (ResponseWriter) clazz
 									.newInstance();
-							mimiType = writer.getMimiType();
+							mimiType = writer.getMimeType();
 							mimiTypes = mimiType.split(",");
 							for (String mt : mimiTypes) {
 								if (!mt.trim().equals(""))
