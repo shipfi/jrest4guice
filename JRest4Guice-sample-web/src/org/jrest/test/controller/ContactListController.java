@@ -16,7 +16,7 @@ public class ContactListController {
 	private ContactService service;
 
 	@HttpMethod(type = HttpMethodType.GET)
-	@ProduceMime({"application/json", "application/xml","text/plain"})
+	@ProduceMime({"application/json"})
 	public List getContact(int first, int max) {
 		return this.service.listContacts(first, max);
 	}
