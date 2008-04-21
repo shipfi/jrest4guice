@@ -57,7 +57,7 @@ function deleteContact(id,name){
 		type:"DELETE",
 		dataType:'json',
 		success:function(json){
-			if(!json.errorType)
+			if(!json.errorMessage)
 				getContactList();
 		}
 	})	
@@ -80,7 +80,8 @@ function doSave(){
 		data:_data,
 		ifModified:true,
 		success:function(json){
-			if(!json.errorType)
+			alert(json.errorMessage);
+			if(!json.errorMessage)
 				getContactList();
 			else
 				alert(json.errorMessage)
