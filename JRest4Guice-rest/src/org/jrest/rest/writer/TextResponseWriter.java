@@ -20,7 +20,7 @@ public abstract class TextResponseWriter implements ResponseWriter {
 	 */
 	public void writeResult(Object result,String charset) {
 		if (result == null)
-			return;
+			result = "";
 		
 		String textContent = this.generateTextContent(result);
 		
