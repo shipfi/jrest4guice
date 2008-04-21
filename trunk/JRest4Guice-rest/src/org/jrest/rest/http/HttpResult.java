@@ -3,7 +3,6 @@ package org.jrest.rest.http;
 import net.sf.json.JSONObject;
 
 public class HttpResult {
-	private String errorType;
 	private String errorMessage;
 
 	/**
@@ -20,23 +19,14 @@ public class HttpResult {
 	 */
 	private Object content;
 
-	public HttpResult(String errorCode, String errorMessage) {
+	public HttpResult(String errorMessage) {
 		super();
-		this.errorType = errorCode;
 		this.errorMessage = errorMessage;
 	}
 
 	public HttpResult(Object content) {
 		super();
 		this.content = content;
-	}
-
-	public String getErrorType() {
-		return errorType;
-	}
-
-	public void setErrorType(String errorCode) {
-		this.errorType = errorCode;
 	}
 
 	public String getErrorMessage() {
@@ -55,6 +45,14 @@ public class HttpResult {
 		this.content = content;
 	}
 
+	public String toTextPlain() {
+		return this.content.toString();
+	}
+
+	public String toXML() {
+		return JSONObject.fromObject(this).toString();
+	}
+
 	public String toJson() {
 		return JSONObject.fromObject(this).toString();
 	}
@@ -68,8 +66,7 @@ public class HttpResult {
 		return new HttpResult(content);
 	}
 
-	public static HttpResult createFailedHttpResult(String errorCode,
-			String errorMessage) {
-		return new HttpResult(errorCode, errorMessage);
+	public static HttpResult createFailedHttpResult(String errorMessage) {
+		return new HttpResult(errorMessage);
 	}
 }

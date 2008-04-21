@@ -5,11 +5,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
+@Target( { ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface HttpMethod {
-	HttpMethodType type() default HttpMethodType.DEFAULT;
-	String errorMsg() default "";
-	String successMsg() default "";
+public @interface ProduceMime {
+	/**
+	 * MIME 类型集合. E.g. "image/jpeg,image/gif"
+	 */
+	String[] value() default "*/*";
 }

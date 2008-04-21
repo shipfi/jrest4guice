@@ -2,9 +2,7 @@ package org.jrest.rest;
 
 import java.io.BufferedReader;
 import java.io.CharArrayWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Enumeration;
@@ -14,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jrest.core.guice.GuiceContext;
 import org.jrest.rest.annotation.HttpMethodType;
 import org.jrest.rest.http.HttpContextManager;
 import org.jrest.rest.http.JRestContext;
@@ -26,21 +25,23 @@ public class RequestProcessor {
 	public static final String METHOD_OF_POST = "post";
 	public static final String METHOD_OF_PUT = "put";
 	public static final String METHOD_OF_DELETE = "delete";
-	
+
 	private String charset;
-	
+
 	/**
 	 * 处理来自客户端的请求
+	 * 
 	 * @param servletReqest
 	 * @param servletResponse
 	 */
-	public void process(ServletRequest servletReqest,ServletResponse servletResponse){
+	public void process(ServletRequest servletReqest,
+			ServletResponse servletResponse) {
 		HttpServletRequest request = (HttpServletRequest) servletReqest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
-		
-		//获取字符编码
+
+		// 获取字符编码
 		charset = request.getCharacterEncoding();
-		if (charset == null || charset.trim().equals("")){
+		if (charset == null || charset.trim().equals("")) {
 			charset = "UTF-8";
 			try {
 				request.setCharacterEncoding(charset);
@@ -52,29 +53,27 @@ public class RequestProcessor {
 		uri = uri.replace(request.getContextPath(), "");
 
 		// REST资源的参数，这些参数都包含在URL中
-		ModelMap<String,String> params = new ModelMap<String, String>();
+		ModelMap<String, String> params = new ModelMap<String, String>();
 		// 设置上下文中的环境变量
 		HttpContextManager.setContext(request, response, params);
 		try {
 			// 从REST资源注册表中查找此URI对应的资源
 			Object service = JRestContext.getInstance().lookupResource(uri);
-			if (service != null){
+			if (service != null) {
+				JRestServiceExecutor exec = GuiceContext.getInstance().getBean(
+						JRestServiceExecutor.class);
 				// 填充参数
 				fillParameters(request, params);
 				// 根据不同的请求方法调用REST对象的不同方法
 				String method = request.getMethod();
 				if (METHOD_OF_GET.equalsIgnoreCase(method))
-					writeResult(response, JRestServiceExecutor.execute(service,
-							HttpMethodType.GET));
+					exec.execute(service, HttpMethodType.GET, charset);
 				else if (METHOD_OF_POST.equalsIgnoreCase(method))
-					writeResult(response, JRestServiceExecutor.execute(service,
-							HttpMethodType.POST));
+					exec.execute(service, HttpMethodType.POST, charset);
 				else if (METHOD_OF_PUT.equalsIgnoreCase(method))
-					writeResult(response, JRestServiceExecutor.execute(service,
-							HttpMethodType.PUT));
+					exec.execute(service, HttpMethodType.PUT, charset);
 				else if (METHOD_OF_DELETE.equalsIgnoreCase(method))
-					writeResult(response, JRestServiceExecutor.execute(service,
-							HttpMethodType.DELETE));
+					exec.execute(service, HttpMethodType.DELETE, charset);
 			}
 		} finally {
 			// 清除上下文中的环境变量
@@ -84,6 +83,7 @@ public class RequestProcessor {
 
 	/**
 	 * 填充参数
+	 * 
 	 * @modelMap request
 	 * @modelMap params
 	 */
@@ -129,23 +129,6 @@ public class RequestProcessor {
 			data.close();
 			in.close();
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * 向客户端写回服务端的输出结果
-	 * @param response
-	 * @param result
-	 */
-	private void writeResult(HttpServletResponse response, Object result) {
-		if (result == null)
-			return;
-		try {
-			response.setCharacterEncoding(charset);
-			PrintWriter out = response.getWriter();
-			out.println(result);
-		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
