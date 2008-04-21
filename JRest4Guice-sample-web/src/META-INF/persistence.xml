@@ -3,6 +3,7 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
              version="1.0">
+	<!--
 	<persistence-unit name="JPA4Guice" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>
@@ -17,8 +18,8 @@
 			<property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:1521:cnoss"/>
 		</properties>
 	</persistence-unit>
+	-->
 
-	<!--
 	<persistence-unit name="JPA4Guice" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>
@@ -33,6 +34,5 @@
 			<property name="hibernate.connection.url" value="jdbc:hsqldb:."/>
 		</properties>
 	</persistence-unit>
-	-->
 	
 </persistence>
