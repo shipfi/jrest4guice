@@ -21,7 +21,7 @@ import com.google.inject.Module;
 
 @SuppressWarnings("unchecked")
 public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
-	public JRestGuiceModuleProvider(String ... packages) {
+	public JRestGuiceModuleProvider(String... packages) {
 		super(packages);
 		this.addScanPackages("org.jrest.rest.writer");
 	}
@@ -68,7 +68,7 @@ public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 							for (String mt : mimiTypes) {
 								if (!mt.trim().equals(""))
 									register.registResponseWriter(mt.trim(),
-											writer);
+											clazz);
 							}
 						} catch (Exception e) {
 						}
