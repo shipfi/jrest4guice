@@ -1,29 +1,30 @@
-package org.jrest.test.service.impl;
+package org.jrest.sample.service.impl;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.jrest.core.transaction.annotations.Transactional;
-import org.jrest.test.dao.ContactDao;
-import org.jrest.test.entity.Contact;
-import org.jrest.test.service.ContactService;
+import org.jrest.sample.entity.Contact;
+import org.jrest.sample.service.ContactService;
 
 import com.google.inject.Inject;
 
 @SuppressWarnings("unchecked")
-public class ContactServiceBeanWithDao implements ContactService {
+public class ContactServiceBeanWithoutDao implements ContactService {
 	@Inject
-	private ContactDao dao;// 注入联系人DAO
+	private EntityManager em;
 
 	@Transactional
 	public String createContact(Contact contact) {
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");
 
-		if (this.dao.findContactByName(contact.getName())!= null) {
+		if (this.em.createNamedQuery("byName").setParameter("name", contact.getName()).getResultList().size() > 0) {
 			throw new RuntimeException("联系人的姓名相同，请重新输入");
 		}
 
-		this.dao.createContact(contact);
+		this.em.persist(contact);
 		return contact.getId();
 	}
 
@@ -33,22 +34,22 @@ public class ContactServiceBeanWithDao implements ContactService {
 		if (contact == null)
 			throw new RuntimeException("联系人不存在");
 
-		this.dao.deleteContact(contact);
+		this.em.remove(contact);
 	}
 
 	public Contact findContactById(String contactId) {
-		Contact contact = this.dao.findContactById(contactId);
+		Contact contact = this.em.find(Contact.class,contactId);
 		return contact;
 	}
 
 	public List<Contact> listContacts(int first, int max)
 			throws RuntimeException {
-		return this.dao.listContacts(first, max);
+		return this.em.createNamedQuery("list").setFirstResult(first).setMaxResults(max).getResultList();
 	}
 
 	public List<Contact> listContactByDate(Object time)
 			throws RuntimeException {
-		return this.dao.listContactsByDate(time);
+		return this.em.createNamedQuery("byDate").setParameter("changeDate", time).getResultList();
 	}
 
 	@Transactional
@@ -56,6 +57,6 @@ public class ContactServiceBeanWithDao implements ContactService {
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");
 
-		this.dao.updateContact(contact);
+		this.em.merge(contact);
 	}
 }
