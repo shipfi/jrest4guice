@@ -125,7 +125,10 @@ public class JRestServiceExecutor {
 				writeResult(charset, result, method);
 
 			} catch (Exception e) {
-				writeResult(charset, e.getMessage(), method);
+				if(e instanceof java.lang.IllegalArgumentException){
+					writeResult(charset, "调用"+method.getName()+"时出错: 原因是参数不完整!", method);
+				}else
+					writeResult(charset, e.getMessage(), method);
 			}
 		}
 
@@ -158,18 +161,12 @@ public class JRestServiceExecutor {
 		if (method.isAnnotationPresent(ProduceMime.class)) {
 			ProduceMime pmAnnotation = method.getAnnotation(ProduceMime.class);
 			String[] mimeTypes = pmAnnotation.value();
-			String tmpMime = null;
 			for (String mime : mimeTypes) {
 				if (accepts.indexOf(mime) != -1) {
-					tmpMime = mime;
+					mimeType = mime;
 					break;
 				}
 			}
-			// 如果没有符合条件的返回类型，则检查客户请求中是否包含了”*/*",的数据类型
-			if (tmpMime == null && accepts.indexOf(MimeType.MIME_OF_ALL) == -1) {
-				mimeType = null;
-			} else
-				mimeType = tmpMime;
 		}
 
 		if (mimeType == null) {// 如果不存在指定的返回类型数据，系统向客户端写回异常
