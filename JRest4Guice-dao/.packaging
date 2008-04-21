@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configurations>
+<archive destination="dist" exploded="false" name="JRest4Guice-dao.jar" used="true">
+<folder excludes="**/test/**" includes="**/*.class" location="bin" name="bin" prefix="" project="" projectLocation="/bin" used="true"/>
+<file location="src/META-INF/MANIFEST.MF" name="MANIFEST.MF" prefix="META-INF" project="" projectLocation="/src/META-INF/MANIFEST.MF" used="true"/>
+</archive>
+</configurations>
