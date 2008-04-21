@@ -41,7 +41,7 @@ public class JRestServiceExecutor {
 	 * @modelMap methodType
 	 * @return
 	 */
-	public Object execute(Object service, HttpMethodType methodType,
+	public void execute(Object service, HttpMethodType methodType,
 			String charset) {
 		Object result = null;
 		String name = service.getClass().getName();
@@ -79,7 +79,7 @@ public class JRestServiceExecutor {
 
 		Method method = restServiceBundles.get(name).get(methodType);
 		if (method == null)
-			return null;
+			return;
 
 		ModelMap modelMap = HttpContextManager.getModelMap();
 		if (method != null) {
@@ -122,6 +122,7 @@ public class JRestServiceExecutor {
 				// 执行业务方法
 				result = method.invoke(service, params.size() > 0 ? params
 						.toArray() : null);
+
 				writeResult(charset, result, method);
 
 			} catch (Exception e) {
@@ -131,8 +132,6 @@ public class JRestServiceExecutor {
 					writeResult(charset, e.getMessage(), method);
 			}
 		}
-
-		return result;
 	}
 
 	/**
@@ -146,11 +145,6 @@ public class JRestServiceExecutor {
 	 *            当前调用的服务方法
 	 */
 	private void writeResult(String charset, Object result, Method method) {
-		Class<?> returnType = method.getReturnType();
-		if (returnType.getName().toLowerCase().equals("void")) {
-			return;
-		}
-
 		// 缺省的返回类型是JSON
 		String mimeType = MimeType.MIME_OF_JSON;
 
