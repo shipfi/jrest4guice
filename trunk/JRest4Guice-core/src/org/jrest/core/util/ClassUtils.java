@@ -76,7 +76,7 @@ public class ClassUtils {
 
 	private static void findInJar(List<Class<?>> results, File file, String packageName) {
 		JarFile jarFile = null;
-		String packagePath = nameToPath(packageName) + File.separatorChar;
+		String packagePath = nameToPath(packageName) + "/";
 		try {
 			jarFile = new JarFile(file);
 			Enumeration<JarEntry> en = jarFile.entries();
