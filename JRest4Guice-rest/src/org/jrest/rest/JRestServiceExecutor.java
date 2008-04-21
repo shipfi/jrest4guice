@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.jrest.core.util.ParameterNameDiscoverer;
@@ -31,8 +30,6 @@ import com.google.inject.Inject;
 public class JRestServiceExecutor {
 	@Inject
 	private HttpServletRequest request;
-	@Inject
-	private HttpServletResponse response;
 
 	private static Map<String, Map<HttpMethodType, Method>> restServiceBundles = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
@@ -182,7 +179,7 @@ public class JRestServiceExecutor {
 
 		// 向客户端写回结果数据
 		ResponseWriterRegister.getInstance().getResponseWriter(mimeType)
-				.writeResult(response, result, charset);
+				.writeResult(result, charset);
 	}
 
 	/**

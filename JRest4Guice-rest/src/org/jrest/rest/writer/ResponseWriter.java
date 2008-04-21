@@ -1,6 +1,5 @@
 package org.jrest.rest.writer;
 
-import javax.servlet.http.HttpServletResponse;
 
 public interface ResponseWriter {
 
@@ -9,8 +8,7 @@ public interface ResponseWriter {
 	 * @param response
 	 * @param result
 	 */
-	public abstract void writeResult(HttpServletResponse response,
-			Object result, String charset);
+	public abstract void writeResult(Object result, String charset);
 	
 	public String getMimiType();
 }
