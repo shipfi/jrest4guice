@@ -1,6 +1,7 @@
 package org.jrest.rest;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -80,7 +81,9 @@ public class JRestServiceExecutor {
 		Method method = restServiceBundles.get(name).get(methodType);
 		if (method == null)
 			return;
-
+		
+		Exception exception = null;
+		
 		ModelMap modelMap = HttpContextManager.getModelMap();
 		if (method != null) {
 			try {
@@ -125,11 +128,19 @@ public class JRestServiceExecutor {
 
 				writeResult(charset, result, method);
 
+			} catch (RuntimeException e) {
+				exception = e;
 			} catch (Exception e) {
-				if(e instanceof java.lang.IllegalArgumentException){
-					writeResult(charset, "调用"+method.getName()+"时出错: 原因是参数不完整!", method);
-				}else
-					writeResult(charset, e.getMessage(), method);
+				exception = e;
+			}
+			
+			if(exception != null){
+				if(exception instanceof java.lang.IllegalArgumentException){
+					writeResult(charset, new Exception("调用"+method.getName()+"时出错: 原因是参数不完整!",exception), method);
+				}else if(exception instanceof java.lang.reflect.InvocationTargetException)
+					writeResult(charset, ((InvocationTargetException)exception).getTargetException(), method);
+				else
+					writeResult(charset, exception, method);
 			}
 		}
 	}
@@ -164,7 +175,7 @@ public class JRestServiceExecutor {
 		}
 
 		if (mimeType == null) {// 如果不存在指定的返回类型数据，系统向客户端写回异常
-			result = "服务端没有提供{" + accepts + "}类型的数据返回";
+			result = new Exception("服务端没有提供{" + accepts + "}类型的数据返回");
 			mimeType = MimeType.MIME_OF_ALL;
 		}
 

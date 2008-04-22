@@ -5,7 +5,7 @@ import org.jrest.rest.http.HttpResult;
 public class StringResponseWriter extends TextResponseWriter {
 	@Override
 	protected String generateTextContent(Object result) {
-		return HttpResult.createSuccessfulHttpResult(result).toTextPlain();
+		return HttpResult.createHttpResult(result).toTextPlain();
 	}
 
 	@Override
