@@ -19,8 +19,8 @@ public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 //		if(type == TransactionalType.REQUIRED){
 //		}
 		
-		System.out.println("current method : "+methodInvocation.getMethod());
-		System.out.println("current entityManager : "+entityManager);
+//		System.out.println("current method : "+methodInvocation.getMethod());
+//		System.out.println("current entityManager : "+entityManager);
 		
 		final EntityTransaction transaction = entityManager.getTransaction();
 		
@@ -38,7 +38,6 @@ public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 			//提交事务
 			transaction.commit();
 		} catch (Exception e) {
-			e.printStackTrace();
 			//回滚当前事务
 			transaction.rollback();
 			throw e;
