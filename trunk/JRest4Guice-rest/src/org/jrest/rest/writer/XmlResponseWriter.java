@@ -1,6 +1,6 @@
 package org.jrest.rest.writer;
 
-import org.jrest.rest.http.HttpResult;
+import org.jrest.rest.context.HttpResult;
 
 public class XmlResponseWriter extends TextResponseWriter {
 	@Override

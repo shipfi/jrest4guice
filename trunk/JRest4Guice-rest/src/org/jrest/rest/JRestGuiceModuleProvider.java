@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jrest.core.guice.ModuleProviderTemplate;
 import org.jrest.rest.annotation.Restful;
-import org.jrest.rest.http.HttpRequestProvider;
-import org.jrest.rest.http.HttpResponseProvider;
-import org.jrest.rest.http.JRestContext;
-import org.jrest.rest.http.ModelMap;
-import org.jrest.rest.http.ModelMapProvider;
+import org.jrest.rest.context.HttpRequestProvider;
+import org.jrest.rest.context.HttpResponseProvider;
+import org.jrest.rest.context.JRestContext;
+import org.jrest.rest.context.ModelMap;
+import org.jrest.rest.context.ModelMapProvider;
 import org.jrest.rest.writer.ResponseWriter;
 import org.jrest.rest.writer.ResponseWriterRegister;
 

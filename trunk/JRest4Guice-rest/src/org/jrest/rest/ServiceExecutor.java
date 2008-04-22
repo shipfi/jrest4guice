@@ -21,8 +21,8 @@ import org.jrest.rest.annotation.MimeType;
 import org.jrest.rest.annotation.ModelBean;
 import org.jrest.rest.annotation.ProduceMime;
 import org.jrest.rest.annotation.RequestParameter;
-import org.jrest.rest.http.HttpContextManager;
-import org.jrest.rest.http.ModelMap;
+import org.jrest.rest.context.HttpContextManager;
+import org.jrest.rest.context.ModelMap;
 import org.jrest.rest.writer.ResponseWriterRegister;
 
 import com.google.inject.Inject;

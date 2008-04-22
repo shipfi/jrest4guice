@@ -1,4 +1,4 @@
-package org.jrest.rest.http;
+package org.jrest.rest.context;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jrest.core.guice.GuiceContext;
 import org.jrest.rest.annotation.HttpMethodType;
-import org.jrest.rest.http.HttpContextManager;
-import org.jrest.rest.http.JRestContext;
-import org.jrest.rest.http.ModelMap;
+import org.jrest.rest.context.HttpContextManager;
+import org.jrest.rest.context.JRestContext;
+import org.jrest.rest.context.ModelMap;
 
 @SuppressWarnings("unchecked")
 public class RequestProcessor {
