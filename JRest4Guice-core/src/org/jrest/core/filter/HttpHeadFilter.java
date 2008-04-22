@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("unchecked")
-public class AddHeaderFilter implements Filter {
+public class HttpHeadFilter implements Filter {
 	private final Map headers = new HashMap();
 	
 	/*
