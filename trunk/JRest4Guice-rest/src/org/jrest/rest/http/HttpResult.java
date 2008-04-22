@@ -30,7 +30,10 @@ public class HttpResult {
 	}
 
 	public String getErrorMessage() {
-		return errorMessage;
+		if (errorMessage != null && errorMessage.trim().equals(""))
+			return null;
+		else
+			return errorMessage;
 	}
 
 	public void setErrorMessage(String errorMessage) {
@@ -62,11 +65,10 @@ public class HttpResult {
 		return new HttpResult(content);
 	}
 
-	public static HttpResult createSuccessfulHttpResult(Object content) {
-		return new HttpResult(content);
-	}
-
-	public static HttpResult createFailedHttpResult(String errorMessage) {
-		return new HttpResult(errorMessage);
+	public static HttpResult createHttpResult(Object content) {
+		if (content instanceof Exception)
+			return new HttpResult(((Exception) content).getMessage());
+		else
+			return new HttpResult(content);
 	}
 }
