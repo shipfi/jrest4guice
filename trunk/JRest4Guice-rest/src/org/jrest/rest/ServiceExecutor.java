@@ -28,11 +28,11 @@ import org.jrest.rest.writer.ResponseWriterRegister;
 import com.google.inject.Inject;
 
 @SuppressWarnings("unchecked")
-public class JRestServiceExecutor {
+public class ServiceExecutor {
 	@Inject
 	private HttpServletRequest request;
 
-	private static Map<String, Map<HttpMethodType, Method>> restServiceBundles = new HashMap<String, Map<HttpMethodType, Method>>(
+	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
 
 	/**
@@ -46,103 +46,130 @@ public class JRestServiceExecutor {
 			String charset) {
 		Object result = null;
 		String name = service.getClass().getName();
-		if (!restServiceBundles.containsKey(name)) {
-			Class<?> clazz = service.getClass();
-			Method[] methods = clazz.getMethods();
-			Map<HttpMethodType, Method> restMethods = new HashMap<HttpMethodType, Method>(
-					0);
-			for (Method m : methods) {
-				if (m.isAnnotationPresent(HttpMethod.class)) {
-					HttpMethod annotation = m.getAnnotation(HttpMethod.class);
-					HttpMethodType type = annotation.type();
-					if (type == HttpMethodType.DEFAULT) {
-						String methodName = m.getName();
-						if (methodName
-								.startsWith(RequestProcessor.METHOD_OF_GET)) {
-							type = HttpMethodType.GET;
-						} else if (methodName
-								.startsWith(RequestProcessor.METHOD_OF_POST)) {
-							type = HttpMethodType.POST;
-						} else if (methodName
-								.startsWith(RequestProcessor.METHOD_OF_PUT)) {
-							type = HttpMethodType.PUT;
-						} else if (methodName
-								.startsWith(RequestProcessor.METHOD_OF_DELETE)) {
-							type = HttpMethodType.DELETE;
-						}
-					}
-					restMethods.put(type, m);
-				}
-			}
-
-			restServiceBundles.put(name, restMethods);
+		if (!restServiceMethodMap.containsKey(name)) {
+			// 初始化当前Rest服务的方法映射字典
+			this.initCurrentServiceMethod(service, name);
 		}
 
-		Method method = restServiceBundles.get(name).get(methodType);
+		Method method = restServiceMethodMap.get(name).get(methodType);
 		if (method == null)
 			return;
-		
+
 		Exception exception = null;
-		
+
 		ModelMap modelMap = HttpContextManager.getModelMap();
 		if (method != null) {
 			try {
-				Annotation[][] annotationArray = method
-						.getParameterAnnotations();
-				Class<?>[] parameterTypes = method.getParameterTypes();
-
-				String pName;
-				List params = new ArrayList(0);
-				Object value;
-				int index = 0;
-
-				ParameterNameDiscoverer pnDiscoverer = new ParameterNameDiscoverer();
-				String[] parameterNames = pnDiscoverer
-						.getParameterNames(method);
-
-				for (Annotation[] annotations : annotationArray) {
-					value = null;
-					pName = parameterNames[index];
-					for (Annotation annotation : annotations) {
-						if (annotation instanceof RequestParameter) {
-							pName = ((RequestParameter) annotation).value();
-						} else if (annotation instanceof ModelBean) {
-							value = parameterTypes[index].newInstance();
-							BeanUtils.populate(value, modelMap);
-						}
-					}
-
-					// 转换参数值
-					if (value == null)
-						value = convertValue(modelMap.get(pName),
-								parameterTypes[index]);
-					// 添加当前参数
-					params.add(value);
-
-					index++;
-				}
-
+				// 构造参数集合
+				List params = constructParams(method, modelMap);
 				// 执行业务方法
 				result = method.invoke(service, params.size() > 0 ? params
 						.toArray() : null);
-
+				// 向客户端写回结果
 				writeResult(charset, result, method);
-
 			} catch (RuntimeException e) {
 				exception = e;
 			} catch (Exception e) {
 				exception = e;
 			}
-			
-			if(exception != null){
-				if(exception instanceof java.lang.IllegalArgumentException){
-					writeResult(charset, new Exception("调用"+method.getName()+"时出错: 原因是参数不完整!",exception), method);
-				}else if(exception instanceof java.lang.reflect.InvocationTargetException)
-					writeResult(charset, ((InvocationTargetException)exception).getTargetException(), method);
+
+			// 向客户端写回异常结果
+			if (exception != null) {
+				if (exception instanceof java.lang.IllegalArgumentException) {
+					writeResult(charset, new Exception("调用" + method.getName()
+							+ "时出错: 原因是参数不完整!", exception), method);
+				} else if (exception instanceof java.lang.reflect.InvocationTargetException)
+					writeResult(charset,
+							((InvocationTargetException) exception)
+									.getTargetException(), method);
 				else
 					writeResult(charset, exception, method);
 			}
 		}
+	}
+
+	/**
+	 * 构造当前方法调用的参数集合
+	 * 
+	 * @param method
+	 * @param modelMap
+	 * @return
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 */
+	private List constructParams(Method method, ModelMap modelMap)
+			throws InstantiationException, IllegalAccessException,
+			InvocationTargetException {
+		Annotation[][] annotationArray = method.getParameterAnnotations();
+		Class<?>[] parameterTypes = method.getParameterTypes();
+
+		String pName;
+		List params = new ArrayList(0);
+		Object value;
+		int index = 0;
+
+		ParameterNameDiscoverer pnDiscoverer = new ParameterNameDiscoverer();
+		String[] parameterNames = pnDiscoverer.getParameterNames(method);
+
+		for (Annotation[] annotations : annotationArray) {
+			value = null;
+			pName = parameterNames[index];
+			for (Annotation annotation : annotations) {
+				if (annotation instanceof RequestParameter) {
+					pName = ((RequestParameter) annotation).value();
+				} else if (annotation instanceof ModelBean) {
+					value = parameterTypes[index].newInstance();
+					BeanUtils.populate(value, modelMap);
+				}
+			}
+
+			// 转换参数值
+			if (value == null)
+				value = convertValue(modelMap.get(pName), parameterTypes[index]);
+			// 添加当前参数
+			params.add(value);
+
+			index++;
+		}
+		return params;
+	}
+
+	/**
+	 * 初始化当前Rest服务的方法映射字典
+	 * 
+	 * @param service
+	 * @param name
+	 */
+	private void initCurrentServiceMethod(Object service, String name) {
+		Class<?> clazz = service.getClass();
+		Method[] methods = clazz.getMethods();
+		Map<HttpMethodType, Method> restMethods = new HashMap<HttpMethodType, Method>(
+				0);
+		for (Method m : methods) {
+			if (m.isAnnotationPresent(HttpMethod.class)) {
+				HttpMethod annotation = m.getAnnotation(HttpMethod.class);
+				HttpMethodType type = annotation.type();
+				if (type == HttpMethodType.DEFAULT) {
+					String methodName = m.getName();
+					if (methodName.startsWith(RequestProcessor.METHOD_OF_GET)) {
+						type = HttpMethodType.GET;
+					} else if (methodName
+							.startsWith(RequestProcessor.METHOD_OF_POST)) {
+						type = HttpMethodType.POST;
+					} else if (methodName
+							.startsWith(RequestProcessor.METHOD_OF_PUT)) {
+						type = HttpMethodType.PUT;
+					} else if (methodName
+							.startsWith(RequestProcessor.METHOD_OF_DELETE)) {
+						type = HttpMethodType.DELETE;
+					}
+				}
+				restMethods.put(type, m);
+			}
+		}
+
+		restServiceMethodMap.put(name, restMethods);
 	}
 
 	/**

@@ -60,8 +60,8 @@ public class RequestProcessor {
 			// 从REST资源注册表中查找此URI对应的资源
 			Object service = JRestContext.getInstance().lookupResource(uri);
 			if (service != null) {
-				JRestServiceExecutor exec = GuiceContext.getInstance().getBean(
-						JRestServiceExecutor.class);
+				ServiceExecutor exec = GuiceContext.getInstance().getBean(
+						ServiceExecutor.class);
 				// 填充参数
 				fillParameters(request, params);
 				// 根据不同的请求方法调用REST对象的不同方法
