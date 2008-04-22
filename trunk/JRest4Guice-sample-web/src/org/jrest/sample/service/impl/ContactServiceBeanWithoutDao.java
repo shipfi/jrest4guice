@@ -37,16 +37,19 @@ public class ContactServiceBeanWithoutDao implements ContactService {
 		this.em.remove(contact);
 	}
 
+	@Transactional
 	public Contact findContactById(String contactId) {
 		Contact contact = this.em.find(Contact.class,contactId);
 		return contact;
 	}
 
+	@Transactional
 	public List<Contact> listContacts(int first, int max)
 			throws RuntimeException {
 		return this.em.createNamedQuery("list").setFirstResult(first).setMaxResults(max).getResultList();
 	}
 
+	@Transactional
 	public List<Contact> listContactByDate(Object time)
 			throws RuntimeException {
 		return this.em.createNamedQuery("byDate").setParameter("changeDate", time).getResultList();

@@ -36,16 +36,19 @@ public class ContactServiceBeanWithDao implements ContactService {
 		this.dao.deleteContact(contact);
 	}
 
+	@Transactional
 	public Contact findContactById(String contactId) {
 		Contact contact = this.dao.findContactById(contactId);
 		return contact;
 	}
 
+	@Transactional
 	public List<Contact> listContacts(int first, int max)
 			throws RuntimeException {
 		return this.dao.listContacts(first, max);
 	}
 
+	@Transactional
 	public List<Contact> listContactByDate(Object time)
 			throws RuntimeException {
 		return this.dao.listContactsByDate(time);
