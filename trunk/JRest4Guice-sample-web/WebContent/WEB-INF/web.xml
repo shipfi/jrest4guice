@@ -7,9 +7,9 @@
 
 	<!-- 过滤所有的被压缩过的Javascript（*.gzjs） -->
 	<filter>
-		<filter-name>AddHeaderFilter</filter-name>
+		<filter-name>HttpHeadFilter</filter-name>
 		<filter-class>
-			org.jrest.core.filter.AddHeaderFilter
+			org.jrest.core.filter.HttpHeadFilter
 		</filter-class>
 		<init-param>
 			<param-name>headers</param-name>
@@ -18,7 +18,7 @@
 	</filter>
 
 	<filter-mapping>
-		<filter-name>AddHeaderFilter</filter-name>
+		<filter-name>HttpHeadFilter</filter-name>
 		<url-pattern>*.gzjs</url-pattern>
 	</filter-mapping>
 	
