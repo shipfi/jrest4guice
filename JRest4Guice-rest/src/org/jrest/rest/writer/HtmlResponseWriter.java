@@ -2,7 +2,7 @@ package org.jrest.rest.writer;
 
 import org.jrest.rest.context.HttpResult;
 
-public class StringResponseWriter extends TextResponseWriter {
+public class HtmlResponseWriter extends TextResponseWriter {
 	@Override
 	protected String generateTextContent(Object result) {
 		return HttpResult.createHttpResult(result).toTextPlain();
@@ -10,6 +10,6 @@ public class StringResponseWriter extends TextResponseWriter {
 
 	@Override
 	public String getMimeType() {
-		return "text/plain";
+		return "text/html";
 	}
 }
