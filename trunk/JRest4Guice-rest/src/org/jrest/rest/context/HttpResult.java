@@ -1,5 +1,7 @@
 package org.jrest.rest.context;
 
+import com.sun.xml.internal.bind.v2.TODO;
+
 import net.sf.json.JSONObject;
 
 public class HttpResult {
@@ -53,6 +55,7 @@ public class HttpResult {
 	}
 
 	public String toXML() {
+		//TODO 实现对象的XML串行化
 		return JSONObject.fromObject(this).toString();
 	}
 
