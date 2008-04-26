@@ -23,6 +23,7 @@ import org.jrest.rest.annotation.ProduceMime;
 import org.jrest.rest.annotation.RequestParameter;
 import org.jrest.rest.context.HttpContextManager;
 import org.jrest.rest.context.ModelMap;
+import org.jrest.rest.writer.ResponseWriter;
 import org.jrest.rest.writer.ResponseWriterRegister;
 
 import com.google.inject.Inject;
@@ -178,13 +179,13 @@ public class ServiceExecutor {
 	 * @param charset
 	 *            字符编码
 	 * @param result
-	 *            要写加的结果
+	 *            要输出的结果对象
 	 * @param method
 	 *            当前调用的服务方法
 	 */
 	private void writeResult(String charset, Object result, Method method) {
 		// 缺省的返回类型是JSON
-		String mimeType = MimeType.MIME_OF_JSON;
+		String mimeType = MimeType.MIME_OF_TEXT_HTML;
 
 		// 获取客户端中的请求数据类型
 		String accepts = request.getHeader("accept").toLowerCase();
@@ -207,8 +208,9 @@ public class ServiceExecutor {
 		}
 
 		// 向客户端写回结果数据
-		ResponseWriterRegister.getInstance().getResponseWriter(mimeType)
-				.writeResult(result, charset);
+		ResponseWriter responseWriter = ResponseWriterRegister.getInstance().getResponseWriter(mimeType);
+		if(responseWriter != null)
+			responseWriter.writeResult(result, charset);
 	}
 
 	/**

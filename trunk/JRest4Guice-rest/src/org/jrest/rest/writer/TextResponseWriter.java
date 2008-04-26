@@ -26,6 +26,8 @@ public abstract class TextResponseWriter implements ResponseWriter {
 		
 		try {
 			response.setCharacterEncoding(charset);
+			response.setContentType(this.getMimeType());
+			
 			PrintWriter out = response.getWriter();
 			out.println(textContent);
 		} catch (IOException e) {
