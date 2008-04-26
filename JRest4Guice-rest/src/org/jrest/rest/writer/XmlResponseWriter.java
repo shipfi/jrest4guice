@@ -5,8 +5,7 @@ import org.jrest.rest.context.HttpResult;
 public class XmlResponseWriter extends TextResponseWriter {
 	@Override
 	protected String generateTextContent(Object result) {
-		//TODO -- 实现XML结果的输出
-		return HttpResult.createHttpResult(result).toJson();
+		return HttpResult.createHttpResult(result).toXML();
 	}
 
 	@Override
