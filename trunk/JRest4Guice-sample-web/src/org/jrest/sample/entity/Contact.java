@@ -108,6 +108,10 @@ public class Contact implements Serializable {
 	public void setHeadPic(String headPic) {
 		this.headPic = headPic;
 	}
+	
+	public String toString(){
+		return "id="+this.id+";name="+this.name+";address="+this.address;
+	}
 
 	@Override
 	public int hashCode() {
