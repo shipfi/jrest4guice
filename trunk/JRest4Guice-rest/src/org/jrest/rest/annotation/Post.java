@@ -8,8 +8,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface HttpMethod {
-	HttpMethodType type() default HttpMethodType.DEFAULT;
+public @interface Post {
 	String errorMsg() default "";
 	String successMsg() default "";
 }
