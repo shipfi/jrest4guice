@@ -1,8 +1,10 @@
 package org.jrest.sample.resources;
 
-import org.jrest.rest.annotation.HttpMethod;
-import org.jrest.rest.annotation.HttpMethodType;
+import org.jrest.rest.annotation.Delete;
+import org.jrest.rest.annotation.Get;
 import org.jrest.rest.annotation.ModelBean;
+import org.jrest.rest.annotation.Post;
+import org.jrest.rest.annotation.Put;
 import org.jrest.rest.annotation.RequestParameter;
 import org.jrest.rest.annotation.Restful;
 import org.jrest.sample.entity.Contact;
@@ -15,13 +17,13 @@ public class ContactResource {
 	@Inject
 	private ContactService service;
 
-	@HttpMethod(type = HttpMethodType.POST)
+	@Post
 	public String createContact(@ModelBean
 	Contact contact) {
 		return this.service.createContact(contact);
 	}
 
-	@HttpMethod
+	@Put
 	public void putContact(@RequestParameter("contactId")
 	String contactId, @ModelBean
 	Contact contact) {
@@ -30,13 +32,13 @@ public class ContactResource {
 		this.service.updateContact(contact);
 	}
 
-	@HttpMethod
+	@Get
 	public Contact getContact(@RequestParameter("contactId")
 	String contactId) {
 		return this.service.findContactById(contactId);
 	}
 
-	@HttpMethod
+	@Delete
 	public void deleteContact(@RequestParameter("contactId")
 	String contactId) {
 		this.service.deleteContact(contactId);
