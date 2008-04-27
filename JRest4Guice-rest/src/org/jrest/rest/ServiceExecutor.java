@@ -15,11 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.jrest.core.util.ParameterNameDiscoverer;
-import org.jrest.rest.annotation.HttpMethod;
+import org.jrest.rest.annotation.Delete;
+import org.jrest.rest.annotation.Get;
 import org.jrest.rest.annotation.HttpMethodType;
 import org.jrest.rest.annotation.MimeType;
 import org.jrest.rest.annotation.ModelBean;
+import org.jrest.rest.annotation.Post;
 import org.jrest.rest.annotation.ProduceMime;
+import org.jrest.rest.annotation.Put;
 import org.jrest.rest.annotation.RequestParameter;
 import org.jrest.rest.context.HttpContextManager;
 import org.jrest.rest.context.ModelMap;
@@ -147,27 +150,39 @@ public class ServiceExecutor {
 		Method[] methods = clazz.getMethods();
 		Map<HttpMethodType, Method> restMethods = new HashMap<HttpMethodType, Method>(
 				0);
+		String methodName;
+		HttpMethodType type = null;
 		for (Method m : methods) {
-			if (m.isAnnotationPresent(HttpMethod.class)) {
-				HttpMethod annotation = m.getAnnotation(HttpMethod.class);
-				HttpMethodType type = annotation.type();
-				if (type == HttpMethodType.DEFAULT) {
-					String methodName = m.getName();
-					if (methodName.startsWith(RequestProcessor.METHOD_OF_GET)) {
-						type = HttpMethodType.GET;
-					} else if (methodName
-							.startsWith(RequestProcessor.METHOD_OF_POST)) {
-						type = HttpMethodType.POST;
-					} else if (methodName
-							.startsWith(RequestProcessor.METHOD_OF_PUT)) {
-						type = HttpMethodType.PUT;
-					} else if (methodName
-							.startsWith(RequestProcessor.METHOD_OF_DELETE)) {
-						type = HttpMethodType.DELETE;
-					}
+			type = null;
+			methodName = m.getName();
+			if(methodName.equalsIgnoreCase("getClass"))
+				continue;
+			
+			if (m.isAnnotationPresent(Get.class)) {
+				type = HttpMethodType.GET;
+			}else if (m.isAnnotationPresent(Post.class)){
+				type = HttpMethodType.POST;
+			}else if (m.isAnnotationPresent(Put.class)){
+				type = HttpMethodType.PUT;
+			}else if (m.isAnnotationPresent(Delete.class)){
+				type = HttpMethodType.DELETE;
+			}else{
+				if (methodName.startsWith(RequestProcessor.METHOD_OF_GET)) {
+					type = HttpMethodType.GET;
+				} else if (methodName
+						.startsWith(RequestProcessor.METHOD_OF_POST)) {
+					type = HttpMethodType.POST;
+				} else if (methodName
+						.startsWith(RequestProcessor.METHOD_OF_PUT)) {
+					type = HttpMethodType.PUT;
+				} else if (methodName
+						.startsWith(RequestProcessor.METHOD_OF_DELETE)) {
+					type = HttpMethodType.DELETE;
 				}
-				restMethods.put(type, m);
 			}
+			
+			if(type != null)
+				restMethods.put(type, m);
 		}
 
 		restServiceMethodMap.put(name, restMethods);

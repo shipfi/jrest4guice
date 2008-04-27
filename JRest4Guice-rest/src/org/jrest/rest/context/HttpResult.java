@@ -1,7 +1,5 @@
 package org.jrest.rest.context;
 
-import com.sun.xml.internal.bind.v2.TODO;
-
 import net.sf.json.JSONObject;
 
 public class HttpResult {
@@ -51,7 +49,10 @@ public class HttpResult {
 	}
 
 	public String toTextPlain() {
-		return this.content.toString();
+		if(this.content != null)
+			return this.content.toString();
+		else
+			return this.errorMessage;
 	}
 
 	public String toXML() {
