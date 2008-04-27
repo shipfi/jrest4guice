@@ -23,7 +23,7 @@ import org.jrest.rest.annotation.ModelBean;
 import org.jrest.rest.annotation.Post;
 import org.jrest.rest.annotation.ProduceMime;
 import org.jrest.rest.annotation.Put;
-import org.jrest.rest.annotation.RequestParameter;
+import org.jrest.rest.annotation.Parameter;
 import org.jrest.rest.context.HttpContextManager;
 import org.jrest.rest.context.ModelMap;
 import org.jrest.rest.writer.ResponseWriter;
@@ -120,8 +120,8 @@ public class ServiceExecutor {
 			value = null;
 			pName = parameterNames[index];
 			for (Annotation annotation : annotations) {
-				if (annotation instanceof RequestParameter) {
-					pName = ((RequestParameter) annotation).value();
+				if (annotation instanceof Parameter) {
+					pName = ((Parameter) annotation).value();
 				} else if (annotation instanceof ModelBean) {
 					value = parameterTypes[index].newInstance();
 					BeanUtils.populate(value, modelMap);
@@ -200,7 +200,7 @@ public class ServiceExecutor {
 	 */
 	private void writeResult(String charset, Object result, Method method) {
 		// 缺省的返回类型是JSON
-		String mimeType = MimeType.MIME_OF_TEXT_HTML;
+		String mimeType = MimeType.MIME_OF_JSON;
 
 		// 获取客户端中的请求数据类型
 		String accepts = request.getHeader("accept").toLowerCase();
