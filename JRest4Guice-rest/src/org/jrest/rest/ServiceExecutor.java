@@ -200,7 +200,11 @@ public class ServiceExecutor {
 	 */
 	private void writeResult(String charset, Object result, Method method) {
 		// 获取客户端中的请求数据类型
-		String accepts = request.getHeader("accept").toLowerCase();
+		String accepts = request.getHeader("accept");
+		if(accepts==null)
+			accepts = "*/*";
+		
+		accepts = accepts.toLowerCase();
 		
 		//缺省的数据返回类型
 		String mimeType = accepts.split(",")[0];
