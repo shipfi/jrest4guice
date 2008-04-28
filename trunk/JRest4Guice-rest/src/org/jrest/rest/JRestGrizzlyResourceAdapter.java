@@ -15,8 +15,6 @@ public class JRestGrizzlyResourceAdapter extends GrizzlyAdapter {
     public static final int REQUEST_RESPONSE_NOTES = 12;
     public static final int SERVLETCONFIG_NOTES = 13;    
 
-    private RequestProcessor requestProcessor;
-    
     public JRestGrizzlyResourceAdapter() {
         super();
         this.init();
@@ -30,20 +28,19 @@ public class JRestGrizzlyResourceAdapter extends GrizzlyAdapter {
     
     private void init(){
     	this.setHandleStaticResources(true);
-    	this.requestProcessor = new RequestProcessor();
     }
     
    
     @Override
     public void service(Request request, Response response) throws Exception {
     	String uri = request.getRequestProcessor().getCurrentUri();
-//    	System.out.println("service : "+uri);
+//    	getLogger().log(Level.INFO,"service : "+uri);
     	super.service(request, response);
     }
 
     @Override
     public void service(GrizzlyRequest request, GrizzlyResponse response) {
-//    	System.out.println("dynimic ... "+ request.getRequestURI());
+//    	getLogger().log(Level.INFO,"dynimic ... "+ request.getRequestURI());
         try {
             Request req = request.getRequest();
             Response res = response.getResponse();
@@ -69,7 +66,7 @@ public class JRestGrizzlyResourceAdapter extends GrizzlyAdapter {
     			return;
     		}
 
-    		this.requestProcessor.process(httpRequest, httpResponse);
+    		new RequestProcessor().process(httpRequest, httpResponse);
         
         
         } catch (Throwable ex) {
