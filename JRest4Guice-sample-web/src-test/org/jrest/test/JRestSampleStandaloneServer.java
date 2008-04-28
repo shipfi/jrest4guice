@@ -42,7 +42,7 @@ public class JRestSampleStandaloneServer {
 		};
 		selectorThread.setAlgorithmClassName(StaticStreamAlgorithm.class
 				.getName());
-		selectorThread.setPort(80);
+		selectorThread.setPort(9999);
 		String folder = "E:\\Cnoss-Google\\JRest4Guice\\JRest4Guice-sample-web\\WebContent";
 		SelectorThread.setWebAppRootPath(folder);
 		JRestGrizzlyResourceAdapter adapter = new JRestGrizzlyResourceAdapter(folder);
