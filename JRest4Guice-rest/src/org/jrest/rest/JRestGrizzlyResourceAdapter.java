@@ -60,7 +60,6 @@ public class JRestGrizzlyResourceAdapter extends GrizzlyAdapter {
                 res.setNote(REQUEST_RESPONSE_NOTES, httpResponse);
             }
 
-    		// REST资源的参数，这些参数都包含在URL中
     		String uri = request.getRequestURI();
     		String contextPath = httpRequest.getContextPath();
     		if(!contextPath.trim().equals("/"))
