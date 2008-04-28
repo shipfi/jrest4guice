@@ -20,10 +20,10 @@ import org.jrest.rest.annotation.Get;
 import org.jrest.rest.annotation.HttpMethodType;
 import org.jrest.rest.annotation.MimeType;
 import org.jrest.rest.annotation.ModelBean;
+import org.jrest.rest.annotation.Parameter;
 import org.jrest.rest.annotation.Post;
 import org.jrest.rest.annotation.ProduceMime;
 import org.jrest.rest.annotation.Put;
-import org.jrest.rest.annotation.Parameter;
 import org.jrest.rest.context.HttpContextManager;
 import org.jrest.rest.context.ModelMap;
 import org.jrest.rest.writer.ResponseWriter;
@@ -199,11 +199,14 @@ public class ServiceExecutor {
 	 *            当前调用的服务方法
 	 */
 	private void writeResult(String charset, Object result, Method method) {
-		// 缺省的返回类型是JSON
-		String mimeType = MimeType.MIME_OF_JSON;
-
 		// 获取客户端中的请求数据类型
 		String accepts = request.getHeader("accept").toLowerCase();
+		
+		//缺省的数据返回类型
+		String mimeType = accepts.split(",")[0];
+		
+		if(mimeType.equals(MimeType.MIME_OF_ALL))
+			mimeType = MimeType.MIME_OF_TEXT_HTML;
 
 		// 获取服务方法上的数据返回类型
 		if (method.isAnnotationPresent(ProduceMime.class)) {

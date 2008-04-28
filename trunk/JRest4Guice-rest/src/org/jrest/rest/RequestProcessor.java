@@ -50,7 +50,9 @@ public class RequestProcessor {
 		}
 
 		String uri = request.getRequestURI();
-		uri = uri.replace(request.getContextPath(), "");
+		String contextPath = request.getContextPath();
+		if(!contextPath.trim().equals("/"))
+			uri = uri.replace(contextPath, "");
 
 		// REST资源的参数，这些参数都包含在URL中
 		ModelMap<String, String> params = new ModelMap<String, String>();
