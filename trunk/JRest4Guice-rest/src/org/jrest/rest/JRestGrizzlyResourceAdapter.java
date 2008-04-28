@@ -11,19 +11,19 @@ import com.sun.grizzly.tcp.http11.GrizzlyAdapter;
 import com.sun.grizzly.tcp.http11.GrizzlyRequest;
 import com.sun.grizzly.tcp.http11.GrizzlyResponse;
 
-public class JRestResourcesAdapter extends GrizzlyAdapter {
+public class JRestGrizzlyResourceAdapter extends GrizzlyAdapter {
     public static final int REQUEST_RESPONSE_NOTES = 12;
     public static final int SERVLETCONFIG_NOTES = 13;    
 
     private RequestProcessor requestProcessor;
     
-    public JRestResourcesAdapter() {
+    public JRestGrizzlyResourceAdapter() {
         super();
         this.init();
     }
 
     
-    public JRestResourcesAdapter(String publicDirectory) {
+    public JRestGrizzlyResourceAdapter(String publicDirectory) {
         super(publicDirectory);
         this.init();
     }
