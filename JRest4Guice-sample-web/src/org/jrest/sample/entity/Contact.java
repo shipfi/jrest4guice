@@ -47,7 +47,7 @@ public class Contact implements Serializable {
 	@Column(name = "eMail", nullable = true, length = 36)
 	private String eMail;
 
-	@Column(name = "address", nullable = true, length = 200)
+	@Column(name = "address", nullable = true, length = 2000)
 	private String address;
 
 	@Column(name = "changeDate", nullable = true)
