@@ -3,7 +3,6 @@ package org.jrest.rest;
 import java.io.BufferedReader;
 import java.io.CharArrayWriter;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Enumeration;
 
@@ -45,7 +44,7 @@ public class RequestProcessor {
 			charset = "UTF-8";
 			try {
 				request.setCharacterEncoding(charset);
-			} catch (UnsupportedEncodingException e) {
+			} catch (Exception e) {
 			}
 		}
 
