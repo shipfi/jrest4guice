@@ -6,8 +6,8 @@ import org.jrest.core.guice.GuiceContext;
 import org.jrest.core.persist.jpa.JpaGuiceModuleProvider;
 import org.jrest.core.transaction.TransactionGuiceModuleProvider;
 import org.jrest.dao.DaoModuleProvider;
-import org.jrest.rest.JRestGuiceModuleProvider;
 import org.jrest.rest.JRestGrizzlyResourceAdapter;
+import org.jrest.rest.JRestGuiceModuleProvider;
 
 import com.sun.grizzly.http.SelectorThread;
 import com.sun.grizzly.standalone.StaticStreamAlgorithm;

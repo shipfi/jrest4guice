@@ -18,7 +18,6 @@
 			<property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:1521:cnoss"/>
 		</properties>
 	</persistence-unit>
-	-->
 
 	<persistence-unit name="JPA4Guice" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
@@ -34,5 +33,22 @@
 			<property name="hibernate.connection.url" value="jdbc:hsqldb:."/>
 		</properties>
 	</persistence-unit>
-	
+	-->
+
+	<persistence-unit name="JPA4Guice" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>
+
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+			<property name="hibernate.connection.username" value="root"/>
+			<property name="hibernate.connection.password" value="111111"/>
+			<property name="hibernate.connection.url" value="jdbc:mysql://192.168.1.171:3306/qj_map?useUnicode=true&amp;characterEncoding=GBK"/>
+		</properties>
+	</persistence-unit>
+
+
 </persistence>

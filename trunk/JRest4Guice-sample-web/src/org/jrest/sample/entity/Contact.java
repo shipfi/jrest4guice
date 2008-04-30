@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -46,7 +47,8 @@ public class Contact implements Serializable {
 
 	@Column(name = "eMail", nullable = true, length = 36)
 	private String eMail;
-
+	
+	@Lob
 	@Column(name = "address", nullable = true, length = 2000)
 	private String address;
 
