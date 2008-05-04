@@ -13,9 +13,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jrest.rest.context.ContextConfig;
-import org.jrest.rest.context.JRestContext;
-
 @SuppressWarnings("unchecked")
 public class JRestRequestFilter implements Filter {
 	/**
@@ -23,12 +20,11 @@ public class JRestRequestFilter implements Filter {
 	 */
 	private static final long serialVersionUID = -4393521946859930914L;
 
-	private RequestProcessor requestProcessor;
-
 	private static Set<String> extNameExcludes;
 	static {
 		extNameExcludes = new HashSet<String>(11);
 		extNameExcludes.add("js");
+		extNameExcludes.add("css");
 		extNameExcludes.add("jsp");
 		extNameExcludes.add("jspa");
 		extNameExcludes.add("do");
@@ -49,12 +45,6 @@ public class JRestRequestFilter implements Filter {
 			String[] exts = _extNameExcludes.split(",");
 			for (String ext : exts)
 				extNameExcludes.add(ext);
-		}
-
-		try {
-			this.requestProcessor = new RequestProcessor();
-		} catch (Exception e) {
-			throw new ServletException("初始化 JRestRequestFilter 失败！", e);
 		}
 	}
 
@@ -86,11 +76,10 @@ public class JRestRequestFilter implements Filter {
 			return;
 		}
 
-		this.requestProcessor.process(servletReqest, servletResponse);
+		new RequestProcessor().process(servletReqest, servletResponse);
 	}
 
 	@Override
 	public void destroy() {
-		this.requestProcessor = null;
 	}
 }
