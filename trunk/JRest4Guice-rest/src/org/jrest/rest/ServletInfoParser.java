@@ -1,5 +1,7 @@
 package org.jrest.rest;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +21,7 @@ class ServletInfoParser extends DefaultHandler {
 	private String urlPattern;
 
 	private StringBuffer content;
-	
+
 	private Map<String, String> servletInfos;
 
 	public ServletInfoParser() {
@@ -58,7 +60,7 @@ class ServletInfoParser extends DefaultHandler {
 		if (qName.equalsIgnoreCase("servlet-mapping")) {
 			startParseServletMapping = false;
 		}
-		
+
 		if (startParseServletMapping && qName.equalsIgnoreCase("servlet-name")) {
 			servletName = content.toString();
 			this.clearContent();
@@ -68,20 +70,23 @@ class ServletInfoParser extends DefaultHandler {
 			urlPattern = content.toString();
 			this.clearContent();
 		}
-		
-		if(this.servletName != null && this.urlPattern != null){
+
+		if (this.servletName != null && this.urlPattern != null) {
 			this.servletInfos.put(this.servletName, this.urlPattern);
 		}
 	}
 
-	public Map<String, String> parse(ServletContext servletContext) throws Exception {
+	public Map<String, String> parse(ServletContext servletContext)
+			throws Exception {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		factory.setNamespaceAware(false);
 		factory.setValidating(false);
 		SAXParser parser = factory.newSAXParser();
-		parser.parse(servletContext.getResourceAsStream("WEB-INF/web.xml"),
-				this);
-
+		servletContext.getContextPath();
+		InputStream resourceAsStream = new FileInputStream(servletContext
+				.getRealPath("WEB-INF/web.xml"));
+		parser.parse(resourceAsStream, this);
+		resourceAsStream.close();
 		return this.servletInfos;
 	}
 }
