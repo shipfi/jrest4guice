@@ -26,6 +26,13 @@ public class RequestProcessor {
 	public static final String METHOD_OF_DELETE = "delete";
 
 	private String charset;
+	
+	private String urlPrefix;
+	
+	public RequestProcessor setUrlPrefix(String urlPrefix) {
+		this.urlPrefix = urlPrefix;
+		return this;
+	}
 
 	/**
 	 * 处理来自客户端的请求
@@ -52,6 +59,9 @@ public class RequestProcessor {
 		String contextPath = request.getContextPath();
 		if(!contextPath.trim().equals("/"))
 			uri = uri.replace(contextPath, "");
+		
+		if(this.urlPrefix != null)
+			uri = uri.replace(this.urlPrefix, "");
 
 		// REST资源的参数，这些参数都包含在URL中
 		ModelMap<String, String> params = new ModelMap<String, String>();
