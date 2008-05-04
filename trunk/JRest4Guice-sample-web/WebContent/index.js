@@ -20,7 +20,7 @@ function getContactList(){
 	_contactList = $.elem("contactList");
 	var data = {first:0,max:100};
 	$.ajax({
-		url:"contacts",
+		url:"resource/contacts",
 		type:"GET",
 		dataType:'json',
 		data:data,
@@ -38,7 +38,7 @@ function getContactList(){
 function getContactDetail(id){
 	isPost = false;
 	$.ajax({
-		url:"contact/"+id,
+		url:"resource/contact/"+id,
 		type:"GET",
 		dataType:'json',
 		ifModified:true,
@@ -53,7 +53,7 @@ function deleteContact(id,name){
 	if(!window.confirm("你确定要删除\""+name+"\"?"))
 		return;
 	$.ajax({
-		url:"contact/"+id,
+		url:"resource/contact/"+id,
 		type:"DELETE",
 		dataType:'json',
 		success:function(json){
@@ -70,7 +70,7 @@ function doCancel(){
 }
 function doSave(){
 	var _data = gatherData(_editArea[0]);
-	var url = "contact";
+	var url = "resource/contact";
 	if(!isPost)
 		url += "/"+contact.id;
 	else
