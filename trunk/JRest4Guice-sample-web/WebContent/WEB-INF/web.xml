@@ -4,33 +4,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	<display-name>JRest</display-name>
-
-	<!-- 过滤所有的被压缩过的Javascript（*.gzjs） -->
-	<filter>
-		<filter-name>HttpHeadFilter</filter-name>
-		<filter-class>
-			org.jrest.core.filter.HttpHeadFilter
-		</filter-class>
-		<init-param>
-			<param-name>headers</param-name>
-			<param-value>Content-Encoding=gzip</param-value>
-		</init-param>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>HttpHeadFilter</filter-name>
-		<url-pattern>*.gzjs</url-pattern>
-	</filter-mapping>
-	
 	<!-- 初始化Guice上下文的监听器 -->
 	<listener>
-		<listener-class>org.jrest.sample.listener.JRest4GuiceSampContextListener</listener-class>
+		<listener-class>
+			org.jrest.sample.listener.JRest4GuiceSampContextListener
+		</listener-class>
 	</listener>
 
 	<!-- 配置JRest的服务处理器 -->
 	<servlet>
 		<servlet-name>JRestRequestServlet</servlet-name>
-		<servlet-class>org.jrest.rest.JRestRequestServlet</servlet-class>
+		<servlet-class>
+			org.jrest.rest.JRestRequestServlet
+		</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>JRestRequestServlet</servlet-name>
