@@ -27,37 +27,14 @@
 		<listener-class>org.jrest.sample.listener.JRest4GuiceSampContextListener</listener-class>
 	</listener>
 
-	<!-- 方式（1） -->
-	<!-- 以Filter方式处理所有Restful请求 -->
-	<filter>
-		<filter-name>JRestRequestFilter</filter-name>
-		<filter-class>org.jrest.rest.JRestRequestFilter</filter-class>
-		<!-- 需要被过滤器忽略的资源扩展名，文件名之前用","隔开 -->
-		<init-param>
-			<param-name>extNameExcludes</param-name>
-			<param-value>gzjs,zip</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>JRestRequestFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<!-- 方式（2） -->
-	<!-- 以Servlet方式处理所有Restful请求 -->
-	<!-- 
+	<!-- 配置JRest的服务处理器 -->
 	<servlet>
 		<servlet-name>JRestRequestServlet</servlet-name>
 		<servlet-class>org.jrest.rest.JRestRequestServlet</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>JRestRequestServlet</servlet-name>
-		<url-pattern>/contacts</url-pattern>
+		<!-- 服务的URL前缀 -->
+		<url-pattern>/resource/*</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>JRestRequestServlet</servlet-name>
-		<url-pattern>/contact/*</url-pattern>
-	</servlet-mapping>
-	-->
 </web-app>
