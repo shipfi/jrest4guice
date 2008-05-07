@@ -1,5 +1,6 @@
 package org.jrest.rest.writer;
 
+import org.jrest.rest.annotation.MimeType;
 import org.jrest.rest.context.HttpResult;
 
 public class XmlResponseWriter extends TextResponseWriter {
@@ -10,6 +11,6 @@ public class XmlResponseWriter extends TextResponseWriter {
 
 	@Override
 	public String getMimeType() {
-		return "application/xml";
+		return MimeType.MIME_OF_XML;
 	}
 }

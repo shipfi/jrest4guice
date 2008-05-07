@@ -210,7 +210,7 @@ public class ServiceExecutor {
 		String mimeType = accepts.split(",")[0];
 		
 		if(mimeType.equals(MimeType.MIME_OF_ALL))
-			mimeType = MimeType.MIME_OF_TEXT_HTML;
+			mimeType = MimeType.MIME_OF_JSON;
 
 		// 获取服务方法上的数据返回类型
 		if (method.isAnnotationPresent(ProduceMime.class)) {
