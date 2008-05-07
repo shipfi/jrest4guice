@@ -1,5 +1,6 @@
 package org.jrest.rest.writer;
 
+import org.jrest.rest.annotation.MimeType;
 import org.jrest.rest.context.HttpResult;
 
 public class JsonResponseWriter extends TextResponseWriter {
@@ -10,6 +11,6 @@ public class JsonResponseWriter extends TextResponseWriter {
 
 	@Override
 	public String getMimeType() {
-		return "application/json";
+		return MimeType.MIME_OF_JSON;
 	}
 }
