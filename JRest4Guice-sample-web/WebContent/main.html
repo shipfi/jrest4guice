@@ -21,9 +21,20 @@
 	.myHoverClass {background-color:#EAF6FD;} 
 	.mySelectClass {background-color:#C7E8FA;} 
 	.validMsg {height: 16px;}
+	.loadingBar {
+		background-color:red;
+		color:yellow;
+		font-size:13px;
+		padding:2px;
+		border:solid 1px olive;
+		background-repeat: no-repeat;
+		background-position: left center;
+		float: right;
+	}
 </style>
 </head>
 <body>
+	<div id="loading" class="loadingBar" style="display: none;">正在加载数据...</div>
 	<button onclick="contacts_ds.loadData();" style="margin-right: 20px;">重新加载</button><button onclick="deleteContact();">删除</button>
 	<hr>
 	<div style="float: left;width:55%;margin-right: 50px;" spry:region="contacts_ds">
