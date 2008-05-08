@@ -30,7 +30,10 @@ function deleteContact(id,name){
 	})	
 }
 var detailObserver = { onPostUpdate: function(notifier, data) { 
-		new Spry.Widget.ValidationTextField("theName", "none", {useCharacterMasking:true, regExpFilter:/^[^\'"\*]{0,15}$/, validateOn:["change"]});
+		new Spry.Widget.ValidationTextField("theName", "none", {useCharacterMasking:true, regExpFilter:/^[^\'"\*]{0,15}$/, validateOn:["change","blur"]});
+		new Spry.Widget.ValidationTextField("theMobilePhone", "none", {useCharacterMasking:true, validateOn:["change","blur"]});
+		new Spry.Widget.ValidationTextField("theEmail", "email", {useCharacterMasking:true,  validateOn:["change","blur"]});
+		new Spry.Widget.ValidationTextarea("theAddress", {useCharacterMasking:true, maxChars:40, counterType:"chars_count", counterId:"address", validateOn:["change","blur"]});
 	}
 };
 Spry.Data.Region.addObserver("editArea", detailObserver);
