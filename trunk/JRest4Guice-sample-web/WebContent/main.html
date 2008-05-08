@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:spry="http://ns.adobe.com/spry">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>联系人管理</title>
+
+<link href="javascript/spry/widgets/textfieldvalidation/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
+<link href="javascript/spry/widgets/textareavalidation/SpryValidationTextarea.css" rel="stylesheet" type="text/css" />
+<link href="css/validation.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="javascript/lib/jquery-1.2.2.js"></script>
+<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryData.js"></script>
+<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryJSONDataSet.js"></script>
+
+<script type="text/javascript" src="javascript/spry/widgets/textfieldvalidation/SpryValidationTextField.js"></script>
+<script type="text/javascript" src="javascript/spry/widgets/textareavalidation/SpryValidationTextarea.js"></script>
+
+<script type="text/javascript" src="main.js"></script>
+
+<style>
+	.myHoverClass {background-color:yellow;} 
+	.mySelectClass {color: white;background-color:red;} 
+</style>
+</head>
+<body>
+	<button onclick="contacts_ds.loadData();" style="margin-right: 20px;">重新加载</button><button onclick="deleteContact();">删除</button>
+	<hr>
+	<div style="float: left;width:55%;margin-right: 50px;" spry:region="contacts_ds">
+		<table id="contactList" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
+			<thead style="font-weight: bold;">
+				<tr style="background-color:#f0ffe6;height: 24px;">
+					<td style="width: 120px;" spry:sort="name">&nbsp;姓 名</td>
+					<td style="width: 120px;">&nbsp;移动电话</td>
+					<td style="width: 150px;">&nbsp;电子邮件</td>
+					<td>&nbsp;住址</td>
+				</tr>
+			</thead>
+			<tbody spry:repeat="contacts_ds" spry:choose="choose">
+				<tr spry:when="{ds_RowID}=={ds_CurrentRowID}" id="tr_{id}" spry:hover="myHoverClass" spry:select="mySelectClass" spry:setrow="contacts_ds" style="cursor: pointer;" spry:selected="selected">
+					<td>&nbsp;{name}</td>
+					<td>&nbsp;{mobilePhone}</td>
+					<td>&nbsp;{EMail}</td>
+					<td>&nbsp;{address}</td>
+				</tr>
+				<tr spry:default="default" id="tr_{id}" spry:hover="myHoverClass" spry:select="mySelectClass" spry:setrow="contacts_ds" style="cursor: pointer;">
+					<td>&nbsp;{name}</td>
+					<td>&nbsp;{mobilePhone}</td>
+					<td>&nbsp;{EMail}</td>
+					<td>&nbsp;{address}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div style="width: 38%;float: right;">
+		<div id="editArea" spry:detailregion="contact_detail_ds">
+			<input style="display: none;" type="text" name="id" value="{id}">
+			<div id="theName">
+				<div class="formLabel">姓名：</div>
+				<input type="text" name="name" value="{name}">
+				<img src="images/ok.gif" title="Valid" alt="Valid" class="validMsg" border="0"/>
+				<span class="textfieldRequiredMsg">请输入姓名.</span>
+			</div>
+			<div id="theMobilePhone">
+				<div class="formLabel">移动电话：</div>
+				<input type="text" name="mobilePhone" value="{mobilePhone}">
+				<span class="textfieldRequiredMsg">移动电话.</span>
+			</div>
+			<div id="theEmail">
+				<div class="formLabel">电子邮件：</div>
+				<input type="text" name="EMail" value="{EMail}">
+				<span class="textfieldRequiredMsg">电子邮件.</span>
+			</div>
+			<div id="theAddress">
+				<div class="formLabel">家庭住址：</div>
+				<textarea rows="4" cols="30" name="address">{address}</textarea>
+				<span class="textfieldRequiredMsg">家庭住址.</span>
+			</div>
+			<br/>
+			<button onclick="doSave(true);">确定</button>  or  <a href="#" onclick="doCancel();void(0);return false;">取消</a>
+		</div>
+	</div>
+</body>
+</html>
