@@ -29,6 +29,16 @@ function deleteContact(id,name){
 		}
 	})	
 }
+
+var loadingObserver = {
+		onPreLoad:function(){
+			$("#loading").show();
+		},
+		onPostLoad:function(){
+			$("#loading").hide();
+		}
+};
+
 var detailObserver = { onPostUpdate: function(notifier, data) { 
 		new Spry.Widget.ValidationTextField("theName", "none", {useCharacterMasking:true, regExpFilter:/^[^\'"\*]{0,15}$/, validateOn:["change","blur"]});
 		new Spry.Widget.ValidationTextField("theMobilePhone", "none", {useCharacterMasking:true, validateOn:["change","blur"]});
@@ -43,11 +53,13 @@ function init(){
 	contacts_ds.useCache = false;
 	contacts_ds.setPath("content");
 	contacts_ds.setRequestInfo({headers:{"Accept":"application/json"}},true);
+	contacts_ds.addObserver(loadingObserver);
 
 	contact_detail_ds.setURL("resource/contact/{contacts_ds::id}");
 	contact_detail_ds.setPath("content");
 	contact_detail_ds.useCache = false;
 	contact_detail_ds.setRequestInfo({headers:{"Accept":"application/json"}},true);
+	contact_detail_ds.addObserver(loadingObserver);
 
 	contacts_ds.loadData();
 }
