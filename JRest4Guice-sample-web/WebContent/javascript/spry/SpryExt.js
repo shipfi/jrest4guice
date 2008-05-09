@@ -50,6 +50,33 @@ SpryExt.DataSetDecorator.prototype.decorateAjaxLoading = function(dataSet){
 	return this;
 }
 
+//===============================================================================
+// 数据验证助手
+//===============================================================================
+SpryExt.validationHelper = function(){
+	this.validations = [];
+};
+
+SpryExt.validationHelper.prototype.createTextFieldValidation = function(element, type, options){
+	this.validations.push(new Spry.Widget.ValidationTextField(element,type,options));
+}
+
+SpryExt.validationHelper.prototype.createTextAreaValidation = function(element, type, options){
+	this.validations.push(new Spry.Widget.ValidationTextarea(element,type,options));
+}
+
+SpryExt.validationHelper.prototype.removeAll = function(){
+	for(var i=0;i<this.validations.length;i++){
+		this.validations[i].destroy();
+	}
+	this.valivalidations = [];
+}
+
+SpryExt.validationHelper.prototype.reset = function(){
+	for(var i=0;i<this.validations.length;i++){
+		this.validations[i].reset();
+	}
+}
 
 //===============================================================================
 // 通用的数据收集
