@@ -1,10 +1,12 @@
 var currentContact;
 var currentRowNo = 0;
 var restMethod = "POST";
+var validationHelper;
 var contacts_ds = new Spry.Data.JSONDataSet(null,{sortOnLoad:"name"});
 var contact_detail_ds = new Spry.Data.JSONDataSet();
 
 window.onload = function(){
+	validationHelper = new SpryExt.validationHelper();
 	init();
 }
 
@@ -15,6 +17,8 @@ function clear(elem){
 	elem = $(elem);
 	elem.find("input[@type=text]").val("");
 	elem.find("textarea").val("");
+	
+	validationHelper.reset();
 }
 
 function createContact(){
@@ -74,10 +78,11 @@ function deleteContact(id,nme){
 var detailObserver = {
 	onPostUpdate: function(notifier, data) { 
 		restMethod = "PUT";
-		new Spry.Widget.ValidationTextField("theName", "none", {useCharacterMasking:true, regExpFilter:/^[^\'"\*]{0,15}$/, validateOn:["change","blur"]});
-		new Spry.Widget.ValidationTextField("theMobilePhone", "none", {isRequired:false,useCharacterMasking:true, validateOn:["change","blur"]});
-		new Spry.Widget.ValidationTextField("theEmail", "email", {isRequired:false,useCharacterMasking:true,  validateOn:["change","blur"]});
-		new Spry.Widget.ValidationTextarea("theAddress", {isRequired:false,useCharacterMasking:true, maxChars:40, validateOn:["change","blur"]});
+		validationHelper.removeAll();
+		validationHelper.createTextFieldValidation("theName", "none", {useCharacterMasking:true, regExpFilter:/^[^\'"\*]{0,15}$/, validateOn:["blur"]});
+		validationHelper.createTextFieldValidation("theMobilePhone", "none", {isRequired:false,useCharacterMasking:true, validateOn:["blur"]});
+		validationHelper.createTextFieldValidation("theEmail", "email", {isRequired:false,useCharacterMasking:true,  validateOn:["blur"]});
+		validationHelper.createTextAreaValidation("theAddress", {isRequired:false,useCharacterMasking:true, maxChars:40, validateOn:["blur"]});
 	}
 };
 
