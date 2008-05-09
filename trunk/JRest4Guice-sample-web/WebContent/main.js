@@ -31,6 +31,9 @@ function createContact(){
  * 保存联系人
  */
 function saveOrUpdateContact(){
+	if(!validationHelper.validate())
+		return;
+	
 	var form = Spry.$("editArea");
 	//收集数据
 	var postData = SpryExt.gatherData(form);

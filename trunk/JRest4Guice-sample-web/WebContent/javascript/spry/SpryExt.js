@@ -69,13 +69,22 @@ SpryExt.validationHelper.prototype.removeAll = function(){
 	for(var i=0;i<this.validations.length;i++){
 		this.validations[i].destroy();
 	}
-	this.valivalidations = [];
+	this.validations.splice(0,this.validations.length);
 }
 
-SpryExt.validationHelper.prototype.reset = function(){
+SpryExt.validationHelper.prototype.validate = function(){
+	var result = true;
 	for(var i=0;i<this.validations.length;i++){
-		this.validations[i].reset();
+		result = this.validations[i].validate();
+		if(!result)
+			break;
 	}
+	
+	return result;
+}
+SpryExt.validationHelper.prototype.reset = function(){
+	for(var i=0;i<this.validations.length;i++)
+		this.validations[i].reset();
 }
 
 //===============================================================================
