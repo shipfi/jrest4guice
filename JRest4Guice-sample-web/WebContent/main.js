@@ -13,7 +13,7 @@ window.onload = function(){
  */
 function clear(elem){
 	elem = $(elem);
-	elem.find("input").val("");
+	elem.find("input[@type=text]").val("");
 	elem.find("textarea").val("");
 }
 
