@@ -17,12 +17,6 @@ function clear(elem){
 	elem.find("textarea").val("");
 }
 
-function cancel(){
-	var row = currentRowNo;
-	contacts_ds.setCurrentRowNumber(0);
-	contacts_ds.setCurrentRowNumber(row);
-}
-
 function createContact(){
 	restMethod = "POST";
 	clear($("#editArea"));
@@ -78,14 +72,12 @@ function deleteContact(id,nme){
 }
 
 var detailObserver = {
-	onPreUpdate: function(notifier, data) {
-	},
 	onPostUpdate: function(notifier, data) { 
 		restMethod = "PUT";
-		new Spry.Widget.ValidationTextField("theName", "none", {useCharacterMasking:true, regExpFilter:/^[^\'"\*]{0,15}$/, validateOn:["blur"]});
-		new Spry.Widget.ValidationTextField("theMobilePhone", "none", {useCharacterMasking:true, validateOn:["blur"]});
-		new Spry.Widget.ValidationTextField("theEmail", "email", {useCharacterMasking:true,  validateOn:["blur"]});
-		new Spry.Widget.ValidationTextarea("theAddress", {useCharacterMasking:true, maxChars:40, counterType:"chars_count", counterId:"address", validateOn:["blur"]});
+		new Spry.Widget.ValidationTextField("theName", "none", {useCharacterMasking:true, regExpFilter:/^[^\'"\*]{0,15}$/, validateOn:["change","blur"]});
+		new Spry.Widget.ValidationTextField("theMobilePhone", "none", {isRequired:false,useCharacterMasking:true, validateOn:["change","blur"]});
+		new Spry.Widget.ValidationTextField("theEmail", "email", {isRequired:false,useCharacterMasking:true,  validateOn:["change","blur"]});
+		new Spry.Widget.ValidationTextarea("theAddress", {isRequired:false,useCharacterMasking:true, maxChars:40, validateOn:["change","blur"]});
 	}
 };
 

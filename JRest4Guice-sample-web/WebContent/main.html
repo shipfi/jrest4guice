@@ -69,6 +69,7 @@
 	</div>
 	
 	<div style="width: 38%;float: right;">
+		<form id="editForm">
 			<div id="editArea" spry:detailregion="contact_detail_ds">
 				<input style="display: none;" type="text" name="id" value="{id}">
 				<div id="theName">
@@ -80,24 +81,23 @@
 				<div id="theMobilePhone">
 					<div class="formLabel">移动电话：</div>
 					<input type="text" name="mobilePhone" value="{mobilePhone}">
-					<img src="images/ok.gif" title="Valid" alt="Valid" class="validMsg" border="0"/>
-					<span class="textfieldRequiredMsg">移动电话.</span>
+					<span class="textfieldMaxCharsMsg">长度不能超过20这个字符</span>
 				</div>
 				<div id="theEmail">
 					<div class="formLabel">电子邮件：</div>
 					<input type="text" name="EMail" value="{EMail}">
-					<img src="images/ok.gif" title="Valid" alt="Valid" class="validMsg" border="0"/>
 					<span class="textfieldInvalidFormatMsg">请输入有效的电子邮件格式.</span>
 				</div>
 				<div id="theAddress">
 					<div class="formLabel">家庭住址：</div>
 					<textarea rows="4" cols="30" name="address">{address}</textarea>
-					<img src="images/ok.gif" title="Valid" alt="Valid" class="validMsg" border="0"/>
 					<span class="textareaRequiredMsg">家庭住址.</span>
+					<span class="textareaMaxCharsMsg">长度不能超过50这个字符</span>
 				</div>
 				<br/>
-				<button onclick="saveOrUpdateContact();">确定</button>  or  <a href="#" onclick="cancel();void(0);return false;">取消</a>
+				<input type="button" onclick="saveOrUpdateContact();" value="确定" style="width: 40px;"> or <a href="#" onclick="Spry.$('editForm').reset();void(0);return false;">取消</a>
 			</div>
+		</form>
 	</div>
 </body>
 </html>
