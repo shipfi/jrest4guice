@@ -52,13 +52,13 @@
 				</tr>
 			</thead>
 			<tbody spry:repeat="contacts_ds" spry:choose="choose">
-				<tr rowId="{ds_RowID}" spry:when="{ds_RowNumber}=={ds_CurrentRowNumber}" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;" spry:selected="selected">
+				<tr rowNumber="{ds_RowNumber}" rowId="{ds_RowID}" spry:when="{ds_RowNumber}=={ds_CurrentRowNumber}" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;" spry:selected="selected">
 					<td>&nbsp;{name}</td>
 					<td>&nbsp;{mobilePhone}</td>
 					<td>&nbsp;{EMail}</td>
 					<td>&nbsp;{address}</td>
 				</tr>
-				<tr rowId="{ds_RowID}" spry:default="default" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;">
+				<tr rowNumber="{ds_RowNumber}" rowId="{ds_RowID}" spry:default="default" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;">
 					<td>&nbsp;{name}</td>
 					<td>&nbsp;{mobilePhone}</td>
 					<td>&nbsp;{EMail}</td>
