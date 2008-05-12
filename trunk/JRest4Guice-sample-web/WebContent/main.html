@@ -19,8 +19,8 @@
 <script type="text/javascript" src="main.js"></script>
 
 <style>
-	.myHoverClass {background-color:#EAF6FD;} 
-	.mySelectClass {background-color:#C7E8FA;} 
+	.mouseoverClass {background-color:#EAF6FD;} 
+	.selectedClass {background-color:#C7E8FA;} 
 	.validMsg {height: 16px;}
 	.loadingBar {
 		background-color:red;
@@ -39,26 +39,26 @@
 </style>
 </head>
 <body>
-	<button onclick="currentRowNo=0;contacts_ds.loadData();" class="button">重新加载</button><button onclick="createContact();" class="button">新增</button><button onclick="deleteContact();" class="button">删除</button>
+	<button onclick="currentRowNo=0;contacts_ds.loadData();" class="button">重新加载</button><button onclick="createContact();" class="button">新增</button><button onclick="deleteContact();" class="button">删除</button><button onclick="getSelectRows();" class="button">获取选择的行</button>
 	<hr>
-	<div id="contactList" style="float: left;width:55%;margin-right: 50px;" spry:region="contacts_ds">
-		<table cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
+	<div id="contactListRegion" style="float: left;width:55%;margin-right: 50px;" spry:region="contacts_ds">
+		<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
 			<thead style="font-weight: bold;">
 				<tr style="height: 26px;background-image: url('images/head.jpg');color: white;">
-					<td style="width: 120px;" spry:sort="name">&nbsp;姓 名</td>
-					<td style="width: 120px;">&nbsp;移动电话</td>
-					<td style="width: 150px;">&nbsp;电子邮件</td>
+					<td style="width: 110px;" spry:sort="name">&nbsp;姓 名</td>
+					<td style="width: 110px;">&nbsp;移动电话</td>
+					<td style="width: 130px;">&nbsp;电子邮件</td>
 					<td>&nbsp;住址</td>
 				</tr>
 			</thead>
 			<tbody spry:repeat="contacts_ds" spry:choose="choose">
-				<tr spry:when="{ds_RowNumber}=={ds_CurrentRowNumber}" id="tr_{id}" spry:hover="myHoverClass" spry:select="mySelectClass" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;" spry:selected="selected">
+				<tr rowId="{ds_RowID}" spry:when="{ds_RowNumber}=={ds_CurrentRowNumber}" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;" spry:selected="selected">
 					<td>&nbsp;{name}</td>
 					<td>&nbsp;{mobilePhone}</td>
 					<td>&nbsp;{EMail}</td>
 					<td>&nbsp;{address}</td>
 				</tr>
-				<tr spry:default="default" id="tr_{id}" spry:hover="myHoverClass" spry:select="mySelectClass" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;">
+				<tr rowId="{ds_RowID}" spry:default="default" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;">
 					<td>&nbsp;{name}</td>
 					<td>&nbsp;{mobilePhone}</td>
 					<td>&nbsp;{EMail}</td>
