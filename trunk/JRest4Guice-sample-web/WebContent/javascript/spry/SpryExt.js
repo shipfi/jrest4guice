@@ -1,12 +1,36 @@
 SpryExt = {};
 
 SpryExt.DomHelper = {};
-SpryExt.DomHelper.cancelEvent = function(event){
-	if(window.event)
-		event.cancelBubble = true;
-	else
-		event.stopPropagation();
+
+SpryExt.DomHelper.isIE = function(){
+  return navigator.appName.indexOf("Microsoft")!=-1;
 }
+SpryExt.DomHelper.cancelBubble = function(event){
+	if(SpryExt.DomHelper.isIE()){
+		event.cancelBubble=true;
+		window.event.cancelBubble=true;
+	}else{
+		event.stopPropagation();
+	}
+}
+SpryExt.DomHelper.disableSelection = function(element){
+	element = element||document.body;
+	if(SpryExt.DomHelper.isIE()){
+		element.UNSELECTABLE = "on";
+	}else{
+		element.style.MozUserSelect = "none";
+	}
+}
+
+SpryExt.DomHelper.enableSelection = function(element){
+	element = element||document.body;
+	if(SpryExt.DomHelper.isIE()){
+		element.UNSELECTABLE = "off";
+	}else{
+		element.style.MozUserSelect = "";
+	}
+}
+
 SpryExt.DomHelper.parentElemByTagName = function(node, tagName){
 	if(!node) { return null; }
 	if(tagName) { tagName = tagName.toLowerCase(); }
@@ -54,6 +78,10 @@ TableDecorator.prototype = {
 		//初始化表格头的全选Checkbox
 		this.table.thead.each(
 			function(){
+				SpryExt.DomHelper.disableSelection(this);
+				$(this).find("td").each(function(){
+					SpryExt.DomHelper.disableSelection(this);
+				});
 				var ckb = $(this).find("input.selectAllCkb:first");
 				if(ckb.length==0)
 					this.insertBefore($("<td class='ckbHeadTd' style=\"width: 24px;\"><input style=\"width: 24px;\" class='selectAllCkb' id=\""+_self.tableId+"_allCkb\" type=\"checkbox\" onclick=\""+_self.tableId+"_decorator._checkAll(this);\"/></td>")[0],this.firstChild);
@@ -81,15 +109,21 @@ TableDecorator.prototype = {
 		var checkedIds = option.checkedIds || [];
 
 		var rowId = tr.attr("rowId");
-
+		
 		var td = $("<td style=\"width: 24px;\" class='tdCkb_"+rowId+"'><input type=\"checkbox\" style=\"display: none;width: 24px;\"/></td>");
 		tr[0].insertBefore(td[0],tr[0].firstChild);
 
+		SpryExt.DomHelper.disableSelection(tr[0]);
+		tr.find("td").each(function(){
+			SpryExt.DomHelper.disableSelection(this);
+		});
+
 		var ckb = tr.find("input:first");
 		ckb.click(function(event){//鼠标单击
+			SpryExt.DomHelper.cancelBubble(event);
 			_self._checkCurrent(this,true);
 			$(this).show();
-			SpryExt.DomHelper.cancelEvent(event);
+			return true;
 		});
 		
 		var fun = function(event){
@@ -106,7 +140,9 @@ TableDecorator.prototype = {
 			tr.removeClass(_self.mouseoverClass);
 			_self._showCheckBox(tr);
 		}).click(function(event){//鼠标单击
-			_self.uncheckAll();
+			if(!(event.ctrlKey || event.shiftKey))
+				_self.uncheckAll();
+				
 			fun.call(this,event);
 			if(option.onclick){
 				option.onclick.call(this,event);

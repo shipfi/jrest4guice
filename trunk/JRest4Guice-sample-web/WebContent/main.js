@@ -12,7 +12,6 @@ window.onload = function(){
 
 function getSelectRows(){
 	var rows = contactTable_decorator.getCheckedRows(contacts_ds);
-	debugger;
 }
 
 /**
