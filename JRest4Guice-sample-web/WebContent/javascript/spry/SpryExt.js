@@ -49,17 +49,16 @@ SpryExt.DomHelper.parentElemByTagName = function(node, tagName){
 //===============================================================================
 SpryExt.TableRegionDecorator = function(){
 }
-SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSet,tableId){
+SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,tableId){
 	Spry.Data.Region.addObserver(dataRegionId, {onPostUpdate: function(notifier, data) {
-		new TableDecorator(dataSet,tableId).decorateRow({});
+		new TableDecorator(tableId).decorateRow({});
 	}});
 }
 
 //====================================================================
 // 表格装饰器
 //====================================================================
-TableDecorator=function(dataSet,tableId,selectedClass,mouseoverClass){
-	this.dataSet = dataSet;
+TableDecorator=function(tableId,selectedClass,mouseoverClass){
 	this.tableId = tableId;
 	this.table = $("#"+this.tableId);
 	this.selectedClass = selectedClass || "selectedClass";
@@ -196,11 +195,11 @@ TableDecorator.prototype = {
 	/**
 	 * 获取当前选择的数据对象数组
 	 */
-	getCheckedRows:function(){
+	getCheckedRows:function(dataSet){
 		var ids = this.getCheckedIds();
 		var rows = new Array;
 		for(var i=0;i<ids.length;i++)
-			rows.push(this.dataSet.getRowByID(ids[i]));
+			rows.push(dataSet.getRowByID(ids[i]));
 		return rows;
 	},
 	getCheckedTrs:function(){
