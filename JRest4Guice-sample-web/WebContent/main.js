@@ -20,10 +20,12 @@ function init(){
 	
 	contacts_ds.addObserver({
 		onCurrentRowChanged:function(dataSet,rowInfo){
-			$("#editArea").show();
+			$("#editArea").show("slow");
+			$("#cContactSpan").show();
 		},
 		onDataChanged:function(dataSet, type) {
-			$("#editArea").hide();
+			$("#editArea").hide("slow");
+			$("#cContactSpan").hide();
 		}
 	});
 
@@ -46,6 +48,13 @@ var detailObserver = {
 		validationHelper.createTextFieldValidation("theMobilePhone", "mobile", {isRequired:false,useCharacterMasking:true, validateOn:["blur"]});
 		validationHelper.createTextFieldValidation("theEmail", "email", {isRequired:false,useCharacterMasking:true,  validateOn:["blur"]});
 		validationHelper.createTextAreaValidation("theAddress", {isRequired:false,useCharacterMasking:true, maxChars:40, validateOn:["blur"]});
+
+		var rows = contactTable_decorator.getCheckedRows();
+		var names = [];
+		for(var i=0;i<rows.length;i++){
+			names.push(rows[i].name);
+		}
+		$("#cContact").html(" "+names.join(",")+" ");
 	}
 };
 
@@ -72,7 +81,7 @@ function clear(elem){
 function createContact(){
 	restMethod = "POST";
 	clear($("#editArea"));
-	$("#editArea").show();
+	$("#editArea").show("slow");
 }
 
 /**

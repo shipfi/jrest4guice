@@ -34,13 +34,16 @@
 </style>
 </head>
 <body>
-	<!-- 操作按钮 -->
-	<button onclick="currentRowNo=0;contacts_ds.loadData();" class="button">重新加载</button>
-	<button onclick="createContact();" class="button">新增</button>
-	<button onclick="deleteContact();" class="button">删除</button>
+	<!-- 操作栏 -->
+	<div id="infoBar" style="margin: 16px 0 12px 12px;">
+		<span style="margin-right: 24px;">你可以从这里<a href="#" onclick="createContact();void(0);return false;">添加新的联系人</a>，
+		或者按<a href="#" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">这里</a>刷新整个列表。</span><br/><br/>
+		<span id="cContactSpan" style="display: none;">按<a href="#" onclick="deleteContact();void(0);return false;">这里</a>删除以下所选择的联系人: <span id="cContact" style="color: red;"></span>
+		</span>
+	</div>
 	<hr>
 	<!-- 列表显示区域 -->
-	<div id="contactListRegion" style="float: left;width:55%;margin-right: 50px;" spry:region="contacts_ds">
+	<div id="contactListRegion" style="float: left;width:58%;margin-right: 8px;" spry:region="contacts_ds">
 		<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
 			<thead style="font-weight: bold;">
 				<tr style="height: 26px;background-image: url('images/head.jpg');color: white;">
@@ -62,34 +65,37 @@
 	</div>
 	
 	<!-- 编辑区域 -->
-	<div style="width: 38%;float: right;">
+	<div style="width: 38%;float: right;background-color:#EAF6FD;">
 		<form id="editForm">
 			<div id="editArea" spry:detailregion="contact_detail_ds" style="display: none;">
-				<input style="display: none;" type="text" name="id" value="{id}">
-				<div id="theName">
-					<div class="formLabel">姓名：</div>
-					<input type="text" name="name" value="{name}">
-					<img src="images/ok.gif" title="Valid" alt="Valid" class="validMsg" border="0"/>
-					<span class="textfieldRequiredMsg">请输入姓名.</span>
-				</div>
-				<div id="theMobilePhone">
-					<div class="formLabel">移动电话：</div>
-					<input type="text" name="mobilePhone" value="{mobilePhone}">
-					<span class="textfieldMaxCharsMsg">长度不能超过20这个字符</span>
-				</div>
-				<div id="theEmail">
-					<div class="formLabel">电子邮件：</div>
-					<input type="text" name="EMail" value="{EMail}">
-					<span class="textfieldInvalidFormatMsg">请输入有效的电子邮件格式.</span>
-				</div>
-				<div id="theAddress">
-					<div class="formLabel">家庭住址：</div>
-					<textarea rows="4" cols="30" name="address">{address}</textarea>
-					<span class="textareaRequiredMsg">家庭住址.</span>
-					<span class="textareaMaxCharsMsg">长度不能超过50这个字符</span>
-				</div>
-				<br/>
-				<input type="button" onclick="saveOrUpdateContact();" value="确定" style="width: 40px;"> or <a href="#" onclick="doCancel();void(0);return false;">取消</a>
+				<fieldset style="margin: 10px;border: 1px solid olive;">
+					<legend id="Organization">个人信息</legend>
+					<input style="display: none;" type="text" name="id" value="{id}">
+					<div id="theName">
+						<div class="formLabel">姓名：</div>
+						<input type="text" name="name" value="{name}">
+						<img src="images/ok.gif" title="Valid" alt="Valid" class="validMsg" border="0"/>
+						<span class="textfieldRequiredMsg">请输入姓名.</span>
+					</div>
+					<div id="theMobilePhone">
+						<div class="formLabel">移动电话：</div>
+						<input type="text" name="mobilePhone" value="{mobilePhone}">
+						<span class="textfieldMaxCharsMsg">长度不能超过20这个字符</span>
+					</div>
+					<div id="theEmail">
+						<div class="formLabel">电子邮件：</div>
+						<input type="text" name="EMail" value="{EMail}">
+						<span class="textfieldInvalidFormatMsg">请输入有效的电子邮件格式.</span>
+					</div>
+					<div id="theAddress">
+						<div class="formLabel">家庭住址：</div>
+						<textarea rows="3" cols="36" name="address">{address}</textarea>
+						<span class="textareaRequiredMsg">家庭住址.</span>
+						<span class="textareaMaxCharsMsg">长度不能超过50这个字符</span>
+					</div>
+					<br/>
+					<input type="button" onclick="saveOrUpdateContact();" value="确定" style="width: 40px;"> or <a href="#" onclick="doCancel();void(0);return false;">取消</a>
+				</fieldset>
 			</div>
 		</form>
 	</div>
