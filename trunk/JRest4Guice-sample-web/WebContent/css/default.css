@@ -58,6 +58,16 @@ a:hover {
 
 .mouseoverClass {background-color:#EAF6FD;} 
 .selectedClass {background-color:#C7E8FA;} 
+
+.even{
+	background-color:#ffffff;
+}
+.odd{
+	background-color:#F4FAFE;
+}
+
+
+
 .loadingBar {
 	background-color:red;
 	color:yellow;
