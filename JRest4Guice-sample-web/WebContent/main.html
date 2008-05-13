@@ -4,19 +4,27 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>联系人管理</title>
 
+<!-- Spry 验证的CSS -->
 <link href="javascript/spry/widgets/textfieldvalidation/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
 <link href="javascript/spry/widgets/textareavalidation/SpryValidationTextarea.css" rel="stylesheet" type="text/css" />
+
+<!-- 应用验证的CSS -->
 <link href="css/validation.css" rel="stylesheet" type="text/css" />
+
+<!-- 系统缺省的CSS -->
 <link href="css/default.css" rel="stylesheet" type="text/css" />
 
+<!-- JQuery 核心 -->
 <script type="text/javascript" src="javascript/lib/jquery-1.2.2.js"></script>
+<!-- Spry 核心 -->
 <script language="JavaScript" type="text/javascript" src="javascript/spry/SpryData.js"></script>
 <script language="JavaScript" type="text/javascript" src="javascript/spry/SpryJSONDataSet.js"></script>
-<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryExt.js"></script>
-
+<!-- Spry 验证 -->
 <script type="text/javascript" src="javascript/spry/widgets/textfieldvalidation/SpryValidationTextField.js"></script>
 <script type="text/javascript" src="javascript/spry/widgets/textareavalidation/SpryValidationTextarea.js"></script>
-
+<!-- Spry 扩展 -->
+<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryExt.js"></script>
+<!-- 应用自己的JS -->
 <script type="text/javascript" src="main.js"></script>
 
 <style>
@@ -26,10 +34,12 @@
 </style>
 </head>
 <body>
+	<!-- 操作按钮 -->
 	<button onclick="currentRowNo=0;contacts_ds.loadData();" class="button">重新加载</button>
 	<button onclick="createContact();" class="button">新增</button>
 	<button onclick="deleteContact();" class="button">删除</button>
 	<hr>
+	<!-- 列表显示区域 -->
 	<div id="contactListRegion" style="float: left;width:55%;margin-right: 50px;" spry:region="contacts_ds">
 		<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
 			<thead style="font-weight: bold;">
@@ -40,14 +50,8 @@
 					<td>&nbsp;住址</td>
 				</tr>
 			</thead>
-			<tbody spry:repeat="contacts_ds" spry:choose="choose">
-				<tr rowNumber="{ds_RowNumber}" rowId="{ds_RowID}" spry:when="{ds_RowNumber}=={ds_CurrentRowNumber}" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;" spry:selected="selected">
-					<td>&nbsp;{name}</td>
-					<td>&nbsp;{mobilePhone}</td>
-					<td>&nbsp;{EMail}</td>
-					<td>&nbsp;{address}</td>
-				</tr>
-				<tr rowNumber="{ds_RowNumber}" rowId="{ds_RowID}" spry:default="default" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;">
+			<tbody spry:repeat="contacts_ds">
+				<tr rowId="{id}" spry:odd="odd" spry:even="even" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;">
 					<td>&nbsp;{name}</td>
 					<td>&nbsp;{mobilePhone}</td>
 					<td>&nbsp;{EMail}</td>
@@ -57,6 +61,7 @@
 		</table>
 	</div>
 	
+	<!-- 编辑区域 -->
 	<div style="width: 38%;float: right;">
 		<form id="editForm">
 			<div id="editArea" spry:detailregion="contact_detail_ds">
