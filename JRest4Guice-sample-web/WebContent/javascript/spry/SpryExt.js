@@ -108,8 +108,15 @@ SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSe
 			
 			option.checkedIds = ids;
 			var tableDecorator = new TableDecorator(dataSet,tableId);
-			if(option.onChecked)
+			if(option.onChecked){
 				tableDecorator.onChecked = option.onChecked;
+				tableDecorator.onCheckedAll = option.onChecked;
+				tableDecorator.onUnCheckedAll = option.onChecked;
+			}
+			if(option.onCheckedAll)
+				tableDecorator.onCheckedAll = option.onCheckedAll;
+			if(option.onUnCheckedAll)
+				tableDecorator.onUnCheckedAll = option.onUnCheckedAll;
 			tableDecorator.decorateRow(option);
 		}
 	});
@@ -248,8 +255,10 @@ TableDecorator.prototype = {
 		var _self = this;
 		this.table.tbody.find("input:checkbox").each(function(){
 			this.checked = false;
-			_self._checkCurrent(this,false);
+			_self._checkCurrent(this,false,true);
 		});
+		
+		this.onUnCheckedAll();
 	},
 	/**
 	 * 根据ID取消选择
@@ -292,6 +301,10 @@ TableDecorator.prototype = {
 	 */
 	onChecked:function(tr,checked){
 	},
+	onCheckedAll:function(){
+	},
+	onUnCheckedAll:function(){
+	},
 	reInitTable:function(){//初始化表格对象
 		this._initTable();
 	},
@@ -300,10 +313,12 @@ TableDecorator.prototype = {
 		var _self = this;
 		this.table.tbody.find("input:checkbox").each(function(){
 			this.checked = checked;
-			_self._checkCurrent(this,false);
+			_self._checkCurrent(this,false,true);
 		});
+
+		this.onCheckedAll();
 	},
-	_checkCurrent:function(elem,changeTop){//选择当前
+	_checkCurrent:function(elem,changeTop,notAlloFireEvent){//选择当前
 		if(elem.checked){
 			if(this.showCheckBox)
 				$(elem).show();
@@ -323,8 +338,10 @@ TableDecorator.prototype = {
 			tr.removeClass(this.selectedClass);
 			tr.addClass(tr.attr("oldClass"));
 		}
+		
 		//触发用户定义的选中事件
-		this.onChecked(tr[0],elem.checked);
+		if(!notAlloFireEvent)
+			this.onChecked(tr[0],elem.checked);
 	},
 	_showCheckBox:function(elem){//显示Checkbox
 		var ckb = elem.find("input:first");
