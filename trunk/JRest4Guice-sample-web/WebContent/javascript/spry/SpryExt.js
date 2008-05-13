@@ -90,7 +90,8 @@ SpryExt.TableRegionDecorator = function(){
  * tableId :数据显示所在的表格ID
  * showCheckBox :是否显示复选框
  */
-SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSet,tableId,showCheckBox){
+SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSet,tableId,option){
+	option = option ||{};
 	Spry.Data.Region.addObserver(dataRegionId, {
 		onPreUpdate: function(){
 			try{
@@ -104,7 +105,12 @@ SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSe
 			}catch(e){
 				ids = [];
 			}
-			new TableDecorator(dataSet,tableId).decorateRow({checkedIds:ids,showCheckBox:showCheckBox});
+			
+			option.checkedIds = ids;
+			var tableDecorator = new TableDecorator(dataSet,tableId);
+			if(option.onChecked)
+				tableDecorator.onChecked = option.onChecked;
+			tableDecorator.decorateRow(option);
 		}
 	});
 	
@@ -284,7 +290,7 @@ TableDecorator.prototype = {
 	 * tr:当前所在的TR
 	 * checked ：是否被选中
 	 */
-	onCheckedFunction:function(tr,checked){
+	onChecked:function(tr,checked){
 	},
 	reInitTable:function(){//初始化表格对象
 		this._initTable();
@@ -317,9 +323,8 @@ TableDecorator.prototype = {
 			tr.removeClass(this.selectedClass);
 			tr.addClass(tr.attr("oldClass"));
 		}
-		
 		//触发用户定义的选中事件
-		this.onCheckedFunction(tr[0],elem.checked);
+		this.onChecked(tr[0],elem.checked);
 	},
 	_showCheckBox:function(elem){//显示Checkbox
 		var ckb = elem.find("input:first");

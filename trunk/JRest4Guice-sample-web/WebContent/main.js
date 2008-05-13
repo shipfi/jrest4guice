@@ -35,7 +35,19 @@ function init(){
 	contact_detail_ds.setRequestInfo({headers:{"Accept":"application/json"}},true);
 
 	new SpryExt.DataSetDecorator().decorateAjaxLoading(contacts_ds).decorateAjaxLoading(contact_detail_ds);
-	SpryExt.TableRegionDecorator.makeMuiltiSelectable("contactListRegion",contacts_ds,"contactTable");
+	SpryExt.TableRegionDecorator.makeMuiltiSelectable("contactListRegion",contacts_ds,"contactTable",{onChecked:function(){
+		var rows = contactTable_decorator.getCheckedRows();
+		var names = [];
+		for(var i=0;i<rows.length;i++){
+			names.push(rows[i].name);
+		}
+		
+		if(names.length>0){
+			$("#cContact").html(" "+names.join(",")+" ");
+			$("#cContactSpan").show();
+		}else
+			$("#cContactSpan").hide();
+	}});
 	contacts_ds.loadData();
 }
 
@@ -48,13 +60,6 @@ var detailObserver = {
 		validationHelper.createTextFieldValidation("theMobilePhone", "mobile", {isRequired:false,useCharacterMasking:true, validateOn:["blur"]});
 		validationHelper.createTextFieldValidation("theEmail", "email", {isRequired:false,useCharacterMasking:true,  validateOn:["blur"]});
 		validationHelper.createTextAreaValidation("theAddress", {isRequired:false,useCharacterMasking:true, maxChars:40, validateOn:["blur"]});
-
-		var rows = contactTable_decorator.getCheckedRows();
-		var names = [];
-		for(var i=0;i<rows.length;i++){
-			names.push(rows[i].name);
-		}
-		$("#cContact").html(" "+names.join(",")+" ");
 	}
 };
 

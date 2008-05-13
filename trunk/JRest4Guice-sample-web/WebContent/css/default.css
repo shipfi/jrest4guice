@@ -6,6 +6,12 @@ body {
 table { 
 	font-family: Arial, Tahoma, "宋体";font-size: 13px;
 }
+
+.linkButton{
+	cursor: pointer;
+	font-weight: bold;
+}
+
 .cmdButton{
 	cursor: pointer;
 	color: green !important;
