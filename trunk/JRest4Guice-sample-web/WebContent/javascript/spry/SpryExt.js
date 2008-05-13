@@ -83,15 +83,28 @@ SpryExt.DomHelper.parentElemByTagName = function(node, tagName){
 //===============================================================================
 SpryExt.TableRegionDecorator = function(){
 }
-SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSet,tableId){
+
+/**
+ * dataRegionId : 数据显示区域的ID
+ * dataSet	:数据集
+ * tableId :数据显示所在的表格ID
+ * showCheckBox :是否显示复选框
+ */
+SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSet,tableId,showCheckBox){
 	Spry.Data.Region.addObserver(dataRegionId, {
-		onPostUpdate: function(notifier, data) {
+		onPreUpdate: function(){
 			try{
 				var ids = eval(tableId+"_decorator.getCheckedIds();");
+				eval(tableId+"_decorator.ids=ids;");
+			}catch(e){}
+		},
+		onPostUpdate: function(notifier, data) {
+			try{
+				var ids = eval(tableId+"_decorator.ids;");
 			}catch(e){
 				ids = [];
 			}
-			new TableDecorator(dataSet,tableId).decorateRow({checkedIds:ids});
+			new TableDecorator(dataSet,tableId).decorateRow({checkedIds:ids,showCheckBox:showCheckBox});
 		}
 	});
 	
@@ -124,6 +137,7 @@ TableDecorator.prototype = {
 	 */
 	decorateRow : function(option){
 		this.checkAbleOption = option;
+		this.showCheckBox = option.showCheckBox==null?true:option.showCheckBox;
 		this._initTable();
 		var _self = this;
 		//初始化表格头的全选Checkbox
@@ -134,10 +148,15 @@ TableDecorator.prototype = {
 					SpryExt.DomHelper.disableSelection(this);
 				});
 				var ckb = $(this).find("input.selectAllCkb:first");
-				if(ckb.length==0)
+				if(ckb.length==0){
 					this.insertBefore($("<td class='ckbHeadTd' style=\"width: 24px;\"><input style=\"width: 24px;\" class='selectAllCkb' id=\""+_self.tableId+"_allCkb\" type=\"checkbox\" onclick=\""+_self.tableId+"_decorator._checkAll(this);\"/></td>")[0],this.firstChild);
-				else
+				}else
 					ckb[0].checked = false;
+				
+				if(!_self.showCheckBox){
+					ckb = $(this).find("input.selectAllCkb:first");
+					ckb.hide();
+				}
 			}
 		);
 
@@ -158,7 +177,6 @@ TableDecorator.prototype = {
 		var _self = this;
 		var option = this.checkAbleOption;
 		var checkedIds = option.checkedIds || [];
-
 		var rowId = tr.attr("rowId");
 		
 		var td = $("<td style=\"width: 24px;\" class='tdCkb_"+rowId+"'><input type=\"checkbox\" style=\"display: none;width: 24px;\"/></td>");
@@ -189,7 +207,8 @@ TableDecorator.prototype = {
 		tr.mouseover(function(){//鼠标经过
 			tr.removeClass(tr.attr("oldClass"));
 			tr.addClass(_self.mouseoverClass);
-			tr.find("input:first").show();
+			if(_self.showCheckBox)
+				tr.find("input:first").show();
 		}).mouseout(function(){//鼠标离开
 			tr.removeClass(_self.mouseoverClass);
 			if(tr.attr("class")!=_self.selectedClass)
@@ -280,7 +299,8 @@ TableDecorator.prototype = {
 	},
 	_checkCurrent:function(elem,changeTop){//选择当前
 		if(elem.checked){
-			$(elem).show();
+			if(this.showCheckBox)
+				$(elem).show();
 		}else{
 			$("#"+this.tableId+"_allCkb")[0].checked = false;
 			$(elem).hide();
