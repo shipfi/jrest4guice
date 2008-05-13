@@ -33,7 +33,7 @@ function init(){
 	contact_detail_ds.setRequestInfo({headers:{"Accept":"application/json"}},true);
 
 	new SpryExt.DataSetDecorator().decorateAjaxLoading(contacts_ds).decorateAjaxLoading(contact_detail_ds);
-	SpryExt.TableRegionDecorator.makeMuiltiSelectable("contactListRegion",contacts_ds,"contactTable",false);
+	SpryExt.TableRegionDecorator.makeMuiltiSelectable("contactListRegion",contacts_ds,"contactTable");
 	contacts_ds.loadData();
 }
 
