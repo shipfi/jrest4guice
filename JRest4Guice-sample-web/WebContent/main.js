@@ -82,7 +82,7 @@ function saveOrUpdateContact(){
 	if(!validationHelper.validate())
 		return;
 	
-	var form = Spry.$("editArea");
+	var form = $("#editArea")[0];
 	//收集数据
 	var postData = SpryExt.DataHelper.gatherData(form);
 	currentContact = contacts_ds.getCurrentRow();
