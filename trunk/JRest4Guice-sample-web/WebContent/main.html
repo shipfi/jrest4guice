@@ -26,7 +26,9 @@
 </style>
 </head>
 <body>
-	<button onclick="currentRowNo=0;contacts_ds.loadData();" class="button">重新加载</button><button onclick="createContact();" class="button">新增</button><button onclick="deleteContact();" class="button">删除</button><button onclick="getSelectRows();" class="button">获取选择的行</button>
+	<button onclick="currentRowNo=0;contacts_ds.loadData();" class="button">重新加载</button>
+	<button onclick="createContact();" class="button">新增</button>
+	<button onclick="deleteContact();" class="button">删除</button>
 	<hr>
 	<div id="contactListRegion" style="float: left;width:55%;margin-right: 50px;" spry:region="contacts_ds">
 		<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">

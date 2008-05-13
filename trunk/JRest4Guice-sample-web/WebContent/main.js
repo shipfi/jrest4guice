@@ -9,11 +9,6 @@ window.onload = function(){
 	init();
 }
 
-function getSelectRows(){
-	var rows = contactTable_decorator.getCheckedRows();
-	debugger;
-}
-
 function doCancel(){
 	if(restMethod == "POST")
 		clear($("#editArea"));
@@ -65,21 +60,24 @@ function saveOrUpdateContact(){
  * 删除联系人
  */
 function deleteContact(id,nme){
-	currentContact = contacts_ds.getCurrentRow();
-	if(currentContact != null){
-		id = currentContact.id;
-		name = currentContact.name;
-	}
-	
-	if(id == null){
+	var rows = contactTable_decorator.getCheckedRows();
+	if(rows.length<1){
 		alert("请选择您要删除的联系人！");
 		return;
 	}
-	if(!window.confirm("您确定要删除\""+name+"\"?"))
+	
+	var ids = [];
+	var names = [];
+	for(var i=0;i<rows.length;i++){
+		ids.push(rows[i].id);
+		names.push(rows[i].name);
+	}
+	
+	if(!window.confirm("您确定要删除 \""+names.join(",")+"\" 吗?"))
 		return;
 	
 	//删除联系人
-	SpryExt.rest.doDelete("resource/contact/"+id,function(result){
+	SpryExt.rest.doDelete("resource/contact/"+ids,function(result){
 		if(!result.errorMessage){
 			contacts_ds.loadData();
 			currentContact = null;
