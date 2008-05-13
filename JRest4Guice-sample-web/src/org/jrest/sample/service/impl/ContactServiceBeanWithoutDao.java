@@ -30,11 +30,14 @@ public class ContactServiceBeanWithoutDao implements ContactService {
 
 	@Transactional
 	public void deleteContact(String contactId) {
-		Contact contact = this.findContactById(contactId);
-		if (contact == null)
-			throw new RuntimeException("联系人不存在");
-
-		this.em.remove(contact);
+		String[] ids = contactId.split(",");
+		Contact contact;
+		for(String id:ids){
+			contact = this.findContactById(id);
+			if (contact == null)
+				throw new RuntimeException("联系人不存在");
+			this.em.remove(contact);
+		}
 	}
 
 	@Transactional
