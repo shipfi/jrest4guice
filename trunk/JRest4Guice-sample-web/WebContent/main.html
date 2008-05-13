@@ -51,7 +51,7 @@
 				</tr>
 			</thead>
 			<tbody spry:repeat="contacts_ds">
-				<tr rowId="{id}" spry:odd="odd" spry:even="even" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;">
+				<tr rowId="{ds_RowID}" spry:odd="odd" spry:even="even" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;">
 					<td>&nbsp;{name}</td>
 					<td>&nbsp;{mobilePhone}</td>
 					<td>&nbsp;{EMail}</td>
@@ -64,7 +64,7 @@
 	<!-- 编辑区域 -->
 	<div style="width: 38%;float: right;">
 		<form id="editForm">
-			<div id="editArea" spry:detailregion="contact_detail_ds">
+			<div id="editArea" spry:detailregion="contact_detail_ds" style="display: none;">
 				<input style="display: none;" type="text" name="id" value="{id}">
 				<div id="theName">
 					<div class="formLabel">姓名：</div>
