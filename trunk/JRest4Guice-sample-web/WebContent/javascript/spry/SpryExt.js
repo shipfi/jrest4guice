@@ -1,14 +1,41 @@
+//===============================================================================
+// Spry 修订
+//===============================================================================
 Spry.Data.DataSet.prototype.setCurrentRow = function(rowID){
 	var nData = { oldRowID: this.curRowID, newRowID: rowID };
 	this.curRowID = rowID;
 	this.notifyObservers("onCurrentRowChanged", nData);
 };
 
+Spry.Widget.ValidationTextField.ValidationDescriptors.phone={
+	validation: function (value, options) {
+		var regExp = new RegExp("(^\\d{3}(\\-)?(\\d{8})$)|(^\\d{4}(\\-)?(\\d{7,8})$)");
+		if (!regExp.test(value)) {
+			return false;
+		}
+		return true;
+	}
+}
+Spry.Widget.ValidationTextField.ValidationDescriptors.mobile={
+	validation: function (value, options) {
+		var regExp = new RegExp("^((\\(\\d{2,3}\\))|(\\d{3}\\-))?(13|15)\\d{9}$");
+		if (!regExp.test(value)) {
+			return false;
+		}
+		return true;
+	}
+}
 
+
+//===============================================================================
+// Spry 的自定义扩展
+//===============================================================================
 SpryExt = {};
 
+//===============================================================================
+// Dom操作助手
+//===============================================================================
 SpryExt.DomHelper = {};
-
 SpryExt.DomHelper.isIE = function(){
   return navigator.appName.indexOf("Microsoft")!=-1;
 }
@@ -156,12 +183,17 @@ TableDecorator.prototype = {
 				ckb.checked = !ckb.checked;
 			_self._checkCurrent(ckb,true);
 		};
+		
+		tr.attr("oldClass",tr.attr("class"));
 
 		tr.mouseover(function(){//鼠标经过
+			tr.removeClass(tr.attr("oldClass"));
 			tr.addClass(_self.mouseoverClass);
 			tr.find("input:first").show();
 		}).mouseout(function(){//鼠标离开
 			tr.removeClass(_self.mouseoverClass);
+			if(tr.attr("class")!=_self.selectedClass)
+				tr.addClass(tr.attr("oldClass"));
 			_self._showCheckBox(tr);
 		}).click(function(event){//鼠标单击
 			if(!(event.ctrlKey || event.shiftKey))
@@ -257,10 +289,13 @@ TableDecorator.prototype = {
 			this._changeCheckedAllCkbState();
 		}
 	 	var tr = $(SpryExt.DomHelper.parentElemByTagName(elem,"tr"));
+
 		if(elem.checked){
+			tr.removeClass(tr.attr("oldClass"));
 			tr.addClass(this.selectedClass);
 		}else{
 			tr.removeClass(this.selectedClass);
+			tr.addClass(tr.attr("oldClass"));
 		}
 		
 		//触发用户定义的选中事件
