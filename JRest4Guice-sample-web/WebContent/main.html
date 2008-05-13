@@ -35,15 +35,20 @@
 </head>
 <body>
 	<!-- 操作栏 -->
-	<div id="infoBar" style="margin: 14px 0 12px 12px;">
-		<span style="margin-right: 24px;">你可以从这里<a href="#" onclick="createContact();void(0);return false;">添加新的联系人</a>，
-		或者按<a href="#" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">这里</a>刷新整个列表。</span><br/><br/>
-		<span id="cContactSpan" style="display: none;">按<a href="#" onclick="deleteContact();void(0);return false;">这里</a>删除以下所选择的联系人: <span id="cContact" style="color: red;"></span>
+	<div id="infoBar" style="margin: 18px 0 12px 12px;height: 44px;">
+		<img src="images/user.gif"/>
+		<span style="margin-right: 24px;">
+			<span style="font-size:24px;">你</span>可以从这里<a href="#" class="linkButton" onclick="createContact();void(0);return false;">增加</a>新的联系人，或者<a href="#" class="linkButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</a>整个列表。
 		</span>
+		<div style="margin-top: 6px;">
+			<span id="cContactSpan" style="display: none;">
+				还可以<a href="#" class="linkButton" onclick="deleteContact();void(0);return false;">删除</a>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
+			</span>
+		</div>
 	</div>
 	<hr>
 	<!-- 列表显示区域 -->
-	<div id="contactListRegion" style="float: left;width:58%;margin-right: 8px;" spry:region="contacts_ds">
+	<div id="contactListRegion" style="float: left;width:65%;margin-right: 8px;" spry:region="contacts_ds">
 		<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
 			<thead style="font-weight: bold;">
 				<tr style="height: 26px;background-image: url('images/head.jpg');color: white;">
@@ -65,7 +70,7 @@
 	</div>
 	
 	<!-- 编辑区域 -->
-	<div style="width: 38%;float: right;background-color:#EAF6FD;">
+	<div style="width: 32%;float: right;background-color:#EAF6FD;">
 		<form id="editForm">
 			<div id="editArea" spry:detailregion="contact_detail_ds" style="display: none;">
 				<fieldset style="margin: 10px;border: 1px solid olive;">
@@ -90,7 +95,7 @@
 						</div>
 						<div id="theAddress">
 							<div class="formLabel">家庭住址：</div>
-							<textarea rows="3" cols="36" name="address">{address}</textarea>
+							<textarea rows="3" cols="32" name="address">{address}</textarea>
 							<span class="textareaRequiredMsg">家庭住址.</span>
 							<span class="textareaMaxCharsMsg">长度不能超过50这个字符</span>
 						</div>
