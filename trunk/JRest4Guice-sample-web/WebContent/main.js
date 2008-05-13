@@ -20,12 +20,11 @@ function init(){
 	
 	contacts_ds.addObserver({
 		onCurrentRowChanged:function(dataSet,rowInfo){
-			$("#editArea").show("slow");
 			$("#cContactSpan").show();
 		},
 		onDataChanged:function(dataSet, type) {
-			$("#editArea").hide("slow");
 			$("#cContactSpan").hide();
+			$("#editArea").hide("slow");
 		}
 	});
 
@@ -33,21 +32,34 @@ function init(){
 	contact_detail_ds.useCache = false;
 	contact_detail_ds.setPath("content");
 	contact_detail_ds.setRequestInfo({headers:{"Accept":"application/json"}},true);
-
+	
+	//装饰AJAX请求的Loading条
 	new SpryExt.DataSetDecorator().decorateAjaxLoading(contacts_ds).decorateAjaxLoading(contact_detail_ds);
+	
+	//增加复选功能
 	SpryExt.TableRegionDecorator.makeMuiltiSelectable("contactListRegion",contacts_ds,"contactTable",{onChecked:function(){
+		//监听表格的选择事件
 		var rows = contactTable_decorator.getCheckedRows();
 		var names = [];
 		for(var i=0;i<rows.length;i++){
 			names.push(rows[i].name);
 		}
 		
-		if(names.length>0){
+		var len = names.length;
+		if(len>0){
 			$("#cContact").html(" "+names.join(",")+" ");
 			$("#cContactSpan").show();
-		}else
+		}else{
 			$("#cContactSpan").hide();
+		}
+
+		if(len==1)
+			$("#editArea").show("slow");
+		else if(len>1)
+			$("#editArea").hide("slow");
 	}});
+	
+	//装载数据
 	contacts_ds.loadData();
 }
 
@@ -87,6 +99,8 @@ function createContact(){
 	restMethod = "POST";
 	clear($("#editArea"));
 	$("#editArea").show("slow");
+	//取消所有选择的行
+	contactTable_decorator.uncheckAll();
 }
 
 /**
