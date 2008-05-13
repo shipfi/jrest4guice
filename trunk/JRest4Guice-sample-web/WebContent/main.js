@@ -1,5 +1,4 @@
 var currentContact;
-var currentRowNo = 0;
 var restMethod = "POST";
 var validationHelper;
 var contacts_ds = new Spry.Data.JSONDataSet(null,{sortOnLoad:"name"});
@@ -11,10 +10,16 @@ window.onload = function(){
 }
 
 function getSelectRows(){
-	var rows = contactTable_decorator.getCheckedRows(contacts_ds);
+	var rows = contactTable_decorator.getCheckedRows();
 	debugger;
 }
 
+function doCancel(){
+	if(restMethod == "POST")
+		clear($("#editArea"));
+	else
+		$('#editForm')[0].reset();
+}
 /**
  * 清输入框
  */
@@ -29,7 +34,7 @@ function clear(elem){
 function createContact(){
 	restMethod = "POST";
 	clear($("#editArea"));
-	$("#name").click();
+	$("#editArea").show();
 }
 
 /**
@@ -95,7 +100,6 @@ var detailObserver = {
 };
 
 Spry.Data.Region.addObserver("editArea", detailObserver);
-SpryExt.TableRegionDecorator.makeMuiltiSelectable("contactListRegion","contactTable");
 
 /**
  * 初始化
@@ -108,12 +112,10 @@ function init(){
 	
 	contacts_ds.addObserver({
 		onCurrentRowChanged:function(dataSet,rowInfo){
-			currentRowNo = contacts_ds.getCurrentRowNumber();
+			$("#editArea").show();
 		},
 		onDataChanged:function(dataSet, type) {
-			if(currentRowNo != null){
-				contacts_ds.setCurrentRowNumber(currentRowNo);
-			}
+			$("#editArea").hide();
 		}
 	});
 
@@ -123,5 +125,6 @@ function init(){
 	contact_detail_ds.setRequestInfo({headers:{"Accept":"application/json"}},true);
 
 	new SpryExt.DataSetDecorator().decorateAjaxLoading(contacts_ds).decorateAjaxLoading(contact_detail_ds);
+	SpryExt.TableRegionDecorator.makeMuiltiSelectable("contactListRegion",contacts_ds,"contactTable");
 	contacts_ds.loadData();
 }

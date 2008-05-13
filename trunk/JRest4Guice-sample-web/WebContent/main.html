@@ -7,6 +7,7 @@
 <link href="javascript/spry/widgets/textfieldvalidation/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
 <link href="javascript/spry/widgets/textareavalidation/SpryValidationTextarea.css" rel="stylesheet" type="text/css" />
 <link href="css/validation.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
 
 <script type="text/javascript" src="javascript/lib/jquery-1.2.2.js"></script>
 <script language="JavaScript" type="text/javascript" src="javascript/spry/SpryData.js"></script>
@@ -19,20 +20,6 @@
 <script type="text/javascript" src="main.js"></script>
 
 <style>
-	.mouseoverClass {background-color:#EAF6FD;} 
-	.selectedClass {background-color:#C7E8FA;} 
-	.validMsg {height: 16px;}
-	.loadingBar {
-		background-color:red;
-		color:yellow;
-		font-size:13px;
-		padding:2px;
-		border:solid 1px olive;
-		top:4px;
-		right: 4px;
-		clear:both;
-		position:absolute;
-	}
 	.button {
 		margin-right: 20px;
 	}
@@ -95,7 +82,7 @@
 					<span class="textareaMaxCharsMsg">长度不能超过50这个字符</span>
 				</div>
 				<br/>
-				<input type="button" onclick="saveOrUpdateContact();" value="确定" style="width: 40px;"> or <a href="#" onclick="Spry.$('editForm').reset();void(0);return false;">取消</a>
+				<input type="button" onclick="saveOrUpdateContact();" value="确定" style="width: 40px;"> or <a href="#" onclick="doCancel();void(0);return false;">取消</a>
 			</div>
 		</form>
 	</div>

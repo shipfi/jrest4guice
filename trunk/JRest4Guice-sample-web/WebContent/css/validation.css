@@ -5,18 +5,12 @@
 /* Overrides some of the default styles 
    for widget error messages to include images
 ----------------------------------------------- */
-input{
-	width:180px;
-}
 select{
 	width: 185px;
 	font-size:small;
 	border: 1px solid #b1b1bc;
 	background-color: #fff;
 	color: #000;	
-}
-input, select, textarea{
-	margin-left: 10px;
 }
 .validcheckbox{
 	float:left;
