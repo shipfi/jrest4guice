@@ -1,3 +1,10 @@
+Spry.Data.DataSet.prototype.setCurrentRow = function(rowID){
+	var nData = { oldRowID: this.curRowID, newRowID: rowID };
+	this.curRowID = rowID;
+	this.notifyObservers("onCurrentRowChanged", nData);
+};
+
+
 SpryExt = {};
 
 SpryExt.DomHelper = {};
@@ -49,16 +56,33 @@ SpryExt.DomHelper.parentElemByTagName = function(node, tagName){
 //===============================================================================
 SpryExt.TableRegionDecorator = function(){
 }
-SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,tableId){
-	Spry.Data.Region.addObserver(dataRegionId, {onPostUpdate: function(notifier, data) {
-		new TableDecorator(tableId).decorateRow({});
-	}});
+SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSet,tableId){
+	Spry.Data.Region.addObserver(dataRegionId, {
+		onPostUpdate: function(notifier, data) {
+			try{
+				var ids = eval(tableId+"_decorator.getCheckedIds();");
+			}catch(e){
+				ids = [];
+			}
+			new TableDecorator(dataSet,tableId).decorateRow({checkedIds:ids});
+		}
+	});
+	
+	dataSet.addObserver({
+		onDataChanged: function(){
+			try{
+				eval(tableId+"_decorator.uncheckAll();");
+			}catch(e){
+			}
+		}
+	});
 }
 
 //====================================================================
 // 表格装饰器
 //====================================================================
-TableDecorator=function(tableId,selectedClass,mouseoverClass){
+TableDecorator=function(dataSet,tableId,selectedClass,mouseoverClass){
+	this.dataSet = dataSet;
 	this.tableId = tableId;
 	this.table = $("#"+this.tableId);
 	this.selectedClass = selectedClass || "selectedClass";
@@ -195,11 +219,11 @@ TableDecorator.prototype = {
 	/**
 	 * 获取当前选择的数据对象数组
 	 */
-	getCheckedRows:function(dataSet){
+	getCheckedRows:function(){
 		var ids = this.getCheckedIds();
 		var rows = new Array;
 		for(var i=0;i<ids.length;i++)
-			rows.push(dataSet.getRowByID(ids[i]));
+			rows.push(this.dataSet.getRowByID(ids[i]));
 		return rows;
 	},
 	getCheckedTrs:function(){

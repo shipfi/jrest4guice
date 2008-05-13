@@ -1,0 +1,71 @@
+body { 
+	color:#555555;
+	font-family:arial,sans-serif;
+	font-size:13px;
+}
+table { 
+	font-family: Arial, Tahoma, "宋体";font-size: 13px;
+}
+.cmdButton{
+	cursor: pointer;
+	color: green !important;
+	text-decoration: underline !important;
+	font-weight: bold;
+}
+.imgButton{
+	margin: 4px 3px -4px 0px;
+}
+.tagItem{
+	color: green;
+	cursor: pointer;
+}
+a {
+	color:#0063DC;
+	text-decoration:underline;
+	font-family:arial,sans-serif;
+	font-size:13px;
+}
+a:hover {
+	background-color:#0063DC;
+	color:#FFFFFF;
+	text-decoration:none;
+}
+
+.search{
+	font-family:Georgia,"Times New Roman",Serif;
+	font-size:12px;
+	font-size-adjust:none;
+	font-stretch:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:15px;
+	opacity:0.7;
+}
+
+.lable{
+	margin: 8px;
+}
+
+.line{
+	border-top:1px solid #C9D7F1;
+	font-size:0pt;
+	height:0pt;
+	position:absolute;
+	right:0pt;
+	width:200%;
+}
+
+.mouseoverClass {background-color:#EAF6FD;} 
+.selectedClass {background-color:#C7E8FA;} 
+.loadingBar {
+	background-color:red;
+	color:yellow;
+	font-size:13px;
+	padding:2px;
+	border:solid 1px olive;
+	top:4px;
+	right: 4px;
+	clear:both;
+	position:absolute;
+}
