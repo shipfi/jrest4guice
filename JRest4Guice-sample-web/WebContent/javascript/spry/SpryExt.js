@@ -26,6 +26,14 @@ Spry.Widget.ValidationTextField.ValidationDescriptors.mobile={
 	}
 }
 
+Spry.Data.JSONDataSet.prototype.loadPageData = function(param){
+	param = param || {pageIndex:1,pageSize:14};
+	if(this.oldUrl==null)
+		this.oldUrl = this.url;
+	this.url = this.oldUrl+"?"+jQuery.param(param);
+	this.loadData();
+}
+
 
 Function.prototype.bind = function() {
   var __method = this, args = arguments, object = args.length>1?args:(args.length>0?args[0]:null);
@@ -144,7 +152,7 @@ SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSe
 			tableDecorator.decorateRow(option);
 			
 			SpryExt.PageInfoBar.build(dataSet.docObj,"条记录","infoBar","navigation",function(index){
-				alert(index);
+				dataSet.loadPageData({pageIndex:index,pageSize:14});
 			});
 		}
 	});
@@ -597,18 +605,18 @@ SpryExt.PageInfoBar = function(){}
  * 用法 SpryExt.PageInfoBar.build(pageInfo, "条记录", "infoBar", "navigation", loadData);
  **/
 SpryExt.PageInfoBar.build = function(pageInfo, msg, infoBar, navigations, goPage){
-	var pageCount = 9;
+	var maxPageCount = 9;
 	if(pageInfo.pageSize == null) 
 		 pageInfo.pageSize = 4;  
-	if(pageInfo.index == null) 
-		 pageInfo.index = 3;  
+	if(pageInfo.pageIndex == null) 
+		 pageInfo.pageIndex = 3;  
 	try{
 		pageInfo.resultCount = parseInt(pageInfo.resultCount);
 	}catch(exception){
 		pageInfo.resultCount = 0;	
 	}
-	var page = Math.ceil(pageInfo.resultCount/pageInfo.pageSize);
-	document.getElementById(infoBar).innerHTML = "&nbsp;&nbsp;"+pageInfo.resultCount + msg+"，共" + page + "页";
+	var pageCount = pageInfo.pageCount;
+	document.getElementById(infoBar).innerHTML = "&nbsp;&nbsp;"+pageInfo.resultCount + msg+"，共" + pageCount + "页";
 	var navigation = document.getElementById(navigations);
 	
 	navigation.innerHTML = "";
@@ -619,9 +627,9 @@ SpryExt.PageInfoBar.build = function(pageInfo, msg, infoBar, navigations, goPage
 	textPerPage.style.width = "45px";
 	textPerPage.innerHTML = "上一页";
 	textPerPage.className="pageClass";
-	if(pageInfo.index > 1) {
+	if(pageInfo.pageIndex > 1) {
 		textPerPage.style.visibility="visible";
-		textPerPage.onclick =  function(){goPage(parseInt(this.toString()));}.bind(pageInfo.index -1); 
+		textPerPage.onclick =  function(){goPage(parseInt(this.toString()));}.bind(pageInfo.pageIndex -1); 
 	}else{
 		textPerPage.style.visibility="hidden";
 	}
@@ -629,17 +637,17 @@ SpryExt.PageInfoBar.build = function(pageInfo, msg, infoBar, navigations, goPage
 	//定制 1 2 3 4 5 6
 	var pageSpan = document.createElement("span");
 	pageSpan.className="pageClass";
-	for(var i=0;i<pageCount;i++){
-		if(i>=page) break;
-		if(pageInfo.index<5 || page<=pageCount)
+	for(var i=0;i<maxPageCount;i++){
+		if(i>=pageCount) break;
+		if(pageInfo.pageIndex<5 || pageCount<=maxPageCount)
 			pageIndex = i+1;
-		else if(pageInfo.index >=5 && pageInfo.index<page-4 && page>pageCount)
-			pageIndex = pageInfo.index + i - 4;
-		else if(pageInfo.index>=page-4 && pageInfo.index >=5 && page>pageCount)
-			pageIndex = pageInfo.index + i -4 -(pageInfo.index-page+4);
+		else if(pageInfo.pageIndex >=5 && pageInfo.pageIndex<pageCount-4 && pageCount>maxPageCount)
+			pageIndex = pageInfo.pageIndex + i - 4;
+		else if(pageInfo.pageIndex>=pageCount-4 && pageInfo.pageIndex >=5 && pageCount>maxPageCount)
+			pageIndex = pageInfo.pageIndex + i -4 -(pageInfo.pageIndex-pageCount+4);
 		pageSpanClone = pageSpan.cloneNode(true);
 		pageSpanClone.innerHTML = pageIndex;
-		if(pageIndex == pageInfo.index)
+		if(pageIndex == pageInfo.pageIndex)
 			pageSpanClone.className="pageClassd";	
 		else
 			pageSpanClone.onclick = function(){
@@ -652,11 +660,11 @@ SpryExt.PageInfoBar.build = function(pageInfo, msg, infoBar, navigations, goPage
 	textNextPage.style.width = "45px";
 	textNextPage.innerHTML = "下一页";
 	textNextPage.className="pageClass";
-	if(pageInfo.index < page ){
+	if(pageInfo.pageIndex < pageCount ){
 		textNextPage.style.visibility="visible";
 		textNextPage.onclick = function(){
 			goPage(parseInt(this.toString()));
-		}.bind(pageInfo.index + 1);
+		}.bind(pageInfo.pageIndex + 1);
 	}else{
 		textNextPage.style.visibility="hidden";
 	}

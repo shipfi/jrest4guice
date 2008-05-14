@@ -46,7 +46,10 @@
 	<hr>
 	<!-- 列表显示区域 -->
 	<div id="contactListRegion" style="float: left;width:65%;margin-right: 8px;" spry:region="contacts_ds">
-		<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
+		<div style="margin:0px 12px;text-align: right;float: right;" >
+			<span id="infoBar"></span><span id="navigation"></span>
+		</div>
+		<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%" style="margin-top: 36px;">
 			<thead style="font-weight: bold;">
 				<tr style="height: 26px;background-image: url('images/head.jpg');color: white;">
 					<td style="width: 110px;" spry:sort="name">&nbsp;姓 名</td>
@@ -64,9 +67,6 @@
 				</tr>
 			</tbody>
 		</table>
-		<div style="margin:0px 12px;text-align: right;float: right;" >
-			<div id="infoBar"></div><div id="navigation"></div>
-		</div>
 	</div>
 	
 	<!-- 编辑区域 -->
