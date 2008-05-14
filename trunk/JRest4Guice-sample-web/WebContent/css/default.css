@@ -14,7 +14,7 @@ table {
 
 .cmdButton{
 	cursor: pointer;
-	color: green !important;
+	color: blue !important;
 	text-decoration: underline !important;
 	font-weight: bold;
 }
