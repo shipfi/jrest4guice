@@ -1,10 +1,10 @@
 package org.jrest.sample.service.impl;
 
-import java.util.List;
 
 import javax.persistence.EntityManager;
 
 import org.jrest.core.persist.jpa.BaseEntityManager;
+import org.jrest.core.persist.jpa.Page;
 import org.jrest.core.persist.jpa.Pagination;
 import org.jrest.core.transaction.annotations.Transactional;
 import org.jrest.core.transaction.annotations.TransactionalType;
@@ -54,10 +54,10 @@ public class ContactServiceBeanWithBaseEntityManager implements ContactService {
 	}
 
 	@Transactional(type=TransactionalType.READOLNY)
-	public List<Contact> listContacts(int first, int max)
+	public Page<Contact> listContacts(int pageIndex, int pageSize)
 			throws RuntimeException {
 		return this.entityManager.pageByNamedQuery("list",
-				new Pagination(1, 100)).getResult();
+				new Pagination(pageIndex, pageSize));
 	}
 
 	@Transactional

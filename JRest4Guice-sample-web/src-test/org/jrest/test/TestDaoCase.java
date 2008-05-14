@@ -6,6 +6,7 @@ import junit.framework.Assert;
 
 import org.jrest.core.guice.GuiceContext;
 import org.jrest.core.persist.jpa.JpaGuiceModuleProvider;
+import org.jrest.core.persist.jpa.Page;
 import org.jrest.core.transaction.TransactionGuiceModuleProvider;
 import org.jrest.dao.DaoModuleProvider;
 import org.jrest.sample.dao.ContactDao;
@@ -29,9 +30,9 @@ public class TestDaoCase {
 		ContactServiceBeanWithBaseEntityManager bean = guice.getBean(ContactServiceBeanWithBaseEntityManager.class);
 		Assert.assertNotNull(bean);
 		
-		List<Contact> contacts = bean.listContacts(1, 100);
+		Page<Contact> contactPage = bean.listContacts(1, 100);
+		List<Contact> contacts = contactPage.getResult();
 		Assert.assertTrue(contacts.size() > 0);
-		
 		debugContacts(contacts);
 	}
 	

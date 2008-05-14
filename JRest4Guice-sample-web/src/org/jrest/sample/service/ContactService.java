@@ -1,7 +1,7 @@
 package org.jrest.sample.service;
 
-import java.util.List;
 
+import org.jrest.core.persist.jpa.Page;
 import org.jrest.sample.entity.Contact;
 import org.jrest.sample.service.impl.ContactServiceBeanWithBaseEntityManager;
 
@@ -12,7 +12,7 @@ import com.google.inject.ImplementedBy;
 public interface ContactService {
 	public String createContact(Contact contact);
 	
-	public List<Contact> listContacts(int first,int max);
+	public Page<Contact> listContacts(int pageIndex,int pageSize);
 	
 	public Contact findContactById(String contactId);
 	

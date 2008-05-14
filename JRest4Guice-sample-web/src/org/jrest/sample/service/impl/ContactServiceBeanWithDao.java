@@ -1,7 +1,7 @@
 package org.jrest.sample.service.impl;
 
-import java.util.List;
 
+import org.jrest.core.persist.jpa.Page;
 import org.jrest.core.transaction.annotations.Transactional;
 import org.jrest.core.transaction.annotations.TransactionalType;
 import org.jrest.sample.dao.ContactDao;
@@ -47,9 +47,10 @@ public class ContactServiceBeanWithDao implements ContactService {
 	}
 
 	@Transactional(type=TransactionalType.READOLNY)
-	public List<Contact> listContacts(int first, int max)
+	public Page<Contact> listContacts(int pageIndex, int pageSize)
 			throws RuntimeException {
-		return this.dao.listContacts(first, max);
+		Page<Contact> pages = new Page<Contact>(1,100,1,this.dao.listContacts(pageIndex, pageSize));
+		return pages;
 	}
 
 	@Transactional
