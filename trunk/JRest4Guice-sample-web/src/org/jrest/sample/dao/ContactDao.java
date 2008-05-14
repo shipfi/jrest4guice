@@ -23,12 +23,9 @@ public interface ContactDao {
 	@Create
 	public void createContact(Contact contact);
 
-	@Find(namedQuery="list")
+	@Find(namedQuery="Contact.list[find]")
 	public List<Contact> listContacts(@FirstResult int first,@MaxResults int max);
 	
-	@Find(namedQuery="byDate")
-	public List<Contact> listContactsByDate(@Named("changeDate") Object time);
-
 	@Retrieve
 	public Contact findContactByName(@Named("name") String name);
 
