@@ -7,6 +7,8 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.jrest.core.guice.GuiceContext;
 import org.jrest.core.persist.jpa.EntityManagerFactoryHolder;
+import org.jrest.core.transaction.annotations.Transactional;
+import org.jrest.core.transaction.annotations.TransactionalType;
 
 public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 	@Override
@@ -14,10 +16,8 @@ public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 		EntityManagerFactoryHolder emfH = GuiceContext.getInstance().getBean(EntityManagerFactoryHolder.class);
 		EntityManager entityManager = emfH.getEntityManager();
 		
-//		Transactional transactional = methodInvocation.getMethod().getAnnotation(Transactional.class);
-//		TransactionalType type = transactional.type();
-//		if(type == TransactionalType.REQUIRED){
-//		}
+		Transactional transactional = methodInvocation.getMethod().getAnnotation(Transactional.class);
+		TransactionalType type = transactional.type();
 		
 //		System.out.println("current method : "+methodInvocation.getMethod());
 //		System.out.println("current entityManager : "+entityManager);
@@ -36,10 +36,14 @@ public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 			//执行被拦截的业务方法
 			result = methodInvocation.proceed();
 			//提交事务
-			transaction.commit();
+			if(type != TransactionalType.READOLNY){
+				transaction.commit();
+			}
 		} catch (Exception e) {
 			//回滚当前事务
-			transaction.rollback();
+			if(type != TransactionalType.READOLNY){
+				transaction.rollback();
+			}
 			throw e;
 		}
 		
