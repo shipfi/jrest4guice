@@ -4,27 +4,34 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.jrest.core.persist.jpa.BaseEntityManager;
+import org.jrest.core.persist.jpa.Pagination;
 import org.jrest.core.transaction.annotations.Transactional;
 import org.jrest.sample.entity.Contact;
 import org.jrest.sample.service.ContactService;
 
 import com.google.inject.Inject;
 
-@SuppressWarnings("unchecked")
-public class ContactServiceBeanWithoutDao implements ContactService {
+@SuppressWarnings( { "unchecked", "unused" })
+public class ContactServiceBeanWithBaseEntityManager implements ContactService {
+	private BaseEntityManager<String, Contact> entityManager;
+
 	@Inject
-	private EntityManager em;
+	private void init(EntityManager em) {
+		this.entityManager = new BaseEntityManager<String, Contact>(
+				Contact.class, em);
+	}
 
 	@Transactional
 	public String createContact(Contact contact) {
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");
 
-		if (this.em.createNamedQuery("byName").setParameter("name", contact.getName()).getResultList().size() > 0) {
+		if (this.entityManager.loadByNamedQuery("byName", contact.getName()) != null) {
 			throw new RuntimeException("联系人的姓名相同，请重新输入");
 		}
 
-		this.em.persist(contact);
+		this.entityManager.create(contact);
 		return contact.getId();
 	}
 
@@ -32,30 +39,24 @@ public class ContactServiceBeanWithoutDao implements ContactService {
 	public void deleteContact(String contactId) {
 		String[] ids = contactId.split(",");
 		Contact contact;
-		for(String id:ids){
+		for (String id : ids) {
 			contact = this.findContactById(id);
 			if (contact == null)
 				throw new RuntimeException("联系人不存在");
-			this.em.remove(contact);
+			this.entityManager.delete(contact);
 		}
 	}
 
 	@Transactional
 	public Contact findContactById(String contactId) {
-		Contact contact = this.em.find(Contact.class,contactId);
-		return contact;
+		return this.entityManager.load(contactId);
 	}
 
 	@Transactional
 	public List<Contact> listContacts(int first, int max)
 			throws RuntimeException {
-		return this.em.createNamedQuery("list").setFirstResult(first).setMaxResults(max).getResultList();
-	}
-
-	@Transactional
-	public List<Contact> listContactByDate(Object time)
-			throws RuntimeException {
-		return this.em.createNamedQuery("byDate").setParameter("changeDate", time).getResultList();
+		return this.entityManager.pageByNamedQuery("list",
+				new Pagination(1, 100)).getResult();
 	}
 
 	@Transactional
@@ -63,6 +64,6 @@ public class ContactServiceBeanWithoutDao implements ContactService {
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");
 
-		this.em.merge(contact);
+		this.entityManager.update(contact);
 	}
 }
