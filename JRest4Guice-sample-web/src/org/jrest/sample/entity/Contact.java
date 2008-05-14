@@ -13,14 +13,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.jrest.core.persist.jpa.EntityAble;
 
 @Entity()
 @Table(name = "Contact_tb")
 @NamedQueries( {
-		@NamedQuery(name = "byDate", query = "select e from Contact e where e.changeDate<=:changeDate"),
-		@NamedQuery(name = "byName", query = "select e from Contact e where e.name=:name"),
-		@NamedQuery(name = "list", query = "select e from Contact e order by e.changeDate desc") })
-public class Contact implements Serializable {
+		@NamedQuery(name = "Contact.list[find]", query = "select e from Contact e order by e.changeDate desc"),
+		@NamedQuery(name = "Contact.list[count]", query = "select count(*) from Contact"),
+		@NamedQuery(name = "Contact.byName[load]", query = "select e from Contact e where e.name=?") })
+public class Contact implements EntityAble<String>, Serializable {
 
 	/**
 	 * 
@@ -47,7 +48,7 @@ public class Contact implements Serializable {
 
 	@Column(name = "eMail", nullable = true, length = 36)
 	private String eMail;
-	
+
 	@Lob
 	@Column(name = "address", nullable = true, length = 2000)
 	private String address;
@@ -110,9 +111,10 @@ public class Contact implements Serializable {
 	public void setHeadPic(String headPic) {
 		this.headPic = headPic;
 	}
-	
-	public String toString(){
-		return "id="+this.id+";name="+this.name+";address="+this.address;
+
+	public String toString() {
+		return "id=" + this.id + ";name=" + this.name + ";address="
+				+ this.address;
 	}
 
 	@Override
