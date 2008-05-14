@@ -10,7 +10,7 @@ import org.jrest.core.transaction.TransactionGuiceModuleProvider;
 import org.jrest.dao.DaoModuleProvider;
 import org.jrest.sample.dao.ContactDao;
 import org.jrest.sample.entity.Contact;
-import org.jrest.sample.service.impl.ContactServiceBeanWithoutDao;
+import org.jrest.sample.service.impl.ContactServiceBeanWithBaseEntityManager;
 import org.junit.Test;
 
 public class TestDaoCase {
@@ -26,7 +26,7 @@ public class TestDaoCase {
 		guice.addModuleProvider(new TransactionGuiceModuleProvider()).addModuleProvider(new JpaGuiceModuleProvider())
 		        .init();
 		
-		ContactServiceBeanWithoutDao bean = guice.getBean(ContactServiceBeanWithoutDao.class);
+		ContactServiceBeanWithBaseEntityManager bean = guice.getBean(ContactServiceBeanWithBaseEntityManager.class);
 		Assert.assertNotNull(bean);
 		
 		List<Contact> contacts = bean.listContacts(1, 100);
