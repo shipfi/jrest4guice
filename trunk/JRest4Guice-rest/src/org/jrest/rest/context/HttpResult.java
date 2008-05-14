@@ -2,6 +2,8 @@ package org.jrest.rest.context;
 
 import net.sf.json.JSONObject;
 
+import org.jrest.core.persist.jpa.Page;
+
 public class HttpResult {
 	private String errorMessage;
 
@@ -22,6 +24,22 @@ public class HttpResult {
 	public HttpResult(String errorMessage) {
 		super();
 		this.errorMessage = errorMessage;
+	}
+
+	public int getResultCount() {
+		return resultCount;
+	}
+
+	public void setResultCount(int resultCount) {
+		this.resultCount = resultCount;
+	}
+
+	public int getPageCount() {
+		return pageCount;
+	}
+
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
 	}
 
 	public HttpResult(Object content) {
@@ -72,7 +90,13 @@ public class HttpResult {
 	public static HttpResult createHttpResult(Object content) {
 		if (content instanceof Exception)
 			return new HttpResult(((Exception) content).getMessage());
-		else
-			return new HttpResult(content);
+		HttpResult httpResult = new HttpResult(content);
+		if (content instanceof Page){
+			Page page = (Page)content;
+			httpResult.setContent(page.getResult());
+			httpResult.setResultCount((int)page.getTotalCount());
+			httpResult.setPageCount((int)page.getTotalPageCount());
+		}
+		return httpResult;
 	}
 }
