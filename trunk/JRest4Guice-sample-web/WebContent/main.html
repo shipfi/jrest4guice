@@ -35,7 +35,7 @@
 </head>
 <body>
 	<!-- 操作栏 -->
-	<div id="infoBar" style="margin: 4px 0 8px 12px;height: 50px">
+	<div id="controlBar" style="margin: 4px 0 8px 12px;height: 50px">
 		<div style="width: 100%;">
 			<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<span href="#" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人，或者<span href="#" class="cmdButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</span>整个列表。
 		</div>
@@ -64,6 +64,9 @@
 				</tr>
 			</tbody>
 		</table>
+		<div style="margin:0px 12px;text-align: right;float: right;" >
+			<div id="infoBar"></div><div id="navigation"></div>
+		</div>
 	</div>
 	
 	<!-- 编辑区域 -->

@@ -27,6 +27,24 @@ Spry.Widget.ValidationTextField.ValidationDescriptors.mobile={
 }
 
 
+Function.prototype.bind = function() {
+  var __method = this, args = arguments, object = args.length>1?args:(args.length>0?args[0]:null);
+  return function() {
+  	try{
+	    return __method.apply(object, arguments);
+  	}catch(e){
+  	}
+  }
+}
+
+Function.prototype.bindAsEventListener = function(object) {
+  var __method = this;
+  return function(event) {
+    return __method.call(object, event || window.event);
+  }
+}
+
+
 //===============================================================================
 // Spry 的自定义扩展
 //===============================================================================
@@ -124,6 +142,10 @@ SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSe
 			if(option.onUnCheckedAll)
 				tableDecorator.onUnCheckedAll = option.onUnCheckedAll;
 			tableDecorator.decorateRow(option);
+			
+			SpryExt.PageInfoBar.build(dataSet.docObj,"条记录","infoBar","navigation",function(index){
+				alert(index);
+			});
 		}
 	});
 	
@@ -555,4 +577,88 @@ SpryExt.DataHelper._doGather = function(nodes,formElements,isJson){
 
 SpryExt.DataHelper._encodeComponent = function(cmp,isJson){
 	return isJson?("'"+cmp+"'"):encodeURIComponent(cmp);
+}
+
+
+SpryExt.PageInfoBar = function(){}
+/**
+ * 构造分页信息条
+ * pageInfo 分页信息 {resultCount:总数,pageSize:每页条数,index:当前页码}
+ * var pageInfo = new Object();
+ * pageInfo.resultCount = 100;//符合查询条件的记录总数
+ * pageInfo.pageSize = 20; //每页显示记录的条数
+ * pageInfo.index = 1; //当前页
+ *
+ * msg 提示信息(如:'个联系人');
+ * infoBar 分页信息的显示区域(html元素的ID)
+ * navigations 分页的导航区域(html元素的ID)
+ * goPage 执行分页操作的函数
+ * 
+ * 用法 SpryExt.PageInfoBar.build(pageInfo, "条记录", "infoBar", "navigation", loadData);
+ **/
+SpryExt.PageInfoBar.build = function(pageInfo, msg, infoBar, navigations, goPage){
+	var pageCount = 9;
+	if(pageInfo.pageSize == null) 
+		 pageInfo.pageSize = 4;  
+	if(pageInfo.index == null) 
+		 pageInfo.index = 3;  
+	try{
+		pageInfo.resultCount = parseInt(pageInfo.resultCount);
+	}catch(exception){
+		pageInfo.resultCount = 0;	
+	}
+	var page = Math.ceil(pageInfo.resultCount/pageInfo.pageSize);
+	document.getElementById(infoBar).innerHTML = "&nbsp;&nbsp;"+pageInfo.resultCount + msg+"，共" + page + "页";
+	var navigation = document.getElementById(navigations);
+	
+	navigation.innerHTML = "";
+	
+	//  定制导航信息 ：上一页 1 2 3 下一页
+	//定制上一页
+	var textPerPage = document.createElement("span"); 
+	textPerPage.style.width = "45px";
+	textPerPage.innerHTML = "上一页";
+	textPerPage.className="pageClass";
+	if(pageInfo.index > 1) {
+		textPerPage.style.visibility="visible";
+		textPerPage.onclick =  function(){goPage(parseInt(this.toString()));}.bind(pageInfo.index -1); 
+	}else{
+		textPerPage.style.visibility="hidden";
+	}
+	navigation.appendChild(textPerPage);
+	//定制 1 2 3 4 5 6
+	var pageSpan = document.createElement("span");
+	pageSpan.className="pageClass";
+	for(var i=0;i<pageCount;i++){
+		if(i>=page) break;
+		if(pageInfo.index<5 || page<=pageCount)
+			pageIndex = i+1;
+		else if(pageInfo.index >=5 && pageInfo.index<page-4 && page>pageCount)
+			pageIndex = pageInfo.index + i - 4;
+		else if(pageInfo.index>=page-4 && pageInfo.index >=5 && page>pageCount)
+			pageIndex = pageInfo.index + i -4 -(pageInfo.index-page+4);
+		pageSpanClone = pageSpan.cloneNode(true);
+		pageSpanClone.innerHTML = pageIndex;
+		if(pageIndex == pageInfo.index)
+			pageSpanClone.className="pageClassd";	
+		else
+			pageSpanClone.onclick = function(){
+				goPage(parseInt(this.toString()));
+			}.bind(pageIndex);
+		navigation.appendChild(pageSpanClone);
+	}
+	//定制下一页
+	var textNextPage = document.createElement("span");
+	textNextPage.style.width = "45px";
+	textNextPage.innerHTML = "下一页";
+	textNextPage.className="pageClass";
+	if(pageInfo.index < page ){
+		textNextPage.style.visibility="visible";
+		textNextPage.onclick = function(){
+			goPage(parseInt(this.toString()));
+		}.bind(pageInfo.index + 1);
+	}else{
+		textNextPage.style.visibility="hidden";
+	}
+	navigation.appendChild(textNextPage);
 }
