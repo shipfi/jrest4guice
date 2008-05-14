@@ -1,7 +1,6 @@
 package org.jrest.sample.resources;
 
-import java.util.List;
-
+import org.jrest.core.persist.jpa.Page;
 import org.jrest.rest.annotation.Get;
 import org.jrest.rest.annotation.ProduceMime;
 import org.jrest.rest.annotation.Restful;
@@ -17,7 +16,7 @@ public class ContactListResource {
 	
 	@Get
 	@ProduceMime({"application/json"})
-	public List<Contact> getContact(int first, int max) {
-		return this.service.listContacts(first, max);
+	public Page<Contact> getContact(int pageIndex, int pageSize) {
+		return this.service.listContacts(pageIndex, pageSize);
 	}
 }
