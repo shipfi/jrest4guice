@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 分页参数类<br>
- * 用于传递分页参数给 DAO 实现类，限制查询的记录返回数量
+ * 用于传递分页参数，限制查询的记录返回数量
  */
 public class Pagination implements Serializable {
 
