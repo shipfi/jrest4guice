@@ -13,7 +13,7 @@ public class Pagination implements Serializable {
 	private static final int MIX_PAGE_NO = 1;
 	private static final int MIX_PAGE_SIZE = 1;
 
-	private int pageNo = Pagination.MIX_PAGE_NO;
+	private int pageIndex = Pagination.MIX_PAGE_NO;
 	private int pageSize = Pagination.MIX_PAGE_SIZE;
 
 	/**
@@ -25,7 +25,7 @@ public class Pagination implements Serializable {
 	/**
 	 * 构造方法
 	 * 
-	 * @param pageNo
+	 * @param pageIndex
 	 *            页码
 	 * @param pageSize
 	 *            每页记录数
@@ -39,7 +39,7 @@ public class Pagination implements Serializable {
 			throw new IllegalArgumentException("页码与每页记录数最小分别不能小于"
 					+ Pagination.MIX_PAGE_NO + "与" + Pagination.MIX_PAGE_SIZE);
 		}
-		this.pageNo = pageNo;
+		this.pageIndex = pageNo;
 		this.pageSize = pageSize;
 	}
 
@@ -47,7 +47,7 @@ public class Pagination implements Serializable {
 	 * 获取 起始记录位置
 	 */
 	public int getFirstResult() {
-		return (this.pageNo - 1) * this.pageSize;
+		return (this.pageIndex - 1) * this.pageSize;
 	}
 
 	/**
@@ -73,8 +73,8 @@ public class Pagination implements Serializable {
 	/**
 	 * 获取 页码
 	 */
-	public int getPageNo() {
-		return this.pageNo;
+	public int getPageIndex() {
+		return this.pageIndex;
 	}
 
 	/**
@@ -87,17 +87,17 @@ public class Pagination implements Serializable {
 	/**
 	 * 设置 页码
 	 * 
-	 * @param pageNo
+	 * @param pageIndex
 	 *            页码
 	 * @throws IllegalArgumentException
 	 *             页码小于1时抛出
 	 */
-	public void setPageNo(final int pageNo) throws IllegalArgumentException {
+	public void setPageIndex(final int pageNo) throws IllegalArgumentException {
 		if (pageNo < Pagination.MIX_PAGE_NO) {
 			throw new IllegalArgumentException("页码最小不能小于"
 					+ Pagination.MIX_PAGE_NO);
 		}
-		this.pageNo = pageNo;
+		this.pageIndex = pageNo;
 	}
 
 	/**

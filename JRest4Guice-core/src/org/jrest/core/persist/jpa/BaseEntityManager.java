@@ -255,7 +255,7 @@ public class BaseEntityManager<PK extends Serializable, E extends EntityAble<PK>
 		}
 		final List<E> result = this.listByNamedQuery(qname, pagination,
 				parameters);
-		return new Page<E>(Page.getStartOfPage(pagination.getPageNo(),
+		return new Page<E>(Page.getStartOfPage(pagination.getPageIndex(),
 				pagination.getPageSize()), count, pagination.getPageSize(),
 				result);
 	}
@@ -272,7 +272,7 @@ public class BaseEntityManager<PK extends Serializable, E extends EntityAble<PK>
 		}
 		final List<E> result = this.listByNamedQuery(qname, pagination,
 				parameters);
-		return new Page<E>(Page.getStartOfPage(pagination.getPageNo(),
+		return new Page<E>(Page.getStartOfPage(pagination.getPageIndex(),
 				pagination.getPageSize()), count, pagination.getPageSize(),
 				result);
 	}
@@ -466,7 +466,7 @@ public class BaseEntityManager<PK extends Serializable, E extends EntityAble<PK>
 				page = new Page<E>(pagination.getFirstResult(), recordAmount,
 						pagination.getPageSize(), new ArrayList<E>());
 			} else {
-				page = new Page<E>(Page.getStartOfPage(pagination.getPageNo(),
+				page = new Page<E>(Page.getStartOfPage(pagination.getPageIndex(),
 						pagination.getPageSize()), recordAmount, pagination
 						.getPageSize(), result);
 			}
