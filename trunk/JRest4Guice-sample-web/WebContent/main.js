@@ -13,7 +13,7 @@ window.onload = function(){
  * 初始化
  */
 function init(){
-	contacts_ds.setURL("resource/contacts?pageIndex=1&pageSize=100");
+	contacts_ds.setURL("resource/contacts");
 	contacts_ds.useCache = false;
 	contacts_ds.setPath("content");
 	contacts_ds.setRequestInfo({headers:{"Accept":"application/json"}},true);
@@ -60,7 +60,7 @@ function init(){
 	}});
 	
 	//装载数据
-	contacts_ds.loadData();
+	contacts_ds.loadPageData();
 }
 
 var detailObserver = {
