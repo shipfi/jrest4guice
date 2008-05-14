@@ -105,14 +105,20 @@ SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSe
 			}catch(e){
 				ids = [];
 			}
-			
 			option.checkedIds = ids;
 			var tableDecorator = new TableDecorator(dataSet,tableId);
-			if(option.onChecked){
-				tableDecorator.onChecked = option.onChecked;
-				tableDecorator.onCheckedAll = option.onChecked;
-				tableDecorator.onUnCheckedAll = option.onChecked;
+			var onChecked = function(tr,checked){
+				if(option.onChecked)
+					option.onChecked.call(tableDecorator,tr,checked);
+				var ids = this.getCheckedIds();
+				if(ids.length == 1){
+					dataSet.setCurrentRow(ids[0]);
+				}					
 			}
+			tableDecorator.onChecked = onChecked;
+			tableDecorator.onCheckedAll = onChecked;
+			tableDecorator.onUnCheckedAll = onChecked;
+
 			if(option.onCheckedAll)
 				tableDecorator.onCheckedAll = option.onCheckedAll;
 			if(option.onUnCheckedAll)
@@ -229,7 +235,7 @@ TableDecorator.prototype = {
 			_self._showCheckBox(tr);
 		}).click(function(event){//鼠标单击
 			if(!(event.ctrlKey || event.shiftKey))
-				_self.uncheckAll();
+				_self.uncheckAll(true);
 				
 			fun.call(this,event);
 			if(option.onclick){
@@ -251,14 +257,15 @@ TableDecorator.prototype = {
 			_self._checkCurrent(ckb);
 		}
 	},
-	uncheckAll:function(){
+	uncheckAll:function(notAllowFireEvent){
 		var _self = this;
 		this.table.tbody.find("input:checkbox").each(function(){
 			this.checked = false;
 			_self._checkCurrent(this,false,true);
 		});
 		
-		this.onUnCheckedAll();
+		if(!notAllowFireEvent)
+			this.onUnCheckedAll();
 	},
 	/**
 	 * 根据ID取消选择

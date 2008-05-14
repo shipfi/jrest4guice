@@ -55,7 +55,7 @@ function init(){
 
 		if(len==1)
 			$("#editArea").show("slow");
-		else if(len>1)
+		else
 			$("#editArea").hide("slow");
 	}});
 	
