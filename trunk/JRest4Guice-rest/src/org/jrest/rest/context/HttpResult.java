@@ -15,6 +15,11 @@ public class HttpResult {
 	 * 记录的页数
 	 */
 	private int pageCount;
+	
+	/**
+	 * 当前页码
+	 */
+	private int pageIndex;
 
 	/**
 	 * 结果的内容
@@ -40,6 +45,14 @@ public class HttpResult {
 
 	public void setPageCount(int pageCount) {
 		this.pageCount = pageCount;
+	}
+
+	public int getPageIndex() {
+		return pageIndex;
+	}
+
+	public void setPageIndex(int pageIndex) {
+		this.pageIndex = pageIndex;
 	}
 
 	public HttpResult(Object content) {
@@ -96,6 +109,7 @@ public class HttpResult {
 			httpResult.setContent(page.getResult());
 			httpResult.setResultCount((int)page.getTotalCount());
 			httpResult.setPageCount((int)page.getTotalPageCount());
+			httpResult.setPageIndex(page.getCurrentPageNo());
 		}
 		return httpResult;
 	}
