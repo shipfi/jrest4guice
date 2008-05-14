@@ -34,22 +34,22 @@
 </style>
 </head>
 <body>
-	<!-- 操作栏 -->
-	<div id="controlBar" style="margin: 4px 0 8px 12px;height: 50px">
-		<div style="width: 100%;">
-			<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<span href="#" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人，或者<span href="#" class="cmdButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</span>整个列表。
-		</div>
-		<div style="margin-top: 6px;display: none;" id="cContactSpan">
-				还可以<span href="#" class="cmdButton" onclick="deleteContact();void(0);return false;">删除</span>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
-		</div>
-	</div>
-	<hr>
 	<!-- 列表显示区域 -->
 	<div id="contactListRegion" style="float: left;width:65%;margin-right: 8px;" spry:region="contacts_ds">
-		<div style="margin:0px 12px;text-align: right;float: right;" >
+		<!-- 操作栏 -->
+		<div id="controlBar" style="margin: 1px 0 8px 12px;height: 52px;float: left;">
+			<div style="width: 100%;">
+				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<span href="#" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人，或者<span href="#" class="cmdButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</span>整个列表。
+			</div>
+			<div style="margin-top: 4px;display: none;width: 600px;" id="cContactSpan">
+					还可以<span href="#" class="cmdButton" onclick="deleteContact();void(0);return false;">删除</span>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
+			</div>
+		</div>
+		<div style="margin-top: 28px;text-align: right;float: right;" >
 			<span id="infoBar"></span><span id="navigation"></span>
 		</div>
-		<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%" style="margin-top: 36px;">
+		<hr style="clear: both;">
+		<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
 			<thead style="font-weight: bold;">
 				<tr style="height: 26px;background-image: url('images/head.jpg');color: white;">
 					<td style="width: 110px;" spry:sort="name">&nbsp;姓 名</td>
