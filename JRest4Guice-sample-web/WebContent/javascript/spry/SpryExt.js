@@ -151,7 +151,7 @@ SpryExt.TableRegionDecorator.decorate = function(dataRegionId,dataSet,tableId,op
 				tableDecorator.onUnCheckedAll = option.onUnCheckedAll;
 			tableDecorator.decorateRow(option);
 			
-			SpryExt.PageInfoBar.build(dataSet.docObj,"条记录","infoBar","navigation",option.onPaged);
+			SpryExt.PageInfoBar.build(dataSet.docObj,option.recordTypeName || "条记录","infoBar","navigation",option.onPaged);
 		}
 	});
 	
@@ -614,7 +614,7 @@ SpryExt.PageInfoBar.build = function(pageInfo, msg, infoBar, navigations, goPage
 		pageInfo.resultCount = 0;	
 	}
 	var pageCount = pageInfo.pageCount;
-	document.getElementById(infoBar).innerHTML = "&nbsp;&nbsp;"+pageInfo.resultCount + msg+"，共" + pageCount + "页";
+	document.getElementById(infoBar).innerHTML = "检索到"+pageInfo.resultCount + msg+"，共" + pageCount + "页";
 	var navigation = document.getElementById(navigations);
 	
 	navigation.innerHTML = "";
