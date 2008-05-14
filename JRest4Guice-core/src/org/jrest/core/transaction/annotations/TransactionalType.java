@@ -5,5 +5,6 @@ public enum TransactionalType {
     REQUIRESNEW,
     SUPPORTS,
     NOTSUPPORTED,
-    NEVER
+    NEVER,
+    READOLNY
 }
