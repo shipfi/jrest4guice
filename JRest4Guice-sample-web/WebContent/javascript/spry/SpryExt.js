@@ -116,7 +116,7 @@ SpryExt.TableRegionDecorator = function(){
  * tableId :数据显示所在的表格ID
  * showCheckBox :是否显示复选框
  */
-SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSet,tableId,option){
+SpryExt.TableRegionDecorator.decorate = function(dataRegionId,dataSet,tableId,option){
 	option = option ||{};
 	Spry.Data.Region.addObserver(dataRegionId, {
 		onPreUpdate: function(){
@@ -151,9 +151,7 @@ SpryExt.TableRegionDecorator.makeMuiltiSelectable = function(dataRegionId,dataSe
 				tableDecorator.onUnCheckedAll = option.onUnCheckedAll;
 			tableDecorator.decorateRow(option);
 			
-			SpryExt.PageInfoBar.build(dataSet.docObj,"条记录","infoBar","navigation",function(index){
-				dataSet.loadPageData({pageIndex:index,pageSize:14});
-			});
+			SpryExt.PageInfoBar.build(dataSet.docObj,"条记录","infoBar","navigation",option.onPaged);
 		}
 	});
 	

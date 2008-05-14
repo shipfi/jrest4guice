@@ -36,28 +36,32 @@ function init(){
 	//装饰AJAX请求的Loading条
 	new SpryExt.DataSetDecorator().decorateAjaxLoading(contacts_ds).decorateAjaxLoading(contact_detail_ds);
 	
-	//增加复选功能
-	SpryExt.TableRegionDecorator.makeMuiltiSelectable("contactListRegion",contacts_ds,"contactTable",{onChecked:function(){
-		//监听表格的选择事件
-		var rows = contactTable_decorator.getCheckedRows();
-		var names = [];
-		for(var i=0;i<rows.length;i++){
-			names.push(rows[i].name);
+	//增强表格区域的功能（多选、分页）
+	SpryExt.TableRegionDecorator.decorate("contactListRegion",contacts_ds,"contactTable",{
+		onChecked:function(){
+			//监听表格的选择事件
+			var rows = contactTable_decorator.getCheckedRows();
+			var names = [];
+			for(var i=0;i<rows.length;i++){
+				names.push(rows[i].name);
+			}
+			
+			var len = names.length;
+			if(len>0){
+				$("#cContact").html(" "+names.join(",")+" ");
+				$("#cContactSpan").show();
+			}else{
+				$("#cContactSpan").hide();
+			}
+	
+			if(len==1)
+				$("#editArea").show("slow");
+			else
+				$("#editArea").hide("slow");
+		},onPaged:function(index){
+			contacts_ds.loadPageData({pageIndex:index,pageSize:14});
 		}
-		
-		var len = names.length;
-		if(len>0){
-			$("#cContact").html(" "+names.join(",")+" ");
-			$("#cContactSpan").show();
-		}else{
-			$("#cContactSpan").hide();
-		}
-
-		if(len==1)
-			$("#editArea").show("slow");
-		else
-			$("#editArea").hide("slow");
-	}});
+	});
 	
 	//装载数据
 	contacts_ds.loadPageData();
@@ -97,10 +101,10 @@ function clear(elem){
 
 function createContact(){
 	restMethod = "POST";
-	clear($("#editArea"));
-	$("#editArea").show("slow");
 	//取消所有选择的行
 	contactTable_decorator.uncheckAll();
+	clear($("#editArea"));
+	$("#editArea").show("slow");
 }
 
 /**
