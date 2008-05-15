@@ -617,7 +617,7 @@ SpryExt.PageInfoBar.build = function(pageInfo, msg, infoBar, navigations, goPage
 		pageInfo.resultCount = 0;	
 	}
 	var pageCount = pageInfo.pageCount;
-	document.getElementById(infoBar).innerHTML = "&nbsp;&nbsp;&nbsp;检索到 "+pageInfo.resultCount + " "+msg+"，共" + pageCount + "页";
+	document.getElementById(infoBar).innerHTML = "&nbsp;&nbsp;&nbsp;检索到 "+pageInfo.resultCount + " "+msg+"，共 " + pageCount + " 页";
 	var navigation = document.getElementById(navigations);
 	
 	navigation.innerHTML = "";
