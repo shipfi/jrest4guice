@@ -3,12 +3,11 @@ package org.jrest.sample.service;
 
 import org.jrest.core.persist.jpa.Page;
 import org.jrest.sample.entity.Contact;
-import org.jrest.sample.service.impl.ContactServiceBeanWithBaseEntityManager;
+import org.jrest.sample.service.impl.ContactServiceBean;
 
 import com.google.inject.ImplementedBy;
 
-//@ImplementedBy(ContactServiceBeanWithDao.class)
-@ImplementedBy(ContactServiceBeanWithBaseEntityManager.class)
+@ImplementedBy(ContactServiceBean.class)
 public interface ContactService {
 	public String createContact(Contact contact);
 	
