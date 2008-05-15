@@ -34,43 +34,45 @@
 </style>
 </head>
 <body>
-	<!-- 列表显示区域 -->
-	<div id="contactListRegion" style="float: left;width:65%;margin-right: 8px;" spry:region="contacts_ds">
+	<div style="float: left;width:65%;margin-right: 8px;">
 		<!-- 操作栏 -->
-		<div id="controlBar" style="margin: 1px 0 8px 12px;height: 52px;float: left;">
+		<div id="controlBar" style="margin: 1px 0 8px 12px;height: 68px;float: left;">
 			<div style="width: 100%;">
 				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<span href="#" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人，或者<span href="#" class="cmdButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</span>整个列表。
 			</div>
-			<div style="margin-top: 4px;display: none;width: 600px;" id="cContactSpan">
+			<div style="margin-top: 4px;display: none;width: 460px;" id="cContactSpan">
 					还可以<span href="#" class="cmdButton" onclick="deleteContact();void(0);return false;">删除</span>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
 			</div>
 		</div>
-		<div style="margin-top: 28px;text-align: right;float: right;" >
-			<span id="infoBar"></span><span id="navigation"></span>
+		<div style="margin-top: 34px;float: right;text-align: right;" >
+			<div id="infoBar"></div><div id="navigation" style="margin-top: 6px;"></div>
 		</div>
-		<hr style="clear: both;">
-		<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
-			<thead style="font-weight: bold;">
-				<tr style="height: 26px;background-image: url('images/head.jpg');color: white;">
-					<td style="width: 110px;" spry:sort="name">&nbsp;姓 名</td>
-					<td style="width: 110px;">&nbsp;移动电话</td>
-					<td style="width: 130px;">&nbsp;电子邮件</td>
-					<td>&nbsp;住址</td>
-				</tr>
-			</thead>
-			<tbody spry:repeat="contacts_ds">
-				<tr rowId="{ds_RowID}" spry:odd="odd" spry:even="even" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;">
-					<td>&nbsp;{name}</td>
-					<td>&nbsp;{mobilePhone}</td>
-					<td>&nbsp;{EMail}</td>
-					<td>&nbsp;{address}</td>
-				</tr>
-			</tbody>
-		</table>
+		
+		<!-- 列表显示区域 -->
+		<div id="contactListRegion" spry:region="contacts_ds" style="clear: both;">
+			<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
+				<thead style="font-weight: bold;">
+					<tr style="height: 26px;background-image: url('images/head.jpg');color: white;">
+						<td style="width: 110px;" spry:sort="name">&nbsp;姓 名</td>
+						<td style="width: 110px;">&nbsp;移动电话</td>
+						<td style="width: 130px;">&nbsp;电子邮件</td>
+						<td>&nbsp;住址</td>
+					</tr>
+				</thead>
+				<tbody spry:repeat="contacts_ds">
+					<tr rowId="{ds_RowID}" spry:odd="odd" spry:even="even" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;">
+						<td>&nbsp;{name}</td>
+						<td>&nbsp;{mobilePhone}</td>
+						<td>&nbsp;{EMail}</td>
+						<td>&nbsp;{address}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 	
 	<!-- 编辑区域 -->
-	<div style="width: 32%;float: right;background-color:#EAF6FD;">
+	<div style="width: 32%;float: right;background-color:#EAF6FD;margin-top: 36px;">
 		<form id="editForm">
 			<div id="editArea" spry:detailregion="contact_detail_ds" style="display: none;">
 				<fieldset style="margin: 10px;border: 1px solid olive;">
@@ -83,7 +85,13 @@
 							<img src="images/ok.gif" title="Valid" alt="Valid" class="validMsg" border="0"/>
 							<span class="textfieldRequiredMsg">请输入姓名.</span>
 						</div>
-						<div id="theMobilePhone">
+						<fieldset style="float: right;border: 1px solid olive;margin-top: -44px;margin-right: 8px;">
+							<legend id="Organization">个人形象</legend>
+							<div>
+								<img src="images/head.gif";>
+							</div>
+						</fieldset>
+						<div id="theMobilePhone" style="clear: left;">
 							<div class="formLabel">移动电话：</div>
 							<input type="text" name="mobilePhone" value="{mobilePhone}">
 							<span class="textfieldMaxCharsMsg">长度不能超过20这个字符</span>

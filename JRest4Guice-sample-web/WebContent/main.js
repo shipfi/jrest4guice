@@ -61,7 +61,7 @@ function init(){
 		},
 		recordTypeName:"个联系人",
 		onPaged:function(index){
-			contacts_ds.loadPageData({pageIndex:index,pageSize:14});
+			contacts_ds.loadPageData({pageIndex:index,pageSize:SpryExt.PageInfoBar.pageSize});
 		}
 	});
 	
