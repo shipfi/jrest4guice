@@ -126,6 +126,8 @@ SpryExt.TableRegionDecorator.decorate = function(dataRegionId,dataSet,tableId,op
 	option = option ||{};
 	Spry.Data.Region.addObserver(dataRegionId, {
 		onPreUpdate: function(){
+			//删除为了提高用户体验而产生的临时显示区域
+			$("#"+tableId+"_temp").remove();
 			try{
 				var ids = eval(tableId+"_decorator.getCheckedIds();");
 				eval(tableId+"_decorator.ids=ids;");
