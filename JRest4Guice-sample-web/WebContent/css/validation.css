@@ -68,23 +68,8 @@ select{
 .textfieldRequiredState .formLabel, .textfieldInvalidFormatState .formLabel, .textfieldMinValueState .formLabel, .textfieldMaxValueState .formLabel, .textfieldMinCharsState .formLabel, .textfieldMaxCharsState .formLabel, .radioRequiredState .formLabel{
 	color: #CC3333;	
 }
-.ratingMovies{
-	margin-right:10px;
-	float:right;
-	color:#FF3333;
-}
-#Countvalidta1{
-	width:17px;
-}
-#articles{
-	border: 1px solid #404040;
-	padding-left:12px;
-	height:600px;
-}
 .checkboxRequiredState .checkboxRequiredMsg, .checkboxMaxSelectionsState .checkboxMaxSelectionsMsg, .selectRequiredState .selectRequiredMsg, .textareaRequiredState .textareaRequiredMsg, .textareaMinCharsState .textareaMinCharsMsg, .textareaMaxCharsState .textareaMaxCharsMsg, .textfieldRequiredState .textfieldRequiredMsg, .textfieldInvalidFormatState .textfieldInvalidFormatMsg, .radioRequiredState .radioRequiredMsg{
 	border:0px;	
-	padding-left:22px;
-	margin-left:4px;
 	background-image:url(images/error.gif);
 	background-repeat:no-repeat;
 }

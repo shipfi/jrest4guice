@@ -37,7 +37,7 @@
 	<!-- 操作栏 -->
 	<div id="controlBar" style="margin: 1px 0 8px 12px;width:65%;height: 68px;float: left;">
 		<div style="width: 100%;">
-			<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<span title="为你添加新的联系人" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人，或者<span title="获取最新的联系人列表" class="cmdButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</span>整个列表。
+			<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<span title="为你添加新的联系人" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人，或者<span title="获取最新的联系人列表" class="cmdButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</span>整个联系人列表。
 		</div>
 		<div style="margin-top: 4px;display: none;width: 490px;" id="cContactSpan">
 				还可以<span title="删除以下选择的联系人" class="cmdButton" onclick="deleteContact();void(0);return false;">删除</span>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
@@ -81,8 +81,7 @@
 						<div id="theName">
 							<div class="formLabel">姓名：</div>
 							<input type="text" name="name" value="{name}">
-							<img src="images/ok.gif" title="Valid" alt="Valid" class="validMsg" border="0"/>
-							<span class="textfieldRequiredMsg">请输入姓名.</span>
+							<div class="textfieldRequiredMsg">姓名不能为空.</div>
 						</div>
 						<fieldset style="float: right;border: 1px solid olive;margin-top: -44px;margin-right: 8px;">
 							<legend id="Organization">个人形象</legend>
@@ -93,18 +92,17 @@
 						<div id="theMobilePhone" style="clear: left;">
 							<div class="formLabel">移动电话：</div>
 							<input type="text" name="mobilePhone" value="{mobilePhone}">
-							<span class="textfieldInvalidFormatMsg">请输入有效的移动电话格式.</span>
+							<div class="textfieldInvalidFormatMsg">无效的移动电话.<br>(长度为11位，例：13710540124)</div>
 						</div>
 						<div id="theEmail">
 							<div class="formLabel">电子邮件：</div>
 							<input type="text" name="EMail" value="{EMail}">
-							<span class="textfieldInvalidFormatMsg">请输入有效的电子邮件格式.</span>
+							<div class="textfieldInvalidFormatMsg">不正确的电子邮件格式.<br>(例：xxx@xxx.com)</div>
 						</div>
 						<div id="theAddress">
 							<div class="formLabel">家庭住址：</div>
 							<textarea rows="3" cols="32" name="address">{address}</textarea>
-							<span class="textareaRequiredMsg">家庭住址.</span>
-							<span class="textareaMaxCharsMsg">长度不能超过50这个字符</span>
+							<div class="textareaMaxCharsMsg">长度不能超过50这个字符</div>
 						</div>
 						<br/>
 						<input type="button" onclick="saveOrUpdateContact();" value="确定" style="width: 40px;"> or <a href="#" onclick="doCancel();void(0);return false;">取消</a>
