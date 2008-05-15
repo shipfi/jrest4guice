@@ -27,7 +27,7 @@ Spry.Widget.ValidationTextField.ValidationDescriptors.mobile={
 }
 
 Spry.Data.JSONDataSet.prototype.loadPageData = function(param){
-	param = param || {pageIndex:1,pageSize:14};
+	param = param || {pageIndex:1,pageSize:SpryExt.PageInfoBar.pageSize};
 	if(this.oldUrl==null)
 		this.oldUrl = this.url;
 	this.url = this.oldUrl+"?"+jQuery.param(param);
@@ -587,6 +587,9 @@ SpryExt.DataHelper._encodeComponent = function(cmp,isJson){
 
 
 SpryExt.PageInfoBar = function(){}
+
+SpryExt.PageInfoBar.maxPageCount = 9;
+SpryExt.PageInfoBar.pageSize = 12;
 /**
  * 构造分页信息条
  * pageInfo 分页信息 {resultCount:总数,pageSize:每页条数,index:当前页码}
@@ -603,18 +606,18 @@ SpryExt.PageInfoBar = function(){}
  * 用法 SpryExt.PageInfoBar.build(pageInfo, "条记录", "infoBar", "navigation", loadData);
  **/
 SpryExt.PageInfoBar.build = function(pageInfo, msg, infoBar, navigations, goPage){
-	var maxPageCount = 9;
+	var maxPageCount = SpryExt.PageInfoBar.maxPageCount;
 	if(pageInfo.pageSize == null) 
-		 pageInfo.pageSize = 4;  
+		 pageInfo.pageSize = SpryExt.PageInfoBar.pageSize;  
 	if(pageInfo.pageIndex == null) 
-		 pageInfo.pageIndex = 3;  
+		 pageInfo.pageIndex = 1;  
 	try{
 		pageInfo.resultCount = parseInt(pageInfo.resultCount);
 	}catch(exception){
 		pageInfo.resultCount = 0;	
 	}
 	var pageCount = pageInfo.pageCount;
-	document.getElementById(infoBar).innerHTML = "检索到"+pageInfo.resultCount + msg+"，共" + pageCount + "页";
+	document.getElementById(infoBar).innerHTML = "&nbsp;&nbsp;&nbsp;检索到 "+pageInfo.resultCount + " "+msg+"，共" + pageCount + "页";
 	var navigation = document.getElementById(navigations);
 	
 	navigation.innerHTML = "";
