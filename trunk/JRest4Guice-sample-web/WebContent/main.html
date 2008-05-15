@@ -38,13 +38,14 @@
 		<!-- 操作栏 -->
 		<div id="controlBar" style="margin: 1px 0 8px 12px;height: 68px;float: left;">
 			<div style="width: 100%;">
-				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<span href="#" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人，或者<span href="#" class="cmdButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</span>整个列表。
+				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<span title="为你添加新的联系人" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人，或者<span title="获取最新的联系人列表" class="cmdButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</span>整个列表。
 			</div>
 			<div style="margin-top: 4px;display: none;width: 460px;" id="cContactSpan">
-					还可以<span href="#" class="cmdButton" onclick="deleteContact();void(0);return false;">删除</span>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
+					还可以<span title="删除以下选择的联系人" class="cmdButton" onclick="deleteContact();void(0);return false;">删除</span>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
 			</div>
 		</div>
-		<div style="margin-top: 34px;float: right;text-align: right;" >
+		<span style="clear: left;"></span>
+		<div style="float: right;text-align: right;margin-top: -42px;">
 			<div id="infoBar"></div><div id="navigation" style="margin-top: 6px;"></div>
 		</div>
 		
