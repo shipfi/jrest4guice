@@ -30,7 +30,7 @@
 .textfieldMinCharsState .textfieldMinCharsMsg,
 .textfieldMaxCharsState .textfieldMaxCharsMsg
 {
-	display: inline;
+	display: block;
 	color: #CC3333;
 	border: 1px solid #CC3333;
 }
