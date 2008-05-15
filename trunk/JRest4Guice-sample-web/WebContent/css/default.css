@@ -7,6 +7,10 @@ table {
 	font-family: Arial, Tahoma, "宋体";font-size: 13px;
 }
 
+table thead tr td{
+	cursor: default;
+}
+
 .linkButton{
 	cursor: pointer;
 	font-weight: bold;
@@ -101,3 +105,7 @@ a:hover {
 	float: left;
 	color: red;
 }
+
+.SpryHiddenRegion {
+	visibility: hidden;
+} 

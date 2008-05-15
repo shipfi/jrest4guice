@@ -48,7 +48,14 @@ function init(){
 			
 			var len = names.length;
 			if(len>0){
-				$("#cContact").html(" "+names.join(",")+" ");
+				var _name = " "+names.join(",")+" ";
+				var _detail = _name;
+				if(len>5){
+					names = names.slice(0,5);
+					_name = " "+names.join(",")+" ......";
+				}
+				
+				$("#cContact").html("<span title=\""+_detail+"\"> "+_name+" </span>");
 				$("#cContactSpan").show();
 			}else{
 				$("#cContactSpan").hide();
