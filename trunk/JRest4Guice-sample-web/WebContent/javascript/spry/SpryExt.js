@@ -1,5 +1,5 @@
 //===============================================================================
-// Spry 修订
+// Spry 修订与增强
 //===============================================================================
 Spry.Data.DataSet.prototype.setCurrentRow = function(rowID){
 	var nData = { oldRowID: this.curRowID, newRowID: rowID };
@@ -34,6 +34,12 @@ Spry.Data.JSONDataSet.prototype.loadPageData = function(param){
 	this.loadData();
 }
 
+var spry_sort_attach = Spry.Data.Region.behaviorAttrs["spry:sort"].attach;
+Spry.Data.Region.behaviorAttrs["spry:sort"].attach = function(rgn, node, value){
+	spry_sort_attach(rgn,node,value);
+	//增加排序标识
+	$(node).attr("sortColumn",value);
+}
 
 Function.prototype.bind = function() {
   var __method = this, args = arguments, object = args.length>1?args:(args.length>0?args[0]:null);
@@ -126,6 +132,16 @@ SpryExt.TableRegionDecorator.decorate = function(dataRegionId,dataSet,tableId,op
 			}catch(e){}
 		},
 		onPostUpdate: function(notifier, data) {
+			//处理排序的图标
+			var sortColumn = dataSet.getSortColumn();
+			var sortOrder = dataSet.getSortOrder();
+			$("#"+tableId).find("td[sortColumn]").each(function(){
+				var display = $(this).attr("sortColumn") == sortColumn?"":"none";
+				var imgSrc = sortOrder=="ascending"?"sort_asc.gif":"sort_desc.gif";
+				$(this).append("<img class='sortOrderImg' src='images/"+imgSrc+"' style='margin-left:8px;display:"+display+";'>");
+			});
+			
+			//获取上次已经选择的行IDS
 			try{
 				var ids = eval(tableId+"_decorator.ids;");
 			}catch(e){
@@ -141,6 +157,8 @@ SpryExt.TableRegionDecorator.decorate = function(dataRegionId,dataSet,tableId,op
 					dataSet.setCurrentRow(ids[0]);
 				}					
 			}
+
+			//设置表格选择的相关事件
 			tableDecorator.onChecked = onChecked;
 			tableDecorator.onCheckedAll = onChecked;
 			tableDecorator.onUnCheckedAll = onChecked;

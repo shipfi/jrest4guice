@@ -35,25 +35,30 @@
 </head>
 <body>
 	<!-- 操作栏 -->
-	<div id="controlBar" style="margin: 1px 0 8px 12px;width:65%;height: 68px;float: left;">
-		<div style="width: 100%;">
-			<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<span title="为你添加新的联系人" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人，或者<span title="获取最新的联系人列表" class="cmdButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</span>整个联系人列表。
-		</div>
-		<div style="margin-top: 4px;display: none;width: 490px;" id="cContactSpan">
+	<div id="controlBar" style="margin: 1px 0 8px 12px;height: 68px;width:65%;">
+		<div style="float: left;width: 65%;height: 68px;">
+			<div style="width: 100%;">
+				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<span title="为你添加新的联系人" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人，或者<span title="获取最新的联系人列表" class="cmdButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</span>整个联系人列表。
+			</div>
+			<div style="margin-top: 4px;display: none;width: 490px;" id="cContactSpan">
 				还可以<span title="删除以下选择的联系人" class="cmdButton" onclick="deleteContact();void(0);return false;">删除</span>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
+			</div>
+		</div>
+		<div style="float: right;width:32%;margin-right: 8px;margin-top: 32px;">
+			<div style="float: right;text-align: right;">
+				<div id="infoBar"></div>
+				<div id="navigation" style="margin-top: 4px;"></div>
+			</div>
 		</div>
 	</div>
-	<div style="float: left;width:65%;margin-right: 8px;margin-top: -42px;">
-		<div style="float: right;text-align: right;margin-bottom: 4px;">
-			<div id="infoBar"></div><div id="navigation" style="margin-top: 6px;"></div>
-		</div>
+	<div style="float: left;width:65%;margin-right: 8px;clear: both;">
 		<!-- 列表显示区域 -->
 		<div id="contactListRegion" spry:region="contacts_ds" style="clear: both;">
 			<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
 				<thead style="font-weight: bold;">
 					<tr style="height: 26px;background-image: url('images/head.jpg');color: white;">
 						<td style="width: 110px;" spry:sort="name">&nbsp;姓 名</td>
-						<td style="width: 110px;">&nbsp;移动电话</td>
+						<td style="width: 110px;" spry:sort="mobilePhone">&nbsp;移动电话</td>
 						<td style="width: 130px;">&nbsp;电子邮件</td>
 						<td>&nbsp;住址</td>
 					</tr>
