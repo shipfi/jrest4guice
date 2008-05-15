@@ -46,6 +46,7 @@ function init(){
 				names.push(rows[i].name);
 			}
 			
+			//处理已经选择联系人的显示（对应于controlBar)
 			var len = names.length;
 			if(len>0){
 				var _name = " "+names.join(",")+" ";
