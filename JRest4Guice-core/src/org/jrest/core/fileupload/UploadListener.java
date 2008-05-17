@@ -2,22 +2,17 @@ package org.jrest.core.fileupload;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.inject.Inject;
-
 public class UploadListener implements OutputStreamListener {
-	@Inject
 	private HttpServletRequest request;
-	
+
 	private long delay = 0;
 	private long startTime = 0;
 	private int totalToRead = 0;
 	private int totalBytesRead = 0;
 	private int totalFiles = -1;
-	
-	public static UploadMonitor createUploadMonitor(){
-	}
 
-	public UploadListener(long debugDelay) {
+	public UploadListener(HttpServletRequest request,long debugDelay) {
+		this.request = request;
 		this.delay = debugDelay;
 		this.totalToRead = request.getContentLength();
 		this.startTime = System.currentTimeMillis();
