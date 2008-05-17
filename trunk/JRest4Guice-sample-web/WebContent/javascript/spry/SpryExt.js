@@ -609,7 +609,7 @@ SpryExt.DataHelper._encodeComponent = function(cmp,isJson){
 SpryExt.PageInfoBar = function(){}
 
 SpryExt.PageInfoBar.maxPageCount = 9;
-SpryExt.PageInfoBar.pageSize = 12;
+SpryExt.PageInfoBar.pageSize = 15;
 /**
  * 构造分页信息条
  * pageInfo 分页信息 {resultCount:总数,pageSize:每页条数,index:当前页码}
