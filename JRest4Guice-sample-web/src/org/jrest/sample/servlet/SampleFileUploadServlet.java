@@ -29,22 +29,30 @@ public class SampleFileUploadServlet extends HttpServlet {
 			ServletException {
 
 		HttpServletRequest hRequest = (HttpServletRequest) servletReqest;
-		
-		System.out.println("上传的文件大小："+hRequest.getContentLength());
-		
+
+		System.out.println("上传的文件大小：" + hRequest.getContentLength());
+
 		MonitoredDiskFileItemFactory factory = new MonitoredDiskFileItemFactory(
 				new UploadListener((hRequest), 10l));
 		ServletFileUpload upload = new ServletFileUpload(factory);
+		upload.setHeaderEncoding("UTF-8");
+
 		try {
-			List<MonitoredDiskFileItem> items = upload
-					.parseRequest(hRequest);
+			List<MonitoredDiskFileItem> items = upload.parseRequest(hRequest);
+			long size;
+			long total = 0;
 			for (MonitoredDiskFileItem fileItem : items) {
-				System.out
-						.println(fileItem.getName() + "" + fileItem.getSize());
+				size = fileItem.getSize();
+				total += size;
+				if (fileItem != null && size>0)
+					System.out.println(fileItem.getName() + "的大小为"
+							+ size);
 			}
+			
+			System.out.println("total: "+total);
 		} catch (FileUploadException e) {
-			if(!(e instanceof IOFileUploadException))
-					e.printStackTrace();
+			if (!(e instanceof IOFileUploadException))
+				e.printStackTrace();
 		}
 	}
 }
