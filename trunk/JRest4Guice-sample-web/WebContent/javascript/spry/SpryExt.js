@@ -7,31 +7,35 @@ Spry.Data.DataSet.prototype.setCurrentRow = function(rowID){
 	this.notifyObservers("onCurrentRowChanged", nData);
 };
 
-Spry.Widget.ValidationTextField.ValidationDescriptors.phone={
-	validation: function (value, options) {
-		var regExp = new RegExp("(^\\d{3}(\\-)?(\\d{8})$)|(^\\d{4}(\\-)?(\\d{7,8})$)");
-		if (!regExp.test(value)) {
-			return false;
+if(Spry.Widget){
+	Spry.Widget.ValidationTextField.ValidationDescriptors.phone={
+		validation: function (value, options) {
+			var regExp = new RegExp("(^\\d{3}(\\-)?(\\d{8})$)|(^\\d{4}(\\-)?(\\d{7,8})$)");
+			if (!regExp.test(value)) {
+				return false;
+			}
+			return true;
 		}
-		return true;
 	}
-}
-Spry.Widget.ValidationTextField.ValidationDescriptors.mobile={
-	validation: function (value, options) {
-		var regExp = new RegExp("^((\\(\\d{2,3}\\))|(\\d{3}\\-))?(13|15)\\d{9}$");
-		if (!regExp.test(value)) {
-			return false;
+	Spry.Widget.ValidationTextField.ValidationDescriptors.mobile={
+		validation: function (value, options) {
+			var regExp = new RegExp("^((\\(\\d{2,3}\\))|(\\d{3}\\-))?(13|15)\\d{9}$");
+			if (!regExp.test(value)) {
+				return false;
+			}
+			return true;
 		}
-		return true;
 	}
 }
 
-Spry.Data.JSONDataSet.prototype.loadPageData = function(param){
-	param = param || {pageIndex:1,pageSize:SpryExt.PageInfoBar.pageSize};
-	if(this.oldUrl==null)
-		this.oldUrl = this.url;
-	this.url = this.oldUrl+"?"+jQuery.param(param);
-	this.loadData();
+if(Spry.Data.JSONDataSet){
+	Spry.Data.JSONDataSet.prototype.loadPageData = function(param){
+		param = param || {pageIndex:1,pageSize:SpryExt.PageInfoBar.pageSize};
+		if(this.oldUrl==null)
+			this.oldUrl = this.url;
+		this.url = this.oldUrl+"?"+jQuery.param(param);
+		this.loadData();
+	}
 }
 
 var spry_sort_attach = Spry.Data.Region.behaviorAttrs["spry:sort"].attach;
