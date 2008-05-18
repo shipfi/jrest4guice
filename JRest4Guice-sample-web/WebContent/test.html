@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>多文件上传</title>
+
+<style type="text/css">
+    body { font: 11px Lucida Grande, Verdana, Arial, Helvetica, sans serif; }
+    #progressBar { padding-top: 5px; }
+    #progressBarBox { width: 350px; height: 20px; border: 1px inset; background: #eee;}
+    #progressBarBoxContent { width: 0; height: 20px; border-right: 1px solid #444; background: #9ACB34; }
+</style>
+
+<!-- JQuery 核心 -->
+<script type="text/javascript" src="javascript/lib/jquery-1.2.2.js"></script>
+<!-- Spry 核心 -->
+<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryData.js"></script>
+<!-- Spry 扩展 -->
+<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryExt.js"></script>
+<script type="text/javascript" src="test.js"></script>
+</head>
+<body>
+    <p>
+        <h1>文件上传测试</h1>
+    </p>
+
+    <p>
+		<form id="uploadForm" action="uploadFile" method="post" enctype="multipart/form-data" onsubmit="startProgress();">
+	        <input class="default" type="file" id="file1" name="file1"/><br/>
+			<input type="submit" id="uploadbutton" value="上传">
+		</form>
+    </p>
+
+    <br/>
+    <div id="progressBar" style="display: none;">
+        <div id="theMeter">
+            <div id="progressBarText"></div>
+            <div id="progressBarBox">
+                <div id="progressBarBoxContent"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
