@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>多文件上传</title>
+
+<style type="text/css">
+    #progressBar { padding-top: 5px; }
+    #progressBarBox { width: 270px; height: 13px; background: #eee;display: none; }
+    #progressBarBoxContent { width: 0; height: 13px; background-image: url("images/progress.jpg");background-repeat: repeat-x ;}
+	.input_browser {
+		border:medium none;
+		cursor:pointer;
+		font-size:24px;
+		height:106px;
+		left:-40px !important;
+		margin:0px;
+		opacity:0;
+		filter:alpha(opacity=0);
+		padding:0px;
+		position:absolute;
+		width:1px;
+	}    
+</style>
+
+<!-- JQuery 核心 -->
+<script type="text/javascript" src="javascript/lib/jquery-1.2.2.js"></script>
+<!-- Spry 核心 -->
+<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryData.js"></script>
+<!-- Spry 扩展 -->
+<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryExt.js"></script>
+<script type="text/javascript" src="upload.js"></script>
+</head>
+<body style="margin: 0;margin-left:4px;background-color:#EAF6FD;">
+	<form id="uploadForm" action="uploadFile" method="post" enctype="multipart/form-data" onsubmit="startProgress();">
+		<img id="imgeView" width="115" height="106">
+       	<input type="file" id="headPic" name="headPic" size="1" class="input_browser" type="file" name="file0" size="1" onchange="onFileSelected(this);"/>
+       	<div style="font-size: 11px;margin-top: 4px;">点击头像上传新的形象</div>
+	</form>
+    <div id="progressBar">
+	    <div id="progressBarText"></div>
+	    <div id="progressBarBox">
+	        <div id="progressBarBoxContent"></div>
+	    </div>
+    </div>
+</body>
+</html>

@@ -1,3 +1,18 @@
+window.onload = function(){
+	var param = location.href;
+	var index = param.indexOf("?");
+	if(index != -1){
+		param = param.substring(index+1);
+		param = param.replace(/=/g,":").replace(/&/g,",");
+		try{
+			param = eval("({"+param+"})");
+		}catch(e){}
+		if(param.fileUrl){
+			$("#imgeView").attr("src","upload/"+param.fileUrl);
+		}
+	}
+}
+
 function refreshProgress(){
 	SpryExt.rest.doGet("resource/monitor/",function(result){
 		if(!result.errorMessage){
@@ -12,7 +27,7 @@ function updateProgress(uploadInfo){
         var fileIndex = uploadInfo.fileIndex;
         var progressPercent = Math.ceil((uploadInfo.bytesRead / uploadInfo.totalSize) * 100);
         $('#progressBarText').html('上传进度: ' + progressPercent + '%');
-        $('#progressBarBoxContent').css("width",parseInt(progressPercent * 3.5) + 'px');
+        $('#progressBarBoxContent').css("width",parseInt(progressPercent * 2.7) + 'px');
         window.setTimeout('refreshProgress()', 1000);
     }
 
@@ -30,4 +45,8 @@ function startProgress(){
     });
     window.setTimeout("refreshProgress()", 1500);
     return true;
+}
+
+function onFileSelected(elem){
+	$("#uploadForm").submit();
 }
