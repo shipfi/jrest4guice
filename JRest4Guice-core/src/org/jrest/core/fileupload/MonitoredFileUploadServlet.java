@@ -2,8 +2,10 @@ package org.jrest.core.fileupload;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletConfig;
@@ -31,14 +33,16 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 	private String uploadPath = "/upload";
 	// 是否是绝对路径
 	private boolean isAbsolute = false;
-	// 单个文件的最大上传大小：(缺省200K)
-	private long fileSizeMax = 1024 * 200;
-	// 整个request的最大大小：(缺省2000K)
+	// 单个文件的最大上传大小：(缺省1M)
+	private long fileSizeMax = 1024 * 1024;
+	// 整个request的最大大小：(缺省10M)
 	private long sizeMax = fileSizeMax * 10;
 	// 允许上传的文件类型
 	private Set<String> fileTypeAllowed;
-	//上传完成后跳转的地址: (缺省upload.html)
+	// 上传完成后跳转的地址: (缺省upload.html)
 	private String finishUrl = "upload.html";
+	// 文件上传的拦截器
+	private FileUploadInterceptor interceptor;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -65,6 +69,15 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 			for (String p : params)
 				this.fileTypeAllowed.add(p);
 		}
+
+		param = config.getInitParameter("interceptor");
+		if (param != null && !param.trim().equals("")) {
+			try {
+				this.interceptor = (FileUploadInterceptor) Class.forName(param)
+						.newInstance();
+			} catch (Exception e) {
+			}
+		}
 	}
 
 	@Override
@@ -79,38 +92,45 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 			ServletException {
 
 		HttpServletRequest hRequest = (HttpServletRequest) servletReqest;
-		//构建带上传进度监视的文件工厂
+		// 构建带上传进度监视的文件工厂
 		MonitoredDiskFileItemFactory factory = new MonitoredDiskFileItemFactory(
 				new UploadListener(hRequest));
-		//初始化上传参数
+		// 初始化上传参数
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		upload.setFileSizeMax(this.fileSizeMax);
 		upload.setSizeMax(this.sizeMax);
 		upload.setHeaderEncoding("UTF-8");
-		
+
 		Set<String> fileNames = new HashSet<String>();
 		try {
 			List<MonitoredDiskFileItem> items = upload.parseRequest(hRequest);
 			long size;
 			String fileName, extName;
-			//上传的路径
+			// 上传的路径
 			File target = new File(this.isAbsolute ? this.uploadPath : hRequest
 					.getRealPath(this.uploadPath));
 			if (!target.exists())
 				target.mkdirs();
-			
-			//处理上传的文件
+
+			Map<String, String> parameters = new HashMap<String, String>();
+			for (MonitoredDiskFileItem fileItem : items) {
+				if (fileItem.isFormField())
+					parameters.put(fileItem.getFieldName(), fileItem
+							.getString());
+			}
+
+			// 处理上传的文件
 			for (MonitoredDiskFileItem fileItem : items) {
 				fileName = fileItem.getName();
 				if (fileName.trim().equals(""))// 如果没有指定上传的文件
 					continue;
 				int index = fileName.lastIndexOf(File.separator);
-				if(index != -1)
-					index ++;
+				if (index != -1)
+					index++;
 				else
 					index = 0;
 				fileName = fileName.substring(index).toLowerCase();
-				
+
 				extName = fileName.substring(fileName.lastIndexOf("."))
 						.toLowerCase();
 				size = fileItem.getSize();
@@ -120,15 +140,24 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 					// TODO 处理不允许的上传文件类型
 					continue;
 				}
-				
-				//将文件写入磁盘
+
+				// 将文件写入磁盘
 				if (fileItem != null && size > 0) {
+					// 处理保存到磁盘的文件名
+					if (this.interceptor != null)
+						fileName = this.interceptor.decorateFileName(
+								parameters, fileName, extName);
+
 					fileNames.add(fileName);
-					fileName = target.getPath() + File.separator
-							+ fileName;
+					fileName = target.getPath() + File.separator + fileName;
+					// 写入文件
 					fileItem.write(new File(fileName));
 				}
 			}
+
+			//处理上传完毕后的业务逻辑
+			if (this.interceptor != null)
+				this.interceptor.onUploaded(parameters);
 		} catch (Exception e) {
 			if (e instanceof SizeLimitExceededException) {
 				System.out.println("上传的文件大小超过许可限制，最大为:"
@@ -145,9 +174,10 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 				System.out
 						.println("========================================================");
 			}
-		}finally{
-			String fileUrl= StringUtils.join(fileNames, ",");
-			((HttpServletResponse)servletResponse).sendRedirect(this.finishUrl+"?fileUrl='"+fileUrl+"'");
+		} finally {
+			String fileUrl = StringUtils.join(fileNames, ",");
+			((HttpServletResponse) servletResponse).sendRedirect(this.finishUrl
+					+ "?fileUrl='" + fileUrl + "'");
 		}
 	}
 }
