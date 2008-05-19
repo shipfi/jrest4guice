@@ -2,6 +2,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<META HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<META HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT"> 
 <title>多文件上传</title>
 
 <style type="text/css">
@@ -33,9 +36,10 @@
 </head>
 <body style="margin: 0;margin-left:4px;background-color:#EAF6FD;">
 	<form id="uploadForm" action="uploadFile" method="post" enctype="multipart/form-data" onsubmit="startProgress();">
-		<img id="imgeView" width="115" height="106">
+       	<input id="oldImgUrl" name="oldImgUrl" type="hidden"/>
+		<img id="imgeView" width="115" height="106" src="images/head.gif">
        	<input type="file" id="headPic" name="headPic" size="1" class="input_browser" type="file" name="file0" size="1" onchange="onFileSelected(this);"/>
-       	<div style="font-size: 11px;margin-top: 4px;">点击头像上传新的形象</div>
+       	<div style="font-size: 11px;margin-top: 8px;">点击头像上传新的形象</div>
 	</form>
     <div id="progressBar">
 	    <div id="progressBarText"></div>

@@ -1,18 +1,21 @@
 window.onload = function(){
-	var param = location.href;
-	var index = param.indexOf("?");
-	if(index != -1){
-		param = param.substring(index+1);
-		param = param.replace(/=/g,":").replace(/&/g,",");
-		try{
-			param = eval("({"+param+"})");
-		}catch(e){}
-		if(param.fileUrl){
-			$("#imgeView").attr("src","upload/"+param.fileUrl);
-			if(parent.onUpload)
-				parent.onUpload.call(parent,param.fileUrl);
+	window.setTimeout(function(){
+		var param = location.href;
+		var index = param.indexOf("?");
+		if(index != -1){
+			param = param.substring(index+1);
+			param = param.replace(/=/g,":").replace(/&/g,",");
+			try{
+				param = eval("({"+param+"})");
+			}catch(e){}
+			if(param.fileUrl){
+				$("#imgeView").attr("src","upload/"+param.fileUrl+"?r="+Math.round(Math.random()*10000));
+				$("#oldImgUrl").val(param.fileUrl);
+				if(parent.onUpload)
+					parent.onUpload.call(parent,param.fileUrl);
+			}
 		}
-	}
+	},10);
 }
 
 function refreshProgress(){

@@ -86,6 +86,8 @@ var detailObserver = {
 		validationHelper.createTextFieldValidation("theMobilePhone", "mobile", {isRequired:false,useCharacterMasking:true, validateOn:["blur"]});
 		validationHelper.createTextFieldValidation("theEmail", "email", {isRequired:false,useCharacterMasking:true,  validateOn:["blur"]});
 		validationHelper.createTextAreaValidation("theAddress", {isRequired:false,useCharacterMasking:true, maxChars:40, validateOn:["blur"]});
+
+		$("#uploadFrame").attr("src","upload.html?fileUrl='"+$("#headPic").val()+"'");
 	}
 };
 
@@ -103,8 +105,10 @@ function doCancel(){
  */
 function clear(elem){
 	elem = $(elem);
-	elem.find("input[@type=text]").val("");
+	elem.find("input[@type!=button]").val("");
 	elem.find("textarea").val("");
+	//清除图片
+	$("#uploadFrame").attr("src","upload.html?fileUrl='"+$("#headPic").val()+"'");
 	
 	validationHelper.reset();
 }
