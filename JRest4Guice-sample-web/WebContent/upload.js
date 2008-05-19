@@ -9,6 +9,8 @@ window.onload = function(){
 		}catch(e){}
 		if(param.fileUrl){
 			$("#imgeView").attr("src","upload/"+param.fileUrl);
+			if(parent.onUpload)
+				parent.onUpload.call(parent,param.fileUrl);
 		}
 	}
 }

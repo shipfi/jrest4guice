@@ -24,14 +24,19 @@
 		<url-pattern>/resource/*</url-pattern>
 	</servlet-mapping>
 	
+	<!-- 文件上传的Servlet -->
 	<servlet>
-		<servlet-name>SampleFileUploadServlet</servlet-name>
+		<servlet-name>MonitoredFileUploadServlet</servlet-name>
 		<servlet-class>
 			org.jrest.core.fileupload.MonitoredFileUploadServlet
 		</servlet-class>
+		<init-param>
+			<param-name>interceptor</param-name>
+			<param-value>org.jrest.sample.fileupload.ImageFileUploadInterceptor</param-value>
+		</init-param>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>SampleFileUploadServlet</servlet-name>
+		<servlet-name>MonitoredFileUploadServlet</servlet-name>
 		<url-pattern>/uploadFile</url-pattern>
 	</servlet-mapping>
 

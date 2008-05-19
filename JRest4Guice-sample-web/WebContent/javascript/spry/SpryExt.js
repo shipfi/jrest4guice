@@ -525,33 +525,18 @@ SpryExt.DataHelper = {}
 SpryExt.DataHelper.gatherData = function(containerElm,isJson){
 	var nodeslist = {};
 	var elements = containerElm.getElementsByTagName("*");
-	return SpryExt.DataHelper._doGather(elements,null,isJson);
+	return SpryExt.DataHelper._doGather(elements,isJson);
 }
 
-/**
- * 表单类型的数据收集
- */
-SpryExt.DataHelper.gatherFormData = function (form, elements,isJson){
-	if (!form)
-		return '';
-
-	if ( typeof form == 'string' )
-		form = document.getElementById(form);
-
-	var formElements;
-	if (elements)
-		formElements = ',' + elements.join(',') + ',';
-
-	return SpryExt.DataHelper._doGather(form.elements,formElements,isJson);
-};
-
-SpryExt.DataHelper._doGather = function(nodes,formElements,isJson){
+SpryExt.DataHelper._doGather = function(nodes,isJson){
 	var compStack = new Array();
 	var el;
-	var mark = isJson?":":"="
+	var mark = isJson?":":"=";
+	var key;
 	for (var i = 0; i < nodes.length; i++ ){
 		el = nodes[i];
-		if (el.disabled || !el.name){
+		key = el.name || el.id;
+		if (el.disabled || !key){
 			continue;
 		}
 
@@ -559,16 +544,13 @@ SpryExt.DataHelper._doGather = function(nodes,formElements,isJson){
 			continue;
 		}
 
-		if (formElements && formElements.indexOf(',' + el.name + ',')==-1)
-			continue;
-
 		switch(el.type.toLowerCase()){
 			case 'text':
 			case 'password':
 			case 'textarea':
 			case 'hidden':
 			case 'submit':
-				compStack.push(SpryExt.DataHelper._encodeComponent(el.name,isJson) + mark + SpryExt.DataHelper._encodeComponent(el.value,isJson));
+				compStack.push(SpryExt.DataHelper._encodeComponent(key,isJson) + mark + SpryExt.DataHelper._encodeComponent(el.value,isJson));
 				break;
 			case 'select-one':
 				var value = '';
@@ -577,20 +559,20 @@ SpryExt.DataHelper._doGather = function(nodes,formElements,isJson){
 					opt = el.options[el.selectedIndex];
 					value = opt.value || opt.text;
 				}
-				compStack.push(SpryExt.DataHelper._encodeComponent(el.name,isJson) + mark + SpryExt.DataHelper._encodeComponent(value,isJson));
+				compStack.push(SpryExt.DataHelper._encodeComponent(key,isJson) + mark + SpryExt.DataHelper._encodeComponent(value,isJson));
 				break;
 			case 'select-multiple':
 				for (var j = 0; j < el.length; j++){
 					if (el.options[j].selected){
 						value = el.options[j].value || el.options[j].text;
-						compStack.push(SpryExt.DataHelper._encodeComponent(el.name,isJson) + mark + SpryExt.DataHelper._encodeComponent(value,isJson));
+						compStack.push(SpryExt.DataHelper._encodeComponent(key,isJson) + mark + SpryExt.DataHelper._encodeComponent(value,isJson));
 					}
 				}
 				break;
 			case 'checkbox':
 			case 'radio':
 				if (el.checked)
-					compStack.push(SpryExt.DataHelper._encodeComponent(el.name,isJson) + mark + SpryExt.DataHelper._encodeComponent(el.value,isJson));
+					compStack.push(SpryExt.DataHelper._encodeComponent(key,isJson) + mark + SpryExt.DataHelper._encodeComponent(el.value,isJson));
 				break;
 			default:
 			// file, button, reset
