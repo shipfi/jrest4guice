@@ -18,7 +18,7 @@ import org.jrest.core.persist.jpa.EntityAble;
 @Entity()
 @Table(name = "Contact_tb")
 @NamedQueries( {
-		@NamedQuery(name = "Contact.list[find]", query = "select e from Contact e order by e.changeDate desc"),
+		@NamedQuery(name = "Contact.list[find]", query = "select e from Contact e order by e.name desc"),
 		@NamedQuery(name = "Contact.list[count]", query = "select count(*) from Contact"),
 		@NamedQuery(name = "Contact.byName[load]", query = "select e from Contact e where e.name=?") })
 public class Contact implements EntityAble<String>, Serializable {
