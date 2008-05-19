@@ -12,11 +12,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadBase.IOFileUploadException;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang.StringUtils;
 
 @SuppressWarnings( { "unused", "unchecked" })
 public class MonitoredFileUploadServlet extends HttpServlet {
@@ -35,6 +37,8 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 	private long sizeMax = fileSizeMax * 10;
 	// 允许上传的文件类型
 	private Set<String> fileTypeAllowed;
+	//上传完成后跳转的地址: (缺省upload.html)
+	private String finishUrl = "upload.html";
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -83,7 +87,8 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 		upload.setFileSizeMax(this.fileSizeMax);
 		upload.setSizeMax(this.sizeMax);
 		upload.setHeaderEncoding("UTF-8");
-
+		
+		Set<String> fileNames = new HashSet<String>();
 		try {
 			List<MonitoredDiskFileItem> items = upload.parseRequest(hRequest);
 			long size;
@@ -99,7 +104,13 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 				fileName = fileItem.getName();
 				if (fileName.trim().equals(""))// 如果没有指定上传的文件
 					continue;
-
+				int index = fileName.lastIndexOf(File.separator);
+				if(index != -1)
+					index ++;
+				else
+					index = 0;
+				fileName = fileName.substring(index).toLowerCase();
+				
 				extName = fileName.substring(fileName.lastIndexOf("."))
 						.toLowerCase();
 				size = fileItem.getSize();
@@ -112,8 +123,9 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 				
 				//将文件写入磁盘
 				if (fileItem != null && size > 0) {
+					fileNames.add(fileName);
 					fileName = target.getPath() + File.separator
-							+ fileItem.getName();
+							+ fileName;
 					fileItem.write(new File(fileName));
 				}
 			}
@@ -133,6 +145,9 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 				System.out
 						.println("========================================================");
 			}
+		}finally{
+			String fileUrl= StringUtils.join(fileNames, ",");
+			((HttpServletResponse)servletResponse).sendRedirect(this.finishUrl+"?fileUrl='"+fileUrl+"'");
 		}
 	}
 }
