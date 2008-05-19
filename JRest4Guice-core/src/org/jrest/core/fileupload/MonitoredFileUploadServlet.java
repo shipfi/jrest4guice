@@ -2,6 +2,7 @@ package org.jrest.core.fileupload;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -122,7 +123,7 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 			// 处理上传的文件
 			for (MonitoredDiskFileItem fileItem : items) {
 				fileName = fileItem.getName();
-				if (fileName.trim().equals(""))// 如果没有指定上传的文件
+				if (fileName==null || fileName.trim().equals(""))// 如果没有指定上传的文件
 					continue;
 				int index = fileName.lastIndexOf(File.separator);
 				if (index != -1)
@@ -175,8 +176,9 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 						.println("========================================================");
 			}
 		} finally {
+			HttpServletResponse hResponse = (HttpServletResponse) servletResponse;
 			String fileUrl = StringUtils.join(fileNames, ",");
-			((HttpServletResponse) servletResponse).sendRedirect(this.finishUrl
+			hResponse.sendRedirect(this.finishUrl
 					+ "?fileUrl='" + fileUrl + "'");
 		}
 	}
