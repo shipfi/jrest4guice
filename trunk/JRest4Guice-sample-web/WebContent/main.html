@@ -94,31 +94,32 @@
 				<fieldset style="margin: 10px;border: 1px solid olive;">
 					<legend id="Organization">联系人信息</legend>
 					<div style="margin: 8px;">
-						<input style="display: none;" type="text" name="id" value="{id}">
+						<input style="display: none;" type="text" id="id" value="{id}">
 						<div id="theName">
 							<div class="formLabel">姓名：</div>
-							<input type="text" name="name" value="{name}">
+							<input type="text" id="name" value="{name}">
 							<div class="textfieldRequiredMsg">姓名不能为空.</div>
 						</div>
 						<fieldset style="float: right;border: 1px solid olive;margin-top: -44px;margin-right: 8px;">
 							<legend id="Organization">个人形象</legend>
 							<div>
+								<input type="hidden" id="headPic" value="{headPic}">
 								<iframe id="uploadFrame" src="upload.html?fileUrl='{headPic}'" frameborder="0" width="128" height="140" scrolling="no"></iframe>
 							</div>
 						</fieldset>
 						<div id="theMobilePhone" style="clear: left;">
 							<div class="formLabel">移动电话：</div>
-							<input type="text" name="mobilePhone" value="{mobilePhone}">
+							<input type="text" id="mobilePhone" value="{mobilePhone}">
 							<div class="textfieldInvalidFormatMsg">无效的移动电话.<br>(长度为11位，例：13710540124)</div>
 						</div>
 						<div id="theEmail">
 							<div class="formLabel">电子邮件：</div>
-							<input type="text" name="EMail" value="{EMail}">
+							<input type="text" id="EMail" value="{EMail}">
 							<div class="textfieldInvalidFormatMsg">不正确的电子邮件格式.<br>(例：xxx@xxx.com)</div>
 						</div>
 						<div id="theAddress">
 							<div class="formLabel">家庭住址：</div>
-							<textarea rows="3" cols="32" name="address">{address}</textarea>
+							<textarea rows="3" cols="32" id="address">{address}</textarea>
 							<div class="textareaMaxCharsMsg">长度不能超过50这个字符</div>
 						</div>
 						<br/>
