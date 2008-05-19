@@ -1,6 +1,7 @@
 package org.jrest.sample.fileupload;
 
 import java.util.Map;
+import java.util.UUID;
 
 import org.jrest.core.fileupload.FileUploadInterceptorAdapter;
 
@@ -10,10 +11,10 @@ public class ImageFileUploadInterceptor extends FileUploadInterceptorAdapter {
 			String fileName, String extName) {
 		if(!extName.startsWith("."))
 			extName = "."+extName;
-		String contactId = parameters.get("id");
-		if (contactId != null)
-			return contactId + extName;
+		String oldImgUrl = parameters.get("oldImgUrl");
+		if (oldImgUrl != null && !oldImgUrl.trim().equals(""))
+			return oldImgUrl;
 		else
-			return fileName;
+			return UUID.randomUUID()+extName;
 	}
 }
