@@ -27,7 +27,7 @@
 	<servlet>
 		<servlet-name>SampleFileUploadServlet</servlet-name>
 		<servlet-class>
-			org.jrest.sample.servlet.SampleFileUploadServlet
+			org.jrest.core.fileupload.MonitoredFileUploadServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
