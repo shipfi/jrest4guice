@@ -7,8 +7,8 @@
 <style type="text/css">
     body { font: 11px Lucida Grande, Verdana, Arial, Helvetica, sans serif; }
     #progressBar { padding-top: 5px; }
-    #progressBarBox { width: 350px; height: 20px; border: 1px inset; background: #eee;}
-    #progressBarBoxContent { width: 0; height: 20px; border-right: 1px solid #444; background: #9ACB34; }
+    #progressBarBox { width: 350px; height: 13px; background: #eee;}
+    #progressBarBoxContent { width: 0; height: 13px; background-image: url("images/progress.jpg");background-repeat: repeat-x ; }
 </style>
 
 <!-- JQuery 核心 -->
@@ -34,13 +34,11 @@
     </p>
 
     <br/>
-    <div id="progressBar" style="display: none;">
-        <div id="theMeter">
-            <div id="progressBarText"></div>
-            <div id="progressBarBox">
-                <div id="progressBarBoxContent"></div>
-            </div>
-        </div>
+    <div id="progressBar">
+	    <div id="progressBarText"></div>
+	    <div id="progressBarBox">
+	        <div id="progressBarBoxContent"></div>
+	    </div>
     </div>
 </body>
 </html>

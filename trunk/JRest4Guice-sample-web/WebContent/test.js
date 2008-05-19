@@ -11,8 +11,8 @@ function updateProgress(uploadInfo){
     if (uploadInfo.inProgress){
         var fileIndex = uploadInfo.fileIndex;
         var progressPercent = Math.ceil((uploadInfo.bytesRead / uploadInfo.totalSize) * 100);
-        $('#progressBarText').html('upload in progress: ' + progressPercent + '%');
-        $('#progressBarBoxContent')[0].style.width = parseInt(progressPercent * 3.5) + 'px';
+        $('#progressBarText').html('上传进度: ' + progressPercent + '%');
+        $('#progressBarBoxContent').css("width",parseInt(progressPercent * 3.5) + 'px');
         window.setTimeout('refreshProgress()', 1000);
     }
 
@@ -23,7 +23,8 @@ function updateProgress(uploadInfo){
 
 function startProgress(){
     $('#progressBar').show();
-    $('#progressBarText').html('upload in progress: 0%');
+    $('#progressBarText').html('上传进度: 0%');
+    $('#progressBarBoxContent').css("width","0px");
     $("#uploadForm input[@type!='file']").each(function(){
     	this.disabled = true;
     });
