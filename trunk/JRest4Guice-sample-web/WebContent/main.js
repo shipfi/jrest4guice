@@ -170,3 +170,9 @@ function deleteContact(id,nme){
 			alert(result.errorMessage);
 	});
 }
+
+function doUpload(frameId,formId,inputId){
+	var frame = $("#"+frameId)[0];
+	frame.contentWindow.document.getElementById(inputId).click();
+	frame.contentWindow.document.getElementById(formId).submit();
+}
