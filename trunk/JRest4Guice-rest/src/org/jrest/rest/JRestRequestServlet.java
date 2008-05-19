@@ -31,8 +31,6 @@ public class JRestRequestServlet extends HttpServlet {
 			
 			if(this.urlPrefix.equals("/"))
 				this.urlPrefix = null;
-			
-			System.out.println(this.urlPrefix);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
