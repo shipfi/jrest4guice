@@ -1,9 +1,9 @@
-package org.cnoss.rest4guice.sample.resources;
+package org.jrest4guice.sample.resources;
 
-import org.cnoss.core.fileupload.UploadInfo;
-import org.cnoss.core.fileupload.UploadMonitor;
-import org.cnoss.rest4guice.annotation.Get;
-import org.cnoss.rest4guice.annotation.Restful;
+import org.jrest4guice.annotation.Get;
+import org.jrest4guice.annotation.Restful;
+import org.jrest4guice.core.fileupload.UploadInfo;
+import org.jrest4guice.core.fileupload.UploadMonitor;
 
 import com.google.inject.Inject;
 

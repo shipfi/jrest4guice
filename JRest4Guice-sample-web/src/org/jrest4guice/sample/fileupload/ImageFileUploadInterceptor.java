@@ -1,9 +1,9 @@
-package org.cnoss.rest4guice.sample.fileupload;
+package org.jrest4guice.sample.fileupload;
 
 import java.util.Map;
 import java.util.UUID;
 
-import org.cnoss.core.fileupload.FileUploadInterceptorAdapter;
+import org.jrest4guice.core.fileupload.FileUploadInterceptorAdapter;
 
 public class ImageFileUploadInterceptor extends FileUploadInterceptorAdapter {
 	@Override

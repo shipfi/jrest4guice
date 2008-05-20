@@ -1,12 +1,12 @@
-package org.cnoss.rest4guice.sample.listener;
+package org.jrest4guice.sample.listener;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.cnoss.core.guice.GuiceContext;
-import org.cnoss.core.persist.jpa.JpaGuiceModuleProvider;
-import org.cnoss.core.transaction.TransactionGuiceModuleProvider;
-import org.cnoss.rest4guice.JRestGuiceModuleProvider;
+import org.jrest4guice.JRestGuiceModuleProvider;
+import org.jrest4guice.core.guice.GuiceContext;
+import org.jrest4guice.core.persist.jpa.JpaGuiceModuleProvider;
+import org.jrest4guice.core.transaction.TransactionGuiceModuleProvider;
 
 public class JRest4GuiceSampContextListener implements ServletContextListener {
 	@Override
@@ -16,7 +16,7 @@ public class JRest4GuiceSampContextListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		GuiceContext.getInstance().addModuleProvider(
-				new JRestGuiceModuleProvider("org.cnoss.rest4guice.sample.resources"))// JRest支持
+				new JRestGuiceModuleProvider("org.jrest4guice.sample.resources"))// JRest支持
 				.addModuleProvider(new TransactionGuiceModuleProvider())// 事务支持
 				.addModuleProvider(new JpaGuiceModuleProvider()).init();// JPA支持
 	}
