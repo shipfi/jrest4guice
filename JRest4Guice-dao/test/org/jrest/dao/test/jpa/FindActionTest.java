@@ -5,8 +5,8 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.jrest.core.guice.GuiceContext;
-import org.jrest.core.persist.jpa.JpaGuiceModuleProvider;
+import org.cnoss.core.guice.GuiceContext;
+import org.cnoss.core.persist.jpa.JpaGuiceModuleProvider;
 import org.jrest.dao.DaoModuleProvider;
 import org.jrest.dao.jpa.JpaContextProvider;
 import org.jrest.dao.test.entities.Author;

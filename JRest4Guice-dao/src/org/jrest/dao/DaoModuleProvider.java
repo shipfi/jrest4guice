@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.jrest.core.guice.ModuleProviderTemplate;
+import org.cnoss.core.guice.ModuleProviderTemplate;
 import org.jrest.dao.actions.Action;
 import org.jrest.dao.actions.ActionContext;
 import org.jrest.dao.actions.ActionContextProvider;
