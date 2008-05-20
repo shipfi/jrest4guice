@@ -15,19 +15,28 @@ import com.google.inject.Module;
  * 全局上下文对象实体
  */
 public class GuiceContext {
-	
+
 	private static volatile GuiceContext me;
-	
+
 	private volatile boolean initialized = false;
+
+	/**
+	 * 模块提供者集合
+	 */
+	private final Set<ModuleProvider> providers; 
 	
-	private final Set<ModuleProvider> providers; // 模块提供者集合
-	
+	/**
+	 * 用户自定义的模块集合
+	 */
+	private final Set<Module> userModules;
+
 	private Injector injector;
-	
+
 	private GuiceContext() {
 		providers = new HashSet<ModuleProvider>();
+		userModules = new HashSet<Module>();
 	}
-	
+
 	/**
 	 * 获取对象实例
 	 * @return
@@ -40,7 +49,7 @@ public class GuiceContext {
 			}
 		return me;
 	}
-	
+
 	/**
 	 * 从当前上下文中获取对象
 	 * @param <T> 对象类型
@@ -51,7 +60,7 @@ public class GuiceContext {
 		Assert.isTrue(initialized, "对象未被初始化");
 		return injector.getInstance(clazz);
 	}
-	
+
 	/**
 	 * 使用当前上下文为对象注入依赖的成员对象
 	 * @param o 要注入成员的对象
@@ -60,7 +69,7 @@ public class GuiceContext {
 		Assert.isTrue(initialized, "对象未被初始化");
 		injector.injectMembers(o);
 	}
-	
+
 	/**
 	 * 添加 模块提供者
 	 * @param providers 模块提供者实例
@@ -73,7 +82,13 @@ public class GuiceContext {
 		}
 		return this;
 	}
-	
+
+	public GuiceContext addUserModule(Module... modules) {
+		for (Module module : modules)
+			this.userModules.add(module);
+		return this;
+	}
+
 	/**
 	 * 初始化方法,该对象只会被初始化一次
 	 * @return 全局上下文对象自身
@@ -88,6 +103,10 @@ public class GuiceContext {
 			for (ModuleProvider provider : providers) {
 				modules.addAll(provider.getModules());
 			}
+			
+			for (Module module : this.userModules)
+				this.userModules.add(module);
+			
 			injector = Guice.createInjector(new Iterable<Module>() {
 				@Override
 				public Iterator<Module> iterator() {
