@@ -1,14 +1,14 @@
-package org.cnoss.rest.sample.resources;
+package org.cnoss.rest4guice.sample.resources;
 
-import org.cnoss.rest.annotation.Delete;
-import org.cnoss.rest.annotation.Get;
-import org.cnoss.rest.annotation.ModelBean;
-import org.cnoss.rest.annotation.Parameter;
-import org.cnoss.rest.annotation.Post;
-import org.cnoss.rest.annotation.Put;
-import org.cnoss.rest.annotation.Restful;
-import org.cnoss.rest.sample.entity.Contact;
-import org.cnoss.rest.sample.service.ContactService;
+import org.cnoss.rest4guice.annotation.Delete;
+import org.cnoss.rest4guice.annotation.Get;
+import org.cnoss.rest4guice.annotation.ModelBean;
+import org.cnoss.rest4guice.annotation.Parameter;
+import org.cnoss.rest4guice.annotation.Post;
+import org.cnoss.rest4guice.annotation.Put;
+import org.cnoss.rest4guice.annotation.Restful;
+import org.cnoss.rest4guice.sample.entity.Contact;
+import org.cnoss.rest4guice.sample.service.ContactService;
 
 import com.google.inject.Inject;
 

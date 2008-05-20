@@ -1,4 +1,4 @@
-package org.cnoss.rest.sample.fileupload;
+package org.cnoss.rest4guice.sample.fileupload;
 
 import java.util.Map;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package org.cnoss.rest.sample.entity;
+package org.cnoss.rest4guice.sample.entity;
 
 import java.io.Serializable;
 import java.sql.Time;
