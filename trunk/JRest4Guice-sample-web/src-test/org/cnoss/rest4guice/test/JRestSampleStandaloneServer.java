@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.cnoss.core.guice.GuiceContext;
 import org.cnoss.core.persist.jpa.JpaGuiceModuleProvider;
 import org.cnoss.core.transaction.TransactionGuiceModuleProvider;
-import org.cnoss.dao4guice.DaoModuleProvider;
 import org.cnoss.rest4guice.JRestGrizzlyResourceAdapter;
 import org.cnoss.rest4guice.JRestGuiceModuleProvider;
 
@@ -32,11 +31,7 @@ public class JRestSampleStandaloneServer {
 								new JRestGuiceModuleProvider(
 										"org.cnoss.rest4guice.sample.resources"))
 						.addModuleProvider(new TransactionGuiceModuleProvider())
-						.addModuleProvider(new JpaGuiceModuleProvider())
-						.addModuleProvider(
-								new DaoModuleProvider(
-										new String[] { "org.cnoss.rest4guice.sample.dao" }))
-						.init();
+						.addModuleProvider(new JpaGuiceModuleProvider()).init();
 				System.out.println("完成初始化Guice上下文");
 			}
 		};
@@ -45,7 +40,8 @@ public class JRestSampleStandaloneServer {
 		selectorThread.setPort(9999);
 		String folder = "E:\\Cnoss-Google\\JRest4Guice\\JRest4Guice-sample-web\\WebContent";
 		SelectorThread.setWebAppRootPath(folder);
-		JRestGrizzlyResourceAdapter adapter = new JRestGrizzlyResourceAdapter(folder);
+		JRestGrizzlyResourceAdapter adapter = new JRestGrizzlyResourceAdapter(
+				folder);
 		adapter.setRootFolder(folder);
 		selectorThread.setAdapter(adapter);
 		selectorThread.setDisplayConfiguration(false);
