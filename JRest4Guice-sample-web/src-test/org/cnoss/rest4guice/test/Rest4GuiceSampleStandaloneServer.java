@@ -2,11 +2,11 @@ package org.cnoss.rest4guice.test;
 
 import java.io.IOException;
 
-import org.cnoss.core.guice.GuiceContext;
-import org.cnoss.core.persist.jpa.JpaGuiceModuleProvider;
-import org.cnoss.core.transaction.TransactionGuiceModuleProvider;
-import org.cnoss.rest4guice.JRestGrizzlyResourceAdapter;
-import org.cnoss.rest4guice.JRestGuiceModuleProvider;
+import org.jrest4guice.JRestGrizzlyResourceAdapter;
+import org.jrest4guice.JRestGuiceModuleProvider;
+import org.jrest4guice.core.guice.GuiceContext;
+import org.jrest4guice.core.persist.jpa.JpaGuiceModuleProvider;
+import org.jrest4guice.core.transaction.TransactionGuiceModuleProvider;
 
 import com.sun.grizzly.http.SelectorThread;
 import com.sun.grizzly.standalone.StaticStreamAlgorithm;
@@ -29,7 +29,7 @@ public class Rest4GuiceSampleStandaloneServer {
 						.getInstance()
 						.addModuleProvider(
 								new JRestGuiceModuleProvider(
-										"org.cnoss.rest4guice.sample.resources"))
+										"org.jrest4guice.sample.resources"))
 						.addModuleProvider(new TransactionGuiceModuleProvider())
 						.addModuleProvider(new JpaGuiceModuleProvider()).init();
 				System.out.println("完成初始化Guice上下文");
