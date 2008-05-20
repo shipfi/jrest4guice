@@ -1,6 +1,6 @@
 package org.jrest.dao.jpa;
 
-import org.jrest.core.guice.GuiceContext;
+import org.cnoss.core.guice.GuiceContext;
 import org.jrest.dao.actions.ActionContextProvider;
 
 import com.google.inject.AbstractModule;

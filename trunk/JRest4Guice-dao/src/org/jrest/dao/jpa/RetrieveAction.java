@@ -9,7 +9,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.beanutils.ConstructorUtils;
 import org.apache.commons.lang.StringUtils;
-import org.jrest.core.util.Assert;
+import org.cnoss.core.util.Assert;
 import org.jrest.dao.actions.ActionTemplate;
 import org.jrest.dao.annotations.Retrieve;
 
