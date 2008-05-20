@@ -1,15 +1,15 @@
-package org.cnoss.rest4guice.sample.service.impl;
+package org.jrest4guice.sample.service.impl;
 
 
 import javax.persistence.EntityManager;
 
-import org.cnoss.core.persist.jpa.BaseEntityManager;
-import org.cnoss.core.persist.jpa.Page;
-import org.cnoss.core.persist.jpa.Pagination;
-import org.cnoss.core.transaction.annotations.Transactional;
-import org.cnoss.core.transaction.annotations.TransactionalType;
-import org.cnoss.rest4guice.sample.entity.Contact;
-import org.cnoss.rest4guice.sample.service.ContactService;
+import org.jrest4guice.core.persist.jpa.BaseEntityManager;
+import org.jrest4guice.core.persist.jpa.Page;
+import org.jrest4guice.core.persist.jpa.Pagination;
+import org.jrest4guice.core.transaction.annotations.Transactional;
+import org.jrest4guice.core.transaction.annotations.TransactionalType;
+import org.jrest4guice.sample.entity.Contact;
+import org.jrest4guice.sample.service.ContactService;
 
 import com.google.inject.Inject;
 
