@@ -16,8 +16,8 @@ public class JRest4GuiceSampContextListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		GuiceContext.getInstance().addModuleProvider(
-				new JRestGuiceModuleProvider("org.jrest.sample.resources"))
-				.addModuleProvider(new TransactionGuiceModuleProvider())
-				.addModuleProvider(new JpaGuiceModuleProvider()).init();
+				new JRestGuiceModuleProvider("org.jrest.sample.resources"))// JRest支持
+				.addModuleProvider(new TransactionGuiceModuleProvider())// 事务支持
+				.addModuleProvider(new JpaGuiceModuleProvider()).init();// JPA支持
 	}
 }
