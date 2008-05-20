@@ -10,6 +10,11 @@ import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.matcher.Matchers;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class TransactionGuiceModuleProvider extends ModuleProviderTemplate{
 	@Override
 	public List<Module> getModules() {

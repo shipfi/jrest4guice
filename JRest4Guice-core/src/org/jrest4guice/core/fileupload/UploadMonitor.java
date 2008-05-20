@@ -4,6 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.inject.Inject;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class UploadMonitor {
 	@Inject
 	private HttpServletRequest request;

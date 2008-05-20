@@ -6,6 +6,11 @@ import java.io.OutputStream;
 
 import org.apache.commons.fileupload.disk.DiskFileItem;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @SuppressWarnings("serial")
 public class MonitoredDiskFileItem extends DiskFileItem {
 	private MonitoredOutputStream mOuts = null;

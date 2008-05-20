@@ -23,6 +23,11 @@ import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @SuppressWarnings( { "unused", "unchecked" })
 public class MonitoredFileUploadServlet extends HttpServlet {
 	/**

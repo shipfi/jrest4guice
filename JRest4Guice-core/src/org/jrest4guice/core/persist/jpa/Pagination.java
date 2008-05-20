@@ -3,8 +3,9 @@ package org.jrest4guice.core.persist.jpa;
 import java.io.Serializable;
 
 /**
- * 分页参数类<br>
- * 用于传递分页参数，限制查询的记录返回数量
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
  */
 public class Pagination implements Serializable {
 

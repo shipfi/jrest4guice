@@ -3,6 +3,11 @@ package org.jrest4guice.core.fileupload;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class MonitoredOutputStream extends OutputStream {
 	private OutputStream target;
 	private OutputStreamListener listener;

@@ -1,5 +1,10 @@
 package org.jrest4guice.core.fileupload;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public interface OutputStreamListener {
 	public void start();
 

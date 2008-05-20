@@ -11,6 +11,11 @@ import org.jrest4guice.core.guice.ModuleProviderTemplate;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class JpaGuiceModuleProvider extends ModuleProviderTemplate{
 	@Override
 	public List<Module> getModules() {

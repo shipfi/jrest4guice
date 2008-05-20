@@ -2,6 +2,11 @@ package org.jrest4guice.core.fileupload;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class UploadListener implements OutputStreamListener {
 	private HttpServletRequest request;
 

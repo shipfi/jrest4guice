@@ -1,5 +1,10 @@
 package org.jrest4guice.core.jndi;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @SuppressWarnings("unchecked")
 public class JndiServiceInfo {
 	private Class serviceClass;

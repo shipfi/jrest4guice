@@ -10,6 +10,11 @@ import org.jrest4guice.core.persist.jpa.EntityManagerFactoryHolder;
 import org.jrest4guice.core.transaction.annotations.Transactional;
 import org.jrest4guice.core.transaction.annotations.TransactionalType;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 	@Override
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable {

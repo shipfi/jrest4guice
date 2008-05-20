@@ -2,6 +2,11 @@ package org.jrest4guice.core.persist.jpa;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public interface EntityAble<PK extends Serializable> extends Serializable {
 	/**
 	 * 范围为所有

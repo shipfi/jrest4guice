@@ -5,6 +5,11 @@ import java.io.File;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class MonitoredDiskFileItemFactory extends DiskFileItemFactory {
 	private OutputStreamListener listener = null;
 
