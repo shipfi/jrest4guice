@@ -7,10 +7,10 @@ import junit.framework.Assert;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jrest.dao.DynamicProxy;
 import org.jrest.dao.test.entities.Author;
 import org.jrest.dao.test.entities.Book;
 import org.jrest.dao.test.entities.PackingInfo;
+import org.jrest4guice.dao.DynamicProxy;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;

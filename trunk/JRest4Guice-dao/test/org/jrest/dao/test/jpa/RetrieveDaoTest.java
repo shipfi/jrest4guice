@@ -5,14 +5,14 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.cnoss.core.guice.GuiceContext;
-import org.cnoss.core.persist.jpa.JpaGuiceModuleProvider;
-import org.jrest.dao.DaoModuleProvider;
-import org.jrest.dao.jpa.JpaContextProvider;
 import org.jrest.dao.test.entities.Author;
 import org.jrest.dao.test.entities.Book;
 import org.jrest.dao.test.entities.BookModel;
 import org.jrest.dao.test.entities.PackingInfo;
+import org.jrest4guice.core.guice.GuiceContext;
+import org.jrest4guice.core.persist.jpa.JpaGuiceModuleProvider;
+import org.jrest4guice.dao.DaoModuleProvider;
+import org.jrest4guice.dao.jpa.JpaContextProvider;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class RetrieveDaoTest {
 		GuiceContext context = GuiceContext.getInstance();
 		context.addModuleProvider(
 		        new JpaGuiceModuleProvider(),
-		        (new DaoModuleProvider("org.jrest.dao.test.jpa", "org.jrest.dao.jpa"))
+		        (new DaoModuleProvider("org.jrest4guice.dao.test.jpa", "org.jrest4guice.dao.jpa"))
 		                .addActionContextProviders(new JpaContextProvider())).init();
 		bookDao = context.getBean(BookDao.class);
 		

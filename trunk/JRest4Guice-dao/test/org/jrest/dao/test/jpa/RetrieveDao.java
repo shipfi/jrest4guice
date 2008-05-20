@@ -1,9 +1,9 @@
 package org.jrest.dao.test.jpa;
 
-import org.jrest.dao.annotations.Dao;
-import org.jrest.dao.annotations.Retrieve;
 import org.jrest.dao.test.entities.Book;
 import org.jrest.dao.test.entities.BookModel;
+import org.jrest4guice.dao.annotations.Dao;
+import org.jrest4guice.dao.annotations.Retrieve;
 
 import com.google.inject.name.Named;
 

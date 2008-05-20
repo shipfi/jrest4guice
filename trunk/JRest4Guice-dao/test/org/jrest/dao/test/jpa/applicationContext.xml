@@ -15,12 +15,12 @@
 			ref="entityManagerFactory" />
 	</bean>
 
-	<bean id="register" class="org.jrest.dao.jpa.JpaRegister">
+	<bean id="register" class="org.jrest4guice.dao.jpa.JpaRegister">
 		<property name="entityManagerFactory"
 			ref="entityManagerFactory" />
 	</bean>
 
-	<bean id="dynamicProxy" class="org.jrest.dao.DynamicProxy">
+	<bean id="dynamicProxy" class="org.jrest4guice.dao.DynamicProxy">
 		<property name="register" ref="register" />
 	</bean>
 </beans>

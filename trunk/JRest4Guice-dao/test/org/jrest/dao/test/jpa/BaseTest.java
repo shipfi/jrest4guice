@@ -5,12 +5,12 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.cnoss.core.guice.GuiceContext;
-import org.cnoss.core.persist.jpa.JpaGuiceModuleProvider;
-import org.jrest.dao.DaoModuleProvider;
 import org.jrest.dao.test.entities.Author;
 import org.jrest.dao.test.entities.Book;
 import org.jrest.dao.test.entities.PackingInfo;
+import org.jrest4guice.core.guice.GuiceContext;
+import org.jrest4guice.core.persist.jpa.JpaGuiceModuleProvider;
+import org.jrest4guice.dao.DaoModuleProvider;
 import org.junit.Test;
 
 public class BaseTest {
@@ -18,12 +18,12 @@ public class BaseTest {
 	@Test
 	public void test() {
 		// DaoContext context = DaoContext.getInstance();
-		// context.addScanPaths("org.jrest.dao.jpa", "org.jrest.dao.test.jpa");
+		// context.addScanPaths("org.jrest4guice.dao.jpa", "org.jrest4guice.dao.test.jpa");
 		// context.init();
 		// BookDao dao = context.getBean(BookDao.class);
 		
 		GuiceContext context = GuiceContext.getInstance();
-		context.addModuleProvider(new DaoModuleProvider("org.jrest.dao.test.jpa", "org.jrest.dao.jpa"),
+		context.addModuleProvider(new DaoModuleProvider("org.jrest4guice.dao.test.jpa", "org.jrest4guice.dao.jpa"),
 		        new JpaGuiceModuleProvider()).init();
 		BookDao dao = context.getBean(BookDao.class);
 		Assert.assertNotNull(dao);
