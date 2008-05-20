@@ -1,13 +1,13 @@
-package org.jrest.test;
+package org.cnoss.rest4guice.test;
 
 import java.io.IOException;
 
 import org.cnoss.core.guice.GuiceContext;
 import org.cnoss.core.persist.jpa.JpaGuiceModuleProvider;
 import org.cnoss.core.transaction.TransactionGuiceModuleProvider;
-import org.cnoss.dao.DaoModuleProvider;
-import org.cnoss.rest.JRestGrizzlyResourceAdapter;
-import org.cnoss.rest.JRestGuiceModuleProvider;
+import org.cnoss.dao4guice.DaoModuleProvider;
+import org.cnoss.rest4guice.JRestGrizzlyResourceAdapter;
+import org.cnoss.rest4guice.JRestGuiceModuleProvider;
 
 import com.sun.grizzly.http.SelectorThread;
 import com.sun.grizzly.standalone.StaticStreamAlgorithm;
@@ -30,12 +30,12 @@ public class JRestSampleStandaloneServer {
 						.getInstance()
 						.addModuleProvider(
 								new JRestGuiceModuleProvider(
-										"org.cnoss.rest.sample.resources"))
+										"org.cnoss.rest4guice.sample.resources"))
 						.addModuleProvider(new TransactionGuiceModuleProvider())
 						.addModuleProvider(new JpaGuiceModuleProvider())
 						.addModuleProvider(
 								new DaoModuleProvider(
-										new String[] { "org.cnoss.rest.sample.dao" }))
+										new String[] { "org.cnoss.rest4guice.sample.dao" }))
 						.init();
 				System.out.println("完成初始化Guice上下文");
 			}

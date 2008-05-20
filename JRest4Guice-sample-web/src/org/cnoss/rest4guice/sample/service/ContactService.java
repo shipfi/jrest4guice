@@ -1,9 +1,9 @@
-package org.cnoss.rest.sample.service;
+package org.cnoss.rest4guice.sample.service;
 
 
 import org.cnoss.core.persist.jpa.Page;
-import org.cnoss.rest.sample.entity.Contact;
-import org.cnoss.rest.sample.service.impl.ContactServiceBean;
+import org.cnoss.rest4guice.sample.entity.Contact;
+import org.cnoss.rest4guice.sample.service.impl.ContactServiceBean;
 
 import com.google.inject.ImplementedBy;
 

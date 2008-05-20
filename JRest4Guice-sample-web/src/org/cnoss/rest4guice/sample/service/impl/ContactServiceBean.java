@@ -1,4 +1,4 @@
-package org.cnoss.rest.sample.service.impl;
+package org.cnoss.rest4guice.sample.service.impl;
 
 
 import javax.persistence.EntityManager;
@@ -8,8 +8,8 @@ import org.cnoss.core.persist.jpa.Page;
 import org.cnoss.core.persist.jpa.Pagination;
 import org.cnoss.core.transaction.annotations.Transactional;
 import org.cnoss.core.transaction.annotations.TransactionalType;
-import org.cnoss.rest.sample.entity.Contact;
-import org.cnoss.rest.sample.service.ContactService;
+import org.cnoss.rest4guice.sample.entity.Contact;
+import org.cnoss.rest4guice.sample.service.ContactService;
 
 import com.google.inject.Inject;
 
