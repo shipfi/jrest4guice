@@ -1,14 +1,14 @@
-package org.jrest.sample.resources;
+package org.cnoss.rest.sample.resources;
 
-import org.jrest.rest.annotation.Delete;
-import org.jrest.rest.annotation.Get;
-import org.jrest.rest.annotation.ModelBean;
-import org.jrest.rest.annotation.Post;
-import org.jrest.rest.annotation.Put;
-import org.jrest.rest.annotation.Parameter;
-import org.jrest.rest.annotation.Restful;
-import org.jrest.sample.entity.Contact;
-import org.jrest.sample.service.ContactService;
+import org.cnoss.rest.annotation.Delete;
+import org.cnoss.rest.annotation.Get;
+import org.cnoss.rest.annotation.ModelBean;
+import org.cnoss.rest.annotation.Parameter;
+import org.cnoss.rest.annotation.Post;
+import org.cnoss.rest.annotation.Put;
+import org.cnoss.rest.annotation.Restful;
+import org.cnoss.rest.sample.entity.Contact;
+import org.cnoss.rest.sample.service.ContactService;
 
 import com.google.inject.Inject;
 
