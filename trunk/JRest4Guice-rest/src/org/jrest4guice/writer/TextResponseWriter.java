@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.inject.Inject;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public abstract class TextResponseWriter implements ResponseWriter {
 	
 	@Inject

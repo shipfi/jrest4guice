@@ -19,6 +19,11 @@ import org.jrest4guice.writer.ResponseWriterRegister;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @SuppressWarnings("unchecked")
 public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 	public JRestGuiceModuleProvider(String... packages) {

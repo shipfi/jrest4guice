@@ -6,6 +6,11 @@ import java.util.regex.Pattern;
 import org.jrest4guice.ServiceRoute;
 import org.jrest4guice.core.guice.GuiceContext;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @SuppressWarnings("unchecked")
 public class JRestContext {
 	private ServiceRoute root = new ServiceRoute();

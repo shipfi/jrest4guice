@@ -1,6 +1,11 @@
 package org.jrest4guice.writer;
 
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public interface ResponseWriter {
 
 	/**

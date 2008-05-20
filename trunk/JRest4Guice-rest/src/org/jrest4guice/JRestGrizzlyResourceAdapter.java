@@ -11,6 +11,11 @@ import com.sun.grizzly.tcp.http11.GrizzlyAdapter;
 import com.sun.grizzly.tcp.http11.GrizzlyRequest;
 import com.sun.grizzly.tcp.http11.GrizzlyResponse;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class JRestGrizzlyResourceAdapter extends GrizzlyAdapter {
     public static final int REQUEST_RESPONSE_NOTES = 12;
     public static final int SERVLETCONFIG_NOTES = 13;    

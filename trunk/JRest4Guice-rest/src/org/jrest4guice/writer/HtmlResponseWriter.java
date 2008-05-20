@@ -3,6 +3,11 @@ package org.jrest4guice.writer;
 import org.jrest4guice.annotation.MimeType;
 import org.jrest4guice.context.HttpResult;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class HtmlResponseWriter extends TextResponseWriter {
 	@Override
 	protected String generateTextContent(Object result) {

@@ -7,6 +7,11 @@ import org.jrest4guice.core.guice.GuiceContext;
 
 import com.google.inject.Singleton;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @Singleton
 public class ResponseWriterRegister {
 
