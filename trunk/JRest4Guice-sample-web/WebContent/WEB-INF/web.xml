@@ -3,13 +3,13 @@
   <display-name>JRest</display-name>
   <listener>
     <listener-class>
-			org.cnoss.rest4guice.sample.listener.JRest4GuiceSampContextListener
+			org.jrest4guice.sample.listener.JRest4GuiceSampContextListener
 		</listener-class>
   </listener>
   <servlet>
     <servlet-name>JRestRequestServlet</servlet-name>
     <servlet-class>
-			org.cnoss.rest4guice.JRestRequestServlet
+			org.jrest4guice.JRestRequestServlet
 		</servlet-class>
   </servlet>
   <servlet-mapping>
@@ -19,11 +19,11 @@
   <servlet>
     <servlet-name>MonitoredFileUploadServlet</servlet-name>
     <servlet-class>
-			org.cnoss.core.fileupload.MonitoredFileUploadServlet
+			org.jrest4guice.core.fileupload.MonitoredFileUploadServlet
 		</servlet-class>
     <init-param>
       <param-name>interceptor</param-name>
-      <param-value>org.cnoss.rest4guice.sample.fileupload.ImageFileUploadInterceptor</param-value>
+      <param-value>org.jrest4guice.sample.fileupload.ImageFileUploadInterceptor</param-value>
     </init-param>
   </servlet>
   <servlet-mapping>
