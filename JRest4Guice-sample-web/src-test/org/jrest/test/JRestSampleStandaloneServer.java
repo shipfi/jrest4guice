@@ -2,12 +2,12 @@ package org.jrest.test;
 
 import java.io.IOException;
 
-import org.jrest.core.guice.GuiceContext;
-import org.jrest.core.persist.jpa.JpaGuiceModuleProvider;
-import org.jrest.core.transaction.TransactionGuiceModuleProvider;
-import org.jrest.dao.DaoModuleProvider;
-import org.jrest.rest.JRestGrizzlyResourceAdapter;
-import org.jrest.rest.JRestGuiceModuleProvider;
+import org.cnoss.core.guice.GuiceContext;
+import org.cnoss.core.persist.jpa.JpaGuiceModuleProvider;
+import org.cnoss.core.transaction.TransactionGuiceModuleProvider;
+import org.cnoss.dao.DaoModuleProvider;
+import org.cnoss.rest.JRestGrizzlyResourceAdapter;
+import org.cnoss.rest.JRestGuiceModuleProvider;
 
 import com.sun.grizzly.http.SelectorThread;
 import com.sun.grizzly.standalone.StaticStreamAlgorithm;
@@ -30,12 +30,12 @@ public class JRestSampleStandaloneServer {
 						.getInstance()
 						.addModuleProvider(
 								new JRestGuiceModuleProvider(
-										"org.jrest.sample.resources"))
+										"org.cnoss.rest.sample.resources"))
 						.addModuleProvider(new TransactionGuiceModuleProvider())
 						.addModuleProvider(new JpaGuiceModuleProvider())
 						.addModuleProvider(
 								new DaoModuleProvider(
-										new String[] { "org.jrest.sample.dao" }))
+										new String[] { "org.cnoss.rest.sample.dao" }))
 						.init();
 				System.out.println("完成初始化Guice上下文");
 			}

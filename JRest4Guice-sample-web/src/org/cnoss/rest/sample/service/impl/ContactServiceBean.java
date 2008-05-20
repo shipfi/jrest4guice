@@ -1,15 +1,15 @@
-package org.jrest.sample.service.impl;
+package org.cnoss.rest.sample.service.impl;
 
 
 import javax.persistence.EntityManager;
 
-import org.jrest.core.persist.jpa.BaseEntityManager;
-import org.jrest.core.persist.jpa.Page;
-import org.jrest.core.persist.jpa.Pagination;
-import org.jrest.core.transaction.annotations.Transactional;
-import org.jrest.core.transaction.annotations.TransactionalType;
-import org.jrest.sample.entity.Contact;
-import org.jrest.sample.service.ContactService;
+import org.cnoss.core.persist.jpa.BaseEntityManager;
+import org.cnoss.core.persist.jpa.Page;
+import org.cnoss.core.persist.jpa.Pagination;
+import org.cnoss.core.transaction.annotations.Transactional;
+import org.cnoss.core.transaction.annotations.TransactionalType;
+import org.cnoss.rest.sample.entity.Contact;
+import org.cnoss.rest.sample.service.ContactService;
 
 import com.google.inject.Inject;
 

@@ -1,4 +1,4 @@
-package org.jrest.sample.entity;
+package org.cnoss.rest.sample.entity;
 
 import java.io.Serializable;
 import java.sql.Time;
@@ -12,8 +12,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.cnoss.core.persist.jpa.EntityAble;
 import org.hibernate.annotations.GenericGenerator;
-import org.jrest.core.persist.jpa.EntityAble;
 
 @Entity()
 @Table(name = "Contact_tb")

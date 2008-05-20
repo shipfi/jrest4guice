@@ -1,9 +1,9 @@
-package org.jrest.sample.service;
+package org.cnoss.rest.sample.service;
 
 
-import org.jrest.core.persist.jpa.Page;
-import org.jrest.sample.entity.Contact;
-import org.jrest.sample.service.impl.ContactServiceBean;
+import org.cnoss.core.persist.jpa.Page;
+import org.cnoss.rest.sample.entity.Contact;
+import org.cnoss.rest.sample.service.impl.ContactServiceBean;
 
 import com.google.inject.ImplementedBy;
 

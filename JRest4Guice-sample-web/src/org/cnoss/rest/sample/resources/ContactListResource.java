@@ -1,11 +1,11 @@
-package org.jrest.sample.resources;
+package org.cnoss.rest.sample.resources;
 
-import org.jrest.core.persist.jpa.Page;
-import org.jrest.rest.annotation.Get;
-import org.jrest.rest.annotation.ProduceMime;
-import org.jrest.rest.annotation.Restful;
-import org.jrest.sample.entity.Contact;
-import org.jrest.sample.service.ContactService;
+import org.cnoss.core.persist.jpa.Page;
+import org.cnoss.rest.annotation.Get;
+import org.cnoss.rest.annotation.ProduceMime;
+import org.cnoss.rest.annotation.Restful;
+import org.cnoss.rest.sample.entity.Contact;
+import org.cnoss.rest.sample.service.ContactService;
 
 import com.google.inject.Inject;
 

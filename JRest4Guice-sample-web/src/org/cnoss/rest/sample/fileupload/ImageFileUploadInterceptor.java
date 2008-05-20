@@ -1,9 +1,9 @@
-package org.jrest.sample.fileupload;
+package org.cnoss.rest.sample.fileupload;
 
 import java.util.Map;
 import java.util.UUID;
 
-import org.jrest.core.fileupload.FileUploadInterceptorAdapter;
+import org.cnoss.core.fileupload.FileUploadInterceptorAdapter;
 
 public class ImageFileUploadInterceptor extends FileUploadInterceptorAdapter {
 	@Override

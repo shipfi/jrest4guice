@@ -7,7 +7,7 @@
 	<!-- 初始化Guice上下文的监听器 -->
 	<listener>
 		<listener-class>
-			org.jrest.sample.listener.JRest4GuiceSampContextListener
+			org.cnoss.rest.sample.listener.JRest4GuiceSampContextListener
 		</listener-class>
 	</listener>
 
@@ -15,7 +15,7 @@
 	<servlet>
 		<servlet-name>JRestRequestServlet</servlet-name>
 		<servlet-class>
-			org.jrest.rest.JRestRequestServlet
+			org.cnoss.rest.JRestRequestServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
@@ -28,11 +28,11 @@
 	<servlet>
 		<servlet-name>MonitoredFileUploadServlet</servlet-name>
 		<servlet-class>
-			org.jrest.core.fileupload.MonitoredFileUploadServlet
+			org.cnoss.core.fileupload.MonitoredFileUploadServlet
 		</servlet-class>
 		<init-param>
 			<param-name>interceptor</param-name>
-			<param-value>org.jrest.sample.fileupload.ImageFileUploadInterceptor</param-value>
+			<param-value>org.cnoss.rest.sample.fileupload.ImageFileUploadInterceptor</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>

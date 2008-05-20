@@ -1,9 +1,9 @@
-package org.jrest.sample.resources;
+package org.cnoss.rest.sample.resources;
 
-import org.jrest.core.fileupload.UploadInfo;
-import org.jrest.core.fileupload.UploadMonitor;
-import org.jrest.rest.annotation.Get;
-import org.jrest.rest.annotation.Restful;
+import org.cnoss.core.fileupload.UploadInfo;
+import org.cnoss.core.fileupload.UploadMonitor;
+import org.cnoss.rest.annotation.Get;
+import org.cnoss.rest.annotation.Restful;
 
 import com.google.inject.Inject;
 
