@@ -5,6 +5,11 @@ import java.util.Date;
 
 import javax.persistence.TemporalType;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class TemporalValue {
 
 	private Calendar value;

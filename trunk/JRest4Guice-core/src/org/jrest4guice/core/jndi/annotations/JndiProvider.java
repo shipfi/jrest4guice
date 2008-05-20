@@ -6,6 +6,11 @@ import javax.naming.NamingException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class JndiProvider<T> implements Provider<T> {
 	@Inject
 	Context context;

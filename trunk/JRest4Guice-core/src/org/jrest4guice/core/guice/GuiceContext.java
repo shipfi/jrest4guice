@@ -13,6 +13,7 @@ import com.google.inject.Module;
 
 /**
  * 全局上下文对象实体
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
  */
 public class GuiceContext {
 

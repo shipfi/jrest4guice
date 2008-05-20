@@ -6,7 +6,7 @@ import com.google.inject.Module;
 
 /**
  * 模块提供者 接口
- * @author <a href="mailto:gzyangfan@gmail.com">gzYangfan</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
  */
 public interface ModuleProvider {
 	

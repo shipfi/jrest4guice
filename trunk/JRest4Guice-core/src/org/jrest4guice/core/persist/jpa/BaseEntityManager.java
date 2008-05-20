@@ -12,6 +12,11 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @SuppressWarnings("unchecked")
 public class BaseEntityManager<PK extends Serializable, E extends EntityAble<PK>> {
 

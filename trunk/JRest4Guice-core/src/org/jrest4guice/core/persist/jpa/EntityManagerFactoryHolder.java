@@ -16,6 +16,11 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.google.inject.Singleton;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @Singleton
 public class EntityManagerFactoryHolder {
 	private EntityManagerFactory entityManagerFactory;

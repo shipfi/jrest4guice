@@ -5,7 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * 分页对象，用于存储分页信息与页面内的数据
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
  */
 public class Page<T> implements java.io.Serializable {
 

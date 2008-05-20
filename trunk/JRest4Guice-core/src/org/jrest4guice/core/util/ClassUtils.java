@@ -12,6 +12,11 @@ import java.util.jar.JarFile;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class ClassUtils {
 
 	private static final String PROTOCOL_FILE = "file";

@@ -1,9 +1,9 @@
 package org.jrest4guice.core.persist.jpa;
 
 /**
- * 删除标记 接口
  * 
- * @author Franky
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
  */
 public interface DeletedFlag {
 	/**

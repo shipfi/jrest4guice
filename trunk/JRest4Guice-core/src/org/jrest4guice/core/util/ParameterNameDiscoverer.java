@@ -18,22 +18,6 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.EmptyVisitor;
 
-/**
- * Implementation of {@link ParameterNameDiscoverer} that uses the
- * LocalVariableTable information in the method attributes to discover parameter
- * names. Returns <code>null</code> if the class file was compiled without
- * debug information.
- * 
- * <p>
- * Uses ObjectWeb's ASM library for analyzing class files. Each discoverer
- * instance caches the ASM ClassReader for each introspected Class, in a
- * thread-safe manner. It is recommended to reuse discoverer instances as far as
- * possible.
- * 
- * @author Adrian Colyer
- * @author Juergen Hoeller
- * @since 2.0
- */
 @SuppressWarnings("unchecked")
 public class ParameterNameDiscoverer {
 	
@@ -56,9 +40,6 @@ public class ParameterNameDiscoverer {
 					parameterNamesCache.put(method, paramNames);
 				}
 			} catch (IOException ex) {
-				// We couldn't load the class file, which is not fatal as it
-				// simply means this method of discovering parameter names won't
-				// work.
 				if (logger.isDebugEnabled()) {
 					logger.debug("IOException whilst attempting to read '.class' file for class ["
 					        + method.getDeclaringClass().getName()
@@ -79,9 +60,6 @@ public class ParameterNameDiscoverer {
 					parameterNamesCache.put(ctor, paramNames);
 				}
 			} catch (IOException ex) {
-				// We couldn't load the class file, which is not fatal as it
-				// simply means this method of discovering parameter names won't
-				// work.
 				if (logger.isDebugEnabled()) {
 					logger.debug("IOException whilst attempting to read '.class' file for class ["
 					        + ctor.getDeclaringClass().getName()
@@ -92,9 +70,6 @@ public class ParameterNameDiscoverer {
 		return paramNames;
 	}
 	
-	/**
-	 * Visit the given method and discover its parameter names.
-	 */
 	private ParameterNameDiscoveringVisitor visitMethod(Method method) throws IOException {
 		ClassReader classReader = getClassReader(method.getDeclaringClass());
 		FindMethodParameterNamesClassVisitor classVisitor = new FindMethodParameterNamesClassVisitor(method);
@@ -102,9 +77,6 @@ public class ParameterNameDiscoverer {
 		return classVisitor;
 	}
 	
-	/**
-	 * Visit the given constructor and discover its parameter names.
-	 */
 	private ParameterNameDiscoveringVisitor visitConstructor(Constructor ctor) throws IOException {
 		ClassReader classReader = getClassReader(ctor.getDeclaringClass());
 		FindConstructorParameterNamesClassVisitor classVisitor = new FindConstructorParameterNamesClassVisitor(ctor);
@@ -112,9 +84,6 @@ public class ParameterNameDiscoverer {
 		return classVisitor;
 	}
 	
-	/**
-	 * Obtain a (cached) ClassReader for the given class.
-	 */
 	private ClassReader getClassReader(Class clazz) throws IOException {
 		synchronized (classReaderCache) {
 			ClassReader classReader = (ClassReader) classReaderCache.get(clazz);
@@ -139,10 +108,6 @@ public class ParameterNameDiscoverer {
 		return className.substring(lastDotIndex + 1) + CLASS_FILE_SUFFIX;
 	}
 	
-	/**
-	 * Helper class that looks for a given member name and descriptor, and then
-	 * attempts to find the parameter names for that member.
-	 */
 	private static abstract class ParameterNameDiscoveringVisitor extends EmptyVisitor {
 		
 		private String methodNameToMatch;
@@ -151,10 +116,6 @@ public class ParameterNameDiscoverer {
 		
 		private int numParamsExpected;
 		
-		/*
-		 * the nth entry contains the slot index of the LVT table entry holding
-		 * the argument name for the nth parameter
-		 */
 		private int[] lvtSlotIndex;
 		
 		private boolean foundTargetMember = false;
@@ -177,7 +138,6 @@ public class ParameterNameDiscoverer {
 				foundTargetMember = true;
 				return new LocalVariableTableVisitor(isStatic(access), this, numParamsExpected, lvtSlotIndex);
 			} else
-				// Not interested in this method...
 				return null;
 		}
 		
@@ -268,20 +228,10 @@ public class ParameterNameDiscoverer {
 		@Override
 		public void visitEnd() {
 			if (hasLVTInfo || isStatic && numParameters == 0) {
-				// visitLocalVariable will never be called for static no args
-				// methods
-				// which doesn't use any local variables.
-				// This means that hasLVTInfo could be false for that kind of
-				// methods
-				// even if the class has local variable info.
 				memberVisitor.setParameterNames(parameterNames);
 			}
 		}
 		
-		/**
-		 * An lvt entry describes an argument (as opposed to a local var) if it
-		 * appears in the lvtSlotIndices table
-		 */
 		private boolean isMethodArgumentSlot(int index) {
 			for (int element : lvtSlotIndices) {
 				if (element == index)

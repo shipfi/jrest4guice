@@ -14,6 +14,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @SuppressWarnings("unchecked")
 public class HttpHeadFilter implements Filter {
 	private final Map headers = new HashMap();
