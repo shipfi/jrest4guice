@@ -198,7 +198,9 @@ TableDecorator=function(dataSet,tableId,selectedClass,mouseoverClass){
 	this.table = $("#"+this.tableId);
 	this.selectedClass = selectedClass || "selectedClass";
 	this.mouseoverClass = mouseoverClass || "mouseoverClass";
-	eval(this.tableId+"_decorator=this");
+	try{
+		eval(this.tableId+"_decorator=this");
+	}catch(e){}
 }
 
 TableDecorator.prototype = {
