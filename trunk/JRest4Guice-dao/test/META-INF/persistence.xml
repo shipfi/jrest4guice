@@ -8,8 +8,8 @@
 
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-		<class>org.jrest.dao.test.entities.Book</class>
-		<class>org.jrest.dao.test.entities.Category</class>
+		<class>org.jrest4guice.dao.test.entities.Book</class>
+		<class>org.jrest4guice.dao.test.entities.Category</class>
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
