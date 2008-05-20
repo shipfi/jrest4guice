@@ -13,6 +13,11 @@ import org.jrest4guice.sample.service.ContactService;
 
 import com.google.inject.Inject;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @SuppressWarnings( { "unchecked", "unused" })
 public class ContactServiceBean implements ContactService {
 	private BaseEntityManager<String, Contact> entityManager;

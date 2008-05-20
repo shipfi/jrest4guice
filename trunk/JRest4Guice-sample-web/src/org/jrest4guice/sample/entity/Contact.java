@@ -15,6 +15,11 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.jrest4guice.core.persist.jpa.EntityAble;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @Entity()
 @Table(name = "Contact_tb")
 @NamedQueries( {

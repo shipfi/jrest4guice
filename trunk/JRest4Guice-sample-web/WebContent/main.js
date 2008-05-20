@@ -1,3 +1,8 @@
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 var currentContact;
 var restMethod = "POST";
 var validationHelper;

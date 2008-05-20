@@ -11,6 +11,11 @@ import org.jrest4guice.core.transaction.TransactionGuiceModuleProvider;
 import com.sun.grizzly.http.SelectorThread;
 import com.sun.grizzly.standalone.StaticStreamAlgorithm;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class Rest4GuiceSampleStandaloneServer {
 
 	/**

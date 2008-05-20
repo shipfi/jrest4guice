@@ -8,6 +8,11 @@ import org.jrest4guice.core.guice.GuiceContext;
 import org.jrest4guice.core.persist.jpa.JpaGuiceModuleProvider;
 import org.jrest4guice.core.transaction.TransactionGuiceModuleProvider;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class JRest4GuiceSampContextListener implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
