@@ -7,6 +7,11 @@ import org.jrest4guice.sample.service.impl.ContactServiceBean;
 
 import com.google.inject.ImplementedBy;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @ImplementedBy(ContactServiceBean.class)
 public interface ContactService {
 	public String createContact(Contact contact);

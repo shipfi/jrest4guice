@@ -5,6 +5,11 @@ import java.util.UUID;
 
 import org.jrest4guice.core.fileupload.FileUploadInterceptorAdapter;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class ImageFileUploadInterceptor extends FileUploadInterceptorAdapter {
 	@Override
 	public String decorateFileName(Map<String, String> parameters,

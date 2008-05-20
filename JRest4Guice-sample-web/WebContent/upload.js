@@ -1,3 +1,8 @@
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 window.onload = function(){
 	window.setTimeout(function(){
 		var param = location.href;

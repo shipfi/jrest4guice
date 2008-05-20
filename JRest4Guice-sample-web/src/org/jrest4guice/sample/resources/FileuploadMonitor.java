@@ -7,6 +7,11 @@ import org.jrest4guice.core.fileupload.UploadMonitor;
 
 import com.google.inject.Inject;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @Restful(uri = "/monitor")
 public class FileuploadMonitor {
 	@Inject

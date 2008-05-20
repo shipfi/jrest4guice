@@ -12,6 +12,11 @@ import org.jrest4guice.sample.service.ContactService;
 
 import com.google.inject.Inject;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @Restful(uri = { "/contact", "/contact/{contactId}" })
 public class ContactResource {
 	@Inject
