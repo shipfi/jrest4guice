@@ -1,5 +1,10 @@
 package org.jrest4guice.annotation;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public final class MimeType {
 	public static final String MIME_OF_ALL = "*/*";
 	public static final String MIME_OF_JSON = "application/json";

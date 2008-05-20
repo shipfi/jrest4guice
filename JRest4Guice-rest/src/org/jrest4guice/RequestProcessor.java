@@ -17,6 +17,11 @@ import org.jrest4guice.context.JRestContext;
 import org.jrest4guice.context.ModelMap;
 import org.jrest4guice.core.guice.GuiceContext;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @SuppressWarnings("unchecked")
 public class RequestProcessor {
 

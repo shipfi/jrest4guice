@@ -4,6 +4,11 @@ import net.sf.json.JSONObject;
 
 import org.jrest4guice.core.persist.jpa.Page;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class HttpResult {
 	private String errorMessage;
 

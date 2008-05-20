@@ -3,6 +3,11 @@ package org.jrest4guice.context;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 public class ContextConfig {
 	private ServletConfig servletConfig;
 	private FilterConfig filterConfig;

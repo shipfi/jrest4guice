@@ -31,6 +31,11 @@ import org.jrest4guice.writer.ResponseWriterRegister;
 
 import com.google.inject.Inject;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @SuppressWarnings("unchecked")
 public class ServiceExecutor {
 	@Inject
