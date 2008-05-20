@@ -2,13 +2,13 @@ package org.jrest.dao.test.jpa;
 
 import java.util.List;
 
-import org.jrest.dao.annotations.Create;
-import org.jrest.dao.annotations.Dao;
-import org.jrest.dao.annotations.Delete;
-import org.jrest.dao.annotations.Find;
-import org.jrest.dao.annotations.Retrieve;
-import org.jrest.dao.annotations.Update;
 import org.jrest.dao.test.entities.Book;
+import org.jrest4guice.dao.annotations.Create;
+import org.jrest4guice.dao.annotations.Dao;
+import org.jrest4guice.dao.annotations.Delete;
+import org.jrest4guice.dao.annotations.Find;
+import org.jrest4guice.dao.annotations.Retrieve;
+import org.jrest4guice.dao.annotations.Update;
 
 import com.google.inject.name.Named;
 
