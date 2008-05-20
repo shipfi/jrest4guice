@@ -1,46 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_JRest" version="2.5"
-	xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-	<display-name>JRest</display-name>
-	<!-- 初始化Guice上下文的监听器 -->
-	<listener>
-		<listener-class>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_JRest" version="2.5">
+  <display-name>JRest</display-name>
+  <listener>
+    <listener-class>
 			org.cnoss.rest4guice.sample.listener.JRest4GuiceSampContextListener
 		</listener-class>
-	</listener>
-
-	<!-- 配置JRest的服务处理器 -->
-	<servlet>
-		<servlet-name>JRestRequestServlet</servlet-name>
-		<servlet-class>
+  </listener>
+  <servlet>
+    <servlet-name>JRestRequestServlet</servlet-name>
+    <servlet-class>
 			org.cnoss.rest4guice.JRestRequestServlet
 		</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>JRestRequestServlet</servlet-name>
-		<!-- 服务的URL前缀 -->
-		<url-pattern>/resource/*</url-pattern>
-	</servlet-mapping>
-	
-	<!-- 文件上传的Servlet -->
-	<servlet>
-		<servlet-name>MonitoredFileUploadServlet</servlet-name>
-		<servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JRestRequestServlet</servlet-name>
+    <url-pattern>/resource/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>MonitoredFileUploadServlet</servlet-name>
+    <servlet-class>
 			org.cnoss.core.fileupload.MonitoredFileUploadServlet
 		</servlet-class>
-		<init-param>
-			<param-name>interceptor</param-name>
-			<param-value>org.cnoss.rest4guice.sample.fileupload.ImageFileUploadInterceptor</param-value>
-		</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>MonitoredFileUploadServlet</servlet-name>
-		<url-pattern>/uploadFile</url-pattern>
-	</servlet-mapping>
-
-	<welcome-file-list>
-		<welcome-file>main.html</welcome-file>
-	</welcome-file-list>
+    <init-param>
+      <param-name>interceptor</param-name>
+      <param-value>org.cnoss.rest4guice.sample.fileupload.ImageFileUploadInterceptor</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MonitoredFileUploadServlet</servlet-name>
+    <url-pattern>/uploadFile</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>main.html</welcome-file>
+  </welcome-file-list>
 </web-app>

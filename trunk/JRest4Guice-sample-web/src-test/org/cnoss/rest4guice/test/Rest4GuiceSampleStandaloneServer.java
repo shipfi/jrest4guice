@@ -11,7 +11,7 @@ import org.cnoss.rest4guice.JRestGuiceModuleProvider;
 import com.sun.grizzly.http.SelectorThread;
 import com.sun.grizzly.standalone.StaticStreamAlgorithm;
 
-public class JRestSampleStandaloneServer {
+public class Rest4GuiceSampleStandaloneServer {
 
 	/**
 	 * @param args
