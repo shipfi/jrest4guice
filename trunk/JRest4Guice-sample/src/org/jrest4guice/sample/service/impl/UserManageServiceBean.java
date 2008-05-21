@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.hsqldb.lib.MD5;
 import org.jrest4guice.core.persist.jpa.BaseEntityManager;
 import org.jrest4guice.core.transaction.annotations.Transactional;
 import org.jrest4guice.core.transaction.annotations.TransactionalType;
@@ -31,6 +32,7 @@ public class UserManageServiceBean implements UserManageService {
 
 	@Transactional(type=TransactionalType.READOLNY)
 	public boolean authUser(String name, String password) {
+		password = new MD5().encodeString(password, "UTF-8");
 		User user = this.userEntityManager.loadByNamedQuery("byNameAndPassword", name,password);
 		return user!=null;
 	}

@@ -4,6 +4,8 @@ import static org.junit.Assert.fail;
 
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.jrest4guice.core.guice.GuiceContext;
 import org.jrest4guice.core.persist.jpa.JpaGuiceModuleProvider;
 import org.jrest4guice.core.transaction.TransactionGuiceModuleProvider;
@@ -28,14 +30,14 @@ public class UserManageServiceTest {
 		service = GuiceContext.getInstance().getBean(UserManageService.class);
 	}
 
-	//@Test
+	@Test
 	public void testAuthUser() {
-		fail("Not yet implemented");
+		Assert.assertTrue(this.service.authUser("cnoss", "123"));
 	}
 
 	@Test
 	public void testGetUserRoles() {
-		System.out.println("Roles");
+		System.out.println("\nRoles");
 		System.out.println("================================");
 		
 		List<Role> userRoles = this.service.getUserRoles("602881e417bb78010117bba509130001");
@@ -45,7 +47,7 @@ public class UserManageServiceTest {
 
 	@Test
 	public void testGetAllUsers() {
-		System.out.println("Users");
+		System.out.println("\nUsers");
 		System.out.println("================================");
 		List<User> users = this.service.getAllUsers();
 		for(User user :users)

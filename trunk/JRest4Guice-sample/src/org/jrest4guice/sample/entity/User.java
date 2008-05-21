@@ -115,8 +115,4 @@ public class User implements EntityAble<String>, Serializable {
 			return false;
 		return true;
 	}
-
-	public static void main(String[] args) {
-		System.out.println(new MD5().encodeString("admin", "UTF-8"));
-	}
 }

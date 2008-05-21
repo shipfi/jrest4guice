@@ -1,5 +1,5 @@
-INSERT INTO User_tb (id, name, password) VALUES ('602881e417bb78010117bba509130001', '中国','21232f297a57a5a743894a0e4a801fc3')
-INSERT INTO User_tb (id, name, password) VALUES ('602881e417bb78010117bba509130002', '四川','21232f297a57a5a743894a0e4a801fc3')
+INSERT INTO User_tb (id, name, password) VALUES ('602881e417bb78010117bba509130001', 'cnoss','202cb962ac59075b964b07152d234b70')
+INSERT INTO User_tb (id, name, password) VALUES ('602881e417bb78010117bba509130002', 'jerry','202cb962ac59075b964b07152d234b70')
 
 INSERT INTO Role_tb (id, name, description) VALUES ('702881e417bb78010117bba509130001','admin', '管理员')
 INSERT INTO Role_tb (id, name, description) VALUES ('702881e417bb78010117bba509130002','editor', '编辑员')
