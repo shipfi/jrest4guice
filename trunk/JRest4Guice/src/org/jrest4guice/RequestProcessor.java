@@ -21,7 +21,7 @@ import org.jrest4guice.core.guice.GuiceContext;
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
- *
+ * 
  */
 @SuppressWarnings("unchecked")
 public class RequestProcessor {
@@ -47,7 +47,7 @@ public class RequestProcessor {
 	 * @param servletResponse
 	 */
 	public void process(ServletRequest servletReqest,
-			ServletResponse servletResponse) throws Exception{
+			ServletResponse servletResponse) throws Throwable {
 		HttpServletRequest request = (HttpServletRequest) servletReqest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 
@@ -83,24 +83,24 @@ public class RequestProcessor {
 				fillParameters(request, params);
 				// 根据不同的请求方法调用REST对象的不同方法
 				String method = request.getMethod();
-				if (METHOD_OF_GET.equalsIgnoreCase(method))
-					exec.execute(service, HttpMethodType.GET, charset);
-				else if (METHOD_OF_POST.equalsIgnoreCase(method))
-					exec.execute(service, HttpMethodType.POST, charset);
-				else if (METHOD_OF_PUT.equalsIgnoreCase(method))
-					exec.execute(service, HttpMethodType.PUT, charset);
-				else if (METHOD_OF_DELETE.equalsIgnoreCase(method))
-					exec.execute(service, HttpMethodType.DELETE, charset);
-			}
-		} catch (Exception e) {
-			if(e instanceof UserNotLoginException){
-				e.printStackTrace();
-				
+				exec.execute(service, this.getHttpMethodType(method), charset);
 			}
 		} finally {
 			// 清除上下文中的环境变量
 			HttpContextManager.clearContext();
 		}
+	}
+
+	private HttpMethodType getHttpMethodType(String method) {
+		if (METHOD_OF_GET.equalsIgnoreCase(method))
+			return HttpMethodType.GET;
+		else if (METHOD_OF_POST.equalsIgnoreCase(method))
+			return HttpMethodType.POST;
+		else if (METHOD_OF_PUT.equalsIgnoreCase(method))
+			return HttpMethodType.PUT;
+		else if (METHOD_OF_DELETE.equalsIgnoreCase(method))
+			return HttpMethodType.DELETE;
+		return null;
 	}
 
 	/**

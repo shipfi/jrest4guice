@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.jrest4guice.annotation.Delete;
@@ -35,16 +36,18 @@ import com.google.inject.Inject;
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
- *
+ * 
  */
 @SuppressWarnings("unchecked")
 public class ServiceExecutor {
 	@Inject
 	private HttpServletRequest request;
+	@Inject
+	private HttpServletResponse response;
 
 	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
-	
+
 	/**
 	 * 身份验证的URL
 	 */
@@ -53,7 +56,7 @@ public class ServiceExecutor {
 	 * 身份验证的URL
 	 */
 	private String loginErrorUrl;
-	
+
 	/**
 	 * 根据Rest服务的方法类型，执行相应的业务方法
 	 * 
@@ -62,7 +65,7 @@ public class ServiceExecutor {
 	 * @return
 	 */
 	public void execute(Object service, HttpMethodType methodType,
-			String charset)throws Exception {
+			String charset) throws Throwable {
 		Object result = null;
 		String name = service.getClass().getName();
 		if (!restServiceMethodMap.containsKey(name)) {
@@ -90,22 +93,18 @@ public class ServiceExecutor {
 				exception = e;
 			} catch (Exception e) {
 				exception = e;
-				if(e instanceof UserNotLoginException){
-					throw e;
-				}
 			}
 
 			// 向客户端写回异常结果
 			if (exception != null) {
+				Throwable throwable = exception;
 				if (exception instanceof java.lang.IllegalArgumentException) {
-					writeResult(charset, new Exception("调用" + method.getName()
-							+ "时出错: 原因是参数不完整!", exception), method);
-				} else if (exception instanceof java.lang.reflect.InvocationTargetException)
-					writeResult(charset,
-							((InvocationTargetException) exception)
-									.getTargetException(), method);
-				else
-					writeResult(charset, exception, method);
+					throwable = new Exception("调用" + method.getName()
+							+ "时出错: 原因是参数不完整!", exception);
+				} else if (exception instanceof java.lang.reflect.InvocationTargetException) {
+					throwable = ((InvocationTargetException) exception).getTargetException();
+				}
+				writeResult(charset, throwable, method);
 			}
 		}
 	}
@@ -173,18 +172,18 @@ public class ServiceExecutor {
 		for (Method m : methods) {
 			type = null;
 			methodName = m.getName();
-			if(methodName.equalsIgnoreCase("getClass"))
+			if (methodName.equalsIgnoreCase("getClass"))
 				continue;
-			
+
 			if (m.isAnnotationPresent(Get.class)) {
 				type = HttpMethodType.GET;
-			}else if (m.isAnnotationPresent(Post.class)){
+			} else if (m.isAnnotationPresent(Post.class)) {
 				type = HttpMethodType.POST;
-			}else if (m.isAnnotationPresent(Put.class)){
+			} else if (m.isAnnotationPresent(Put.class)) {
 				type = HttpMethodType.PUT;
-			}else if (m.isAnnotationPresent(Delete.class)){
+			} else if (m.isAnnotationPresent(Delete.class)) {
 				type = HttpMethodType.DELETE;
-			}else{
+			} else {
 				if (methodName.startsWith(RequestProcessor.METHOD_OF_GET)) {
 					type = HttpMethodType.GET;
 				} else if (methodName
@@ -198,8 +197,8 @@ public class ServiceExecutor {
 					type = HttpMethodType.DELETE;
 				}
 			}
-			
-			if(type != null)
+
+			if (type != null)
 				restMethods.put(type, m);
 		}
 
@@ -219,15 +218,15 @@ public class ServiceExecutor {
 	private void writeResult(String charset, Object result, Method method) {
 		// 获取客户端中的请求数据类型
 		String accepts = request.getHeader("accept");
-		if(accepts==null)
+		if (accepts == null)
 			accepts = "*/*";
-		
+
 		accepts = accepts.toLowerCase();
-		
-		//缺省的数据返回类型
+
+		// 缺省的数据返回类型
 		String mimeType = accepts.split(",")[0];
-		
-		if(mimeType.equals(MimeType.MIME_OF_ALL))
+
+		if (mimeType.equals(MimeType.MIME_OF_ALL))
 			mimeType = MimeType.MIME_OF_JSON;
 
 		// 获取服务方法上的数据返回类型
@@ -248,8 +247,9 @@ public class ServiceExecutor {
 		}
 
 		// 向客户端写回结果数据
-		ResponseWriter responseWriter = ResponseWriterRegister.getInstance().getResponseWriter(mimeType);
-		if(responseWriter != null)
+		ResponseWriter responseWriter = ResponseWriterRegister.getInstance()
+				.getResponseWriter(mimeType);
+		if (responseWriter != null)
 			responseWriter.writeResult(result, charset);
 	}
 

@@ -83,7 +83,7 @@ public class JRestRequestFilter implements Filter {
 
 		try {
 			new RequestProcessor().process(servletReqest, servletResponse);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}

@@ -7,9 +7,11 @@ import org.jrest4guice.core.persist.jpa.Page;
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
- *
+ * 
  */
 public class HttpResult {
+	private String errorType;
+
 	private String errorMessage;
 
 	/**
@@ -20,7 +22,7 @@ public class HttpResult {
 	 * 记录的页数
 	 */
 	private int pageCount;
-	
+
 	/**
 	 * 当前页码
 	 */
@@ -31,8 +33,9 @@ public class HttpResult {
 	 */
 	private Object content;
 
-	public HttpResult(String errorMessage) {
+	public HttpResult(String errorType, String errorMessage) {
 		super();
+		this.errorType = errorType;
 		this.errorMessage = errorMessage;
 	}
 
@@ -72,6 +75,10 @@ public class HttpResult {
 			return errorMessage;
 	}
 
+	public String getErrorType() {
+		return errorType;
+	}
+
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
@@ -85,14 +92,14 @@ public class HttpResult {
 	}
 
 	public String toTextPlain() {
-		if(this.content != null)
+		if (this.content != null)
 			return this.content.toString();
 		else
 			return this.errorMessage;
 	}
 
 	public String toXML() {
-		//TODO 实现对象的XML串行化
+		// TODO 实现对象的XML串行化
 		return JSONObject.fromObject(this).toString();
 	}
 
@@ -106,14 +113,17 @@ public class HttpResult {
 	}
 
 	public static HttpResult createHttpResult(Object content) {
-		if (content instanceof Exception)
-			return new HttpResult(((Exception) content).getMessage());
+		if (content instanceof Exception) {
+			Exception exception = (Exception) content;
+			return new HttpResult(exception.getClass().getName(), exception
+					.getMessage());
+		}
 		HttpResult httpResult = new HttpResult(content);
-		if (content instanceof Page){
-			Page page = (Page)content;
+		if (content instanceof Page) {
+			Page page = (Page) content;
 			httpResult.setContent(page.getResult());
-			httpResult.setResultCount((int)page.getTotalCount());
-			httpResult.setPageCount((int)page.getTotalPageCount());
+			httpResult.setResultCount((int) page.getTotalCount());
+			httpResult.setPageCount((int) page.getTotalPageCount());
 			httpResult.setPageIndex(page.getCurrentPageNo());
 		}
 		return httpResult;
