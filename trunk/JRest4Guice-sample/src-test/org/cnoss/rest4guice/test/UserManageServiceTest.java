@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import org.jrest4guice.core.guice.GuiceContext;
 import org.jrest4guice.core.persist.jpa.JpaGuiceModuleProvider;
 import org.jrest4guice.core.transaction.TransactionGuiceModuleProvider;
+import org.jrest4guice.core.util.MD5Util;
 import org.jrest4guice.sample.entity.Role;
 import org.jrest4guice.sample.entity.User;
 import org.jrest4guice.sample.service.UserManageService;
@@ -52,5 +53,9 @@ public class UserManageServiceTest {
 		List<User> users = this.service.getAllUsers();
 		for(User user :users)
 			System.out.println(user.getName());
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(MD5Util.toMD5("123"));
 	}
 }
