@@ -6,7 +6,7 @@ import javax.persistence.EntityTransaction;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.jrest4guice.core.guice.GuiceContext;
-import org.jrest4guice.core.persist.jpa.EntityManagerFactoryHolder;
+import org.jrest4guice.core.jpa.EntityManagerFactoryHolder;
 import org.jrest4guice.core.transaction.annotations.Transactional;
 import org.jrest4guice.core.transaction.annotations.TransactionalType;
 
