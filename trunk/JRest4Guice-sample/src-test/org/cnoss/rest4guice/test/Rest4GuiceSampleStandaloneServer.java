@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.jrest4guice.JRestGrizzlyResourceAdapter;
 import org.jrest4guice.JRestGuiceModuleProvider;
 import org.jrest4guice.core.guice.GuiceContext;
-import org.jrest4guice.core.persist.jpa.JpaGuiceModuleProvider;
+import org.jrest4guice.core.jpa.JpaGuiceModuleProvider;
 import org.jrest4guice.core.transaction.TransactionGuiceModuleProvider;
 
 import com.sun.grizzly.http.SelectorThread;

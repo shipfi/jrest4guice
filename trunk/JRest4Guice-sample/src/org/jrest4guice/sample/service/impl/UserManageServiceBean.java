@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import org.hsqldb.lib.MD5;
-import org.jrest4guice.core.persist.jpa.BaseEntityManager;
+import org.jrest4guice.core.jpa.BaseEntityManager;
 import org.jrest4guice.core.transaction.annotations.Transactional;
 import org.jrest4guice.core.transaction.annotations.TransactionalType;
 import org.jrest4guice.core.util.MD5Util;

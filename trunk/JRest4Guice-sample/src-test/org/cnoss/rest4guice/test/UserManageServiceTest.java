@@ -7,7 +7,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.jrest4guice.core.guice.GuiceContext;
-import org.jrest4guice.core.persist.jpa.JpaGuiceModuleProvider;
+import org.jrest4guice.core.jpa.JpaGuiceModuleProvider;
 import org.jrest4guice.core.transaction.TransactionGuiceModuleProvider;
 import org.jrest4guice.core.util.MD5Util;
 import org.jrest4guice.sample.entity.Role;
