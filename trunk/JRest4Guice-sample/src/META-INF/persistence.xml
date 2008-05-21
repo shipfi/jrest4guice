@@ -3,23 +3,24 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
              version="1.0">
+
 	<!--
 	<persistence-unit name="JPA4Guice" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
-			<property name="hibernate.hbm2ddl.auto" value="create"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
 			<property name="hibernate.show_sql" value="false"/>
 			<property name="hibernate.format_sql" value="true"/>
 
-			<property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver"/>
-			<property name="hibernate.connection.username" value="jrest"/>
-			<property name="hibernate.connection.password" value="hello"/>
-			<property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:1521:cnoss"/>
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+			<property name="hibernate.connection.username" value="test"/>
+			<property name="hibernate.connection.password" value="111111"/>
+			<property name="hibernate.connection.url" value="jdbc:mysql://192.168.1.191:3306/test?useUnicode=true&amp;characterEncoding=utf8"/>
 		</properties>
 	</persistence-unit>
-	-->
-
+  	-->
+	
 	<persistence-unit name="JPA4Guice" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>
@@ -34,5 +35,4 @@
 			<property name="hibernate.connection.url" value="jdbc:hsqldb:."/>
 		</properties>
 	</persistence-unit>
-
 </persistence>

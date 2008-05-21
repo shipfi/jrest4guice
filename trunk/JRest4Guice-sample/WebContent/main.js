@@ -143,7 +143,7 @@ function saveOrUpdateContact(){
 
 	//保存联系人
 	SpryExt.rest._call(restMethod,url,function(result){
-		if(!result.errorMessage){
+		if(result.errorType == ""){
 			contacts_ds.loadData();
 		}else
 			alert(result.errorMessage);
@@ -172,7 +172,7 @@ function deleteContact(id,nme){
 	
 	//删除联系人
 	SpryExt.rest.doDelete("resource/contact/"+ids,function(result){
-		if(!result.errorMessage){
+		if(result.errorType == ""){
 			contacts_ds.loadData();
 			currentContact = null;
 		}else
