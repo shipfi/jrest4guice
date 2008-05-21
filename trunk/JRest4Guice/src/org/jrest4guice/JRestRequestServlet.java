@@ -45,6 +45,10 @@ public class JRestRequestServlet extends HttpServlet {
 	public void service(ServletRequest servletReqest,
 			ServletResponse servletResponse) throws IOException,
 			ServletException {
-		new RequestProcessor().setUrlPrefix(this.urlPrefix).process(servletReqest, servletResponse);
+		try {
+			new RequestProcessor().setUrlPrefix(this.urlPrefix).process(servletReqest, servletResponse);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

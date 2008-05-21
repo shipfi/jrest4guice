@@ -25,6 +25,7 @@ import org.jrest4guice.annotation.ProduceMime;
 import org.jrest4guice.annotation.Put;
 import org.jrest4guice.context.HttpContextManager;
 import org.jrest4guice.context.ModelMap;
+import org.jrest4guice.core.exception.UserNotLoginException;
 import org.jrest4guice.core.util.ParameterNameDiscoverer;
 import org.jrest4guice.writer.ResponseWriter;
 import org.jrest4guice.writer.ResponseWriterRegister;
@@ -43,7 +44,16 @@ public class ServiceExecutor {
 
 	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
-
+	
+	/**
+	 * 身份验证的URL
+	 */
+	private String loginUrl;
+	/**
+	 * 身份验证的URL
+	 */
+	private String loginErrorUrl;
+	
 	/**
 	 * 根据Rest服务的方法类型，执行相应的业务方法
 	 * 
@@ -52,7 +62,7 @@ public class ServiceExecutor {
 	 * @return
 	 */
 	public void execute(Object service, HttpMethodType methodType,
-			String charset) {
+			String charset)throws Exception {
 		Object result = null;
 		String name = service.getClass().getName();
 		if (!restServiceMethodMap.containsKey(name)) {
@@ -80,6 +90,9 @@ public class ServiceExecutor {
 				exception = e;
 			} catch (Exception e) {
 				exception = e;
+				if(e instanceof UserNotLoginException){
+					throw e;
+				}
 			}
 
 			// 向客户端写回异常结果
