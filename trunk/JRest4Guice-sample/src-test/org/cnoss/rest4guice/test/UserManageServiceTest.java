@@ -4,7 +4,6 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.jrest4guice.JRest4GuiceHelper;
 import org.jrest4guice.core.guice.GuiceContext;
 import org.jrest4guice.sample.entity.Role;
 import org.jrest4guice.sample.entity.User;
@@ -23,8 +22,7 @@ public class UserManageServiceTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		JRest4GuiceHelper.useJRest("org.jrest4guice.sample.resources").useJPA()
-				.useSecurity().init();
+		GuiceContext.getInstance().useJPA().init();
 
 		service = GuiceContext.getInstance().getBean(UserManageService.class);
 	}
