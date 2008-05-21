@@ -1,6 +1,7 @@
 package org.jrest4guice.sample.service.impl;
 
 
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 
 import org.jrest4guice.core.persist.jpa.BaseEntityManager;
@@ -42,6 +43,7 @@ public class ContactServiceBean implements ContactService {
 	}
 
 	@Transactional
+	@RolesAllowed({"admin"})
 	public void deleteContact(String contactId) {
 		String[] ids = contactId.split(",");
 		Contact contact;

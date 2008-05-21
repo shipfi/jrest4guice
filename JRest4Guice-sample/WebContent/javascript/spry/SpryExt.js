@@ -4,6 +4,23 @@
  *
  */
 
+Function.prototype.bind = function() {
+  var __method = this, args = arguments, object = args.length>1?args:(args.length>0?args[0]:null);
+  return function() {
+  	try{
+	    return __method.apply(object, arguments);
+  	}catch(e){
+  	}
+  }
+}
+
+Function.prototype.bindAsEventListener = function(object) {
+  var __method = this;
+  return function(event) {
+    return __method.call(object, event || window.event);
+  }
+}
+
 //===============================================================================
 // Spry 修订与增强
 //===============================================================================
@@ -13,6 +30,33 @@ Spry.Data.DataSet.prototype.setCurrentRow = function(rowID){
 	this.notifyObservers("onCurrentRowChanged", nData);
 };
 
+//===============================================================================
+// 重载callback,实现结果集的拦截
+//===============================================================================
+Spry.Utils.loadURL.callback = function(req){
+	if (!req || req.xhRequest.readyState != 4)
+		return;
+	if (req.successCallback && (req.xhRequest.status == 200 || req.xhRequest.status == 0)){
+		var text = req.xhRequest.responseText;
+		if(text != null){
+			try{
+				var result = eval("(" + text + ")");	
+				if(result.errorType == "org.jrest4guice.core.exception.UserNotLoginException"){//用户没有登录
+					//alert("由于您还没有登录本系统,所以当前的操作被拒绝!");
+				}else if(result.errorType == "org.jrest4guice.core.exception.AccessDeniedException"){//用户的操作权限受限
+					//alert("您的访问权限不足,请及时与管理员联系,谢谢!");
+				}
+			}catch(e){}
+		}
+		req.successCallback(req);
+	}else if (req.errorCallback)
+		req.errorCallback(req);
+};
+
+
+//===============================================================================
+// 扩展验证方式
+//===============================================================================
 if(Spry.Widget){
 	Spry.Widget.ValidationTextField.ValidationDescriptors.phone={
 		validation: function (value, options) {
@@ -34,6 +78,9 @@ if(Spry.Widget){
 	}
 }
 
+//===============================================================================
+// 扩展数据加载的方式,增加对分页的处理
+//===============================================================================
 if(Spry.Data.JSONDataSet){
 	Spry.Data.JSONDataSet.prototype.loadPageData = function(param){
 		param = param || {pageIndex:1,pageSize:SpryExt.PageInfoBar.pageSize};
@@ -41,33 +88,18 @@ if(Spry.Data.JSONDataSet){
 			this.oldUrl = this.url;
 		this.url = this.oldUrl+"?"+jQuery.param(param);
 		this.loadData();
-	}
+	};
 }
 
+//===============================================================================
+// 拦截排序的声明,添加额外的'sortColumn'属性来实现排序图标的支持
+//===============================================================================
 var spry_sort_attach = Spry.Data.Region.behaviorAttrs["spry:sort"].attach;
 Spry.Data.Region.behaviorAttrs["spry:sort"].attach = function(rgn, node, value){
 	spry_sort_attach(rgn,node,value);
 	//增加排序标识
 	$(node).attr("sortColumn",value);
 }
-
-Function.prototype.bind = function() {
-  var __method = this, args = arguments, object = args.length>1?args:(args.length>0?args[0]:null);
-  return function() {
-  	try{
-	    return __method.apply(object, arguments);
-  	}catch(e){
-  	}
-  }
-}
-
-Function.prototype.bindAsEventListener = function(object) {
-  var __method = this;
-  return function(event) {
-    return __method.call(object, event || window.event);
-  }
-}
-
 
 //===============================================================================
 // Spry 的自定义扩展
