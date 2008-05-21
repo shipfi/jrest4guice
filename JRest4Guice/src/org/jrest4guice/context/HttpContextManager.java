@@ -3,6 +3,9 @@ package org.jrest4guice.context;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jrest4guice.core.guice.GuiceContext;
+import org.jrest4guice.core.persist.jpa.EntityManagerFactoryHolder;
+
 
 /**
  * 
@@ -23,6 +26,7 @@ public class HttpContextManager {
 
 	public static void clearContext() {
 		localContext.remove();
+		GuiceContext.getInstance().getBean(EntityManagerFactoryHolder.class).closeEntityManager();
 	}
 
 	static HttpServletRequest getRequest() {
