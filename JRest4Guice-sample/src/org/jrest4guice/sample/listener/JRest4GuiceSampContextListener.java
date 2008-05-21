@@ -6,8 +6,8 @@ import javax.servlet.ServletContextListener;
 import org.jrest4guice.JRestGuiceModuleProvider;
 import org.jrest4guice.core.guice.GuiceContext;
 import org.jrest4guice.core.persist.jpa.JpaGuiceModuleProvider;
+import org.jrest4guice.core.security.SecurityGuiceModuleProvider;
 import org.jrest4guice.core.transaction.TransactionGuiceModuleProvider;
-import org.jrest4guice.security.SecurityGuiceModuleProvider;
 
 /**
  * 
