@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jrest4guice.core.guice.GuiceContext;
-import org.jrest4guice.core.persist.jpa.EntityManagerFactoryHolder;
+import org.jrest4guice.core.jpa.EntityManagerFactoryHolder;
 
 
 /**

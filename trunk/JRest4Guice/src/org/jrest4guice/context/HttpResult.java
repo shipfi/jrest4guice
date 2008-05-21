@@ -2,7 +2,7 @@ package org.jrest4guice.context;
 
 import net.sf.json.JSONObject;
 
-import org.jrest4guice.core.persist.jpa.Page;
+import org.jrest4guice.core.jpa.Page;
 
 /**
  * 
