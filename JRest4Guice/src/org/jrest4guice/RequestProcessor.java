@@ -15,6 +15,7 @@ import org.jrest4guice.annotation.HttpMethodType;
 import org.jrest4guice.context.HttpContextManager;
 import org.jrest4guice.context.JRestContext;
 import org.jrest4guice.context.ModelMap;
+import org.jrest4guice.core.exception.UserNotLoginException;
 import org.jrest4guice.core.guice.GuiceContext;
 
 /**
@@ -31,9 +32,9 @@ public class RequestProcessor {
 	public static final String METHOD_OF_DELETE = "delete";
 
 	private String charset;
-	
+
 	private String urlPrefix;
-	
+
 	public RequestProcessor setUrlPrefix(String urlPrefix) {
 		this.urlPrefix = urlPrefix;
 		return this;
@@ -46,7 +47,7 @@ public class RequestProcessor {
 	 * @param servletResponse
 	 */
 	public void process(ServletRequest servletReqest,
-			ServletResponse servletResponse) {
+			ServletResponse servletResponse) throws Exception{
 		HttpServletRequest request = (HttpServletRequest) servletReqest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 
@@ -62,10 +63,10 @@ public class RequestProcessor {
 
 		String uri = request.getRequestURI();
 		String contextPath = request.getContextPath();
-		if(!contextPath.trim().equals("/"))
+		if (!contextPath.trim().equals("/"))
 			uri = uri.replace(contextPath, "");
-		
-		if(this.urlPrefix != null)
+
+		if (this.urlPrefix != null)
 			uri = uri.replace(this.urlPrefix, "");
 
 		// REST资源的参数，这些参数都包含在URL中
@@ -90,6 +91,11 @@ public class RequestProcessor {
 					exec.execute(service, HttpMethodType.PUT, charset);
 				else if (METHOD_OF_DELETE.equalsIgnoreCase(method))
 					exec.execute(service, HttpMethodType.DELETE, charset);
+			}
+		} catch (Exception e) {
+			if(e instanceof UserNotLoginException){
+				e.printStackTrace();
+				
 			}
 		} finally {
 			// 清除上下文中的环境变量

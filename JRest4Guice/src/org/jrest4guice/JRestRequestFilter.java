@@ -81,7 +81,11 @@ public class JRestRequestFilter implements Filter {
 			return;
 		}
 
-		new RequestProcessor().process(servletReqest, servletResponse);
+		try {
+			new RequestProcessor().process(servletReqest, servletResponse);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
