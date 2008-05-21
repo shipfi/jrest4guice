@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.jrest4guice.core.jpa.JpaGuiceModuleProvider;
+import org.jrest4guice.core.security.SecurityGuiceModuleProvider;
+import org.jrest4guice.core.transaction.TransactionGuiceModuleProvider;
 import org.jrest4guice.core.util.Assert;
 
 import com.google.inject.Guice;
@@ -87,6 +90,16 @@ public class GuiceContext {
 	public GuiceContext addUserModule(Module... modules) {
 		for (Module module : modules)
 			this.userModules.add(module);
+		return this;
+	}
+	
+	public GuiceContext useJPA(){
+		this.addModuleProvider(new JpaGuiceModuleProvider(),new TransactionGuiceModuleProvider());
+		return this;
+	}
+
+	public GuiceContext useSecurity(){
+		this.addModuleProvider(new SecurityGuiceModuleProvider());
 		return this;
 	}
 
