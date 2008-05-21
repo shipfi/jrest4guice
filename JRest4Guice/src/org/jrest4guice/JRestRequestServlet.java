@@ -47,7 +47,7 @@ public class JRestRequestServlet extends HttpServlet {
 			ServletException {
 		try {
 			new RequestProcessor().setUrlPrefix(this.urlPrefix).process(servletReqest, servletResponse);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}
