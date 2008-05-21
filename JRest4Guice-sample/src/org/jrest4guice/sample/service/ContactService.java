@@ -1,7 +1,7 @@
 package org.jrest4guice.sample.service;
 
 
-import org.jrest4guice.core.persist.jpa.Page;
+import org.jrest4guice.core.jpa.Page;
 import org.jrest4guice.sample.entity.Contact;
 import org.jrest4guice.sample.service.impl.ContactServiceBean;
 
