@@ -29,6 +29,9 @@ public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 		
 		final EntityTransaction transaction = entityManager.getTransaction();
 		
+//		Class<?> declaringClass = methodInvocation.getMethod().getDeclaringClass();
+//		System.out.println("class name : "+declaringClass.getName());
+		
 		if(transaction.isActive()){
 			return methodInvocation.proceed();
 		}
