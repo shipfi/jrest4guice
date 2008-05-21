@@ -1,4 +1,4 @@
-package org.jrest4guice.core.persist.jpa;
+package org.jrest4guice.core.jpa;
 
 import java.util.Calendar;
 import java.util.Date;
