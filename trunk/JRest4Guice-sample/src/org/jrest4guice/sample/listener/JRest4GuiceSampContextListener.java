@@ -3,16 +3,12 @@ package org.jrest4guice.sample.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.jrest4guice.JRestGuiceModuleProvider;
-import org.jrest4guice.core.guice.GuiceContext;
-import org.jrest4guice.core.jpa.JpaGuiceModuleProvider;
-import org.jrest4guice.core.security.SecurityGuiceModuleProvider;
-import org.jrest4guice.core.transaction.TransactionGuiceModuleProvider;
+import org.jrest4guice.JRest4GuiceHelper;
 
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
- *
+ * 
  */
 public class JRest4GuiceSampContextListener implements ServletContextListener {
 	@Override
@@ -21,10 +17,7 @@ public class JRest4GuiceSampContextListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		GuiceContext.getInstance().addModuleProvider(
-				new JRestGuiceModuleProvider("org.jrest4guice.sample.resources"))// JRest支持
-				.addModuleProvider(new SecurityGuiceModuleProvider())// 安全支持
-				.addModuleProvider(new TransactionGuiceModuleProvider())// 事务支持
-				.addModuleProvider(new JpaGuiceModuleProvider()).init();// JPA支持
+		JRest4GuiceHelper.useJRest("org.jrest4guice.sample.resources").useJPA()
+				.useSecurity().init();
 	}
 }
