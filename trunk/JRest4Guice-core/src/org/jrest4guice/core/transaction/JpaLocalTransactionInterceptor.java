@@ -24,13 +24,7 @@ public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 		Transactional transactional = methodInvocation.getMethod().getAnnotation(Transactional.class);
 		TransactionalType type = transactional.type();
 		
-//		System.out.println("current method : "+methodInvocation.getMethod());
-//		System.out.println("current entityManager : "+entityManager);
-		
 		final EntityTransaction transaction = entityManager.getTransaction();
-		
-//		Class<?> declaringClass = methodInvocation.getMethod().getDeclaringClass();
-//		System.out.println("class name : "+declaringClass.getName());
 		
 		if(transaction.isActive()){
 			return methodInvocation.proceed();
@@ -54,9 +48,6 @@ public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 			}
 			throw e;
 		}
-		
-		//关闭实体管理器
-		emfH.closeEntityManager();
 		
 		//返回业务方法的执行结果
 		return result;
