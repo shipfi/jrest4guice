@@ -293,7 +293,7 @@ TableDecorator.prototype = {
 		var checkedIds = option.checkedIds || [];
 		var rowId = tr.attr("rowId");
 		
-		var td = $("<td style=\"width: 24px;\" class='tdCkb_"+rowId+"'><input type=\"checkbox\" style=\"display: none;width: 24px;\"/></td>");
+		var td = $("<td style=\"width: 24px;\" class='tdCkb_"+rowId+"'><input id='tdCkb_"+rowId+"' type=\"checkbox\" style=\"display: none;width: 24px;\"/></td>");
 		tr[0].insertBefore(td[0],tr[0].firstChild);
 
 		SpryExt.DomHelper.disableSelection(tr[0]);
@@ -361,6 +361,14 @@ TableDecorator.prototype = {
 		
 		if(!notAllowFireEvent)
 			this.onUnCheckedAll();
+	},
+	checkById:function(id){
+		var ckb = this.table.tbody.find("td.tdCkb_"+id+" input:first");
+		if(ckb.length != 0){
+			ckb = ckb[0];
+			ckb.checked = true;
+			this._checkCurrent(ckb,true);
+		}
 	},
 	/**
 	 * 根据ID取消选择
