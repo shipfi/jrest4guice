@@ -43,14 +43,9 @@ function init(){
 	
 	//增强表格区域的功能（多选、分页）
 	SpryExt.TableRegionDecorator.decorate("contactListRegion",contacts_ds,"contactTable",{
+		//监听表格的选择事件
 		onChecked:function(){
-			//监听表格的选择事件
-			var rows = contactTable_decorator.getCheckedRows();
-			var names = [];
-			for(var i=0;i<rows.length;i++){
-				names.push(rows[i].name);
-			}
-			
+			var names = getCheckedContactNames();
 			//处理已经选择联系人的显示（对应于controlBar)
 			var len = names.length;
 			if(len>0){
@@ -75,11 +70,48 @@ function init(){
 		recordTypeName:"个联系人",
 		onPaged:function(index){
 			contacts_ds.loadPageData({pageIndex:index,pageSize:SpryExt.PageInfoBar.pageSize});
+		},
+		onPostUpdate:function(){
+			//构建拖放操作
+			$(".dragRow").draggable({ 
+		    	helper: function(ev){
+					var names = getCheckedContactNames();
+					var info;
+					if(names.length>3){
+						info = names.slice(0,3).join(",")+" ...";
+					}else{
+						info = names.join(",");
+					}
+		    		return $("<div class='dragRow dragElement' style='font-weight: bold;'><img src='images/user.gif'> "+info+"</div>").appendTo("body");
+		    	},
+		   	    cursorAt: { 
+			        top: 2, 
+			        right:2  
+			    } 
+			});
 		}
 	});
 	
 	//装载数据
 	contacts_ds.loadPageData();
+
+	$(".recyle").droppable({ 
+	    accept: ".dragRow", 
+	    drop: function(ev, ui) {
+	        deleteContact(); 
+	    } 
+	});
+	
+}
+
+function getCheckedContactNames(){
+	var rows = contactTable_decorator.getCheckedRows();
+	var names = [];
+	for(var i=0;i<rows.length;i++){
+		names.push(rows[i].name);
+	}
+	
+	return names;
 }
 
 var detailObserver = {
@@ -175,6 +207,8 @@ function deleteContact(id,nme){
 		if(result.errorType == ""){
 			contacts_ds.loadData();
 			currentContact = null;
+			
+			$("#recyle").attr("src","images/recycle_full.png")
 		}else
 			alert(result.errorMessage);
 	});
