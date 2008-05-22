@@ -704,7 +704,7 @@ SpryExt.PageInfoBar.build = function(pageInfo, msg, infoBar, navigations, goPage
 		else if(pageInfo.pageIndex>=pageCount-4 && pageInfo.pageIndex >=5 && pageCount>maxPageCount)
 			pageIndex = pageInfo.pageIndex + i -4 -(pageInfo.pageIndex-pageCount+4);
 		pageSpanClone = pageSpan.cloneNode(true);
-		pageSpanClone.innerHTML = pageIndex;
+		pageSpanClone.innerHTML = " "+pageIndex+" ";
 		if(pageIndex == pageInfo.pageIndex)
 			pageSpanClone.className="pageClassd";	
 		else
