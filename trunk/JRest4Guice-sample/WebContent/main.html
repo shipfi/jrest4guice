@@ -33,6 +33,17 @@
 	.button {
 		margin-right: 20px;
 	}
+	.loadingBar {
+		background-color: red;
+		color: yellow;
+		font-size: 13px;
+		padding: 2px;
+		border: solid 1px olive;
+		top: 39px;
+		right: 8px;
+		clear: both;
+		position: absolute;
+	}
 </style>
 </head>
 <body>
@@ -46,7 +57,7 @@
 				还可以<span title="删除以下选择的联系人" class="cmdButton" onclick="deleteContact();void(0);return false;">删除</span>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
 			</div>
 		</div>
-		<div style="float: right;width:30%;margin-right: 8px;margin-top: 32px;">
+		<div style="float: right;width:30%;margin-right: 12px;margin-top: 32px;">
 			<div style="float: right;text-align: right;">
 				<div id="infoBar"></div>
 				<div id="navigation" style="margin-top: 4px;"></div>
@@ -91,52 +102,84 @@
 	
 	<!-- 编辑区域 -->
 	<div style="width: 32%;float: right;background-color:#EAF6FD;">
-		<form id="editForm">
-			<div id="editArea" spry:detailregion="contact_detail_ds" style="display: none;">
-				<fieldset style="margin: 10px;border: 1px solid olive;">
-					<legend id="Organization">联系人信息</legend>
-					<div style="margin: 8px;">
-						<input style="display: none;" type="text" id="id" value="{id}">
-						<div id="theName">
-							<div class="formLabel">姓名：</div>
-							<input type="text" id="name" value="{name}">
-							<div class="textfieldRequiredMsg">姓名不能为空.</div>
-						</div>
-						<fieldset style="float: right;border: 1px solid olive;margin-top: -54px;margin-right: 8px;">
-							<legend id="Organization">个人形象</legend>
-							<div>
-								<input type="hidden" id="headPic" value="{headPic}">
-								<iframe id="uploadFrame" frameborder="0" width="128" height="140" scrolling="no" style="background-color:#EAF6FD;"></iframe>
+		<div id="editArea" style="display: none;">
+			<form id="editForm">
+				<div id="editRegion" spry:detailregion="contact_detail_ds">
+					<fieldset style="margin: 10px;border: 1px solid olive;">
+						<legend id="Organization">联系人信息</legend>
+						<div style="margin: 8px;">
+							<input style="display: none;" type="text" id="id" value="{id}">
+							<div id="theName">
+								<div class="formLabel">姓名：</div>
+								<input type="text" id="name" value="{name}">
+								<div class="textfieldRequiredMsg">姓名不能为空.</div>
 							</div>
-						</fieldset>
-						<div id="theMobilePhone" style="clear: left;">
-							<div class="formLabel">移动电话：</div>
-							<input type="text" id="mobilePhone" value="{mobilePhone}">
-							<div class="textfieldInvalidFormatMsg">无效的移动电话.<br>(长度为11位，例：13710540124)</div>
+							<fieldset style="float: right;border: 1px solid olive;margin-top: -54px;margin-right: 8px;">
+								<legend id="Organization">个人形象</legend>
+								<div>
+									<input type="hidden" id="headPic" value="{headPic}">
+									<iframe id="uploadFrame" frameborder="0" width="128" height="140" scrolling="no" style="background-color:#EAF6FD;"></iframe>
+								</div>
+							</fieldset>
+							<div id="theMobilePhone" style="clear: left;">
+								<div class="formLabel">移动电话：</div>
+								<input type="text" id="mobilePhone" value="{mobilePhone}">
+								<div class="textfieldInvalidFormatMsg">无效的移动电话.<br>(长度为11位，例：13710540124)</div>
+							</div>
+							<div id="theEmail">
+								<div class="formLabel">电子邮件：</div>
+								<input type="text" id="EMail" value="{EMail}">
+								<div class="textfieldInvalidFormatMsg">不正确的电子邮件格式.<br>(例：xxx@xxx.com)</div>
+							</div>
+							<div id="theAddress">
+								<div class="formLabel">家庭住址：</div>
+								<textarea rows="3" cols="32" id="address">{address}</textarea>
+								<div class="textareaMaxCharsMsg">长度不能超过50这个字符</div>
+							</div>
+							<br/>
+							<input type="button" onclick="saveOrUpdateContact();" value="确定" style="width: 40px;"> or <a href="#" onclick="doCancel();void(0);return false;">取消</a>
 						</div>
-						<div id="theEmail">
-							<div class="formLabel">电子邮件：</div>
-							<input type="text" id="EMail" value="{EMail}">
-							<div class="textfieldInvalidFormatMsg">不正确的电子邮件格式.<br>(例：xxx@xxx.com)</div>
-						</div>
-						<div id="theAddress">
-							<div class="formLabel">家庭住址：</div>
-							<textarea rows="3" cols="32" id="address">{address}</textarea>
-							<div class="textareaMaxCharsMsg">长度不能超过50这个字符</div>
-						</div>
-						<br/>
-						<input type="button" onclick="saveOrUpdateContact();" value="确定" style="width: 40px;"> or <a href="#" onclick="doCancel();void(0);return false;">取消</a>
-					</div>
-				</fieldset>
-			</div>
-		</form>
+					</fieldset>
+				</div>
+			</form>
+		</div>
+		<div id="infoArea" style="height: 334px;background: white;">
+			<ul>
+				<li>
+					<h5>快速开始</h5>
+						<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里快速<span title="为你添加新的联系人" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人。
+					<br><br>
+				</li>
+				<li>
+					<h5>操作小窍门</h5>
+							<ur>
+								<li style="margin-left: 24px;">通过屏幕右上方的搜索栏快速检索你的联系人。</li>
+								<li style="margin-left: 24px;">通过点击标题栏对你的查询结果进行排序。</li>
+								<li style="margin-left: 24px;">按住Ctrl键可以多选。</li>
+								<li style="margin-left: 24px;">通过拖拽的方式将选中的联系人，可以轻松的放入回收站。</li>
+							</ur>
+					<br><br>
+				</li>
+				<li>
+					<h5>友情链接</h5>
+							<ur>
+								<li style="margin-left: 24px;"><a href="http://jrest4guice.googlecode.com">JRest4Guice</a></li>
+								<li style="margin-left: 24px;"><a href="http://labs.adobe.com/technologies/spry/home.html">Adobe Spry</a></li>
+								<li style="margin-left: 24px;"><a href="http://jquery.com/">JQuery</a></li>
+							</ur>
+				</li>
+			</ul>
+		</div>
 	</div>
 	
-	<div style="position: absolute;top:8px;right: 8px;">
-		<input type="text" style="width: 200px;color: silver;" value="搜索">
+	<div style="position: absolute;top:12px;right: 8px;">
+		<input type="text" style="width: 240px;color: silver;" value="搜索">
 	</div>
-	<div class="recyle" style="position: absolute;bottom: 8px;right: 8px;width: 150px;text-align: center;height: 82px;">
+	<div class="recyle" style="position: absolute;bottom: 32px;right: 8px;width: 150px;text-align: center;height: 82px;">
 		<img class="png" id="recyle" src="images/recycle_empty.png" style="width: 72px;height: 72px;margin-top: 8px;">
+	<div>
+	<div style="position: absolute;bottom: -24px;right: 8px;width: 400px;text-align: right;">
+		JRest4Guice 0.9.0 preview
 	<div>
 </body>
 </html>

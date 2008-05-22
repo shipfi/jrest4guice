@@ -62,10 +62,13 @@ function init(){
 				$("#cContactSpan").hide();
 			}
 	
-			if(len==1)
+			if(len==1){
+				$("#infoArea").hide("slow");
 				$("#editArea").show("slow");
-			else
+			}else{
 				$("#editArea").hide("slow");
+				$("#infoArea").show("slow");
+			}
 		},
 		recordTypeName:"个联系人",
 		onPaged:function(index){
@@ -84,7 +87,7 @@ function init(){
 						info = names.join(",");
 					}
 					if(len>0)
-	    				return $("<div class='dragRow dragElement' style='font-weight: bold;cursor: move;'><img src='images/user.gif'> "+info+"</div>").appendTo("body");
+	    				return $("<div class='dragRow dragElement' style='font-weight: bold;cursor: move;'><img src='images/user.gif'> "+info+"  &nbsp;&nbsp;</div>").appendTo("body");
 	    			else
 	    				return $("<div></div>");
 		    	},
@@ -134,7 +137,7 @@ var detailObserver = {
 	}
 };
 
-Spry.Data.Region.addObserver("editArea", detailObserver);
+Spry.Data.Region.addObserver("editRegion", detailObserver);
 
 
 function doCancel(){
@@ -161,6 +164,7 @@ function createContact(){
 	//取消所有选择的行
 	contactTable_decorator.uncheckAll();
 	clear($("#editArea"));
+	$("#infoArea").hide("slow");
 	$("#editArea").show("slow");
 }
 
