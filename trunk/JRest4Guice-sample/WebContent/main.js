@@ -73,16 +73,20 @@ function init(){
 		},
 		onPostUpdate:function(){
 			//构建拖放操作
-			$(".dragRow").draggable({ 
+			$(".dragRow").draggable({
 		    	helper: function(ev){
 					var names = getCheckedContactNames();
-					var info;
-					if(names.length>3){
+					var info,len;
+					len = names.length;
+					if(len>3){
 						info = names.slice(0,3).join(",")+" ...";
 					}else{
 						info = names.join(",");
 					}
-		    		return $("<div class='dragRow dragElement' style='font-weight: bold;'><img src='images/user.gif'> "+info+"</div>").appendTo("body");
+					if(len>0)
+	    				return $("<div class='dragRow dragElement' style='font-weight: bold;cursor: move;'><img src='images/user.gif'> "+info+"</div>").appendTo("body");
+	    			else
+	    				return $("<div></div>");
 		    	},
 		   	    cursorAt: { 
 			        top: 2, 
@@ -96,8 +100,10 @@ function init(){
 	contacts_ds.loadPageData();
 
 	$(".recyle").droppable({ 
-	    accept: ".dragRow", 
+	    accept: ".dragRow",
+	    hoverClass: "selectedClass",
 	    drop: function(ev, ui) {
+	    	//ui.element.fadeOut("fast",function() {$(this).fadeIn("fast")});
 	        deleteContact(); 
 	    } 
 	});
