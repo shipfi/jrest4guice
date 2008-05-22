@@ -43,7 +43,6 @@ public class ContactServiceBean implements ContactService {
 	}
 
 	@Transactional
-	@RolesAllowed({"admin"})
 	public void deleteContact(String contactId) {
 		String[] ids = contactId.split(",");
 		Contact contact;
@@ -68,6 +67,7 @@ public class ContactServiceBean implements ContactService {
 	}
 
 	@Transactional
+	@RolesAllowed({"admin"})
 	public void updateContact(Contact contact) {
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");

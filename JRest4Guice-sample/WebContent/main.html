@@ -15,7 +15,9 @@
 <link href="css/default.css" rel="stylesheet" type="text/css" />
 
 <!-- JQuery 核心 -->
-<script type="text/javascript" src="javascript/lib/jquery-1.2.2.js"></script>
+<script type="text/javascript" src="javascript/lib/jquery-1.2.5.js"></script>
+<script type="text/javascript" src="javascript/lib/jquery-ui-1.5.js"></script>
+
 <!-- Spry 核心 -->
 <script language="JavaScript" type="text/javascript" src="javascript/spry/SpryData.js"></script>
 <script language="JavaScript" type="text/javascript" src="javascript/spry/SpryJSONDataSet.js"></script>
@@ -77,10 +79,10 @@
 				</thead>
 				<tbody spry:repeat="contacts_ds">
 					<tr rowId="{ds_RowID}" spry:odd="odd" spry:even="even" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;">
-						<td>&nbsp;{name}</td>
-						<td>&nbsp;{mobilePhone}</td>
-						<td>&nbsp;{EMail}</td>
-						<td>&nbsp;{address}</td>
+						<td class="dragRow">&nbsp;{name}</td>
+						<td class="dragRow">&nbsp;{mobilePhone}</td>
+						<td class="dragRow">&nbsp;{EMail}</td>
+						<td class="dragRow">&nbsp;{address}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -129,5 +131,12 @@
 			</div>
 		</form>
 	</div>
+	
+	<div style="position: absolute;top:8px;right: 8px;">
+		<input type="text" style="width: 200px;color: silver;" value="搜索">
+	</div>
+	<div class="recyle" style="position: absolute;bottom: 8px;right: 8px;width: 150px;text-align: center;">
+		<img class="png" id="recyle" src="images/recycle_empty.png" style="width: 72px;height: 72px;">
+	<div>
 </body>
 </html>

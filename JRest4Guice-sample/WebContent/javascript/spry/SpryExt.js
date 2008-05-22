@@ -214,6 +214,9 @@ SpryExt.TableRegionDecorator.decorate = function(dataRegionId,dataSet,tableId,op
 			tableDecorator.decorateRow(option);
 			
 			SpryExt.PageInfoBar.build(dataSet.docObj,option.recordTypeName || "条记录","infoBar","navigation",option.onPaged);
+			
+			if(option.onPostUpdate)
+				option.onPostUpdate(notifier, data);
 		}
 	});
 	
