@@ -1,4 +1,4 @@
-package org.jrest4guice.core.jpa;
+package org.jrest4guice.core.client;
 
 import java.util.ArrayList;
 import java.util.Iterator;

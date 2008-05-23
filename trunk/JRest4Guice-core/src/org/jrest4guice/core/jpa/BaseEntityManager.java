@@ -12,6 +12,9 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.jrest4guice.core.client.Page;
+import org.jrest4guice.core.client.Pagination;
+
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>

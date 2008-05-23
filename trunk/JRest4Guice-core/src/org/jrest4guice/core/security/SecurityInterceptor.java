@@ -1,6 +1,7 @@
 package org.jrest4guice.core.security;
 
 import java.lang.reflect.Method;
+import java.security.AccessController;
 import java.security.Principal;
 import java.util.Set;
 
@@ -39,8 +40,10 @@ public class SecurityInterceptor implements MethodInterceptor {
 				.getDeclaringClass();
 		if (!declaringClass.isAnnotationPresent(PermitAll.class)) {
 			if (method.isAnnotationPresent(RolesAllowed.class)) {
+				Subject subject = Subject.getSubject(AccessController.getContext());				
+				
 				HttpSession session = request.getSession(true);
-				Subject subject = (Subject) session
+				Subject _subject = (Subject) session
 						.getAttribute("javax.security.auth.subject");
 				if (subject == null)
 					throw new UserNotLoginException("没有登录");
