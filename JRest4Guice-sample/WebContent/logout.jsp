@@ -10,7 +10,7 @@
 	response.setHeader("Cache-Control", "no-cache, must-revalidate");
 	response.setHeader("Pragma","no-cache");
 	request.getSession().invalidate();
-	response.sendRedirect("index.html");
+	response.sendRedirect("main.html");
 %>
 </body>
 </html>
