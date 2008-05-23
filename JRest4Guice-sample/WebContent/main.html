@@ -51,10 +51,10 @@
 	<div id="controlBar" style="margin: 28px 0 8px 12px;height: 68px;width:60%;">
 		<div style="float: left;width: 67%;height: 68px;">
 			<div style="width: 100%;">
-				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<span title="为你添加新的联系人" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人，或者<span title="获取最新的联系人列表" class="cmdButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</span>整个联系人列表。
+				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="#"  title="为你添加新的联系人" onclick="createContact();void(0);return false;">增加</a>新的联系人，或者<a href="#"  title="获取最新的联系人列表" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</a>整个联系人列表。
 			</div>
 			<div style="margin-top: 4px;display: none;width: 490px;" id="cContactSpan">
-				还可以<span title="删除以下选择的联系人" class="cmdButton" onclick="deleteContact();void(0);return false;">删除</span>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
+				还可以<a href="#" title="删除以下选择的联系人" onclick="deleteContact();void(0);return false;">删除</a>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
 			</div>
 		</div>
 		<div style="float: right;width:30%;margin-right: 12px;margin-top: 32px;">
@@ -147,7 +147,7 @@
 			<ul>
 				<li style="margin-top: 16px;">
 					<h5>快速开始</h5>
-					<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里快速<span title="为你添加新的联系人" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人。
+					<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里快速<a href="#" title="为你添加新的联系人" onclick="createContact();void(0);return false;">增加</a>新的联系人。
 				</li>
 				<li style="margin-top: 16px;">
 					<h5>操作小窍门</h5>
@@ -163,6 +163,7 @@
 					<ur>
 						<li style="margin-left: 24px;"><a href="http://jrest4guice.googlecode.com">JRest4Guice</a></li>
 						<li style="margin-left: 24px;"><a href="http://code.google.com/p/google-guice/">Google Guice</a></li>
+						<li style="margin-left: 24px;"><a href="http://www.hibernate.org/410.html">Hibernate Search</a></li>
 						<li style="margin-left: 24px;"><a href="http://labs.adobe.com/technologies/spry/home.html">Adobe Spry</a></li>
 						<li style="margin-left: 24px;"><a href="http://jquery.com/">JQuery</a></li>
 					</ur>
