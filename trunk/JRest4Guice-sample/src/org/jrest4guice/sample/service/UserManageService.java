@@ -20,5 +20,5 @@ public interface UserManageService {
 	
 	public List<User> getAllUsers();
 
-	public List<Role> getUserRoles(String userId);
+	public List<Role> getUserRoles(String name);
 }

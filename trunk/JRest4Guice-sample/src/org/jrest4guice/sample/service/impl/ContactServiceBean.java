@@ -4,9 +4,9 @@ package org.jrest4guice.sample.service.impl;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 
+import org.jrest4guice.core.client.Page;
+import org.jrest4guice.core.client.Pagination;
 import org.jrest4guice.core.jpa.BaseEntityManager;
-import org.jrest4guice.core.jpa.Page;
-import org.jrest4guice.core.jpa.Pagination;
 import org.jrest4guice.core.transaction.annotations.Transactional;
 import org.jrest4guice.core.transaction.annotations.TransactionalType;
 import org.jrest4guice.sample.entity.Contact;
