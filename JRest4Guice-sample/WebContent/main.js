@@ -110,7 +110,6 @@ function init(){
 	        deleteContact(); 
 	    } 
 	});
-	
 }
 
 function getCheckedContactNames(){
