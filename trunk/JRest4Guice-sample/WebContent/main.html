@@ -48,7 +48,7 @@
 </head>
 <body>
 	<!-- 操作栏 -->
-	<div id="controlBar" style="margin: 28px 0 8px 12px;height: 68px;width:67%;">
+	<div id="controlBar" style="margin: 28px 0 8px 12px;height: 68px;width:60%;">
 		<div style="float: left;width: 67%;height: 68px;">
 			<div style="width: 100%;">
 				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<span title="为你添加新的联系人" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人，或者<span title="获取最新的联系人列表" class="cmdButton" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</span>整个联系人列表。
@@ -64,7 +64,7 @@
 			</div>
 		</div>
 	</div>
-	<div style="float: left;width:67%;margin-right: 8px;clear: both;">
+	<div style="float: left;width:60%;margin-right: 8px;clear: both;">
 		<!-- 为了提高用户体验，用一个同样的表头来先显示，避免Spry加载清除表格的闪烁（注意表格ID必须为目标表格ID+"_temp"，以便系统在加载完数据时自动清除） -->
 		<table id="contactTable_temp" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
 			<thead style="font-weight: bold;">
@@ -101,8 +101,8 @@
 	</div>
 	
 	<!-- 编辑区域 -->
-	<div style="width: 32%;float: right;background-color:#EAF6FD;">
-		<div id="editArea" style="display: none;">
+	<div style="width: 37%;float: right;">
+		<div id="editArea" style="display: none;background-color:#EAF6FD;">
 			<form id="editForm">
 				<div id="editRegion" spry:detailregion="contact_detail_ds">
 					<fieldset style="margin: 10px;border: 1px solid olive;">
@@ -145,30 +145,27 @@
 		</div>
 		<div id="infoArea" style="height: 334px;background: white;">
 			<ul>
-				<li>
+				<li style="margin-top: 16px;">
 					<h5>快速开始</h5>
-						<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里快速<span title="为你添加新的联系人" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人。
-					<br><br>
+					<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里快速<span title="为你添加新的联系人" class="cmdButton" onclick="createContact();void(0);return false;">增加</span>新的联系人。
 				</li>
-				<li>
+				<li style="margin-top: 16px;">
 					<h5>操作小窍门</h5>
-							<ur>
-								<li style="margin-left: 24px;">通过屏幕右上方的搜索栏快速检索你的联系人。</li>
-								<li style="margin-left: 24px;">通过点击标题栏对你的查询结果进行排序。</li>
-								<li style="margin-left: 24px;">按住Ctrl键可以多选。</li>
-								<li style="margin-left: 24px;">通过键盘的Delete键删除选中的联系人。</li>
-								<li style="margin-left: 24px;">通过拖拽的方式将选中的联系人，可以轻松的放入回收站。</li>
-							</ur>
-					<br><br>
+					<ur>
+						<li style="margin-left: 24px;">通过屏幕右上方的搜索栏快速检索你的联系人。</li>
+						<li style="margin-left: 24px;">通过点击标题栏对你的查询结果进行排序。</li>
+						<li style="margin-left: 24px;">按住Ctrl键可以多选。</li>
+						<li style="margin-left: 24px;">通过拖拽的方式将选中的联系人，可以轻松的放入回收站。</li>
+					</ur>
 				</li>
-				<li>
+				<li style="margin-top: 16px;">
 					<h5>友情链接</h5>
-							<ur>
-								<li style="margin-left: 24px;"><a href="http://jrest4guice.googlecode.com">JRest4Guice</a></li>
-								<li style="margin-left: 24px;"><a href="http://code.google.com/p/google-guice/">Google Guice</a></li>
-								<li style="margin-left: 24px;"><a href="http://labs.adobe.com/technologies/spry/home.html">Adobe Spry</a></li>
-								<li style="margin-left: 24px;"><a href="http://jquery.com/">JQuery</a></li>
-							</ur>
+					<ur>
+						<li style="margin-left: 24px;"><a href="http://jrest4guice.googlecode.com">JRest4Guice</a></li>
+						<li style="margin-left: 24px;"><a href="http://code.google.com/p/google-guice/">Google Guice</a></li>
+						<li style="margin-left: 24px;"><a href="http://labs.adobe.com/technologies/spry/home.html">Adobe Spry</a></li>
+						<li style="margin-left: 24px;"><a href="http://jquery.com/">JQuery</a></li>
+					</ur>
 				</li>
 			</ul>
 		</div>

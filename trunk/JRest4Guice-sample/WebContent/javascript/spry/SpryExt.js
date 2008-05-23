@@ -295,11 +295,18 @@ TableDecorator.prototype = {
 		
 		var td = $("<td style=\"width: 24px;\" class='tdCkb_"+rowId+"'><input id='tdCkb_"+rowId+"' type=\"checkbox\" style=\"display: none;width: 24px;\"/></td>");
 		tr[0].insertBefore(td[0],tr[0].firstChild);
-
-		SpryExt.DomHelper.disableSelection(tr[0]);
-		tr.find("td").each(function(){
-			SpryExt.DomHelper.disableSelection(this);
-		});
+	
+		if(!option.onKeyDown){
+			SpryExt.DomHelper.disableSelection(tr[0]);
+			tr.find("td").each(function(){
+				SpryExt.DomHelper.disableSelection(this);
+			});
+		}else{
+			SpryExt.DomHelper.enableSelection(tr[0]);
+			tr.find("td").each(function(){
+				SpryExt.DomHelper.enableSelection(this);
+			});
+		}
 
 		var ckb = tr.find("input:first");
 		ckb.click(function(event){//鼠标单击
@@ -328,21 +335,24 @@ TableDecorator.prototype = {
 			if(tr.attr("class")!=_self.selectedClass)
 				tr.addClass(tr.attr("oldClass"));
 			_self._showCheckBox(tr);
-		}).click(function(event){//鼠标单击
-			if(!(event.ctrlKey || event.shiftKey))
+		}).click(function(evt){//鼠标单击
+			if(!(evt.ctrlKey || evt.shiftKey))
 				_self.uncheckAll(true);
 				
-			fun.call(this,event);
+			fun.call(this,evt);
 			if(option.onclick){
-				option.onclick.call(this,event);
+				option.onclick.call(this,evt);
+			}
+		}).keydown(function(evt){
+			if(option.onKeyDown){
+				option.onKeyDown.call(this,evt);
 			}
 		});
-		
+
 		var _find = false;
 		for(var i =0;i<checkedIds.length;i++){
 			if(rowId==checkedIds[i]){
 				_find = true;
-				checkedIds.slice(i,1);
 				break;
 			}
 		}
