@@ -67,7 +67,7 @@ public class ContactServiceBean implements ContactService {
 	}
 
 	@Transactional
-	@RolesAllowed({"admin"})
+	@RolesAllowed({"admin","user"})
 	public void updateContact(Contact contact) {
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");
