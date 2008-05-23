@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+	String isRelogin = request.getParameter("isRelogin");
+	if(isRelogin != null && isRelogin.equalsIgnoreCase("true")){
+		session.invalidate();
+	}
+	if(request.getUserPrincipal()!=null)
+		response.sendRedirect("main.html");
+%>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
