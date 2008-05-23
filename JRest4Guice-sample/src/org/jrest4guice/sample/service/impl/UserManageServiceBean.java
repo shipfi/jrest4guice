@@ -38,8 +38,8 @@ public class UserManageServiceBean implements UserManageService {
 	}
 
 	@Transactional(type=TransactionalType.READOLNY)
-	public List<Role> getUserRoles(String userId) {
-		return this.roleEntityManager.listByNamedQuery("listByUserId", userId);
+	public List<Role> getUserRoles(String name) {
+		return this.roleEntityManager.listByNamedQuery("listByUserName", name);
 	}
 
 	@Override
