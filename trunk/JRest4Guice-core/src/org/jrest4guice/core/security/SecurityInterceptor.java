@@ -1,15 +1,13 @@
 package org.jrest4guice.core.security;
 
 import java.lang.reflect.Method;
-import java.security.AccessController;
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.security.auth.Subject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -40,26 +38,19 @@ public class SecurityInterceptor implements MethodInterceptor {
 				.getDeclaringClass();
 		if (!declaringClass.isAnnotationPresent(PermitAll.class)) {
 			if (method.isAnnotationPresent(RolesAllowed.class)) {
-				Subject subject = Subject.getSubject(AccessController.getContext());				
-				
-				HttpSession session = request.getSession(true);
-				Subject _subject = (Subject) session
-						.getAttribute("javax.security.auth.subject");
-				if (subject == null)
+				Principal userPrincipal = request.getUserPrincipal();
+				if (userPrincipal == null)
 					throw new UserNotLoginException("没有登录");
-				Set<Principal> principals = subject.getPrincipals();
-
+				
 				RolesAllowed annotation = method
 						.getAnnotation(RolesAllowed.class);
 				String[] roles = annotation.value();
 
 				boolean hasPermission = false;
-				top: for (Principal p : principals) {
-					for (String roleName : roles) {
-						if (p.getName().equalsIgnoreCase(roleName)) {
-							hasPermission = true;
-							break top;
-						}
+				for (String roleName : roles) {
+					if (request.isUserInRole(roleName)) {
+						hasPermission = true;
+						break;
 					}
 				}
 
