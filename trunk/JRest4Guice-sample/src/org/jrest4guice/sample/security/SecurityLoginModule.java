@@ -58,8 +58,6 @@ public class SecurityLoginModule implements LoginModule {
 			callbackHandler.handle(callbacks);
 			username = ((NameCallback) callbacks[0]).getName();
 			password = ((PasswordCallback) callbacks[1]).getPassword();
-			System.out.println("用户名=" + username);
-			System.out.println("密码=" + new String(password));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
