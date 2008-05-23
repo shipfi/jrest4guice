@@ -1,7 +1,7 @@
 package org.jrest4guice.writer;
 
 import org.jrest4guice.annotation.MimeType;
-import org.jrest4guice.context.HttpResult;
+import org.jrest4guice.client.JRestResult;
 
 /**
  * 
@@ -11,7 +11,7 @@ import org.jrest4guice.context.HttpResult;
 public class HtmlResponseWriter extends TextResponseWriter {
 	@Override
 	protected String generateTextContent(Object result) {
-		return HttpResult.createHttpResult(result).toTextPlain();
+		return JRestResult.createHttpResult(result).toTextPlain();
 	}
 
 	@Override
