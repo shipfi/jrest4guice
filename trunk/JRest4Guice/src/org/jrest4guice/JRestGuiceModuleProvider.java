@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jrest4guice.annotation.Restful;
+import org.jrest4guice.annotation.Path;
 import org.jrest4guice.context.HttpRequestProvider;
 import org.jrest4guice.context.HttpResponseProvider;
 import org.jrest4guice.context.JRestContext;
@@ -52,15 +52,15 @@ public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 
 				// 注册所有的Restful服务对象
 				JRestContext jRestContext = JRestContext.getInstance();
-				Restful annotation;
+				Path annotation;
 				String[] uris;
 				String mimiType;
 				String[] mimiTypes;
 				for (Class clazz : classes) {
-					if (clazz.isAnnotationPresent(Restful.class)) {
-						annotation = (Restful) clazz
-								.getAnnotation(Restful.class);
-						uris = annotation.uri();
+					if (clazz.isAnnotationPresent(Path.class)) {
+						annotation = (Path) clazz
+								.getAnnotation(Path.class);
+						uris = annotation.value();
 						for (String uri : uris)
 							jRestContext.addResource(uri, clazz);
 					} else if (ResponseWriter.class.isAssignableFrom(clazz)) {

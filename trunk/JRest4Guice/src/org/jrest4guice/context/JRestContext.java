@@ -16,6 +16,7 @@ public class JRestContext {
 	private ServiceRoute root = new ServiceRoute();
 	private Pattern paramPattern = Pattern.compile("\\{([a-zA-Z_]+[0-9]*)\\}");
 	private static final String PARAM_KEY = "_$__PARAM_$__";
+	public static final String REST_CHILD_PATH_PARAM_KEY = "_$__CHILD_PATH_$__";
 
 	private JRestContext() {
 	}
@@ -80,8 +81,10 @@ public class JRestContext {
 				HttpContextManager.getModelMap().put(child.getParamName(), path);
 			} else {
 				child = current.getChild(path);
-				if (child == null)
-					return null;
+				if (child == null){
+					HttpContextManager.getModelMap().put(REST_CHILD_PATH_PARAM_KEY, path);
+					break;
+				}
 			}
 			current = child;
 			child = null;

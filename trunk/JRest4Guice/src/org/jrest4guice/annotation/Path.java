@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Restful {
-	String[] uri();
+@Target({ElementType.TYPE,ElementType.METHOD})
+public @interface Path {
+	String[] value();
 }
