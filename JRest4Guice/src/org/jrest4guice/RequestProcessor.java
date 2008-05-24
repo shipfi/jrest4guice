@@ -77,7 +77,7 @@ public class RequestProcessor {
 		HttpContextManager.setContext(request, response, params);
 		try {
 			// 从REST资源注册表中查找此URI对应的资源
-			Object service = JRestContext.getInstance().lookupResource(uri);
+			Service service = JRestContext.getInstance().lookupResource(uri);
 			if (service != null) {
 				ServiceExecutor exec = GuiceContext.getInstance().getBean(
 						ServiceExecutor.class);

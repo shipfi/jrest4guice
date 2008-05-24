@@ -1,7 +1,9 @@
 package org.jrest4guice;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -19,10 +21,11 @@ public class ServiceRoute {
 
 	private String paramName;
 
-	private Map<String, ServiceRoute> children = new HashMap<String, ServiceRoute>();
+	private Map<String, ServiceRoute> routeChildren = new HashMap<String, ServiceRoute>();
+	private Map<String, List<ServiceRoute>> paramChildren = new HashMap<String, List<ServiceRoute>>();
 	
-	private Map<String, Method> restMethod = new HashMap<String, Method>();
-
+	private Method method;
+	
 	public ServiceRoute() {
 		this("");
 	}
@@ -32,19 +35,42 @@ public class ServiceRoute {
 		this.id = UUID.randomUUID().toString();
 	}
 
+	public Method getMethod() {
+		return method;
+	}
+
+	public void addRestMethod(Method method) {
+		this.method = method;
+	}
+
 	public String getId() {
 		return id;
 	}
 
-	public void addChild(String key, ServiceRoute child) {
-		if (children.containsKey(key))
+	public void addRouteChild(String key, ServiceRoute child) {
+		if (routeChildren.containsKey(key))
 			return;
-		children.put(key, child);
+		routeChildren.put(key, child);
 		child.setParent(this);
 	}
 
-	public ServiceRoute getChild(String key) {
-		return children.get(key);
+	public ServiceRoute getRouteChild(String key) {
+		return routeChildren.get(key);
+	}
+
+	public void addParamChild(String key, ServiceRoute child) {
+		List<ServiceRoute> pRoutes = new ArrayList<ServiceRoute>();
+		if(paramChildren.containsKey(key))
+			pRoutes = paramChildren.get(key);
+		else
+			paramChildren.put(key, pRoutes);
+		child.setParent(this);
+		
+		pRoutes.add(child);
+	}
+
+	public List<ServiceRoute> getParamChild(String key) {
+		return paramChildren.get(key);
 	}
 
 	public String getParamName() {
@@ -71,4 +97,11 @@ public class ServiceRoute {
 		this.serviceClass = res;
 	}
 
+	public Map<String, ServiceRoute> getRouteChildren() {
+		return routeChildren;
+	}
+
+	public Map<String, List<ServiceRoute>> getParamChildren() {
+		return paramChildren;
+	}
 }
