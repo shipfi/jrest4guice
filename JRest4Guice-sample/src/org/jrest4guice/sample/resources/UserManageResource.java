@@ -18,7 +18,7 @@ import com.google.inject.Inject;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
  * 
  */
-@Path("/user")
+@Path({"/user"})
 public class UserManageResource {
 	@Inject
 	private UserManageService service;
@@ -36,7 +36,7 @@ public class UserManageResource {
 	}
 
 	@Get
-	@Path("roles")
+	@Path({"roles","{userName}/roles"})
 	public List<Role> listUserRolse(String userName) {
 		List<org.jrest4guice.sample.entity.Role> userRoles = this.service
 				.getUserRoles(userName);
