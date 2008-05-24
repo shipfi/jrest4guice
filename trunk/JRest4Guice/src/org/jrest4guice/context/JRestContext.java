@@ -1,9 +1,13 @@
 package org.jrest4guice.context;
 
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jrest4guice.Service;
 import org.jrest4guice.ServiceRoute;
+import org.jrest4guice.annotation.Path;
 import org.jrest4guice.core.guice.GuiceContext;
 
 /**
@@ -16,7 +20,6 @@ public class JRestContext {
 	private ServiceRoute root = new ServiceRoute();
 	private Pattern paramPattern = Pattern.compile("\\{([a-zA-Z_]+[0-9]*)\\}");
 	private static final String PARAM_KEY = "_$__PARAM_$__";
-	public static final String REST_CHILD_PATH_PARAM_KEY = "_$__CHILD_PATH_$__";
 
 	private JRestContext() {
 	}
@@ -34,32 +37,48 @@ public class JRestContext {
 	 * @param uri			资源的路径
 	 * @param resourceClass	资源对应的实现类
 	 */
-	public void addResource(String uri, Class resourceClass) {
+	public void addResource(String uri, Class resourceClass,boolean processMethod) {
+		ServiceRoute current = this.doAddResource(uri, resourceClass,root,null);
+		if(!processMethod)
+			return;
+		
+		Method[] methods = resourceClass.getMethods();
+		String[] paths;
+		for(Method method :methods){
+			if(method.isAnnotationPresent(Path.class)){
+				paths = ((Path)method.getAnnotation(Path.class)).value();
+				for(String path:paths)
+					this.doAddResource(path, resourceClass,current,method);
+			}
+		}
+	}
+
+	private ServiceRoute doAddResource(String uri, Class resourceClass,ServiceRoute parent,Method method) {
 		String[] routePath = uri.split("/");
-		ServiceRoute current = root;
+		ServiceRoute current = parent;
 		ServiceRoute child = null;
 		for (String s : routePath) {
 			s = s.trim();
 			if ("".equals(s))
 				continue;
-			child = current.getChild(s);
-			if (child == null) {
-				Matcher matcher = paramPattern.matcher(s);
-				if (matcher.matches()) {
-					if ((child = current.getChild(PARAM_KEY)) == null) {
-						child = new ServiceRoute(matcher.group(1));
-						current.addChild(PARAM_KEY, child);
-					}
-				} else {
+			child = current.getRouteChild(s);
+			Matcher matcher = paramPattern.matcher(s);
+			if (matcher.matches()) {
+				child = new ServiceRoute(matcher.group(1));
+				current.addParamChild(PARAM_KEY, child);
+			} else {
+				if(child == null)
 					child = new ServiceRoute();
-					current.addChild(s, child);
-				}
+				current.addRouteChild(s, child);
 			}
+			
 			current = child;
-			child = null;
 		}
-
+		
 		current.setServiceClass(resourceClass);
+		current.addRestMethod(method);
+		
+		return current;
 	}
 	
 	/**
@@ -68,37 +87,48 @@ public class JRestContext {
 	 * @param params
 	 * @return
 	 */
-	public Object lookupResource(String uri) {
+	public Service lookupResource(String uri) {
 		String[] routePath = uri.split("/");
 		ServiceRoute current = root;
 		ServiceRoute child = null;
+		List<ServiceRoute> paramChild = null;
+		int index = 0;
+		int len = routePath.length;
 		for (String path : routePath) {
+			index ++;
+			
 			path = path.trim();
 			if ("".equals(path))
 				continue;
-			child = current.getChild(PARAM_KEY);
-			if (child != null) {
-				HttpContextManager.getModelMap().put(child.getParamName(), path);
-			} else {
-				child = current.getChild(path);
-				if (child == null){
-					HttpContextManager.getModelMap().put(REST_CHILD_PATH_PARAM_KEY, path);
-					break;
-				}
+			
+			paramChild = current.getParamChild(PARAM_KEY);
+			if (paramChild != null){
+				for(ServiceRoute p : paramChild)
+					HttpContextManager.getModelMap().put(p.getParamName(), path);
 			}
+			
+			child = current.getRouteChild(path);
+			if (child == null && paramChild != null && index<len)
+				child = paramChild.get(0);
+
+			if (child == null){
+				continue;
+			}
+			
 			current = child;
 			child = null;
 		}
 
-		Object service = null;
 		Class resourceClaz = current.getServiceClass();
 		if (resourceClaz != null) {
 			try {
-				service = GuiceContext.getInstance().getBean(resourceClaz);
+				Object instance = GuiceContext.getInstance().getBean(resourceClaz);
+				return new Service(instance,current.getMethod());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		return service;
+		
+		return null;
 	}
 }

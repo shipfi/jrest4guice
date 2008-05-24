@@ -61,8 +61,9 @@ public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 						annotation = (Path) clazz
 								.getAnnotation(Path.class);
 						uris = annotation.value();
+						int index = 0;
 						for (String uri : uris)
-							jRestContext.addResource(uri, clazz);
+							jRestContext.addResource(uri, clazz,index++==0);
 					} else if (ResponseWriter.class.isAssignableFrom(clazz)) {
 						// 注册ResponseWriter
 						try {
