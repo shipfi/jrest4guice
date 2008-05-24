@@ -40,18 +40,17 @@
 		<welcome-file>main.html</welcome-file>
 	</welcome-file-list>
 
+	<!--
 	<security-constraint>
 		<display-name>
 			Tomcat server configuation security constraint
 		</display-name>
 		<web-resource-collection>
 			<web-resource-name>Protected Area</web-resource-name>
-			<!-- Define the context-relative URL(s) to be protected -->
 			<url-pattern>/login.jsp</url-pattern>
 			<url-pattern>/test.jsp</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<!-- Anyone with one of the listed roles may access this area -->
 			<role-name>guest</role-name>
 		</auth-constraint>
 	</security-constraint>
@@ -63,4 +62,5 @@
 			<form-error-page>/loginFail.html</form-error-page>
 		</form-login-config>
 	</login-config>
+	-->
 </web-app>
