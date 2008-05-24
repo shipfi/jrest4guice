@@ -105,7 +105,7 @@ public class SecurityLoginModule implements LoginModule {
 				classMap.put("content", Role.class);
 				JRestResult result = client
 						.doGet(
-								"http://localhost/JRest4Guice-sample/resource/userRole",
+								"http://localhost/JRest4Guice-sample/resource/user/roles",
 								urlParam, classMap);
 				if (result != null) {
 					Object[] _roles = (Object[])result.getContent();

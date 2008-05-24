@@ -6,7 +6,7 @@ import org.jrest4guice.annotation.ModelBean;
 import org.jrest4guice.annotation.Parameter;
 import org.jrest4guice.annotation.Post;
 import org.jrest4guice.annotation.Put;
-import org.jrest4guice.annotation.Restful;
+import org.jrest4guice.annotation.Path;
 import org.jrest4guice.sample.entity.Contact;
 import org.jrest4guice.sample.service.ContactService;
 
@@ -17,7 +17,7 @@ import com.google.inject.Inject;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
  *
  */
-@Restful(uri = { "/contact", "/contact/{contactId}" })
+@Path({ "/contact", "/contact/{contactId}" })
 public class ContactResource {
 	@Inject
 	private ContactService service;
