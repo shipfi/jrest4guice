@@ -17,7 +17,10 @@ public class JRest4GuiceSampContextListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		JRest4GuiceHelper.useJRest("org.jrest4guice.sample.resources").useJPA()
-				.useSecurity().init();
+		JRest4GuiceHelper
+		.useJRest("org.jrest4guice.sample.resources")
+		.useJPA()
+//		.useSecurity()
+		.init();
 	}
 }
