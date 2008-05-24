@@ -15,8 +15,9 @@ import org.jrest4guice.annotation.HttpMethodType;
 import org.jrest4guice.context.HttpContextManager;
 import org.jrest4guice.context.JRestContext;
 import org.jrest4guice.context.ModelMap;
-import org.jrest4guice.core.exception.UserNotLoginException;
 import org.jrest4guice.core.guice.GuiceContext;
+import org.jrest4guice.exception.RestMethodNotFoundException;
+import org.jrest4guice.writer.JsonResponseWriter;
 
 /**
  * 
@@ -62,6 +63,7 @@ public class RequestProcessor {
 		}
 
 		String uri = request.getRequestURI();
+		String uri_bak = uri;
 		String contextPath = request.getContextPath();
 		if (!contextPath.trim().equals("/"))
 			uri = uri.replace(contextPath, "");
@@ -84,11 +86,20 @@ public class RequestProcessor {
 				// 根据不同的请求方法调用REST对象的不同方法
 				String method = request.getMethod();
 				exec.execute(service, this.getHttpMethodType(method), charset);
+			} else {
+				this.writeRestServiceNotFoundMessage(uri_bak);
 			}
+		} catch (RestMethodNotFoundException e) {
+			this.writeRestServiceNotFoundMessage(uri_bak);
 		} finally {
 			// 清除上下文中的环境变量
 			HttpContextManager.clearContext();
 		}
+	}
+
+	private void writeRestServiceNotFoundMessage(String uri) {
+		GuiceContext.getInstance().getBean(JsonResponseWriter.class)
+				.writeResult(new Exception("没有提供指定的Rest服务 ("+uri+") ！"), charset);
 	}
 
 	private HttpMethodType getHttpMethodType(String method) {

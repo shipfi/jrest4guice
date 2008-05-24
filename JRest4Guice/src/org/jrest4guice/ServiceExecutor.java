@@ -8,8 +8,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,13 +23,16 @@ import org.jrest4guice.annotation.HttpMethodType;
 import org.jrest4guice.annotation.MimeType;
 import org.jrest4guice.annotation.ModelBean;
 import org.jrest4guice.annotation.Parameter;
+import org.jrest4guice.annotation.Path;
 import org.jrest4guice.annotation.Post;
 import org.jrest4guice.annotation.ProduceMime;
 import org.jrest4guice.annotation.Put;
 import org.jrest4guice.context.HttpContextManager;
+import org.jrest4guice.context.JRestContext;
 import org.jrest4guice.context.ModelMap;
-import org.jrest4guice.core.exception.UserNotLoginException;
+import org.jrest4guice.context.RestMethod;
 import org.jrest4guice.core.util.ParameterNameDiscoverer;
+import org.jrest4guice.exception.RestMethodNotFoundException;
 import org.jrest4guice.writer.ResponseWriter;
 import org.jrest4guice.writer.ResponseWriterRegister;
 
@@ -45,7 +50,7 @@ public class ServiceExecutor {
 	@Inject
 	private HttpServletResponse response;
 
-	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
+	private static Map<String, Map<HttpMethodType, Set<RestMethod>>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Set<RestMethod>>>(
 			0);
 
 	/**
@@ -73,13 +78,29 @@ public class ServiceExecutor {
 			this.initCurrentServiceMethod(service, name);
 		}
 
-		Method method = restServiceMethodMap.get(name).get(methodType);
-		if (method == null)
+		Set<RestMethod> methods = restServiceMethodMap.get(name).get(methodType);
+		if (methods == null)
 			return;
 
 		Exception exception = null;
 
 		ModelMap modelMap = HttpContextManager.getModelMap();
+		
+		String childPath = (String)modelMap.get(JRestContext.REST_CHILD_PATH_PARAM_KEY);
+		
+		Method method = null;
+		
+		if(childPath == null)
+			method = methods.iterator().next().getMethod();
+		else{
+			for(RestMethod rm:methods){
+				if(childPath.equals(rm.getPath())){
+					method = rm.getMethod();
+					break;
+				}
+			}
+		}
+		
 		if (method != null) {
 			try {
 				// 构造参数集合
@@ -106,6 +127,8 @@ public class ServiceExecutor {
 				}
 				writeResult(charset, throwable, method);
 			}
+		}else{
+			throw new RestMethodNotFoundException();
 		}
 	}
 
@@ -165,7 +188,7 @@ public class ServiceExecutor {
 	private void initCurrentServiceMethod(Object service, String name) {
 		Class<?> clazz = service.getClass();
 		Method[] methods = clazz.getMethods();
-		Map<HttpMethodType, Method> restMethods = new HashMap<HttpMethodType, Method>(
+		Map<HttpMethodType, Set<RestMethod>> restMethods = new HashMap<HttpMethodType, Set<RestMethod>>(
 				0);
 		String methodName;
 		HttpMethodType type = null;
@@ -198,8 +221,27 @@ public class ServiceExecutor {
 				}
 			}
 
-			if (type != null)
-				restMethods.put(type, m);
+			if (type != null){
+				String[] paths = null;
+				if(m.isAnnotationPresent(Path.class)){
+					paths = ((Path)m.getAnnotation(Path.class)).value();
+				}
+				
+				Set<RestMethod> methodSet = new HashSet<RestMethod>();
+				if(restMethods.containsKey(type)){
+					methodSet = restMethods.get(type);
+				}else{
+					restMethods.put(type, methodSet);
+				}
+
+				if(paths == null)
+					methodSet.add(new RestMethod(null,m));
+				else{
+					for(String p:paths){
+						methodSet.add(new RestMethod(p,m));
+					}
+				}
+			}
 		}
 
 		restServiceMethodMap.put(name, restMethods);

@@ -1,5 +1,6 @@
 package org.jrest4guice;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -14,11 +15,13 @@ public class ServiceRoute {
 
 	private ServiceRoute parent;
 
-	private Class serviceClass;
+	private Class<?> serviceClass;
 
 	private String paramName;
 
 	private Map<String, ServiceRoute> children = new HashMap<String, ServiceRoute>();
+	
+	private Map<String, Method> restMethod = new HashMap<String, Method>();
 
 	public ServiceRoute() {
 		this("");
@@ -37,6 +40,7 @@ public class ServiceRoute {
 		if (children.containsKey(key))
 			return;
 		children.put(key, child);
+		child.setParent(this);
 	}
 
 	public ServiceRoute getChild(String key) {
@@ -51,7 +55,7 @@ public class ServiceRoute {
 		return parent;
 	}
 
-	public Class getServiceClass() {
+	public Class<?> getServiceClass() {
 		return serviceClass;
 	}
 
@@ -63,7 +67,7 @@ public class ServiceRoute {
 		this.parent = parent;
 	}
 
-	public void setServiceClass(Class res) {
+	public void setServiceClass(Class<?> res) {
 		this.serviceClass = res;
 	}
 
