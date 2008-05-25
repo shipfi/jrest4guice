@@ -54,6 +54,9 @@ public class JRestContext {
 	}
 
 	private ServiceRoute doAddResource(String uri, Class resourceClass,ServiceRoute parent,Method method) {
+		if(uri.startsWith("/"))
+			parent = root;
+		
 		String[] routePath = uri.split("/");
 		ServiceRoute current = parent;
 		ServiceRoute child = null;
