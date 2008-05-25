@@ -1,7 +1,7 @@
 package org.jrest4guice.sample.resources;
 
-import org.jrest4guice.annotation.Get;
-import org.jrest4guice.annotation.Path;
+import org.jrest4guice.annotations.Get;
+import org.jrest4guice.annotations.Path;
 import org.jrest4guice.core.fileupload.UploadInfo;
 import org.jrest4guice.core.fileupload.UploadMonitor;
 

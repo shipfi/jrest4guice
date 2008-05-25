@@ -1,13 +1,13 @@
 package org.jrest4guice.sample.resources;
 
-import org.jrest4guice.annotation.Delete;
-import org.jrest4guice.annotation.Get;
-import org.jrest4guice.annotation.ModelBean;
-import org.jrest4guice.annotation.Parameter;
-import org.jrest4guice.annotation.Post;
-import org.jrest4guice.annotation.ProduceMime;
-import org.jrest4guice.annotation.Put;
-import org.jrest4guice.annotation.Path;
+import org.jrest4guice.annotations.Delete;
+import org.jrest4guice.annotations.Get;
+import org.jrest4guice.annotations.ModelBean;
+import org.jrest4guice.annotations.Parameter;
+import org.jrest4guice.annotations.Path;
+import org.jrest4guice.annotations.Post;
+import org.jrest4guice.annotations.ProduceMime;
+import org.jrest4guice.annotations.Put;
 import org.jrest4guice.core.client.Page;
 import org.jrest4guice.sample.entity.Contact;
 import org.jrest4guice.sample.service.ContactService;

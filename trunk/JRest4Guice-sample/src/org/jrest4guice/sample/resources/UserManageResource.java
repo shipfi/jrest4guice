@@ -3,10 +3,10 @@ package org.jrest4guice.sample.resources;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jrest4guice.annotation.Get;
-import org.jrest4guice.annotation.ModelBean;
-import org.jrest4guice.annotation.Path;
-import org.jrest4guice.annotation.Post;
+import org.jrest4guice.annotations.Get;
+import org.jrest4guice.annotations.ModelBean;
+import org.jrest4guice.annotations.Path;
+import org.jrest4guice.annotations.Post;
 import org.jrest4guice.core.security.Role;
 import org.jrest4guice.sample.entity.User;
 import org.jrest4guice.sample.service.UserManageService;
