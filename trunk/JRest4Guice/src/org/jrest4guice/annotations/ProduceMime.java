@@ -1,4 +1,4 @@
-package org.jrest4guice.annotation;
+package org.jrest4guice.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,8 +10,11 @@ import java.lang.annotation.Target;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
  *
  */
+@Target( { ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
-public @interface Parameter {
-	String value();
+public @interface ProduceMime {
+	/**
+	 * MIME 类型集合. E.g. "application/json，application/xml"
+	 */
+	String[] value() default MimeType.MIME_OF_JSON;
 }

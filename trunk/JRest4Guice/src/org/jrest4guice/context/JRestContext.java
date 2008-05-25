@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 import org.jrest4guice.Service;
 import org.jrest4guice.ServiceRoute;
-import org.jrest4guice.annotation.Path;
+import org.jrest4guice.annotations.Path;
 import org.jrest4guice.core.guice.GuiceContext;
 
 /**

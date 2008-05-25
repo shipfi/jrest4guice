@@ -1,4 +1,4 @@
-package org.jrest4guice.annotation;
+package org.jrest4guice.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Post {
+public @interface Put {
 	String errorMsg() default "";
 	String successMsg() default "";
 }

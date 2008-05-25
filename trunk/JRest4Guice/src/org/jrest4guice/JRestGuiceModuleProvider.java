@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jrest4guice.annotation.Path;
+import org.jrest4guice.annotations.Path;
 import org.jrest4guice.context.HttpRequestProvider;
 import org.jrest4guice.context.HttpResponseProvider;
 import org.jrest4guice.context.JRestContext;

@@ -1,4 +1,4 @@
-package org.jrest4guice.annotation;
+package org.jrest4guice.annotations;
 
 /**
  * 
