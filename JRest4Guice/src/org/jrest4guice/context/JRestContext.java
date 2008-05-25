@@ -54,6 +54,7 @@ public class JRestContext {
 	}
 
 	private ServiceRoute doAddResource(String uri, Class resourceClass,ServiceRoute parent,Method method) {
+		//如果URI以"/"开头，则将当前的父结点指向root
 		if(uri.startsWith("/"))
 			parent = root;
 		
@@ -66,10 +67,10 @@ public class JRestContext {
 				continue;
 			child = current.getRouteChild(s);
 			Matcher matcher = paramPattern.matcher(s);
-			if (matcher.matches()) {
+			if (matcher.matches()) {//处理参数类型的路由节点
 				child = new ServiceRoute(matcher.group(1));
 				current.addParamChild(PARAM_KEY, child);
-			} else {
+			} else {//处理变通类型的路由节点（只有最末端的节点才会绑定到服务）
 				if(child == null)
 					child = new ServiceRoute();
 				current.addRouteChild(s, child);
@@ -77,8 +78,9 @@ public class JRestContext {
 			
 			current = child;
 		}
-		
+		//绑定服务到当前的路由节点
 		current.setServiceClass(resourceClass);
+		//设置当前服务所对应的Rest方法（只在@Path被声明在方法上时生效，实现subpath的功能）
 		current.addRestMethod(method);
 		
 		return current;
