@@ -9,6 +9,8 @@ INSERT INTO UserRole_rl_tb (user_id,role_id) VALUES ('602881e417bb78010117bba509
 INSERT INTO UserRole_rl_tb (user_id,role_id) VALUES ('602881e417bb78010117bba509130001','702881e417bb78010117bba509130002')
 INSERT INTO UserRole_rl_tb (user_id,role_id) VALUES ('602881e417bb78010117bba509130002','702881e417bb78010117bba509130003')
 
+INSERT INTO Contact_tb (id, name,homePhone, mobilePhone, eMail, address, changeDate) VALUES ('602881e417bb78010117bba509130001', '黄俊', '021-877878788', '12902056707','we@cnoss.org','广州市' ,now())
+INSERT INTO Contact_tb (id, name,homePhone, mobilePhone, eMail, address, changeDate) VALUES ('602881e417bb78010117bba509130002', '唐映', '021-877878788', '12902056708','we@cnoss.org','南宁' ,now())
 INSERT INTO Contact_tb (id, name,homePhone, mobilePhone, eMail, address, changeDate) VALUES ('502881e417bb78010117bba509130003', '王二', '021-877878788', '15902056708','we@cnoss.org','上海' ,now())
 INSERT INTO Contact_tb (id, name,homePhone, mobilePhone, eMail, address, changeDate) VALUES ('502881e417bb78010117bba509130004', '麻子', '0745-877878788', '15902056708','mz@cnoss.org','怀化' ,now())
 INSERT INTO Contact_tb (id, name,homePhone, mobilePhone, eMail, address, changeDate) VALUES ('502881e417bb78010117bba509130005', 'Karry','0746-877878788', '15902056709','Jack@cnoss.org','天津' ,now())
