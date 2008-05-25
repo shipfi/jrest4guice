@@ -1,6 +1,6 @@
 package org.jrest4guice.writer;
 
-import org.jrest4guice.annotation.MimeType;
+import org.jrest4guice.annotations.MimeType;
 import org.jrest4guice.client.JRestResult;
 
 /**

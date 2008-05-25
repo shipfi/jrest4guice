@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jrest4guice.annotation.HttpMethodType;
+import org.jrest4guice.annotations.HttpMethodType;
 import org.jrest4guice.context.HttpContextManager;
 import org.jrest4guice.context.JRestContext;
 import org.jrest4guice.context.ModelMap;
