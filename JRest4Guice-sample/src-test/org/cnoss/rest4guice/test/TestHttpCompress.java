@@ -12,8 +12,8 @@ public class TestHttpCompress {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		doTest("http://localhost/JRest4Guice-sample/resource/security/cnoss/roles");
-//		doTest("http://localhost/JRest4Guice-sample/main.html");
+//		doTest("http://localhost/JRest4Guice-sample/resource/security/cnoss/roles");
+		doTest("http://localhost/JRest4Guice-sample/main.html");
 //		doTest("http://localhost/JRest4Guice-sample/main.js");
 //		doTest("http://localhost/JRest4Guice-sample/css/default.css");
 	}
