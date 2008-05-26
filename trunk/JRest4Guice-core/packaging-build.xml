@@ -10,7 +10,7 @@
 			<zipfileset dir="bin" includes="**/security/**" excludes="**/security/SecurityGuiceModuleProvider*,**/security/SecurityInterceptor.class"/>
 		</jar>
 		<jar destfile="dist/JRest4Guice-core-client.jar">
-			<zipfileset dir="bin" includes="**/client/**"/>
+			<zipfileset dir="bin" includes="**/client/**,**/json/**"/>
 		</jar>
 	</target>
 </project>
