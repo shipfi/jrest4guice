@@ -69,7 +69,7 @@ public class SecurityLoginModule implements LoginModule {
 			urlParam.put("userName", username);
 			urlParam.put("userPassword", new String(password));
 			JRestResult result = client.doGet(
-					"http://localhost/JRest4Guice-sample/resource/user",
+					"http://localhost/JRest4Guice-sample/resource/security/auth",
 					urlParam, null);
 			if (result != null) {
 				Boolean value = Boolean.valueOf(result.getContent().toString());
@@ -98,22 +98,19 @@ public class SecurityLoginModule implements LoginModule {
 			// ==================================================================
 			// 查询当前用户下的所有角色
 			// ==================================================================
-			Map<String, String> urlParam = new HashMap<String, String>();
 			try {
-				urlParam.put("userName", username);
 				Map classMap = new HashMap();
 				classMap.put("content", Role.class);
-				JRestResult result = client
-						.doGet(
-								"http://localhost/JRest4Guice-sample/resource/user/roles",
-								urlParam, classMap);
+				JRestResult result = client.doGet(
+						"http://localhost/JRest4Guice-sample/resource/security/"
+								+ this.username + "/roles", null, classMap);
 				if (result != null) {
-					Object[] _roles = (Object[])result.getContent();
+					Object[] _roles = (Object[]) result.getContent();
 					this.roles = new ArrayList<Role>();
 					for (Object role : _roles) {
 						this.roles.add((Role) role);
 					}
-					
+
 					for (Role role : this.roles) {
 						// 注册角色
 						if (!subject.getPrincipals().contains(role)) {

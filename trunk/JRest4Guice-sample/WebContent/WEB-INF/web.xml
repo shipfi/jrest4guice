@@ -41,6 +41,7 @@
 	</welcome-file-list>
 
 	<!--
+	-->
 	<security-constraint>
 		<display-name>
 			Tomcat server configuation security constraint
@@ -62,5 +63,4 @@
 			<form-error-page>/loginFail.html</form-error-page>
 		</form-login-config>
 	</login-config>
-	-->
 </web-app>
