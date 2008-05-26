@@ -24,8 +24,7 @@ public class UserManageResource {
 	private UserManageService service;
 
 	@Post
-	public String createContact(@ModelBean
-	User user) {
+	public String createContact(@ModelBean User user) {
 		return null;
 	}
 
@@ -33,6 +32,12 @@ public class UserManageResource {
 	public boolean authUser(String userName, String userPassword) {
 		boolean result = this.service.authUser(userName, userPassword);
 		return result;
+	}
+
+	@Get
+	@Path("{userName}")
+	public User findUser(String userName) {
+		return this.service.findUser(userName);
 	}
 
 	@Get

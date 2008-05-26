@@ -18,6 +18,8 @@ import com.google.inject.ImplementedBy;
 public interface UserManageService {
 	public boolean authUser(String name,String password);
 	
+	public User findUser(String name);
+
 	public List<User> getAllUsers();
 
 	public List<Role> getUserRoles(String name);

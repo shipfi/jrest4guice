@@ -48,4 +48,9 @@ public class UserManageServiceBean implements UserManageService {
 		return this.userEntityManager.listByNamedQuery("list");
 	}
 
+	@Override
+	public User findUser(String name) {
+		return this.userEntityManager.loadByNamedQuery("byName", name);
+	}
+
 }

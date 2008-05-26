@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hsqldb.lib.MD5;
 import org.jrest4guice.core.jpa.EntityAble;
+import org.jrest4guice.core.json.annotations.JsonExclude;
 
 /**
  * 
@@ -29,6 +30,7 @@ import org.jrest4guice.core.jpa.EntityAble;
 @NamedQueries( {
 		@NamedQuery(name = "User.list[find]", query = "select e from User e order by e.name"),
 		@NamedQuery(name = "User.list[count]", query = "select count(*) from User"),
+		@NamedQuery(name = "User.byName[load]", query = "select e from User e where e.name=?"),
 		@NamedQuery(name = "User.byNameAndPassword[load]", query = "select e from User e where e.name=? and e.password=?") })
 public class User implements EntityAble<String>, Serializable {
 
@@ -47,10 +49,11 @@ public class User implements EntityAble<String>, Serializable {
 	private String name;
 
 	@Column(name = "password", nullable = false, length = 32)
+	@JsonExclude
 	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "UserRole_rl_tb", joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "UserRole_rl_tb", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles;
 
 	public String getId() {

@@ -25,17 +25,12 @@ public class ContactResource {
 	private ContactService service;
 
 	@Post
-	public String createContact(@ModelBean
-	Contact contact) {
+	public String createContact(@ModelBean Contact contact) {
 		return this.service.createContact(contact);
 	}
 
 	@Put
-	public void putContact(@Parameter("contactId")
-	String contactId, @ModelBean
-	Contact contact) {
-		if (contactId == null)
-			throw new RuntimeException("没有指定对应的联系人标识符");
+	public void putContact(@ModelBean Contact contact) {
 		this.service.updateContact(contact);
 	}
 
@@ -47,14 +42,12 @@ public class ContactResource {
 	}
 
 	@Get
-	public Contact getContact(@Parameter("contactId")
-	String contactId) {
+	public Contact getContact(@Parameter("contactId") String contactId) {
 		return this.service.findContactById(contactId);
 	}
 
 	@Delete
-	public void deleteContact(@Parameter("contactId")
-	String contactId) {
+	public void deleteContact(@Parameter("contactId") String contactId) {
 		this.service.deleteContact(contactId);
 	}
 }
