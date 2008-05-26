@@ -132,8 +132,9 @@ public class JRestContext {
 				child = this.lookupNextRoute(null, paramChild);
 			}
 
+			ServiceRoute parent = current.getParent();
 			if (child == null
-					&& this.hasRouteNode(path, current.getParent().getRouteChildren())) {
+					&& (parent!=null && this.hasRouteNode(path, parent.getRouteChildren()))) {
 				continue;
 			}
 
