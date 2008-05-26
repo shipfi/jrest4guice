@@ -2,7 +2,9 @@ package org.jrest4guice.core.json;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -14,6 +16,8 @@ import net.sf.json.JsonConfig;
 import org.jrest4guice.core.json.annotations.JsonExclude;
 
 public class JsonConfigFactory {
+	private static Map<String, List<String>> excudeMap = new HashMap<String, List<String>>(0);
+	
 	public static JsonConfig createJsonConfig(Object bean) {
 		JsonConfig jsConfig = new JsonConfig();
 		if(bean == null)
@@ -24,15 +28,22 @@ public class JsonConfigFactory {
 			} catch (Exception e) {
 			}
 		}
+		
 		List<String> excludes = new ArrayList<String>();
-		Class<?> clazz = bean.getClass();
-		Field[] fields = clazz.getDeclaredFields();
-		for (Field f : fields) {
-			if (f.isAnnotationPresent(JsonExclude.class) || isAnnotationPresent4ORMRelation(f)) {
-				excludes.add(f.getName());
+		String name = null;
+		if(excudeMap.containsKey(name)){
+			excludes = excudeMap.get(name);
+		}else{
+			excludes = new ArrayList<String>();
+			Class<?> clazz = bean.getClass();
+			Field[] fields = clazz.getDeclaredFields();
+			for (Field f : fields) {
+				if (f.isAnnotationPresent(JsonExclude.class) || isAnnotationPresent4ORMRelation(f)) {
+					excludes.add(f.getName());
+				}
 			}
+			excudeMap.put(name, excludes);
 		}
-
 		jsConfig.setExcludes(excludes.toArray(new String[] {}));
 		return jsConfig;
 	}
