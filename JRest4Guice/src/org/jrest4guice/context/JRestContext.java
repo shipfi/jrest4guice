@@ -2,6 +2,7 @@ package org.jrest4guice.context;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -113,13 +114,18 @@ public class JRestContext {
 			}
 			
 			child = current.getRouteChild(path);
-			if (child == null && paramChild != null && index<len)
-				child = paramChild.get(0);
+			if (child == null && paramChild != null && index<len){
+				child = this.lookupNextRoute(routePath[index],paramChild);
+			}
 
+			if (child == null && paramChild != null){
+				child = this.lookupNextRoute(null,paramChild);
+			}
+			
 			if (child == null){
 				continue;
 			}
-			
+
 			current = child;
 			child = null;
 		}
@@ -135,5 +141,27 @@ public class JRestContext {
 		}
 		
 		return null;
+	}
+	
+	private ServiceRoute lookupNextRoute(String nodeName,List<ServiceRoute> paramChild){
+		ServiceRoute route = null;
+		Map<String, ServiceRoute> routeChildren;
+		top:
+		for(ServiceRoute r :paramChild){
+			routeChildren = r.getRouteChildren();
+			if(routeChildren.size()>0){
+				routeChildren.keySet().iterator();
+				for(String key :routeChildren.keySet()){
+					if(key.equals(nodeName)){
+						route = routeChildren.get(key);
+						break top;
+					}
+				}
+			}else{
+				if(route == null)
+					route = r;
+			}
+		}
+		return route;
 	}
 }
