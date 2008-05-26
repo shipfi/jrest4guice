@@ -20,7 +20,7 @@ public class JRest4GuiceSampContextListener implements ServletContextListener {
 		JRest4GuiceHelper
 		.useJRest("org.jrest4guice.sample.resources")
 		.useJPA()
-//		.useSecurity()
+		.useSecurity()
 		.init();
 	}
 }

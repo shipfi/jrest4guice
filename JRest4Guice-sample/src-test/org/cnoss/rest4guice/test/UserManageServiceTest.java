@@ -4,6 +4,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.jrest4guice.core.client.Page;
 import org.jrest4guice.core.guice.GuiceContext;
 import org.jrest4guice.sample.entity.Role;
 import org.jrest4guice.sample.entity.User;
@@ -47,7 +48,8 @@ public class UserManageServiceTest {
 	public void testGetAllUsers() {
 		System.out.println("\nUsers");
 		System.out.println("================================");
-		List<User> users = service.getAllUsers();
+		Page<User> page = service.getAllUsers(1, 100);
+		List<User> users = page.getResult();
 		for (User user : users)
 			System.out.println(user.getName());
 	}

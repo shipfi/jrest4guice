@@ -2,9 +2,11 @@ package org.jrest4guice.sample.service.impl;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 
-import org.hsqldb.lib.MD5;
+import org.jrest4guice.core.client.Page;
+import org.jrest4guice.core.client.Pagination;
 import org.jrest4guice.core.jpa.BaseEntityManager;
 import org.jrest4guice.core.transaction.annotations.Transactional;
 import org.jrest4guice.core.transaction.annotations.TransactionalType;
@@ -18,7 +20,7 @@ import com.google.inject.Inject;
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
- *
+ * 
  */
 @SuppressWarnings( { "unchecked", "unused" })
 public class UserManageServiceBean implements UserManageService {
@@ -27,30 +29,47 @@ public class UserManageServiceBean implements UserManageService {
 
 	@Inject
 	private void init(EntityManager em) {
-		this.userEntityManager = new BaseEntityManager<String, User>(User.class, em);
-		this.roleEntityManager = new BaseEntityManager<String, Role>(Role.class, em);
+		this.userEntityManager = new BaseEntityManager<String, User>(
+				User.class, em);
+		this.roleEntityManager = new BaseEntityManager<String, Role>(
+				Role.class, em);
 	}
 
-	@Transactional(type=TransactionalType.READOLNY)
+	@Override
+	@Transactional(type = TransactionalType.READOLNY)
 	public boolean authUser(String name, String password) {
-		User user = this.userEntityManager.loadByNamedQuery("byNameAndPassword", name,MD5Util.toMD5(password));
-		return user!=null;
+		User user = this.userEntityManager.loadByNamedQuery(
+				"byNameAndPassword", name, MD5Util.toMD5(password));
+		return user != null;
 	}
 
-	@Transactional(type=TransactionalType.READOLNY)
+	@Override
+	@Transactional(type = TransactionalType.READOLNY)
 	public List<Role> getUserRoles(String name) {
 		return this.roleEntityManager.listByNamedQuery("listByUserName", name);
 	}
 
 	@Override
-	@Transactional(type=TransactionalType.READOLNY)
-	public List<User> getAllUsers() {
-		return this.userEntityManager.listByNamedQuery("list");
+	@Transactional(type = TransactionalType.READOLNY)
+	@RolesAllowed("admin")
+	public User findUser(String name) {
+		return this.userEntityManager.loadByNamedQuery("byName", name);
 	}
 
 	@Override
-	public User findUser(String name) {
-		return this.userEntityManager.loadByNamedQuery("byName", name);
+	@Transactional(type = TransactionalType.READOLNY)
+	@RolesAllowed("admin")
+	public Page<Role> getAllRoles(int pageIndex, int pageSize) {
+		return this.roleEntityManager.pageByNamedQuery("list", new Pagination(
+				pageIndex, pageSize));
+	}
+
+	@Override
+	@Transactional(type = TransactionalType.READOLNY)
+	@RolesAllowed("admin")
+	public Page<User> getAllUsers(int pageIndex, int pageSize) {
+		return this.userEntityManager.pageByNamedQuery("list", new Pagination(
+				pageIndex, pageSize));
 	}
 
 }

@@ -1,15 +1,13 @@
 package org.jrest4guice.sample.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.jrest4guice.annotations.Get;
 import org.jrest4guice.annotations.ModelBean;
 import org.jrest4guice.annotations.Path;
 import org.jrest4guice.annotations.Post;
-import org.jrest4guice.core.security.Role;
+import org.jrest4guice.core.client.Page;
+import org.jrest4guice.sample.entity.Role;
 import org.jrest4guice.sample.entity.User;
 import org.jrest4guice.sample.service.UserManageService;
 
@@ -20,23 +18,18 @@ import com.google.inject.Inject;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
  * 
  */
-@Path({"/user"})
+@Path( { "/user" })
 public class UserManageResource {
 	@Inject
 	private UserManageService service;
-	
+
 	@Inject
 	HttpServletRequest request;
 
 	@Post
-	public String createContact(@ModelBean User user) {
+	public String createContact(@ModelBean
+	User user) {
 		return null;
-	}
-
-	@Get
-	public boolean authUser(String userName, String userPassword) {
-		boolean result = this.service.authUser(userName, userPassword);
-		return result;
 	}
 
 	@Get
@@ -46,18 +39,8 @@ public class UserManageResource {
 	}
 
 	@Get
-	@Path({"roles","{userName}/roles"})
-	public List<Role> listUserRolse(String userName) {
-		List<org.jrest4guice.sample.entity.Role> userRoles = this.service
-				.getUserRoles(userName);
-		List<Role> roles = new ArrayList<Role>(userRoles.size());
-		Role role;
-		for (org.jrest4guice.sample.entity.Role _role : userRoles) {
-			role = new Role();
-			role.setId(_role.getId());
-			role.setName(_role.getName());
-			roles.add(role);
-		}
-		return roles;
+	@Path("{userName}/roles")
+	public Page<Role> listCurrentUserRolse(int pageIndex, int pageSize) {
+		return this.service.getAllRoles(pageIndex, pageSize);
 	}
 }
