@@ -69,7 +69,7 @@ public class SecurityLoginModule implements LoginModule {
 			urlParam.put("userName", username);
 			urlParam.put("userPassword", new String(password));
 			JRestResult result = client.doGet(
-					"http://localhost/JRest4Guice-sample/resource/security/auth",
+					"http://localhost/resource/security/auth",
 					urlParam, null);
 			if (result != null) {
 				Boolean value = Boolean.valueOf(result.getContent().toString());
@@ -102,7 +102,7 @@ public class SecurityLoginModule implements LoginModule {
 				Map classMap = new HashMap();
 				classMap.put("content", Role.class);
 				JRestResult result = client.doGet(
-						"http://localhost/JRest4Guice-sample/resource/security/"
+						"http://localhost/resource/security/"
 								+ this.username + "/roles", null, classMap);
 				if (result != null) {
 					Object[] _roles = (Object[]) result.getContent();
