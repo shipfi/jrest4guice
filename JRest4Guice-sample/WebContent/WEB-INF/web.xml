@@ -5,6 +5,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_JRest" version="2.5">
 	<display-name>JRest</display-name>
+
 	<listener>
 		<listener-class>
 			org.jrest4guice.sample.listener.JRest4GuiceSampContextListener
