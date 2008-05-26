@@ -1,10 +1,10 @@
 package org.jrest4guice.client;
 
 import net.sf.json.JSONObject;
+import net.sf.json.xml.XMLSerializer;
 
 import org.jrest4guice.core.client.Page;
 import org.jrest4guice.core.json.JsonConfigFactory;
-
 
 /**
  * 
@@ -35,9 +35,9 @@ public class JRestResult {
 	 */
 	private Object content;
 
-	public JRestResult(){
+	public JRestResult() {
 	}
-	
+
 	public JRestResult(String errorType, String errorMessage) {
 		super();
 		this.errorType = errorType;
@@ -104,12 +104,13 @@ public class JRestResult {
 	}
 
 	public String toXML() {
-		// TODO 实现对象的XML串行化
-		return JSONObject.fromObject(this).toString();
+		return new XMLSerializer().write(JSONObject.fromObject(this,
+				JsonConfigFactory.createJsonConfig(this.content)));
 	}
 
 	public String toJson() {
-		return JSONObject.fromObject(this,JsonConfigFactory.createJsonConfig(this.content)).toString();
+		return JSONObject.fromObject(this,
+				JsonConfigFactory.createJsonConfig(this.content)).toString();
 	}
 
 	public static JRestResult createSuccessHttpResult(int resultCount,
