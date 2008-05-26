@@ -3,6 +3,8 @@ package org.jrest4guice.sample.resources;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.jrest4guice.annotations.Get;
 import org.jrest4guice.annotations.ModelBean;
 import org.jrest4guice.annotations.Path;
@@ -22,6 +24,9 @@ import com.google.inject.Inject;
 public class UserManageResource {
 	@Inject
 	private UserManageService service;
+	
+	@Inject
+	HttpServletRequest request;
 
 	@Post
 	public String createContact(@ModelBean User user) {
