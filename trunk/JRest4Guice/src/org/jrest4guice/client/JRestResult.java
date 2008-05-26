@@ -3,6 +3,7 @@ package org.jrest4guice.client;
 import net.sf.json.JSONObject;
 
 import org.jrest4guice.core.client.Page;
+import org.jrest4guice.core.json.JsonConfigFactory;
 
 
 /**
@@ -108,7 +109,7 @@ public class JRestResult {
 	}
 
 	public String toJson() {
-		return JSONObject.fromObject(this).toString();
+		return JSONObject.fromObject(this,JsonConfigFactory.createJsonConfig(this.content)).toString();
 	}
 
 	public static JRestResult createSuccessHttpResult(int resultCount,
