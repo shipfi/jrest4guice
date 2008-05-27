@@ -14,6 +14,7 @@ window.onload = function(){
 	init();
 	IFrameUtil.subscribeEvent("onLogin",window,function(param){
 		onTimeout();
+		$.unblockUI();
 	});
 	if(jQuery.browser.mozilla){
 		$("#logoDiv").css("top","12px");
@@ -259,7 +260,7 @@ function deleteContact(id,nme){
 }
 
 function doLogin(){
-	$("#securityDiv").show();
+	$.blockUI({message: $('#securityDiv'), css: { width: '280px',height:'226px'}}); 
 	$("#securityIframe").attr("src","login.jsp");
 }
 

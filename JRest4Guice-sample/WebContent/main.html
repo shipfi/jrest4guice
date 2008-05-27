@@ -17,6 +17,7 @@
 <!-- JQuery 核心 -->
 <script type="text/javascript" src="javascript/lib/jquery-1.2.5.js"></script>
 <script type="text/javascript" src="javascript/lib/jquery-ui-1.5.js"></script>
+<script type="text/javascript" src="javascript/lib/jquery.blockUI.js"></script>
 
 <!-- Spry 核心 -->
 <script language="JavaScript" type="text/javascript" src="javascript/spry/SpryData.js"></script>
@@ -50,7 +51,7 @@
 </style>
 </head>
 <body>
-	<img src="images/mouse.png" style="position: absolute;top:-30px;left: 8px;width: 94px;height: 94px;">
+	<img src="images/mouse.png" class="png" style="position: absolute;top:-30px;left: 8px;width: 94px;height: 94px;">
 	<div id="logoDiv" style="position: absolute;left:120px;top:28px;"><h3><span style="font-size:24px;color: green;font-weight: bold;">J</span>Rest4Guice <span style="font-size: small;color: gray;">demo</span></h3></div>
 	<!-- 操作栏 -->
 	<div id="controlBar" style="margin: 62px 0 8px 12px;height: 68px;width:60%;">
@@ -176,8 +177,9 @@
 			</ul>
 		</div>
 	</div>
-	<div id="securityDiv" style="display: none;clear: both;height: 120px;width: 228px;">
-		<iframe id="securityIframe" frameborder="0" width="228" height="120" scrolling="no"></iframe>
+	<div id="securityDiv" style="display: none;">
+		<div style="width: 100%;height: 26px;background-image: url('images/head.jpg');"><img src="images/close.gif" style="cursor: pointer;margin-top: 4px;" onclick="$.unblockUI();"></div>
+		<iframe id="securityIframe" frameborder="0" width="280" height="200" scrolling="no"></iframe>
 	</div>
 	
 	<div style="position: absolute;top:4px;right: 8px;border-bottom: solid 1px silver;">
@@ -190,7 +192,7 @@
 		</div>
 	</div>
 	<div id="welcomeDiv" style="position: absolute;top:46px;right: 8px;text-align: right;display: none;color: green;">
-		<img src="images/people.png" style="margin-bottom: -3px;width: 24px;height: 24px;margin-right: 4px;">欢迎您回来，<a id="userInfoSpan" href="#" onclick="alert('查看个人资料！');void(0);return false;"></a>，<img src="images/warning.gif" style="margin-bottom: -3px;">你有&nbsp;<a id="todoSpan" href="#" onclick="alert('查看待办事项！');void(0);return false;">[4]</a>&nbsp;个待办事项要处理。
+		<img class="png" src="images/people.png" style="margin-bottom: -3px;width: 24px;height: 24px;margin-right: 4px;">欢迎您回来，<a id="userInfoSpan" href="#" onclick="alert('查看个人资料！');void(0);return false;"></a>，<img src="images/warning.gif" style="margin-bottom: -3px;">你有&nbsp;<a id="todoSpan" href="#" onclick="alert('查看待办事项！');void(0);return false;">[4]</a>&nbsp;个待办事项要处理。
 	</div>
 	<div class="recyle" style="position: absolute;bottom: 32px;right: 8px;width: 150px;text-align: center;height: 72px;">
 		<img class="png" id="recyle" src="images/recycle_empty.png" style="width: 58px;height: 58px;margin-top: 8px;">
