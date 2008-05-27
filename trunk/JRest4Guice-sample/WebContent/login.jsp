@@ -15,11 +15,6 @@
 			}
 		%>
 		
-		<script type="text/javascript">
-			window.onload = function(){
-				document.getElementById("j_username").select();
-			}
-		</script>
 	</head>
 	<body style="background-color:#EAF6FD;">
 		<form name="loginform" id="loginform" method="post" action="j_security_check">

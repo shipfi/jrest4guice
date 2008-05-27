@@ -14,7 +14,6 @@ window.onload = function(){
 	init();
 	IFrameUtil.subscribeEvent("onLogin",window,function(param){
 		onTimeout();
-		$.unblockUI();
 	});
 	if(jQuery.browser.mozilla){
 		$("#logoDiv").css("top","12px");
@@ -40,8 +39,9 @@ function onTimeout(){
  * 页面权限过滤
  */
 function doSecurityCheck(){
-	$("#securityDiv").hide();
 	$("#securityIframe").attr("src","");
+	$.unblockUI();
+	$("#securityDiv").hide();
 	$("#logoutButton").show();
 	$("#loginButton").hide();
 	$("#welcomeDiv").show();
