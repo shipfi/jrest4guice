@@ -24,6 +24,8 @@
 <!-- Spry 验证 -->
 <script type="text/javascript" src="javascript/spry/widgets/textfieldvalidation/SpryValidationTextField.js"></script>
 <script type="text/javascript" src="javascript/spry/widgets/textareavalidation/SpryValidationTextarea.js"></script>
+
+<script language="JavaScript" type="text/javascript" src="javascript/lib/user-ext.js"></script>
 <!-- Spry 扩展 -->
 <script language="JavaScript" type="text/javascript" src="javascript/spry/SpryExt.js"></script>
 <!-- 应用自己的JS -->
@@ -36,19 +38,22 @@
 	.loadingBar {
 		background-color: red;
 		color: yellow;
-		font-size: 13px;
-		padding: 2px;
+		font-size: 10px;
+		padding: 1px;
 		border: solid 1px olive;
-		top: 39px;
-		right: 8px;
+		top: 33px;
+		left: 284px;
 		clear: both;
+		width:70px;
 		position: absolute;
 	}
 </style>
 </head>
 <body>
+	<img src="images/mouse.png" style="position: absolute;top:-30px;left: 8px;width: 94px;height: 94px;">
+	<div id="logoDiv" style="position: absolute;left:120px;top:28px;"><h3><span style="font-size:24px;color: green;font-weight: bold;">J</span>Rest4Guice <span style="font-size: small;color: gray;">demo</span></h3></div>
 	<!-- 操作栏 -->
-	<div id="controlBar" style="margin: 28px 0 8px 12px;height: 68px;width:60%;">
+	<div id="controlBar" style="margin: 62px 0 8px 12px;height: 68px;width:60%;">
 		<div style="float: left;width: 67%;height: 68px;">
 			<div style="width: 100%;">
 				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="#"  title="为你添加新的联系人" onclick="createContact();void(0);return false;">增加</a>新的联系人，或者<a href="#"  title="获取最新的联系人列表" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</a>整个联系人列表。
@@ -171,21 +176,24 @@
 			</ul>
 		</div>
 	</div>
+	<div id="securityDiv" style="display: none;clear: both;height: 120px;width: 228px;">
+		<iframe id="securityIframe" frameborder="0" width="228" height="120" scrolling="no"></iframe>
+	</div>
 	
 	<div style="position: absolute;top:4px;right: 8px;border-bottom: solid 1px silver;">
 		<div style="margin-bottom: 4px;">
 		<a id="logoutButton" href="logout.jsp" style="display:none;">注销</a>
-		<a id="registButton" href="#" onclick="alert('很抱歉，此功能暂未实现！');void(0);return false;">注册</a>
-		<!--
-		<a id="loginButton" href="#" onclick="alert('很抱歉，此功能暂未实现！');void(0);return false;" style="margin-right: 60px;">登录</a>
-		-->
-		<a id="loginButton" href="login.jsp" style="margin-right: 60px;">登录</a>
-		<input type="text" style="width: 200px;color: silver;" value="搜索－此功能暂未实现！">
+		<a id="registButton" href="#" onclick="alert('很抱歉，此功能暂未实现！');void(0);return false;">免费注册</a>
+		<a id="loginButton" href="#" onclick="doLogin();void(0);return false;">登录</a>
+		<input type="text" style="width: 200px;color: silver;margin-left: 60px;" value="搜索－此功能暂未实现！">
 		<br/>
 		</div>
 	</div>
-	<div class="recyle" style="position: absolute;bottom: 32px;right: 8px;width: 150px;text-align: center;height: 82px;">
-		<img class="png" id="recyle" src="images/recycle_empty.png" style="width: 72px;height: 72px;margin-top: 8px;">
+	<div id="welcomeDiv" style="position: absolute;top:46px;right: 8px;text-align: right;display: none;color: green;">
+		<img src="images/people.png" style="margin-bottom: -3px;width: 24px;height: 24px;margin-right: 4px;">欢迎您回来，<a id="userInfoSpan" href="#" onclick="alert('查看个人资料！');void(0);return false;"></a>，<img src="images/warning.gif" style="margin-bottom: -3px;">你有&nbsp;<a id="todoSpan" href="#" onclick="alert('查看待办事项！');void(0);return false;">[4]</a>&nbsp;个待办事项要处理。
+	</div>
+	<div class="recyle" style="position: absolute;bottom: 32px;right: 8px;width: 150px;text-align: center;height: 72px;">
+		<img class="png" id="recyle" src="images/recycle_empty.png" style="width: 58px;height: 58px;margin-top: 8px;">
 	<div>
 	<div style="position: absolute;bottom: -24px;right: 8px;width: 400px;text-align: right;">
 		JRest4Guice 0.9.0 preview

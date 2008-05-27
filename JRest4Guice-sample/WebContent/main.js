@@ -12,6 +12,39 @@ var contact_detail_ds = new Spry.Data.JSONDataSet();
 window.onload = function(){
 	validationHelper = new SpryExt.ValidationHelper();
 	init();
+	IFrameUtil.subscribeEvent("onLogin",window,function(param){
+		onTimeout();
+	});
+	if(jQuery.browser.mozilla){
+		$("#logoDiv").css("top","12px");
+	}
+}
+
+/**
+ * 当网页超时、登录时所执行的权限过滤
+ */
+function onTimeout(){
+	new Thread(function(){
+		SpryExt.rest.doGet("resource/security/userRoles",function(json){
+			if(json.content != ""){
+				SpryExt.security.currentUserName = json.content.userName;
+				SpryExt.security.currentUserRoles = json.content.userRoles;
+				doSecurityCheck();
+			}
+		});
+	},100).start();
+}
+
+/**
+ * 页面权限过滤
+ */
+function doSecurityCheck(){
+	$("#securityDiv").hide();
+	$("#securityIframe").attr("src","");
+	$("#logoutButton").show();
+	$("#loginButton").hide();
+	$("#welcomeDiv").show();
+	$("#userInfoSpan").html(SpryExt.security.currentUserName);
 }
 
 /**
@@ -110,6 +143,8 @@ function init(){
 	        deleteContact(); 
 	    } 
 	});
+	
+	onTimeout();
 }
 
 function getCheckedContactNames(){
@@ -222,6 +257,12 @@ function deleteContact(id,nme){
 			alert(result.errorMessage);
 	});
 }
+
+function doLogin(){
+	$("#securityDiv").show();
+	$("#securityIframe").attr("src","login.jsp");
+}
+
 window.onUpload = function(fileUrl){
 	$("#headPic",this.document).val(fileUrl);
 }
