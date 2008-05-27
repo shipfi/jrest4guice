@@ -318,6 +318,49 @@ var IFrameUtil = new function(){
 	}
 }
 
+position=function(elem,pos) {
+	var wnd = $(window), doc = $(document),_top=0, minTop = _top = doc.scrollTop(), left = doc.scrollLeft();
+	if ($.inArray(pos, ['center','top','right','bottom','left']) >= 0) {
+		pos = [pos == 'right' || pos == 'left' ? pos : 'center', pos == 'top' || pos == 'bottom' ? pos : 'middle'];
+	}
+	if (pos.constructor != Array) {
+		pos == ['center', 'middle']
+	}
+	if (pos[0].constructor == Number) {
+		left += pos[0];
+	} else {
+		switch (pos[0]) {
+			case 'left':
+				left += 0;
+				break;
+			case 'right':
+				left += (wnd.width()) - (this.uiDialog.width());
+				break;
+			case 'center':
+			default:
+				left += (wnd.width() / 2) - (elem.width() / 2);
+		}
+	}
+	if (pos[1].constructor == Number) {
+		_top += pos[1];
+	} else {
+		switch (pos[1]) {
+			case 'top':
+				_top += 0;
+				break;
+			case 'bottom':
+				_top += (wnd.height()) - (this.uiDialog.height());
+				break;
+			case 'middle':
+			default:
+				_top += (wnd.height() / 2) - (elem.height() / 2);
+		}
+	}
+	_top = _top < minTop ? minTop : _top;
+	elem.css({top: _top, left: left});
+};
+
+
 
 var Spry;
 if(Spry){
