@@ -4,23 +4,6 @@
  *
  */
 
-Function.prototype.bind = function() {
-  var __method = this, args = arguments, object = args.length>1?args:(args.length>0?args[0]:null);
-  return function() {
-  	try{
-	    return __method.apply(object, arguments);
-  	}catch(e){
-  	}
-  }
-}
-
-Function.prototype.bindAsEventListener = function(object) {
-  var __method = this;
-  return function(event) {
-    return __method.call(object, event || window.event);
-  }
-}
-
 //===============================================================================
 // Spry 修订与增强
 //===============================================================================
@@ -521,7 +504,7 @@ SpryExt.DataSetDecorator = function(){
 	if(SpryExt.DataSetDecorator.loadingObserver == null){
 		var loadingBar = $("#loading");
 		if(loadingBar.length==0)
-			loadingBar = $("<div id=\"loading\" class=\"loadingBar\" style=\"display: none;\">正在加载数据...</div>").appendTo("body");
+			loadingBar = $("<div id=\"loading\" class=\"loadingBar\" style=\"display: none;\">&nbsp;加载数据...</div>").appendTo("body");
 		SpryExt.DataSetDecorator.loadingObserver = {
 				onPreLoad:function(){
 					loadingBar.show();
@@ -737,4 +720,18 @@ SpryExt.PageInfoBar.build = function(pageInfo, msg, infoBar, navigations, goPage
 		textNextPage.style.visibility="hidden";
 	}
 	navigation.appendChild(textNextPage);
+}
+
+SpryExt.security = {}
+
+SpryExt.security.currentUser = null;
+SpryExt.security.currentUserRoles = null;
+
+SpryExt.security.clear = function(){
+	spry.security.currentUser = null;
+	spry.security.currentUserRoles = null;
+}
+
+SpryExt.security.doFilter = function(){
+	
 }

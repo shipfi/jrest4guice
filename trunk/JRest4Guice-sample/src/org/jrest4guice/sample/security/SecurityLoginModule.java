@@ -59,7 +59,7 @@ public class SecurityLoginModule implements LoginModule {
 			username = ((NameCallback) callbacks[0]).getName();
 			password = ((PasswordCallback) callbacks[1]).getPassword();
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		// ==================================================================
 		// 处理登录
@@ -76,7 +76,7 @@ public class SecurityLoginModule implements LoginModule {
 				succeeded = value.booleanValue();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		// ==================================================================
 
@@ -119,7 +119,7 @@ public class SecurityLoginModule implements LoginModule {
 					}
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 			// ==================================================================
 
