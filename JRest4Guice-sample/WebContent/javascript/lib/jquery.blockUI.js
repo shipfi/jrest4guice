@@ -316,4 +316,4 @@ $.blockUI.defaults.css.border="none";
 $.blockUI.defaults.css.top="30%";
 $.blockUI.defaults.css.width="50%";
 $.blockUI.defaults.css.left="37%";
-$.blockUI.defaults.css.cursor='normal';
+$.blockUI.defaults.css.cursor='default';
