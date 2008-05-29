@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.jrest4guice.core.jndi.JndiGuiceModuleProvider;
 import org.jrest4guice.core.jpa.JpaGuiceModuleProvider;
 import org.jrest4guice.core.security.SecurityGuiceModuleProvider;
 import org.jrest4guice.core.transaction.TransactionGuiceModuleProvider;
@@ -23,6 +24,10 @@ public class GuiceContext {
 	private static volatile GuiceContext me;
 
 	private volatile boolean initialized = false;
+	
+	private boolean useJPA;
+	private boolean useJNDI;
+	private boolean useSecurity;
 
 	/**
 	 * 模块提供者集合
@@ -94,11 +99,19 @@ public class GuiceContext {
 	}
 	
 	public GuiceContext useJPA(){
+		this.useJPA = true;
 		this.addModuleProvider(new JpaGuiceModuleProvider(),new TransactionGuiceModuleProvider());
 		return this;
 	}
 
+	public GuiceContext useJNDI(){
+		this.useJNDI = true;
+		this.addModuleProvider(new JndiGuiceModuleProvider());
+		return this;
+	}
+
 	public GuiceContext useSecurity(){
+		this.useSecurity = true;
 		this.addModuleProvider(new SecurityGuiceModuleProvider());
 		return this;
 	}
@@ -130,5 +143,17 @@ public class GuiceContext {
 			initialized = true;
 			return this;
 		}
+	}
+
+	public boolean isUseJPA() {
+		return useJPA;
+	}
+
+	public boolean isUseJNDI() {
+		return useJNDI;
+	}
+
+	public boolean isUseSecurity() {
+		return useSecurity;
 	}
 }

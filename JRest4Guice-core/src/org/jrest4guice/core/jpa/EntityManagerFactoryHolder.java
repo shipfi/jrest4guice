@@ -34,7 +34,7 @@ public class EntityManagerFactoryHolder {
 			this.entityManagerFactory = Persistence
 			.createEntityManagerFactory(units.toArray()[0].toString());
 		} catch (Exception e) {
-			throw new RuntimeException("初始化 EntityManagerFactory 失败，原因是在 persistence.xml 中没有为persistence-unit节点指定name属性");
+			throw new RuntimeException("初始化 EntityManagerFactory 失败",e);
 		}
 	}
 
