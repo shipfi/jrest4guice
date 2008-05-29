@@ -4,11 +4,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.jrest4guice.core.guice.ModuleProviderTemplate;
 import org.jrest4guice.core.jndi.annotations.JndiResource;
-import org.jrest4guice.core.jpa.EntityManagerProvider;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
@@ -19,6 +16,10 @@ import com.google.inject.Module;
  * 
  */
 public class JndiGuiceModuleProvider extends ModuleProviderTemplate {
+	public JndiGuiceModuleProvider(String... packages) {
+		super(packages);
+	}
+
 	@Override
 	public List<Module> getModules() {
 		List<Module> modules = new ArrayList<Module>(0);
@@ -30,11 +31,12 @@ public class JndiGuiceModuleProvider extends ModuleProviderTemplate {
 				Class type;
 				for (Class<?> clazz : classes) {
 					fields = clazz.getDeclaredFields();
+					System.out.println(clazz.getName()+":"+fields.length);
 					for(Field f: fields){
 						if(f.isAnnotationPresent(JndiResource.class)){
 							annotation = f.getAnnotation(JndiResource.class);
 							type = f.getType();
-							binder.bind(type).toInstance(JndiProvider.fromJndi(type,annotation.jndi()));
+							binder.bind(type).toProvider(JndiProvider.fromJndi(type,annotation.jndi()));
 						}
 					}
 				}			

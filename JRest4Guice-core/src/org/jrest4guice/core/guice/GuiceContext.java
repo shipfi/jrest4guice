@@ -26,7 +26,6 @@ public class GuiceContext {
 	private volatile boolean initialized = false;
 	
 	private boolean useJPA;
-	private boolean useJNDI;
 	private boolean useSecurity;
 
 	/**
@@ -104,12 +103,6 @@ public class GuiceContext {
 		return this;
 	}
 
-	public GuiceContext useJNDI(){
-		this.useJNDI = true;
-		this.addModuleProvider(new JndiGuiceModuleProvider());
-		return this;
-	}
-
 	public GuiceContext useSecurity(){
 		this.useSecurity = true;
 		this.addModuleProvider(new SecurityGuiceModuleProvider());
@@ -147,10 +140,6 @@ public class GuiceContext {
 
 	public boolean isUseJPA() {
 		return useJPA;
-	}
-
-	public boolean isUseJNDI() {
-		return useJNDI;
 	}
 
 	public boolean isUseSecurity() {
