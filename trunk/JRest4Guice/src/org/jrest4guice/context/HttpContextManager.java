@@ -26,7 +26,8 @@ public class HttpContextManager {
 
 	public static void clearContext() {
 		localContext.remove();
-		GuiceContext.getInstance().getBean(EntityManagerFactoryHolder.class).closeEntityManager();
+		if(GuiceContext.getInstance().isUseJPA())
+			GuiceContext.getInstance().getBean(EntityManagerFactoryHolder.class).closeEntityManager();
 	}
 
 	static HttpServletRequest getRequest() {

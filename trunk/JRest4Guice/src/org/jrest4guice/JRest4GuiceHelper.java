@@ -10,6 +10,6 @@ import org.jrest4guice.core.guice.GuiceContext;
 public class JRest4GuiceHelper {
 	public static GuiceContext useJRest(String... scanPaths) {
 		return GuiceContext.getInstance().addModuleProvider(
-				new JRestGuiceModuleProvider(scanPaths));
+				new JRestGuiceModuleProvider(scanPaths)).useJNDI();
 	}
 }
