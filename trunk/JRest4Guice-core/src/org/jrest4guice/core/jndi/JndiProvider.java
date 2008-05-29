@@ -1,9 +1,9 @@
 package org.jrest4guice.core.jndi;
 
 import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /**
@@ -12,7 +12,6 @@ import com.google.inject.Provider;
  *
  */
 public class JndiProvider<T> implements Provider<T> {
-	@Inject
 	Context context;
 
 	final String name;
@@ -21,6 +20,12 @@ public class JndiProvider<T> implements Provider<T> {
 	JndiProvider(Class<T> type, String name) {
 		this.name = name;
 		this.type = type;
+		try {
+			this.context = new InitialContext();
+			System.out.println("JndiProvider: "+this.context);
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public T get() {
