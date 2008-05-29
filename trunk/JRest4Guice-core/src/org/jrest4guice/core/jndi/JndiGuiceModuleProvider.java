@@ -31,7 +31,6 @@ public class JndiGuiceModuleProvider extends ModuleProviderTemplate {
 				Class type;
 				for (Class<?> clazz : classes) {
 					fields = clazz.getDeclaredFields();
-					System.out.println(clazz.getName()+":"+fields.length);
 					for(Field f: fields){
 						if(f.isAnnotationPresent(JndiResource.class)){
 							annotation = f.getAnnotation(JndiResource.class);

@@ -22,7 +22,6 @@ public class JndiProvider<T> implements Provider<T> {
 		this.type = type;
 		try {
 			this.context = new InitialContext();
-			System.out.println("JndiProvider: "+this.context);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
