@@ -1,4 +1,4 @@
-package org.jrest4guice.core.jndi;
+package org.jrest4guice.core.jndi.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

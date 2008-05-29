@@ -1,4 +1,4 @@
-package org.jrest4guice.core.jndi.annotations;
+package org.jrest4guice.core.jndi;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
