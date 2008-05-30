@@ -55,12 +55,12 @@ public class EntityManagerFactoryHolder {
 	public void closeEntityManager() {
 		EntityManager em = this.entityManager.get();
 		if (em != null) {
-//			try {
-//				if (em.isOpen())
-//					em.close();
-//			} finally {
+			try {
+				if (em.isOpen())
+					em.close();
+			} finally {
 				this.entityManager.remove();
-//			}
+			}
 		}
 	}
 
