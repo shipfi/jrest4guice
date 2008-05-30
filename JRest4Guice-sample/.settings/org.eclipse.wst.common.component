@@ -3,6 +3,7 @@
 	<wb-module deploy-name="JRest4Guice-sample">
 		<wb-resource deploy-path="/" source-path="/WebContent"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src-test"/>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/libraries/commons/commons-beanutils-1.7.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
