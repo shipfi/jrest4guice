@@ -2,6 +2,7 @@ package org.jrest4guice.sample.resources;
 
 import org.jrest4guice.annotations.Delete;
 import org.jrest4guice.annotations.Get;
+import org.jrest4guice.annotations.MimeType;
 import org.jrest4guice.annotations.ModelBean;
 import org.jrest4guice.annotations.Parameter;
 import org.jrest4guice.annotations.Path;
@@ -35,7 +36,7 @@ public class ContactResource {
 	}
 
 	@Get
-	@ProduceMime( { "application/json" })
+	@ProduceMime( {MimeType.MIME_OF_JSON,MimeType.MIME_OF_JAVABEAN})
 	@Path("/contacts")
 	public Page<Contact> listContacts(int pageIndex, int pageSize) {
 		return this.service.listContacts(pageIndex, pageSize);
