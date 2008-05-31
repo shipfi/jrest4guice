@@ -22,7 +22,7 @@ public class TestRemoteCall {
 		Map<String, String> urlParam = new HashMap<String, String>();
 		urlParam.put("pageIndex", "1");
 		urlParam.put("pageSize", "5");
-		Object result = client.callRemote("http://localhost/resource/contacts",
+		Object result = client.callRemote("http://192.168.10.114/resource/contacts",
 				"get", urlParam);
 
 		Page<Contact> page = (Page<Contact>) result;
@@ -30,23 +30,23 @@ public class TestRemoteCall {
 		for (Contact ct : contacts)
 			System.out.println(ct.getName());
 
-		System.out.println("==================================");
-		urlParam.clear();
-		urlParam.put("userName", "cnoss");
-		urlParam.put("userPassword", "123");
-		List<Role> roles = (List<Role>) client.callRemote(
-				"http://localhost/resource/security/cnoss/roles", "get", null);
-		for (Role r : roles)
-			System.out.println(r.getName());
-
-		System.out.println("==================================");
-		RemoteServiceDynamicProxy proxy = new RemoteServiceDynamicProxy();
-		ContactResource resource = proxy
-				.createRemoteService(ContactResource.class);
-		page = resource.listContacts(1, 2);
-		contacts = page.getResult();
-		for (Contact ct : contacts)
-			System.out.println(ct.getName());
+//		System.out.println("==================================");
+//		urlParam.clear();
+//		urlParam.put("userName", "cnoss");
+//		urlParam.put("userPassword", "123");
+//		List<Role> roles = (List<Role>) client.callRemote(
+//				"http://localhost/resource/security/cnoss/roles", "get", null);
+//		for (Role r : roles)
+//			System.out.println(r.getName());
+//
+//		System.out.println("==================================");
+//		RemoteServiceDynamicProxy proxy = new RemoteServiceDynamicProxy();
+//		ContactResource resource = proxy
+//				.createRemoteService(ContactResource.class);
+//		page = resource.listContacts(1, 2);
+//		contacts = page.getResult();
+//		for (Contact ct : contacts)
+//			System.out.println(ct.getName());
 	}
 
 	public Object invoke(Object proxy, Method method, Object[] args)
