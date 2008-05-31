@@ -29,13 +29,14 @@ public class JndiGuiceModuleProvider extends ModuleProviderTemplate {
 				Field[] fields;
 				JndiResource annotation;
 				Class type;
+				Class<JndiResource> _clazz = JndiResource.class;
 				for (Class<?> clazz : classes) {
 					fields = clazz.getDeclaredFields();
 					for(Field f: fields){
-						if(f.isAnnotationPresent(JndiResource.class)){
-							annotation = f.getAnnotation(JndiResource.class);
+						if(f.isAnnotationPresent(_clazz)){
+							annotation = f.getAnnotation(_clazz);
 							type = f.getType();
-							binder.bind(type).toProvider(JndiProvider.fromJndi(type,annotation.jndi()));
+							binder.bind(type).annotatedWith(_clazz).toProvider(JndiProvider.fromJndi(type,annotation.jndi()));
 						}
 					}
 				}			
