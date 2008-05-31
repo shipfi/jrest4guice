@@ -1,6 +1,5 @@
 package org.jrest4guice.sample.security;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
 import org.jrest4guice.client.JRestClient;
-import org.jrest4guice.client.JRestResult;
 import org.jrest4guice.core.security.Role;
 import org.jrest4guice.core.security.User;
 
@@ -59,7 +57,7 @@ public class SecurityLoginModule implements LoginModule {
 			username = ((NameCallback) callbacks[0]).getName();
 			password = ((PasswordCallback) callbacks[1]).getPassword();
 		} catch (Exception e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		// ==================================================================
 		// 处理登录
@@ -68,15 +66,14 @@ public class SecurityLoginModule implements LoginModule {
 		try {
 			urlParam.put("userName", username);
 			urlParam.put("userPassword", new String(password));
-			JRestResult result = client.doGet(
-					"http://localhost/resource/security/auth",
-					urlParam, null);
+			Object result = client.callRemote(
+					"http://localhost/resource/security/auth", "get", urlParam);
 			if (result != null) {
-				Boolean value = Boolean.valueOf(result.getContent().toString());
+				Boolean value = Boolean.valueOf(result.toString());
 				succeeded = value.booleanValue();
 			}
 		} catch (Exception e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		// ==================================================================
 
@@ -99,18 +96,11 @@ public class SecurityLoginModule implements LoginModule {
 			// 查询当前用户下的所有角色
 			// ==================================================================
 			try {
-				Map classMap = new HashMap();
-				classMap.put("content", Role.class);
-				JRestResult result = client.doGet(
-						"http://localhost/resource/security/"
-								+ this.username + "/roles", null, classMap);
-				if (result != null) {
-					Object[] _roles = (Object[]) result.getContent();
-					this.roles = new ArrayList<Role>();
-					for (Object role : _roles) {
-						this.roles.add((Role) role);
-					}
-
+				List<Role> roles = (List<Role>) client.callRemote(
+						"http://localhost/resource/security/" + this.username
+								+ "/roles", "get", null);
+				if (roles != null) {
+					this.roles = roles;
 					for (Role role : this.roles) {
 						// 注册角色
 						if (!subject.getPrincipals().contains(role)) {
@@ -119,7 +109,7 @@ public class SecurityLoginModule implements LoginModule {
 					}
 				}
 			} catch (Exception e) {
-//				e.printStackTrace();
+				// e.printStackTrace();
 			}
 			// ==================================================================
 

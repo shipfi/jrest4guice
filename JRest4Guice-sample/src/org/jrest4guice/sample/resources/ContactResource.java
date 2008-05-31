@@ -9,6 +9,7 @@ import org.jrest4guice.annotations.Path;
 import org.jrest4guice.annotations.Post;
 import org.jrest4guice.annotations.ProduceMime;
 import org.jrest4guice.annotations.Put;
+import org.jrest4guice.annotations.Remote;
 import org.jrest4guice.core.client.Page;
 import org.jrest4guice.sample.entity.Contact;
 import org.jrest4guice.sample.service.ContactService;
@@ -21,6 +22,7 @@ import com.google.inject.Inject;
  * 
  */
 @Path( { "/contact", "/contact/{contactId}" })
+@Remote
 public class ContactResource {
 	@Inject
 	private ContactService service;
