@@ -1,41 +1,30 @@
 package org.jrest4guice.client;
 
-import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.json.JSONObject;
-
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.lang.StringUtils;
-import org.jrest4guice.core.security.Role;
-
+import org.jrest4guice.annotations.MimeType;
 
 public class JRestClient {
-
-	public JRestResult doGet(String url, Map<String, String> urlParam,Map classMap)
+	public Object callRemote(String url,String methodType, Map<String, String> urlParam)
 			throws Exception {
 		HttpClient client = new HttpClient();
-		GetMethod method = new GetMethod(url);
-		String responseBody = null;
+		HttpMethod method = initMethod(url,methodType,urlParam);
+		Object responseBody = null;
 		try {
-			
-			if(urlParam != null){
-				Set<String> keySet = urlParam.keySet();
-				List<String> params = new ArrayList<String>();
-				for(String key:keySet){
-					params.add(key+"="+urlParam.get(key));
-				}
-				String queryString = StringUtils.join(params.toArray(),"&");
-				method.setQueryString(queryString);
-			}
-			
+			method.addRequestHeader("accept", MimeType.MIME_OF_JAVABEAN);
+
 			// Execute the method.
 			int statusCode = client.executeMethod(method);
 
@@ -43,45 +32,47 @@ public class JRestClient {
 				System.err.println("Method failed: " + method.getStatusLine());
 			}
 
-			// Read the response body.
-			responseBody = method.getResponseBodyAsString();
-			
-		} catch (HttpException e) {
-			System.err.println("Fatal protocol violation: " + e.getMessage());
-			e.printStackTrace();
-		} catch (IOException e) {
+			ObjectInputStream obj_in = new ObjectInputStream(method
+					.getResponseBodyAsStream());
+			responseBody = obj_in.readObject();
+
+		} catch (Exception e) {
 			System.err.println("Fatal transport error: " + e.getMessage());
 			e.printStackTrace();
 		} finally {
 			method.releaseConnection();
 		}
 
-		if (responseBody != null) {
-			try{
-				Object bean = JSONObject.toBean(JSONObject.fromObject(responseBody), JRestResult.class,classMap);
-				return (JRestResult) bean;
-			}catch(Exception e){
-			}
-		}
-		return null;
-	}
-	
-	public static void main(String[] args) {
-		JRestClient client = new JRestClient();
-		Map<String, String> urlParam = new HashMap<String, String>();
-		try {
-			urlParam.put("userName", "cnoss");
-			urlParam.put("userPassword", "123");
-			Map classMap = new HashMap();
-			classMap.put("content", Role.class);
-			JRestResult result = client.doGet("http://localhost/JRest4Guice-sample/resource/userRole", urlParam,classMap);
-			if(result != null){
-				Boolean sucess = Boolean.valueOf(result.getContent().toString());
-				System.out.println(sucess);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		return responseBody;
 	}
 
+	private HttpMethod initMethod(String url,String methodType,Map<String, String> urlParam) {
+		HttpMethod method = null;
+
+		String queryString = "";
+		if (urlParam != null) {
+			Set<String> keySet = urlParam.keySet();
+			List<String> params = new ArrayList<String>();
+			for (String key : keySet) {
+				params.add(key + "=" + urlParam.get(key));
+			}
+			queryString = StringUtils.join(params.toArray(), "&");
+		}
+		
+		if(methodType.equalsIgnoreCase("get")){
+			method = new GetMethod(url);
+			method.setQueryString(queryString);
+		}else if(methodType.equalsIgnoreCase("post")){
+			method = new PostMethod(url);
+			((PostMethod)method).setRequestBody(queryString);
+		}else if(methodType.equalsIgnoreCase("put")){
+			method = new PutMethod(url);
+			((PutMethod)method).setRequestBody(queryString);
+		}else if(methodType.equalsIgnoreCase("delete")){
+			method = new DeleteMethod(url);
+			method.setQueryString(queryString);
+		}
+			
+		return method;
+	}
 }
