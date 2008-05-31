@@ -3,8 +3,10 @@ package org.jrest4guice;
 import java.io.BufferedReader;
 import java.io.CharArrayWriter;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -12,10 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jrest4guice.annotations.HttpMethodType;
+import org.jrest4guice.annotations.Remote;
 import org.jrest4guice.context.HttpContextManager;
 import org.jrest4guice.context.JRestContext;
 import org.jrest4guice.context.ModelMap;
 import org.jrest4guice.core.guice.GuiceContext;
+import org.jrest4guice.core.util.ClassUtils;
 import org.jrest4guice.exception.RestMethodNotFoundException;
 import org.jrest4guice.writer.JsonResponseWriter;
 
@@ -76,18 +80,44 @@ public class RequestProcessor {
 		// 设置上下文中的环境变量
 		HttpContextManager.setContext(request, response, params);
 		try {
-			// 从REST资源注册表中查找此URI对应的资源
-			Service service = JRestContext.getInstance().lookupResource(uri);
-			if (service != null) {
-				ServiceExecutor exec = GuiceContext.getInstance().getBean(
-						ServiceExecutor.class);
-				// 填充参数
-				fillParameters(request, params);
-				// 根据不同的请求方法调用REST对象的不同方法
-				String method = request.getMethod();
-				exec.execute(service, this.getHttpMethodType(method), charset);
+			int index;
+			if ((index = uri.indexOf(Remote.REMOTE_SERVICE_PREFIX)) != -1) {
+				String serviceName = request
+						.getParameter(Remote.REMOTE_SERVICE_NAME_KEY);
+				String methodIndex = request
+						.getParameter(Remote.REMOTE_SERVICE_METHOD_INDEX_KEY);
+				Class<?> clazz = JRestContext.getInstance().getRemoteService(
+						serviceName);
+				if (clazz != null) {
+					index = Integer.parseInt(methodIndex);
+					ServiceExecutor exec = GuiceContext.getInstance().getBean(
+							ServiceExecutor.class);
+					List<Method> methods = ClassUtils.getSortedMethodList(clazz);
+					Service service = new Service(GuiceContext.getInstance()
+							.getBean(clazz), methods.get(index));
+					// 填充参数
+					fillParameters(request, params);
+					exec.execute(service, this.getHttpMethodType(RequestProcessor.METHOD_OF_POST),
+							charset);
+				} else {
+					this.writeRestServiceNotFoundMessage(uri_bak);
+				}
 			} else {
-				this.writeRestServiceNotFoundMessage(uri_bak);
+				// 从REST资源注册表中查找此URI对应的资源
+				Service service = JRestContext.getInstance()
+						.lookupResource(uri);
+				if (service != null) {
+					ServiceExecutor exec = GuiceContext.getInstance().getBean(
+							ServiceExecutor.class);
+					// 填充参数
+					fillParameters(request, params);
+					// 根据不同的请求方法调用REST对象的不同方法
+					String method = request.getMethod();
+					exec.execute(service, this.getHttpMethodType(method),
+							charset);
+				} else {
+					this.writeRestServiceNotFoundMessage(uri_bak);
+				}
 			}
 		} catch (RestMethodNotFoundException e) {
 			this.writeRestServiceNotFoundMessage(uri_bak);
@@ -99,7 +129,8 @@ public class RequestProcessor {
 
 	private void writeRestServiceNotFoundMessage(String uri) {
 		GuiceContext.getInstance().getBean(JsonResponseWriter.class)
-				.writeResult(new Exception("没有提供指定的Rest服务 ("+uri+") ！"), charset);
+				.writeResult(new Exception("没有提供指定的Rest服务 (" + uri + ") ！"),
+						charset);
 	}
 
 	private HttpMethodType getHttpMethodType(String method) {

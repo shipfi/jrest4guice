@@ -1,6 +1,7 @@
 package org.jrest4guice.context;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -21,8 +22,11 @@ public class JRestContext {
 	private ServiceRoute root = new ServiceRoute();
 	private Pattern paramPattern = Pattern.compile("\\{([a-zA-Z_]+[0-9]*)\\}");
 	private static final String PARAM_KEY = "_$__PARAM_$__";
+	
+	private Map<String, Class<?>> remoteService;
 
 	private JRestContext() {
+		remoteService = new HashMap<String, Class<?>>();
 	}
 
 	private static class SingletonHolder {
@@ -32,6 +36,16 @@ public class JRestContext {
 	public static JRestContext getInstance() {
 		return SingletonHolder.instance;
 	}
+	
+	public JRestContext addRemoteService(String name,Class<?> service){
+		this.remoteService.put(name, service);
+		return this;
+	}
+	
+	public Class<?> getRemoteService(String name){
+		return this.remoteService.get(name);
+	}
+	
 
 	/**
 	 * 添加资源到上下文

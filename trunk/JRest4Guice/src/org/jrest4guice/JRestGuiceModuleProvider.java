@@ -1,5 +1,6 @@
 package org.jrest4guice;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jrest4guice.annotations.Path;
+import org.jrest4guice.annotations.Remote;
+import org.jrest4guice.annotations.RemoteService;
 import org.jrest4guice.context.HttpRequestProvider;
 import org.jrest4guice.context.HttpResponseProvider;
 import org.jrest4guice.context.JRestContext;
@@ -54,17 +57,40 @@ public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 				JRestContext jRestContext = JRestContext.getInstance();
 				Path annotation;
 				String[] uris;
-				String mimiType;
+				String mimiType,name;
 				String[] mimiTypes;
+				Field[] fields;
+				RemoteService remoteServiceAnnotation;
+				Class<RemoteService> remoteServiceClass = RemoteService.class;
+				Class type;
 				for (Class clazz : classes) {
+					if (clazz.isAnnotationPresent(Remote.class)) {
+						name = ((Remote)clazz.getAnnotation(Remote.class)).value();
+						if(name==null || name.trim().equals(""))
+							name = clazz.getName();
+						
+						jRestContext.addRemoteService(name, clazz);
+					}
+					
 					if (clazz.isAnnotationPresent(Path.class)) {
+						//注册Rest服务
 						annotation = (Path) clazz
 								.getAnnotation(Path.class);
 						uris = annotation.value();
 						int index = 0;
 						for (String uri : uris)
 							jRestContext.addResource(uri, clazz,index++==0);
-					} else if (ResponseWriter.class.isAssignableFrom(clazz)) {
+
+						//绑定远程服务引用的Provider
+						fields = clazz.getDeclaredFields();
+						for(Field f: fields){
+							if(f.isAnnotationPresent(remoteServiceClass)){
+								remoteServiceAnnotation = f.getAnnotation(remoteServiceClass);
+								type = f.getType();
+								binder.bind(type).annotatedWith(remoteServiceClass).toProvider(RemoteServiceProvider.create(type));
+							}
+						}
+					}else if (ResponseWriter.class.isAssignableFrom(clazz)) {
 						// 注册ResponseWriter
 						try {
 							ResponseWriter writer = (ResponseWriter) clazz
