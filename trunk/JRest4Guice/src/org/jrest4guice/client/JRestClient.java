@@ -14,13 +14,20 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jrest4guice.annotations.MimeType;
 
 public class JRestClient {
+	private final static Log log = LogFactory.getLog(JRestClient.class);
+	
 	public Object callRemote(String url,String methodType, Map<String, String> urlParam)
 			throws Exception {
 		HttpClient client = new HttpClient();
 		HttpMethod method = initMethod(url,methodType,urlParam);
+		//设置连接超时
+		client.getHttpConnectionManager().getParams().setConnectionTimeout(3000); 
+//		method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(1,false));
 		Object responseBody = null;
 		try {
 			method.addRequestHeader("accept", MimeType.MIME_OF_JAVABEAN);
@@ -29,7 +36,7 @@ public class JRestClient {
 			int statusCode = client.executeMethod(method);
 
 			if (statusCode != HttpStatus.SC_OK) {
-				System.err.println("Method failed: " + method.getStatusLine());
+				log.error("调用Http方法出错: " + method.getStatusLine());
 			}
 
 			ObjectInputStream obj_in = new ObjectInputStream(method
@@ -37,8 +44,8 @@ public class JRestClient {
 			responseBody = obj_in.readObject();
 
 		} catch (Exception e) {
-			System.err.println("Fatal transport error: " + e.getMessage());
-			e.printStackTrace();
+			log.error("连接错误: " + e.getMessage(),e);
+			throw e;
 		} finally {
 			method.releaseConnection();
 		}
