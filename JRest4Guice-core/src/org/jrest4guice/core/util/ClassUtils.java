@@ -2,8 +2,12 @@ package org.jrest4guice.core.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -126,5 +130,18 @@ public class ClassUtils {
 	private static String pathToName(String path) {
 		return path.replace('/', '.').replace('\\', '.');
 	}
-
+	
+	public static List<Method> getSortedMethodList(Class<?> clazz){
+		List<Method> methods = Arrays.asList(clazz.getDeclaredMethods());
+		Collections.sort(methods, new Comparator<Method>() {
+			@Override
+			public int compare(Method m1, Method m2) {
+				String lower1 = m1.toString().toLowerCase();
+				String lower2 = m2.toString().toLowerCase();
+				return lower1.compareTo(lower2);
+			}
+		});
+		
+		return methods;
+	}
 }
