@@ -36,19 +36,19 @@
 	<img src="images/mouse.png" class="png" style="position: absolute;top:-25px;left: 12px;width: 94px;height: 94px;">
 	<div id="logoDiv" style="position: absolute;left:120px;top:28px;"><h3><span style="font-size:24px;color: green;font-weight: bold;">J</span>Rest4Guice <span style="font-size: small;color: gray;">demo</span></h3></div>
 	<!-- 操作栏 -->
-	<div id="controlBar" style="margin: 74px 0 8px 12px;height: 55px;width:63%;">
-		<div style="float: left;width: 67%;height: 55px;">
+	<div id="controlBar" style="width:63%;clean:both;margin-top: 70px">
+		<div style="float: right;width:50%;height:55px;">
+			<div style="text-align: right;margin-top: 30px">
+				<div id="infoBar"  style="float: right;"></div>
+				<div id="navigation" style="float: right;"></div>
+			</div>
+		</div>
+		<div style="float: left;width:50%;height: 55px;">
 			<div style="width: 100%;">
 				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="#"  title="为你添加新的联系人" onclick="createContact();void(0);return false;">增加</a>新的联系人，或者<a href="#"  title="获取最新的联系人列表" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</a>整个联系人列表。
 			</div>
 			<div style="margin-top: 4px;display: none;width: 490px;" id="cContactSpan">
 				还可以<a href="#" title="删除以下选择的联系人" onclick="deleteContact();void(0);return false;">删除</a>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
-			</div>
-		</div>
-		<div style="float: right;width:30%;margin-right: 12px;margin-top: 23px;">
-			<div style="float: right;text-align: right;">
-				<div id="infoBar"></div>
-				<div id="navigation" style="margin-top: 4px;"></div>
 			</div>
 		</div>
 	</div>
@@ -90,10 +90,10 @@
 	
 	<!-- 编辑区域 -->
 	<div style="width: 34%;float: right;">
-		<div id="editArea" style="display: none;background-color:#EAF6FD;">
+		<div id="editArea" style="display: none;background-image: url('images/bg.jpg')">
 			<form id="editForm">
-				<div id="editRegion" spry:detailregion="contact_detail_ds">
-					<fieldset style="margin: 10px;border: 1px solid olive;">
+				<div id="editRegion" spry:detailregion="contact_detail_ds" style="padding:15px;color:#fff">
+					<fieldset style="border: 1px solid #fff;">
 						<legend id="Organization">联系人信息</legend>
 						<div style="margin: 8px;">
 							<input style="display: none;" type="text" id="id" value="{id}">
@@ -102,13 +102,12 @@
 								<input type="text" id="name" value="{name}">
 								<div class="textfieldRequiredMsg">姓名不能为空.</div>
 							</div>
-							<fieldset style="float: right;border: 1px solid olive;margin-top: -54px;margin-right: 8px;">
-								<legend id="Organization">个人形象</legend>
+							<div style="float: right;border: 1px solid #fff;margin-top: -54px;margin-right: 8px;padding: 2px;">
 								<div>
 									<input type="hidden" id="headPic" value="{headPic}">
-									<iframe id="uploadFrame" frameborder="0" width="128" height="140" scrolling="no" style="background-color:#EAF6FD;"></iframe>
+									<iframe id="uploadFrame" frameborder="0" width="123" height="140" scrolling="no"></iframe>
 								</div>
-							</fieldset>
+							</div>
 							<div id="theMobilePhone" style="clear: left;">
 								<div class="formLabel">移动电话：</div>
 								<input type="text" id="mobilePhone" value="{mobilePhone}">
@@ -121,7 +120,7 @@
 							</div>
 							<div id="theAddress">
 								<div class="formLabel">家庭住址：</div>
-								<textarea rows="3" cols="32" id="address">{address}</textarea>
+								<textarea style="height:20px" cols="40" id="address">{address}</textarea>
 								<div class="textareaMaxCharsMsg">长度不能超过50这个字符</div>
 							</div>
 							<br/>
