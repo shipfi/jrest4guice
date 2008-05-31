@@ -17,6 +17,11 @@ import com.google.inject.cglib.proxy.Enhancer;
 import com.google.inject.cglib.proxy.MethodInterceptor;
 import com.google.inject.cglib.proxy.MethodProxy;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
+ */
 @Singleton
 @SuppressWarnings("unchecked")
 public class RemoteServiceDynamicProxy implements MethodInterceptor {
@@ -127,6 +132,7 @@ public class RemoteServiceDynamicProxy implements MethodInterceptor {
 				this.service_url_relation.put(clazz.getName(), serviceUrl);
 				break;
 			} catch (Exception e) {
+				this.service_url_relation.remove(clazz.getName());
 			}
 		}
 		return result;

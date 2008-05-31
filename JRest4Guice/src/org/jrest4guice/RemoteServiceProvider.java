@@ -4,9 +4,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 /**
- * DAO接口实例化的提供者
- * @author <a href="mailto:gzyangfan@gmail.com">gzYangfan</a>
- * @param <T> DAO接口
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ *
  */
 public class RemoteServiceProvider<T> implements Provider<T> {
 
