@@ -18,13 +18,11 @@
 	</head>
 	<body style="background-color:#EAF6FD;">
 		<form name="loginform" id="loginform" method="post" action="j_security_check">
-			<table cellpadding="0" cellspacing="0" style="width: 400px">
+			<table cellpadding="0" cellspacing="0">
 				<tr>
 					<td valign="top" style="text-align: center;">
-						<img src="images/mouse.png">
-					</td>
-					<td>
-						<div style="margin-left: 12px;margin-top: 25px">
+						<img src="images/mouse.png" style="margin-top: -54px;margin-left: -42px;">
+						<div style="margin-left: 24px;">
 						<div style="clear: both;height: 25px;"><div style="float: left;line-height: 25px">用户名：</div><div style="float: left;"><input name="j_username" type="text" class="hr" size="15" value="cnoss" /></div></div>
 						<div style="clear: both;height: 25px;"><div style="float: left;line-height: 25px">密　码：</div><div style="float: left;"><input name="j_password" type="password" class="hr" size="15" value="123" /></div></div>
 						<div style="clear: both;height: 25px;margin-top: 16px;"><div style="float: left;line-height: 25px;margin-right: 45px;">&nbsp;</div><div style="float: left;"><input name="Submit" type="submit" class="style7" value="登  录" onclick="loginform.submit();" style=" cursor:pointer" />&nbsp;&nbsp;&nbsp;&nbsp;<input name="Submit" type="reset" class="style7" value="重  置" style=" cursor:pointer" /></div></div>
