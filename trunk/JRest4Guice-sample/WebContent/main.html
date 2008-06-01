@@ -19,7 +19,7 @@
 		margin-right: 20px;
 	}
 	input{
-		width: 124px;
+		width: 132px;
 	}
 	.loadingBar {
 		background-color: red;
@@ -40,8 +40,8 @@
 	<img src="images/mouse.png" class="png" style="position: absolute;top:-25px;left: 12px;width: 94px;height: 94px;">
 	<div id="logoDiv" style="position: absolute;left:110px;top:28px;"><h3><span style="font-size:24px;color: green;font-weight: bold;">J</span>Rest4Guice</h3></div>
 	<!-- 操作栏 -->
-	<div id="controlBar" style="margin: 94px 0 8px 12px;height: 55px;width:60%;">
-		<div style="float: left;width: 64%;height: 55px;">
+	<div id="controlBar" style="margin: 94px 0 8px 1px;height: 55px;width:60%;">
+		<div style="float: left;width: 65%;height: 55px;">
 			<div style="width: 100%;">
 				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="#"  title="为你添加新的联系人" onclick="createContact();void(0);return false;">增加</a>新的联系人，或者<a href="#"  title="获取最新的联系人列表" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</a>整个联系人列表。
 			</div>
@@ -49,14 +49,14 @@
 				还可以<a href="#" title="删除以下选择的联系人" onclick="deleteContact();void(0);return false;">删除</a>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
 			</div>
 		</div>
-		<div style="float: right;width:30%;margin-right: 12px;margin-top: 23px;font-size: 10px;">
+		<div style="float: right;width:32%;margin-right: 0px;margin-top: 23px;font-size: 10px;">
 			<div style="float: right;text-align: right;">
 				<div id="infoBar"></div>
 				<div id="navigation" style="margin-top: 4px;"></div>
 			</div>
 		</div>
 	</div>
-	<div style="float: left;width:60%;margin-right: 4px;clear: both;">
+	<div style="float: left;width:60%;margin-right: 0px;clear: both;">
 		<!-- 为了提高用户体验，用一个同样的表头来先显示，避免Spry加载清除表格的闪烁（注意表格ID必须为目标表格ID+"_temp"，以便系统在加载完数据时自动清除） -->
 		<table id="contactTable_temp" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
 			<thead style="font-weight: bold;">
@@ -106,7 +106,7 @@
 								<input type="text" id="name" value="{name}">
 								<div class="textfieldRequiredMsg">姓名不能为空.</div>
 							</div>
-							<fieldset style="float: right;border: 1px solid olive;margin-top: -54px;margin-right: 8px;">
+							<fieldset style="float: right;border: 1px solid olive;margin-top: -54px;margin-right: 2px;">
 								<legend id="Organization">个人形象</legend>
 								<div>
 									<input type="hidden" id="headPic" value="{headPic}">
@@ -173,7 +173,7 @@
 		<a id="logoutButton" href="#" onclick="doLogout();void(0);return false;" style="display:none;">注销</a>
 		<a id="registButton" href="#" onclick="alert('很抱歉，此功能暂未实现！');void(0);return false;">闪电注册</a>
 		<a id="loginButton" href="#" onclick="doLogin();void(0);return false;">登录</a>
-		<input type="text" style="width: 180px;color: silver;margin-left: 20px;" value="搜索－此功能暂未实现！">
+		<input type="text" style="width: 160px;color: silver;margin-left: 20px;" value="搜索－此功能暂未实现！">
 		<br/>
 		</div>
 	</div>
