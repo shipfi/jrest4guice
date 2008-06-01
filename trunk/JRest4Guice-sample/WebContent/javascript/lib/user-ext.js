@@ -999,7 +999,7 @@ if(Spry){
 	SpryExt.PageInfoBar = function(){}
 	
 	SpryExt.PageInfoBar.maxPageCount = 9;
-	SpryExt.PageInfoBar.pageSize = 15;
+	SpryExt.PageInfoBar.pageSize = 14;
 	/**
 	 * 构造分页信息条
 	 * pageInfo 分页信息 {resultCount:总数,pageSize:每页条数,index:当前页码}
@@ -1035,7 +1035,7 @@ if(Spry){
 		//  定制导航信息 ：上一页 1 2 3 下一页
 		//定制上一页
 		var textPerPage = document.createElement("span"); 
-		textPerPage.style.width = "45px";
+		textPerPage.style.width = "50px";
 		textPerPage.innerHTML = "上一页";
 		textPerPage.className="pageClass";
 		if(pageInfo.pageIndex > 1) {
@@ -1068,7 +1068,7 @@ if(Spry){
 		}
 		//定制下一页
 		var textNextPage = document.createElement("span");
-		textNextPage.style.width = "45px";
+		textNextPage.style.width = "50px";
 		textNextPage.innerHTML = "下一页";
 		textNextPage.className="pageClass";
 		if(pageInfo.pageIndex < pageCount ){

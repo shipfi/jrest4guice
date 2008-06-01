@@ -266,7 +266,7 @@ function doLogout(){
 }
 
 function doLogin(){
-	$.blockUI({message: $('#securityDiv'), css: { width: '400px',height:'206px'}}); 
+	$.blockUI({message: $('#securityDiv'), css: { width: '280px',height:'226px'}}); 
 	$("#securityIframe").attr("src","login.jsp");
 }
 

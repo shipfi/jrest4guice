@@ -18,6 +18,9 @@
 	.button {
 		margin-right: 20px;
 	}
+	input{
+		width: 124px;
+	}
 	.loadingBar {
 		background-color: red;
 		color: yellow;
@@ -33,26 +36,27 @@
 </style>
 </head>
 <body>
+	<div style="background-image: url('images/body_head.gif');height: 84px;position: absolute;top:0px; width: 100%;left: 0px;">&nbsp;</div>
 	<img src="images/mouse.png" class="png" style="position: absolute;top:-25px;left: 12px;width: 94px;height: 94px;">
 	<div id="logoDiv" style="position: absolute;left:120px;top:28px;"><h3><span style="font-size:24px;color: green;font-weight: bold;">J</span>Rest4Guice <span style="font-size: small;color: gray;">demo</span></h3></div>
 	<!-- 操作栏 -->
-	<div id="controlBar" style="width:63%;clean:both;margin-top: 70px">
-		<div style="float: right;width:50%;height:55px;">
-			<div style="text-align: right;margin-top: 30px">
-				<div id="infoBar"  style="float: right;"></div>
-				<div id="navigation" style="float: right;"></div>
-			</div>
-		</div>
-		<div style="float: left;width:50%;height: 55px;">
+	<div id="controlBar" style="margin: 74px 0 8px 12px;height: 55px;width:60%;">
+		<div style="float: left;width: 64%;height: 55px;">
 			<div style="width: 100%;">
 				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="#"  title="为你添加新的联系人" onclick="createContact();void(0);return false;">增加</a>新的联系人，或者<a href="#"  title="获取最新的联系人列表" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</a>整个联系人列表。
 			</div>
-			<div style="margin-top: 4px;display: none;width: 490px;" id="cContactSpan">
+			<div style="margin-top: 4px;display: none;width: 500px;" id="cContactSpan">
 				还可以<a href="#" title="删除以下选择的联系人" onclick="deleteContact();void(0);return false;">删除</a>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
 			</div>
 		</div>
+		<div style="float: right;width:30%;margin-right: 12px;margin-top: 23px;font-size: 10px;">
+			<div style="float: right;text-align: right;">
+				<div id="infoBar"></div>
+				<div id="navigation" style="margin-top: 4px;"></div>
+			</div>
+		</div>
 	</div>
-	<div style="float: left;width:63%;margin-right: 4px;clear: both;">
+	<div style="float: left;width:60%;margin-right: 4px;clear: both;">
 		<!-- 为了提高用户体验，用一个同样的表头来先显示，避免Spry加载清除表格的闪烁（注意表格ID必须为目标表格ID+"_temp"，以便系统在加载完数据时自动清除） -->
 		<table id="contactTable_temp" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
 			<thead style="font-weight: bold;">
@@ -89,11 +93,11 @@
 	</div>
 	
 	<!-- 编辑区域 -->
-	<div style="width: 34%;float: right;">
-		<div id="editArea" style="display: none;background-image: url('images/bg.jpg')">
+	<div style="width: 36%;float: right;">
+		<div id="editArea" style="display: none;background-color:#EAF6FD;">
 			<form id="editForm">
-				<div id="editRegion" spry:detailregion="contact_detail_ds" style="padding:15px;color:#fff">
-					<fieldset style="border: 1px solid #fff;">
+				<div id="editRegion" spry:detailregion="contact_detail_ds">
+					<fieldset style="margin: 10px;border: 1px solid olive;">
 						<legend id="Organization">联系人信息</legend>
 						<div style="margin: 8px;">
 							<input style="display: none;" type="text" id="id" value="{id}">
@@ -102,12 +106,13 @@
 								<input type="text" id="name" value="{name}">
 								<div class="textfieldRequiredMsg">姓名不能为空.</div>
 							</div>
-							<div style="float: right;border: 1px solid #fff;margin-top: -54px;margin-right: 8px;padding: 2px;">
+							<fieldset style="float: right;border: 1px solid olive;margin-top: -54px;margin-right: 8px;">
+								<legend id="Organization">个人形象</legend>
 								<div>
 									<input type="hidden" id="headPic" value="{headPic}">
-									<iframe id="uploadFrame" frameborder="0" width="123" height="140" scrolling="no"></iframe>
+									<iframe id="uploadFrame" frameborder="0" width="128" height="140" scrolling="no" style="background-color:#EAF6FD;"></iframe>
 								</div>
-							</div>
+							</fieldset>
 							<div id="theMobilePhone" style="clear: left;">
 								<div class="formLabel">移动电话：</div>
 								<input type="text" id="mobilePhone" value="{mobilePhone}">
@@ -120,7 +125,7 @@
 							</div>
 							<div id="theAddress">
 								<div class="formLabel">家庭住址：</div>
-								<textarea style="height:20px" cols="40" id="address">{address}</textarea>
+								<textarea rows="3" cols="32" id="address">{address}</textarea>
 								<div class="textareaMaxCharsMsg">长度不能超过50这个字符</div>
 							</div>
 							<br/>
@@ -160,7 +165,7 @@
 	</div>
 	<div id="securityDiv" style="display: none;">
 		<div style="width: 100%;height: 26px;background-image: url('images/head.jpg');"><img src="images/close.gif" style="cursor: pointer;margin-top: 4px;" onclick="$.unblockUI();"></div>
-		<iframe id="securityIframe" frameborder="0" width="400" height="206" scrolling="no"></iframe>
+		<iframe id="securityIframe" frameborder="0" width="280" height="200" scrolling="no"></iframe>
 	</div>
 	
 	<div style="position: absolute;top:4px;right: 8px;border-bottom: solid 1px silver;">
@@ -175,7 +180,7 @@
 	<div id="welcomeDiv" style="position: absolute;top:42px;right: 8px;text-align: right;display: none;color: green;">
 		<img class="png" src="images/people.png" style="margin-bottom: -3px;width: 24px;height: 24px;margin-right: 4px;">欢迎您回来，<a id="userInfoSpan" href="#" onclick="alert('查看个人资料！');void(0);return false;"></a>，<img src="images/warning.gif" style="margin-bottom: -3px;">你有&nbsp;<a id="todoSpan" href="#" onclick="alert('查看待办事项！');void(0);return false;">[4]</a>&nbsp;个待办事项要处理。
 	</div>
-	<div class="recyle" style="position: absolute;bottom: 14px;left: 8px;width: 130px;text-align: center;height: 54px;">
+	<div class="recyle" style="position: absolute;bottom: 14px;left: 8px;width: 130px;text-align: center;height: 54px;z-index: 100;">
 		<img class="png" id="recyle" src="images/recycle_empty.png" style="width: 48px;height: 48px;cursor: pointer;margin-top: 4px;"><span>回收站</span>
 	<div>
 
