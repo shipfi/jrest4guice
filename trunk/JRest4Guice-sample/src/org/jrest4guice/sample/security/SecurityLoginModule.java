@@ -1,6 +1,5 @@
 package org.jrest4guice.sample.security;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +12,7 @@ import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
 import org.jrest4guice.client.JRestClient;
+import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.core.security.Role;
 import org.jrest4guice.core.security.User;
 
@@ -62,7 +62,7 @@ public class SecurityLoginModule implements LoginModule {
 		// ==================================================================
 		// 处理登录
 		// ==================================================================
-		Map<String, String> urlParam = new HashMap<String, String>();
+		ModelMap<String, Object> urlParam = new ModelMap<String, Object>();
 		try {
 			urlParam.put("userName", username);
 			urlParam.put("userPassword", new String(password));
