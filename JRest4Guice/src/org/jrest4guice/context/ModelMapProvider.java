@@ -1,6 +1,8 @@
 package org.jrest4guice.context;
 
 
+import org.jrest4guice.client.ModelMap;
+
 import com.google.inject.Provider;
 
 /**

@@ -1,8 +1,5 @@
 package org.jrest4guice;
 
-import java.io.BufferedReader;
-import java.io.CharArrayWriter;
-import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.Enumeration;
@@ -15,13 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jrest4guice.annotations.HttpMethodType;
 import org.jrest4guice.annotations.Remote;
+import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.context.HttpContextManager;
 import org.jrest4guice.context.JRestContext;
-import org.jrest4guice.context.ModelMap;
 import org.jrest4guice.core.guice.GuiceContext;
 import org.jrest4guice.core.util.ClassUtils;
 import org.jrest4guice.exception.RestMethodNotFoundException;
 import org.jrest4guice.writer.JsonResponseWriter;
+
+import com.sun.xml.internal.ws.util.ByteArrayBuffer;
 
 /**
  * 
@@ -81,7 +80,7 @@ public class RequestProcessor {
 		HttpContextManager.setContext(request, response, params);
 		try {
 			int index;
-			if ((index = uri.indexOf(Remote.REMOTE_SERVICE_PREFIX)) != -1) {
+			if ((index = uri.indexOf(Remote.REMOTE_SERVICE_PREFIX)) != -1) {//以远程服务方式调用的处理
 				String serviceName = request
 						.getParameter(Remote.REMOTE_SERVICE_NAME_KEY);
 				String methodIndex = request
@@ -96,13 +95,13 @@ public class RequestProcessor {
 					Service service = new Service(GuiceContext.getInstance()
 							.getBean(clazz), methods.get(index));
 					// 填充参数
-					fillParameters(request, params);
+					fillParameters(request, params,true);
 					exec.execute(service, this.getHttpMethodType(RequestProcessor.METHOD_OF_POST),
-							charset);
+							charset,true);
 				} else {
 					this.writeRestServiceNotFoundMessage(uri_bak);
 				}
-			} else {
+			} else {//以普通Web方式调用的处理
 				// 从REST资源注册表中查找此URI对应的资源
 				Service service = JRestContext.getInstance()
 						.lookupResource(uri);
@@ -110,11 +109,11 @@ public class RequestProcessor {
 					ServiceExecutor exec = GuiceContext.getInstance().getBean(
 							ServiceExecutor.class);
 					// 填充参数
-					fillParameters(request, params);
+					fillParameters(request, params,false);
 					// 根据不同的请求方法调用REST对象的不同方法
 					String method = request.getMethod();
 					exec.execute(service, this.getHttpMethodType(method),
-							charset);
+							charset,false);
 				} else {
 					this.writeRestServiceNotFoundMessage(uri_bak);
 				}
@@ -151,7 +150,7 @@ public class RequestProcessor {
 	 * @modelMap request
 	 * @modelMap params
 	 */
-	private void fillParameters(HttpServletRequest request, ModelMap params) {
+	private void fillParameters(HttpServletRequest request, ModelMap params,boolean isRpc) {
 		Enumeration names = request.getAttributeNames();
 		String name;
 		while (names.hasMoreElements()) {
@@ -168,30 +167,26 @@ public class RequestProcessor {
 
 		// 以http body方式提交的参数
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					request.getInputStream(), charset));
-			// Read the request
-			CharArrayWriter data = new CharArrayWriter();
-			char buf[] = new char[4096];
-			int ret;
-			while ((ret = in.read(buf, 0, 4096)) != -1)
-				data.write(buf, 0, ret);
-
-			// URL解码
-			String content = URLDecoder.decode(data.toString().trim(), charset);
-			// 组装参数
-			if (content != "") {
-				String[] param_pairs = content.split("&");
-				String[] kv;
-				for (String p : param_pairs) {
-					kv = p.split("=");
-					if (kv.length > 1)
-						params.put(kv[0], kv[1]);
+			ByteArrayBuffer byteBuffer = new ByteArrayBuffer();
+			byteBuffer.write(request.getInputStream());
+			
+			if(!isRpc){
+				// URL解码
+				String content = URLDecoder.decode(byteBuffer.toString().trim(), charset);
+				// 组装参数
+				if (content != "") {
+					String[] param_pairs = content.split("&");
+					String[] kv;
+					for (String p : param_pairs) {
+						kv = p.split("=");
+						if (kv.length > 1)
+							params.put(kv[0], kv[1]);
+					}
 				}
+			}else{
+				params.put(ModelMap.RPC_ARGS_KEY, byteBuffer.toByteArray());
 			}
-
-			data.close();
-			in.close();
+			byteBuffer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
