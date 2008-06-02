@@ -3,6 +3,7 @@ package org.jrest4guice.context;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.core.guice.GuiceContext;
 import org.jrest4guice.core.jpa.EntityManagerFactoryHolder;
 

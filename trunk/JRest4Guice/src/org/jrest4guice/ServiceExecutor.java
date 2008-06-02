@@ -1,5 +1,7 @@
 package org.jrest4guice;
 
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,8 +27,8 @@ import org.jrest4guice.annotations.Path;
 import org.jrest4guice.annotations.Post;
 import org.jrest4guice.annotations.ProduceMime;
 import org.jrest4guice.annotations.Put;
+import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.context.HttpContextManager;
-import org.jrest4guice.context.ModelMap;
 import org.jrest4guice.core.util.ParameterNameDiscoverer;
 import org.jrest4guice.writer.ResponseWriter;
 import org.jrest4guice.writer.ResponseWriterRegister;
@@ -65,7 +67,7 @@ public class ServiceExecutor {
 	 * @return
 	 */
 	public void execute(Service service, HttpMethodType methodType,
-			String charset) throws Throwable {
+			String charset,boolean isRpc) throws Throwable {
 		Object result = null;
 		Object instance = service.getInstance();
 		String name = instance.getClass().getName();
@@ -86,11 +88,19 @@ public class ServiceExecutor {
 		ModelMap modelMap = HttpContextManager.getModelMap();
 		if (method != null) {
 			try {
+				Object[] args = null;
 				// 构造参数集合
-				List params = constructParams(method, modelMap);
+				if(!isRpc){
+					List params = constructParams(method, modelMap);
+					args = params.size() > 0 ? params.toArray() : null;
+				}else{
+					byte[] bytes = (byte[])modelMap.get(ModelMap.RPC_ARGS_KEY);
+					ObjectInputStream obj_in = new ObjectInputStream(new ByteArrayInputStream(bytes));
+					args =  (Object[])obj_in.readObject();
+				}
+				
 				// 执行业务方法
-				result = method.invoke(instance, params.size() > 0 ? params
-						.toArray() : null);
+				result = method.invoke(instance, args);
 				// 向客户端写回结果
 				writeResult(charset, result, method);
 			} catch (RuntimeException e) {
