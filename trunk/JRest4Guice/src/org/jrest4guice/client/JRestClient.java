@@ -62,7 +62,7 @@ public class JRestClient {
 			ModelMap<String, Object> parameters) throws Exception {
 		HttpMethod method = null;
 
-		Object args = parameters.get(ModelMap.RPC_ARGS_KEY);
+		Object args = parameters!=null?parameters.get(ModelMap.RPC_ARGS_KEY):null;
 
 		if (methodType.equalsIgnoreCase("get")) {
 			method = new GetMethod(url);
