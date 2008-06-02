@@ -109,7 +109,7 @@ public class SecurityLoginModule implements LoginModule {
 					}
 				}
 			} catch (Exception e) {
-				// e.printStackTrace();
+				 e.printStackTrace();
 			}
 			// ==================================================================
 
