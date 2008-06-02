@@ -6,5 +6,8 @@
 		<jar destfile="dist/JRest4Guice-security-loginModule.jar">
 			<zipfileset dir="build/classes" includes="**/security/**"/>
 		</jar>
+		<jar destfile="dist/JRest4Guice-sample.jar">
+			<zipfileset dir="build/classes" includes="**/**" excludes="**/cnoss/**"/>
+		</jar>
 	</target>
 </project>
