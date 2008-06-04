@@ -1,11 +1,11 @@
 package org.jrest4guice.remoteClient.sample.resource;
 
-import org.jrest4guice.annotations.Get;
-import org.jrest4guice.annotations.MimeType;
-import org.jrest4guice.annotations.Path;
-import org.jrest4guice.annotations.ProduceMime;
-import org.jrest4guice.annotations.RemoteService;
-import org.jrest4guice.core.client.Page;
+import org.jrest4guice.client.Page;
+import org.jrest4guice.rest.annotations.Get;
+import org.jrest4guice.rest.annotations.MimeType;
+import org.jrest4guice.rest.annotations.Path;
+import org.jrest4guice.rest.annotations.ProduceMime;
+import org.jrest4guice.rest.annotations.RemoteService;
 import org.jrest4guice.sample.entity.Contact;
 import org.jrest4guice.sample.resources.ContactResource;
 

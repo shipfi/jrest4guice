@@ -9,9 +9,6 @@
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/JRest4Guice/JRest4Guice">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/JRest4Guice-core/JRest4Guice-core">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/libraries/commons/commons-beanutils-1.7.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>

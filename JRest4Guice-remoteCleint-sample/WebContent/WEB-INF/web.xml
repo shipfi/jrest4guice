@@ -9,7 +9,7 @@
   <servlet>
     <servlet-name>JRestRequestServlet</servlet-name>
     <servlet-class>
-			org.jrest4guice.JRestRequestServlet
+			org.jrest4guice.rest.JRestRequestServlet
 		</servlet-class>
   </servlet>
   <servlet-mapping>
