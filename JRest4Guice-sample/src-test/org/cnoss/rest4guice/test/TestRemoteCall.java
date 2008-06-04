@@ -2,8 +2,8 @@ package org.cnoss.rest4guice.test;
 
 import java.util.List;
 
-import org.jrest4guice.RemoteServiceDynamicProxy;
-import org.jrest4guice.core.client.Page;
+import org.jrest4guice.client.Page;
+import org.jrest4guice.rest.RemoteServiceDynamicProxy;
 import org.jrest4guice.sample.entity.Contact;
 import org.jrest4guice.sample.entity.User;
 import org.jrest4guice.sample.resources.ContactResource;
