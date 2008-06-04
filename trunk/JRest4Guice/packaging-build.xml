@@ -4,7 +4,10 @@
 	<target name="N65540" description="JRest4Guice-rest.jar">
 		<mkdir dir="dist" />
 		<jar destfile="dist/JRest4Guice-rest.jar" manifest="src/META-INF/MANIFEST.MF">
-			<zipfileset dir="bin" includes="**/*.class" />
+			<zipfileset dir="bin" includes="**/rest/**" />
+		</jar>
+		<jar destfile="dist/JRest4Guice-security.jar">
+			<zipfileset dir="bin" includes="**/security/**" excludes="**/security/SecurityGuiceModuleProvider*,**/security/SecurityInterceptor.class"/>
 		</jar>
 		<jar destfile="dist/JRest4Guice-client.jar">
 			<zipfileset dir="bin" includes="**/client/**"/>
