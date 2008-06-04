@@ -2,11 +2,11 @@ package org.jrest4guice.sample.resources;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.jrest4guice.annotations.Get;
-import org.jrest4guice.annotations.ModelBean;
-import org.jrest4guice.annotations.Path;
-import org.jrest4guice.annotations.Post;
-import org.jrest4guice.core.client.Page;
+import org.jrest4guice.client.Page;
+import org.jrest4guice.rest.annotations.Get;
+import org.jrest4guice.rest.annotations.ModelBean;
+import org.jrest4guice.rest.annotations.Path;
+import org.jrest4guice.rest.annotations.Post;
 import org.jrest4guice.sample.entity.Role;
 import org.jrest4guice.sample.entity.User;
 import org.jrest4guice.sample.service.UserManageService;

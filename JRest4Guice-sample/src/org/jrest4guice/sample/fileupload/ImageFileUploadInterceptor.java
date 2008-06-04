@@ -3,7 +3,7 @@ package org.jrest4guice.sample.fileupload;
 import java.util.Map;
 import java.util.UUID;
 
-import org.jrest4guice.core.fileupload.FileUploadInterceptorAdapter;
+import org.jrest4guice.commons.fileupload.FileUploadInterceptorAdapter;
 
 /**
  * 
