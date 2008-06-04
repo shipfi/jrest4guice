@@ -2,8 +2,8 @@ package org.cnoss.rest4guice.test;
 
 import java.io.IOException;
 
-import org.jrest4guice.JRest4GuiceHelper;
-import org.jrest4guice.JRestGrizzlyResourceAdapter;
+import org.jrest4guice.rest.JRest4GuiceHelper;
+import org.jrest4guice.rest.JRestGrizzlyResourceAdapter;
 
 import com.sun.grizzly.http.SelectorThread;
 import com.sun.grizzly.standalone.StaticStreamAlgorithm;

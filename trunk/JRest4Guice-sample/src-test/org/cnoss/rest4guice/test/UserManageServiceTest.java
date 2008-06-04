@@ -4,8 +4,8 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.jrest4guice.core.client.Page;
-import org.jrest4guice.core.guice.GuiceContext;
+import org.jrest4guice.client.Page;
+import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.sample.entity.Role;
 import org.jrest4guice.sample.entity.User;
 import org.jrest4guice.sample.service.UserManageService;
