@@ -14,7 +14,7 @@
 	<servlet>
 		<servlet-name>JRestRequestServlet</servlet-name>
 		<servlet-class>
-			org.jrest4guice.JRestRequestServlet
+			org.jrest4guice.rest.JRestRequestServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
@@ -24,7 +24,7 @@
 	<servlet>
 		<servlet-name>MonitoredFileUploadServlet</servlet-name>
 		<servlet-class>
-			org.jrest4guice.core.fileupload.MonitoredFileUploadServlet
+			org.jrest4guice.commons.fileupload.MonitoredFileUploadServlet
 		</servlet-class>
 		<init-param>
 			<param-name>interceptor</param-name>
@@ -37,10 +37,11 @@
 		<servlet-name>MonitoredFileUploadServlet</servlet-name>
 		<url-pattern>/uploadFile</url-pattern>
 	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>main.html</welcome-file>
 	</welcome-file-list>
-
+	
 	<!--
 	-->
 	<security-constraint>
