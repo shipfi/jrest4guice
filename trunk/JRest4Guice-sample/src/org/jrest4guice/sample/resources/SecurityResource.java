@@ -7,11 +7,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.jrest4guice.annotations.Get;
-import org.jrest4guice.annotations.Path;
-import org.jrest4guice.core.security.Role;
+import org.jrest4guice.rest.annotations.Get;
+import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.sample.security.UserSecurityInfo;
 import org.jrest4guice.sample.service.UserManageService;
+import org.jrest4guice.security.Role;
 
 import com.google.inject.Inject;
 

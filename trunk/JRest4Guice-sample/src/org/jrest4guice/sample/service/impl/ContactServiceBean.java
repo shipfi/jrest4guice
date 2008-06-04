@@ -4,13 +4,13 @@ package org.jrest4guice.sample.service.impl;
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 
-import org.jrest4guice.core.client.Page;
-import org.jrest4guice.core.client.Pagination;
-import org.jrest4guice.core.jpa.BaseEntityManager;
-import org.jrest4guice.core.transaction.annotations.Transactional;
-import org.jrest4guice.core.transaction.annotations.TransactionalType;
+import org.jrest4guice.client.Page;
+import org.jrest4guice.client.Pagination;
+import org.jrest4guice.jpa.BaseEntityManager;
 import org.jrest4guice.sample.entity.Contact;
 import org.jrest4guice.sample.service.ContactService;
+import org.jrest4guice.transaction.annotations.Transactional;
+import org.jrest4guice.transaction.annotations.TransactionalType;
 
 import com.google.inject.Inject;
 

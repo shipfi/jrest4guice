@@ -17,8 +17,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hsqldb.lib.MD5;
-import org.jrest4guice.core.jpa.EntityAble;
-import org.jrest4guice.core.json.annotations.JsonExclude;
+import org.jrest4guice.jpa.EntityAble;
+import org.jrest4guice.rest.json.annotations.JsonExclude;
 
 /**
  * 
