@@ -112,8 +112,8 @@
 				resourceName="UserDatabase" />
 			<Realm className="org.apache.catalina.realm.JAASRealm"
 				appName="JRestRealm"
-				userClassNames="org.jrest4guice.core.security.User"
-				roleClassNames="org.jrest4guice.core.security.Role" />
+				userClassNames="org.jrest4guice.security.User"
+				roleClassNames="org.jrest4guice.security.Role" />
 			<!-- Define the default virtual host
 				Note: XML Schema validation will not work with Xerces 2.2.
 			-->
