@@ -384,9 +384,9 @@ if(Spry){
 			if(text != null){
 				try{
 					var result = eval("(" + text + ")");	
-					if(result.errorType == "org.jrest4guice.core.exception.UserNotLoginException"){//用户没有登录
+					if(result.errorType == "org.jrest4guice.commons.exception.UserNotLoginException"){//用户没有登录
 						//alert("由于您还没有登录本系统,所以当前的操作被拒绝!");
-					}else if(result.errorType == "org.jrest4guice.core.exception.AccessDeniedException"){//用户的操作权限受限
+					}else if(result.errorType == "org.jrest4guice.commons.exception.AccessDeniedException"){//用户的操作权限受限
 						//alert("您的访问权限不足,请及时与管理员联系,谢谢!");
 					}
 				}catch(e){}
