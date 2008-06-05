@@ -5,7 +5,7 @@
   * 零配置式服务声明
   * 服务的自动扫描注册
   * 非侵入式，用户不需要实现特定的接口来实现Restful服务
-  * 支持Rest风格的Post. Get. Put. Delete操作
+  * 支持Post. Get. Put. Delete操作
   * 灵活的注入(支持上下文环境request/response以及参数的自动注入)
   * 与JAAS的无缝集成
   * 支持分布式资源对象
