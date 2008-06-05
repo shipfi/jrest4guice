@@ -1,34 +1,140 @@
-目标:
-     一个轻量级的Restful服务架构
-特点:
-     1. 基于GUICE
-     2. 零配置式服务声明
-          @Restful(uri = "/contacts")
-          public class ContactListRestService
-     3. 服务的自动扫描注册
-     
-     4. 非侵入式风格，用户不需要实现特定的接口来实现Restful服务
-          用户只要在指定的POJO上:
-          1. 声明为@Restful，并指明访问的URI格式
-          2. 在指定的方法上声明为@HttpMethod
-     5. 支持Rest的Post. Get. Put. Delete操作
-          用户在指定的方法上通过@HttpMethod注解来声明方法的类型，如下:
-          @HttpMethod(type = HttpMethodType.POST)
-          public String createContact(String name, @RequestParameter("homePhone") String homePhone, @ModelBean Contact contact)
-          @HttpMethod
-          public String getContact(@FirstResult int first, @MaxResults int max)
-          注:如果没有提供HttpMethodType类型的声明，系统会自动根据方法名称的前缀来自动识别（方法名必须以get/post/put/delete开头）
-     6. 灵活的注入
-          6.1. 支持HttpServletRequest. HttpServletResponse. ModelMap的注入
-               @Inject
-               private ModelMap modelMap;
-               @Inject
-               private HttpServletRequest request;
-               @Inject
-               private HttpServletResponse response;
-          6.2. 支持参数的自动注入
-               方法中的参数可以由系统自动注入，如下:
-               public String createContact(String name, @RequestParameter("homePhone") String homePhone, @ModelBean Contact contact)
-               注:如果参数没有任何注解，系统默认获取上下文ID为参数名称的参数值，否则通过@RequestParameter注解指定的参数名称来获取，@ModelBean可以将上下文
-               中的参数转换成指定参数类型的Java bean
-          6.3. 支持对JndiResource的注入          
+====一个轻量级的基于Google Guice的Restful服务框架，支持JPA、JAAS、分布式资源对象,对OSGI的支持也在计划中.====
+----
+*特点:*
+  * 基于GUICE，内置带事务的JPA实现
+  * 零配置式服务声明
+  * 服务的自动扫描注册
+  * 非侵入式，用户不需要实现特定的接口来实现Restful服务
+  * 支持Post. Get. Put. Delete操作
+  * 灵活的注入(支持上下文环境request/response以及参数的自动注入)
+  * 与JAAS的无缝集成
+  * 支持分布式资源对象
+
+*代码示例:*
+{{{
+/**
+ * 资源对象
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * 
+ */
+@Path({"/contact", "/contact/{contactId}"})
+@Remote//[可选] 声明为可以被远程访问的资源对象,可以通过@RemoteService的注入到任一资源对象,通常用在跨应用的资源调用上
+public class ContactResource {
+	@Inject
+	private ContactService service;
+
+	@Post
+	public String createContact(@ModelBean Contact contact) {
+		return this.service.createContact(contact);
+	}
+
+	@Put
+	public void putContact(@ModelBean Contact contact) {
+		this.service.updateContact(contact);
+	}
+
+	@Get
+	@ProduceMime( {MimeType.MIME_OF_JSON,MimeType.MIME_OF_JAVABEAN})
+	@Path("/contacts")
+	public Page<Contact> listContacts(int pageIndex, int pageSize) {
+		return this.service.listContacts(pageIndex, pageSize);
+	}
+
+	@Get
+	public Contact getContact(@Parameter("contactId") String contactId) {
+		return this.service.findContactById(contactId);
+	}
+
+	@Delete
+	public void deleteContact(@Parameter("contactId") String contactId) {
+		this.service.deleteContact(contactId);
+	}
+}
+
+/**
+ * 业务对象
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ *
+ */
+@SuppressWarnings({"unchecked", "unused"})
+public class ContactServiceBean implements ContactService {
+
+	private BaseEntityManager<String, Contact> entityManager;
+
+	@Inject
+	private void init(EntityManager em) {
+		this.entityManager = new BaseEntityManager<String, Contact>(
+				Contact.class, em);
+	}
+
+	@Transactional
+	@RolesAllowed({"user"})//权限声明
+	public String createContact(Contact contact) {
+		if (contact == null)
+			throw new RuntimeException("联系人对象不能为空");
+
+		if (this.entityManager.loadByNamedQuery("byName", contact.getName()) != null) {
+			throw new RuntimeException("联系人的姓名相同，请重新输入");
+		}
+
+		this.entityManager.create(contact);
+		return contact.getId();
+	}
+
+	@Transactional
+	@RolesAllowed({"admin","audit"})//权限声明
+	public void deleteContact(String contactId) {
+		String[] ids = contactId.split(",");
+		Contact contact;
+		for (String id : ids) {
+			contact = this.findContactById(id);
+			if (contact == null)
+				throw new RuntimeException("联系人不存在");
+			this.entityManager.delete(contact);
+		}
+	}
+
+	@Transactional(type=TransactionalType.READOLNY)//只读性的事务
+	public Contact findContactById(String contactId) {
+		return this.entityManager.load(contactId);
+	}
+
+	@Transactional(type=TransactionalType.READOLNY)
+	public Page<Contact> listContacts(int pageIndex, int pageSize)
+			throws RuntimeException {
+		return this.entityManager.pageByNamedQuery("list",
+				new Pagination(pageIndex, pageSize));
+	}
+
+	@Transactional
+	@RolesAllowed({"admin","user"})//权限声明
+	public void updateContact(Contact contact) {
+		if (contact == null)
+			throw new RuntimeException("联系人对象不能为空");
+
+		this.entityManager.update(contact);
+	}
+}
+
+
+/**
+ * 远程资源引用的示例
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * 
+ */
+@Path({"/testCallRemote"})
+public class TestRemoteResource {
+	@Inject
+	@RemoteService //注入远程资源对象的引用
+	private ContactResource service;
+
+	@Get
+	@ProduceMime( {MimeType.MIME_OF_JSON,MimeType.MIME_OF_JAVABEAN})
+	public Page<Contact> listContacts(int pageIndex, int pageSize) {
+		return this.service.listContacts(pageIndex, pageSize);
+	}
+}
+}}}
+
+*Demo演示:*
+[http://cnoss.vicp.net/]
