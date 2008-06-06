@@ -10,13 +10,13 @@
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
 			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-			<property name="hibernate.show_sql" value="false"/>
+			<property name="hibernate.show_sql" value="true"/>
 			<property name="hibernate.format_sql" value="true"/>
 
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-			<property name="hibernate.connection.username" value="test"/>
-			<property name="hibernate.connection.password" value="111111"/>
-			<property name="hibernate.connection.url" value="jdbc:mysql://192.168.1.191:3306/test?useUnicode=true&amp;characterEncoding=utf8"/>
+			<property name="hibernate.connection.username" value="demo"/>
+			<property name="hibernate.connection.password" value="demo"/>
+			<property name="hibernate.connection.url" value="jdbc:mysql://192.168.1.171:3306/demo?useUnicode=true&amp;characterEncoding=utf8"/>
 		</properties>
 	</persistence-unit>
   	-->
