@@ -67,7 +67,7 @@ function init(){
 		}
 	});
 
-	contact_detail_ds.setURL("resource/contact/{contacts_ds::id}");
+	contact_detail_ds.setURL("resource/contacts/{contacts_ds::id}");
 	contact_detail_ds.useCache = false;
 	contact_detail_ds.setPath("content");
 	contact_detail_ds.setRequestInfo({headers:{"Accept":"application/json"}},true);
@@ -215,9 +215,6 @@ function saveOrUpdateContact(){
 	var postData = SpryExt.DataHelper.gatherData(form);
 	currentContact = contacts_ds.getCurrentRow();
 	var url = "resource/contact";
-	if(restMethod == "PUT")
-		url += "/"+currentContact.id;
-
 	//保存联系人
 	SpryExt.rest._call(restMethod,url,function(result){
 		if(result.errorType == ""){
@@ -248,7 +245,7 @@ function deleteContact(id,nme){
 		return;
 	
 	//删除联系人
-	SpryExt.rest.doDelete("resource/contact/"+ids,function(result){
+	SpryExt.rest.doDelete("resource/contacts/"+ids,function(result){
 		if(result.errorType == ""){
 			contacts_ds.loadData();
 			currentContact = null;
