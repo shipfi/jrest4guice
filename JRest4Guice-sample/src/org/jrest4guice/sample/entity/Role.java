@@ -28,7 +28,7 @@ import org.jrest4guice.jpa.EntityAble;
 @NamedQueries( {
 		@NamedQuery(name = "Role.list[find]", query = "select e from Role e order by e.name"),
 		@NamedQuery(name = "Role.list[count]", query = "select count(*) from Role"),
-		@NamedQuery(name = "Role.listByUserName[find]", query = "select roles from User where name=? order by name"),
+		@NamedQuery(name = "Role.listByUserName[find]", query = "select roles from User e where e.name=? order by e.name"),
 		@NamedQuery(name = "Role.byName[load]", query = "select e from Role e where e.name=?") })
 public class Role implements EntityAble<String>, Serializable {
 
