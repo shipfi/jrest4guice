@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.jrest4guice.commons.lang.Assert;
+import org.jrest4guice.jpa.EntityManagerFactoryHolder;
 import org.jrest4guice.jpa.JpaGuiceModuleProvider;
 import org.jrest4guice.security.SecurityGuiceModuleProvider;
 import org.jrest4guice.transaction.TransactionGuiceModuleProvider;
@@ -132,7 +133,14 @@ public class GuiceContext {
 					return modules.iterator();
 				}
 			});
+			
 			initialized = true;
+
+//			if(this.isUseJPA()){
+//				//立即初始化JPA上下文环境
+//				this.getBean(EntityManagerFactoryHolder.class);
+//			}
+
 			return this;
 		}
 	}
