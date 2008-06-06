@@ -14,7 +14,6 @@
 	<classpathentry kind="lib" path="/libraries/environment/cglib-2.2_beta1.jar"/>
 	<classpathentry kind="lib" path="/libraries/environment/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="/libraries/environment/hsqldb.jar"/>
-	<classpathentry kind="lib" path="/libraries/guice/guice-1.0.jar"/>
 	<classpathentry kind="lib" path="/libraries/hibernate/hibernate3-3.2.6.GA.jar"/>
 	<classpathentry kind="lib" path="/libraries/hibernate/hibernate-annotations-3.3.1.GA.jar"/>
 	<classpathentry kind="lib" path="/libraries/hibernate/hibernate-commons-annotations-3.0.0.jar"/>
@@ -31,5 +30,6 @@
 	<classpathentry kind="lib" path="/libraries/others/junit-4.4.jar"/>
 	<classpathentry kind="lib" path="/libraries/sun/grizzly-servlet-webserver-1.7.3.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="/libraries/guice/guice-1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
