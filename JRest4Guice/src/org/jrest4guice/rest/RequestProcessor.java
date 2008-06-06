@@ -172,7 +172,7 @@ public class RequestProcessor {
 			
 			if(!isRpc){
 				// URL解码
-				String content = URLDecoder.decode(byteBuffer.toString().trim(), charset);
+				String content = URLDecoder.decode(new String(byteBuffer.toByteArray()).trim(), charset);
 				// 组装参数
 				if (content != "") {
 					String[] param_pairs = content.split("&");
