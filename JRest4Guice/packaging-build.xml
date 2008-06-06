@@ -12,5 +12,8 @@
 		<jar destfile="dist/JRest4Guice-client.jar">
 			<zipfileset dir="bin" includes="**/client/**"/>
 		</jar>
+		<jar destfile="dist/JRest4Guice-all.jar">
+			<zipfileset dir="bin" includes="**/**"/>
+		</jar>
 	</target>
 </project>
