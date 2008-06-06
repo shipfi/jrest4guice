@@ -17,7 +17,7 @@
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  * 
  */
-@Path({"/contact", "/contact/{contactId}"})
+@Path({"/contact", "/contacts/{contactId}"})
 @Remote//[可选] 声明为可以被远程访问的资源对象,可以通过@RemoteService的注入到任一资源对象,通常用在跨应用的资源调用上
 public class ContactResource {
 	@Inject
