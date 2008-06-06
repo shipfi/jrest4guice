@@ -21,7 +21,7 @@ import com.google.inject.Inject;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
  * 
  */
-@Path( { "/contact", "/contact/{contactId}" })
+@Path( { "/contact", "/contacts/{contactId}" })
 @Remote
 public class ContactResource {
 	@Inject
