@@ -5,12 +5,16 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_JRest" version="2.5">
 	<display-name>JRest</display-name>
-
+	
+	<!-- 通过 JRest4GuiceSampContextListener 来初始化JRest4Guice的上下文 -->
+	<!-- 用户可以根据习惯通过listener或者servlet来初始化JRest4Guice的上下文，初始化详情请看JRest4GuiceSampContextListener的实现类 -->
 	<listener>
 		<listener-class>
 			org.jrest4guice.sample.listener.JRest4GuiceSampContextListener
 		</listener-class>
 	</listener>
+
+	<!-- 处理所有Restful的请求 -->
 	<servlet>
 		<servlet-name>JRestRequestServlet</servlet-name>
 		<servlet-class>
@@ -21,6 +25,8 @@
 		<servlet-name>JRestRequestServlet</servlet-name>
 		<url-pattern>/resource/*</url-pattern>
 	</servlet-mapping>
+
+	<!-- 带监视功能的文件上传组件 -->
 	<servlet>
 		<servlet-name>MonitoredFileUploadServlet</servlet-name>
 		<servlet-class>
@@ -42,8 +48,7 @@
 		<welcome-file>main.html</welcome-file>
 	</welcome-file-list>
 	
-	<!--
-	-->
+	<!-- 权限声明 -->
 	<security-constraint>
 		<display-name>
 			Tomcat server configuation security constraint
