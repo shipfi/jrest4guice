@@ -41,7 +41,7 @@ public class User implements EntityAble<String>, Serializable {
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	@Column(name = "id", nullable = false, updatable = false)
+	@Column(name = "id", nullable = false, updatable = false,length=32)
 	private String id;
 
 	@Column(name = "name", nullable = false, length = 36, unique = true)

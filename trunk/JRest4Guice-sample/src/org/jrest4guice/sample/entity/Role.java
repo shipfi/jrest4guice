@@ -40,7 +40,7 @@ public class Role implements EntityAble<String>, Serializable {
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	@Column(name = "id", nullable = false, updatable = false)
+	@Column(name = "id", nullable = false, updatable = false,length=32)
 	private String id;
 
 	@Column(name = "name", nullable = false, length = 36, unique = true)
@@ -50,7 +50,7 @@ public class Role implements EntityAble<String>, Serializable {
 	private String description;
 
 	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable(name = "UserRole_rl_tb", joinColumns = @JoinColumn(name = "role_id"),inverseJoinColumns = @JoinColumn(name = "user_id"))
+	@JoinTable(name = "UserRole_rl_tb", joinColumns = @JoinColumn(name = "role_id",referencedColumnName="id"),inverseJoinColumns = @JoinColumn(name = "user_id",referencedColumnName="id"))
 	private Set<User> user;
 
 	public Set<User>  getUser() {
