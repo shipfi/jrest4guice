@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/libraries/commons/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="/libraries/commons/commons-beanutils-1.7.0.jar" sourcepath="E:/Researchs/Appache/commons-beanutils-1.7.0-src.zip"/>
 	<classpathentry kind="lib" path="/libraries/commons/commons-codec.jar"/>
 	<classpathentry kind="lib" path="/libraries/commons/commons-collections-3.2.jar"/>
 	<classpathentry kind="lib" path="/libraries/commons/commons-fileupload-1.2.1.jar"/>
