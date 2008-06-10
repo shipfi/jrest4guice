@@ -71,6 +71,10 @@ public class ContactServiceBean implements ContactService {
 	public void updateContact(Contact contact) {
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");
+		
+		Contact tmpContact = this.entityManager.loadByNamedQuery("byName", contact.getName());
+		if(tmpContact != null && !contact.getId().equals(tmpContact.getId()))
+			throw new RuntimeException("联系人的姓名相同，请重新输入");
 
 		this.entityManager.update(contact);
 	}
