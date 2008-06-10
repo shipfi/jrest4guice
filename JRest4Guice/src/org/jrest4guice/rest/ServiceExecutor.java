@@ -5,10 +5,7 @@ import java.io.ObjectInputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.commons.lang.ParameterNameDiscoverer;
 import org.jrest4guice.rest.annotations.Delete;
@@ -46,7 +44,7 @@ public class ServiceExecutor {
 	private HttpServletRequest request;
 	@Inject
 	private HttpServletResponse response;
-
+	
 	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
 
@@ -137,7 +135,7 @@ public class ServiceExecutor {
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException {
 		Annotation[][] annotationArray = method.getParameterAnnotations();
-		Class<?>[] parameterTypes = method.getParameterTypes();
+		Class[] parameterTypes = method.getParameterTypes();
 
 		String pName;
 		List params = new ArrayList(0);
@@ -161,7 +159,7 @@ public class ServiceExecutor {
 
 			// 转换参数值
 			if (value == null)
-				value = convertValue(modelMap.get(pName), parameterTypes[index]);
+				value = BeanUtilsBean.getInstance().getConvertUtils().convert(modelMap.get(pName).toString(),parameterTypes[index]);
 			// 添加当前参数
 			params.add(value);
 
@@ -265,37 +263,5 @@ public class ServiceExecutor {
 				.getResponseWriter(mimeType);
 		if (responseWriter != null)
 			responseWriter.writeResult(result, charset);
-	}
-
-	/**
-	 * 转换参数值到指定的类型
-	 * 
-	 * @param value
-	 * @param type
-	 * @return
-	 */
-	private Object convertValue(Object value, Class type) {
-		if (value == null)
-			return null;
-
-		if (type == Date.class) {
-			value = new Date(value.toString());
-		} else if (type == String.class) {
-			value = value.toString();
-		} else if (type == Timestamp.class) {
-			value = Timestamp.valueOf(value.toString());
-		} else if (type == Time.class) {
-			value = Time.valueOf(value.toString());
-		} else if (type == Long.class || type == long.class) {
-			value = Long.valueOf(value.toString());
-		} else if (type == Integer.class || type == int.class) {
-			value = Integer.valueOf(value.toString());
-		} else if (type == Float.class || type == float.class) {
-			value = Float.valueOf(value.toString());
-		} else if (type == Double.class || type == double.class) {
-			value = Double.valueOf(value.toString());
-		}
-
-		return value;
 	}
 }
