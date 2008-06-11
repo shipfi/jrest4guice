@@ -1,7 +1,5 @@
 package org.jrest4guice.rest;
 
-import java.sql.Time;
-
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.Converter;
 import org.jrest4guice.guice.GuiceContext;
@@ -24,16 +22,44 @@ public class JRest4GuiceHelper {
 		JRest4GuiceHelper.addBeanConvert(new Converter() {
 			@Override
 			public Object convert(Class type, Object value) {
-				if (type != Time.class || value == null
+				if (type != java.sql.Time.class || value == null
 						|| value.toString().trim().equals(""))
 					return null;
 				try {
-					return Time.valueOf(value.toString());
+					return java.sql.Time.valueOf(value.toString());
 				} catch (Exception e) {
-					return new Time(Long.parseLong(value.toString()));
+					return new java.sql.Time(Long.parseLong(value.toString()));
 				}
 			}
-		}, Time.class);
+		}, java.sql.Time.class);
+		
+		JRest4GuiceHelper.addBeanConvert(new Converter() {
+			@Override
+			public Object convert(Class type, Object value) {
+				if (type != java.util.Date.class || value == null
+						|| value.toString().trim().equals(""))
+					return null;
+				try {
+					return java.util.Date.parse(value.toString());
+				} catch (Exception e) {
+					return new java.util.Date(Long.parseLong(value.toString()));
+				}
+			}
+		}, java.util.Date.class);
+		
+		JRest4GuiceHelper.addBeanConvert(new Converter() {
+			@Override
+			public Object convert(Class type, Object value) {
+				if (type != java.sql.Date.class || value == null
+						|| value.toString().trim().equals(""))
+					return null;
+				try {
+					return java.sql.Date.parse(value.toString());
+				} catch (Exception e) {
+					return new java.sql.Date(Long.parseLong(value.toString()));
+				}
+			}
+		}, java.sql.Date.class);
 
 		return GuiceContext.getInstance().addModuleProvider(
 				new JRestGuiceModuleProvider(scanPaths)).addModuleProvider(
