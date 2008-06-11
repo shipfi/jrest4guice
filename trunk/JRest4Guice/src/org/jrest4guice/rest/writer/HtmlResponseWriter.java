@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jrest4guice.rest.JRestResult;
 import org.jrest4guice.rest.annotations.MimeType;
@@ -27,6 +28,8 @@ public class HtmlResponseWriter implements ResponseWriter {
 	protected HttpServletRequest request;
 	@Inject
 	protected HttpServletResponse response;
+	@Inject
+	protected HttpSession session;
 
 	@Override
 	public String getMimeType() {
@@ -55,7 +58,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 				templateUrl = annotation.value();
 			}
 			//加载模块
-			File template = new File(request.getRealPath(templateUrl));
+			File template = new File(this.session.getServletContext().getRealPath(templateUrl));
 			if (template.exists()) {
 				BufferedReader brd = new BufferedReader(new InputStreamReader(
 						new FileInputStream(template), "utf-8"));
