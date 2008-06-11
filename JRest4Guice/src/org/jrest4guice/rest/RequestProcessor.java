@@ -24,7 +24,7 @@ import com.sun.xml.internal.ws.util.ByteArrayBuffer;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  * 
  */
 @SuppressWarnings("unchecked")

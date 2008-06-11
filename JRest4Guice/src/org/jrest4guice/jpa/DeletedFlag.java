@@ -2,7 +2,7 @@ package org.jrest4guice.jpa;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  *
  */
 public interface DeletedFlag {

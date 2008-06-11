@@ -2,7 +2,7 @@ package org.jrest4guice.commons.fileupload;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  *
  */
 public class UploadInfo {

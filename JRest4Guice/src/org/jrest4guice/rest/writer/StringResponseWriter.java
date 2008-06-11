@@ -5,7 +5,7 @@ import org.jrest4guice.rest.annotations.MimeType;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  *
  */
 public class StringResponseWriter extends TextResponseWriter {

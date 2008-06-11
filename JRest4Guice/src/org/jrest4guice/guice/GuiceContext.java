@@ -17,7 +17,7 @@ import com.google.inject.Module;
 
 /**
  * 全局上下文对象实体
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  */
 public class GuiceContext {
 

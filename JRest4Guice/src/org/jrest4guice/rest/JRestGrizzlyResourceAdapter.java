@@ -13,7 +13,7 @@ import com.sun.grizzly.tcp.http11.GrizzlyResponse;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  *
  */
 public class JRestGrizzlyResourceAdapter extends GrizzlyAdapter {

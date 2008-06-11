@@ -8,7 +8,7 @@ import org.apache.commons.fileupload.disk.DiskFileItem;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  *
  */
 @SuppressWarnings("serial")

@@ -17,7 +17,7 @@ import org.jrest4guice.client.Pagination;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  *
  */
 @SuppressWarnings("unchecked")
