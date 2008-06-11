@@ -4,7 +4,7 @@ import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.Converter;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.jndi.JndiGuiceModuleProvider;
-import org.jrest4guice.rest.converter.DateConverter;
+import org.jrest4guice.rest.converter.DatePatternConverter;
 
 /**
  * 
@@ -20,8 +20,9 @@ public class JRest4GuiceHelper {
 	 * @return
 	 */
 	public static GuiceContext useJRest(String... scanPaths) {
-		new DateConverter().addDefaultDateConverter();
-		
+		//注册缺省的日期转换器（用于BeanUtilsBean）
+		new DatePatternConverter().addDefaultDateConverter();
+		//打开JRest的支持
 		return GuiceContext.getInstance().addModuleProvider(
 				new JRestGuiceModuleProvider(scanPaths)).addModuleProvider(
 				new JndiGuiceModuleProvider(scanPaths));
