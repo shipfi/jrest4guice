@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.guice.ModuleProviderTemplate;
@@ -14,6 +15,7 @@ import org.jrest4guice.rest.annotations.Remote;
 import org.jrest4guice.rest.annotations.RemoteService;
 import org.jrest4guice.rest.context.HttpRequestProvider;
 import org.jrest4guice.rest.context.HttpResponseProvider;
+import org.jrest4guice.rest.context.HttpSessionProvider;
 import org.jrest4guice.rest.context.JRestContext;
 import org.jrest4guice.rest.context.ModelMapProvider;
 import org.jrest4guice.rest.writer.ResponseWriter;
@@ -51,6 +53,8 @@ public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 						HttpRequestProvider.class);
 				binder.bind(HttpServletResponse.class).toProvider(
 						HttpResponseProvider.class);
+				binder.bind(HttpSession.class).toProvider(
+						HttpSessionProvider.class);
 				binder.bind(ModelMap.class).toProvider(ModelMapProvider.class);
 
 				// 注册所有的Restful服务对象
