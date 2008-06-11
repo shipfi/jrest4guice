@@ -128,7 +128,7 @@ public class RequestProcessor {
 
 	private void writeRestServiceNotFoundMessage(String uri) {
 		GuiceContext.getInstance().getBean(JsonResponseWriter.class)
-				.writeResult(new Exception("没有提供指定的Rest服务 (" + uri + ") ！"),
+				.writeResult(null,new Exception("没有提供指定的Rest服务 (" + uri + ") ！"),
 						charset);
 	}
 

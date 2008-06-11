@@ -2,6 +2,7 @@ package org.jrest4guice.rest.writer;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,7 @@ public abstract class TextResponseWriter implements ResponseWriter {
 	/* (non-Javadoc)
 	 * @see org.jrest4guice.ResponseWriter#writeResult(javax.servlet.http.HttpServletResponse, java.lang.Object, java.lang.String)
 	 */
-	public void writeResult(Object result,String charset) {
+	public void writeResult(Method method,Object result,String charset) {
 		if (result == null)
 			result = "";
 		
