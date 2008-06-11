@@ -8,5 +8,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="lib" path="/libraries/sun/grizzly-servlet-webserver-1.7.3.1.jar"/>
 	<classpathentry kind="lib" path="/libraries/others/junit-4.4.jar"/>
+	<classpathentry kind="lib" path="D:/Redhat/jboss-4.2.1.GA/server/default/lib/mysql-connector-java-5.0.6-bin.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
