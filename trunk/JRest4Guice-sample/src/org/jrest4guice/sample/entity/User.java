@@ -21,7 +21,7 @@ import org.jrest4guice.rest.json.annotations.JsonExclude;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  * 
  */
 @Entity()

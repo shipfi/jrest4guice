@@ -3,8 +3,8 @@
 	<name>JRest4Guice-sample</name>
 	<comment></comment>
 	<projects>
-		<project>JRest4Guice</project>
 		<project>JRest4Guice-core</project>
+		<project>JRest4Guice</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

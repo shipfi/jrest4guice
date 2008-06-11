@@ -7,7 +7,7 @@ import org.jrest4guice.rest.JRest4GuiceHelper;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  * 
  */
 public class JRest4GuiceSampContextListener implements ServletContextListener {

@@ -10,7 +10,7 @@ import com.sun.grizzly.standalone.StaticStreamAlgorithm;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  * 
  */
 public class Rest4GuiceSampleStandaloneServer {
