@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
  *
  */
 public class ClassUtils {
