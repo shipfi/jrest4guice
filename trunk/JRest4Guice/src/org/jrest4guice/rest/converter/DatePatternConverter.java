@@ -10,10 +10,15 @@ import java.util.regex.Pattern;
 import org.apache.commons.beanutils.Converter;
 import org.jrest4guice.rest.JRest4GuiceHelper;
 
-public class DateConverter {
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss</a>
+ * 
+ */
+public class DatePatternConverter {
 	Map<Pattern, String> patterns;
 
-	public DateConverter() {
+	public DatePatternConverter() {
 		this.patterns = new HashMap<Pattern, String>();
 		this.patterns.put(Pattern
 				.compile("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})"), "yyyy-MM-dd");
@@ -34,6 +39,9 @@ public class DateConverter {
 
 	}
 
+	/**
+	 * 为BeanUtilsBean提供缺省的日期转换器
+	 */
 	public void addDefaultDateConverter() {
 		JRest4GuiceHelper.addBeanConvert(new Converter() {
 			@Override
@@ -41,7 +49,8 @@ public class DateConverter {
 				if (type != java.sql.Time.class || value == null
 						|| value.toString().trim().equals(""))
 					return null;
-				Object result = DateConverter.this.format(value.toString());
+				Object result = DatePatternConverter.this.format(value
+						.toString());
 				if (result == null) {
 					try {
 						result = new java.sql.Time(Long.parseLong(value
@@ -59,7 +68,8 @@ public class DateConverter {
 				if (type != java.util.Date.class || value == null
 						|| value.toString().trim().equals(""))
 					return null;
-				Object result = DateConverter.this.format(value.toString());
+				Object result = DatePatternConverter.this.format(value
+						.toString());
 				if (result == null) {
 					try {
 						result = new java.util.Date(Long.parseLong(value
@@ -77,7 +87,8 @@ public class DateConverter {
 				if (type != java.sql.Date.class || value == null
 						|| value.toString().trim().equals(""))
 					return null;
-				Object result = DateConverter.this.format(value.toString());
+				Object result = DatePatternConverter.this.format(value
+						.toString());
 				if (result == null) {
 					try {
 						result = new java.sql.Date(Long.parseLong(value
@@ -90,11 +101,27 @@ public class DateConverter {
 		}, java.sql.Date.class);
 	}
 
-	public DateConverter registDatePattern(Pattern pattern, String patterStr) {
+	/**
+	 * 注册新的日期转换器
+	 * 
+	 * @param pattern
+	 *            正则表达式
+	 * @param patterStr
+	 *            日期格式描述的字符串（如：2008-08-08）
+	 * @return
+	 */
+	public DatePatternConverter registDatePattern(Pattern pattern,
+			String patterStr) {
 		this.patterns.put(pattern, patterStr);
 		return this;
 	}
 
+	/**
+	 * 将字符串格式成日期型数据
+	 * 
+	 * @param dateStr
+	 * @return
+	 */
 	public Date format(String dateStr) {
 		String patterStr = this.getPatternString(dateStr);
 		SimpleDateFormat sdf = null;
@@ -110,6 +137,12 @@ public class DateConverter {
 		}
 	}
 
+	/**
+	 * 根据日期字符串返回指定的日期格式，用于SimpleDateFormat的格式描述
+	 * 
+	 * @param dateStr
+	 * @return
+	 */
 	public String getPatternString(String dateStr) {
 		String pattern = null;
 		for (Pattern p : this.patterns.keySet()) {
