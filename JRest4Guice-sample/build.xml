@@ -5,5 +5,8 @@
 		<jar destfile="target/Jrest4Guice-sample-security-loginModule.jar">
 			<zipfileset dir="target/classes" includes="**/security/**"/>
 		</jar>
+		<jar destfile="target/Jrest4Guice-sample-client.jar">
+			<zipfileset dir="target/classes" includes="**/sample/entity/Contact.class,**/sample/resources/ContactResource.class"/>
+		</jar>
 	</target>
 </project>
