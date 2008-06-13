@@ -1,17 +1,35 @@
+/*
+ * @(#)Content.java   08/06/13
+ * 
+ * Copyright (c) 2008 conss 开发团队 
+ *
+ * @author 胡晓豪
+ *
+ *
+ */
+
+
+
 package org.cnoss.cms.entity;
 
-import java.util.Date;
-import java.util.Set;
+//~--- non-JDK imports --------------------------------------------------------
 
 import org.cnoss.cms.entity.Category;
 import org.cnoss.cms.entity.ContentComment;
 import org.cnoss.cms.entity.audit.AuditableEntity;
 
+//~--- JDK imports ------------------------------------------------------------
+
 import java.io.Serializable;
+
 import java.math.BigDecimal;
+
 import java.util.Collection;
 import java.util.Date;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,53 +45,52 @@ import javax.persistence.TemporalType;
 
 /**
  * 文章基本信息
-
+ *
  *
  */
-@Entity
-@Table(name = "T_CONTENT")
+@Entity @Table(name = "T_CONTENT")
 public class Content extends AuditableEntity {
 
     /**
-     * 
+     *
      */
-    private static final long serialVersionUID = -7850395481514381002L;
-    @Column(name = "TITLE", nullable = false)
-    private String title;
-    @Column(name = "TITLE_ALIAS", nullable = false)
-    private String titleAlias;
-    @Column(name = "TEXT_ALIAS", nullable = false)
-    private String textAlias;
-    @Column(name = "TAGS", nullable = false)
-    private String tags;
-    @Column(name = "STATE", nullable = false)
-    private long state;
-    @Column(name = "ORDERING")
-    private Long ordering;
-    @Column(name = "HITS")
-    private Long hits;
+    private static final long    serialVersionUID = -7850395481514381002L;
     @Column(name = "AUTHOR", nullable = false)
-    private String author;
-    @Column(name = "IS_SELF")
-    private Long isSelf;
-    @Column(name = "SOURCE")
-    private String source;
-    @Column(name = "IS_VOUCH")
-    private Long isVouch;
-    @Column(name = "DATE_CREATED", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated;
-    @Column(name = "UUID", nullable = false)
-    private String uuid;
-    @Column(name = "EDITOR", nullable = false)
-    private String editor;
+    private String               author;
     @JoinColumn(name = "CATEGORY_ID", referencedColumnName = "ID")
     @ManyToOne
-    private Category category;
+    private Category             category;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "contentId")
     private List<ContentComment> comments;
+    @Column(name = "DATE_CREATED", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date                 dateCreated;
+    @Column(name = "EDITOR", nullable = false)
+    private String               editor;
+    @Column(name = "HITS")
+    private Long                 hits;
+    @Column(name = "IS_SELF")
+    private Long                 isSelf;
+    @Column(name = "IS_VOUCH")
+    private Long                 isVouch;
+    @Column(name = "ORDERING")
+    private Long                 ordering;
+    @Column(name = "SOURCE")
+    private String               source;
+    @Column(name = "STATE", nullable = false)
+    private long                 state;
+    @Column(name = "TAGS", nullable = false)
+    private String               tags;
+    @Column(name = "TEXT_ALIAS", nullable = false)
+    private String               textAlias;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "contentId")
-    private List<ContentText> texts;
+    private List<ContentText>    texts;
+    @Column(name = "TITLE", nullable = false)
+    private String               title;
+    @Column(name = "TITLE_ALIAS", nullable = false)
+    private String               titleAlias;
+    @Column(name = "UUID", nullable = false)
+    private String               uuid;
 
     public Category getCategory() {
         return category;
@@ -88,7 +105,6 @@ public class Content extends AuditableEntity {
         contentComment.setContent(this);
         comments.add(contentComment);
     }
-
 
     // 添加文章内容
     public void addText(ContentText contentText) {

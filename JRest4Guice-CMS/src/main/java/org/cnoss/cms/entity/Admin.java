@@ -1,8 +1,25 @@
+/*
+ * @(#)Admin.java   08/06/13
+ * 
+ * Copyright (c) 2008 conss 开发团队 
+ *
+ * @author 胡晓豪
+ *
+ *
+ */
+
+
+
 package org.cnoss.cms.entity;
+
+//~--- non-JDK imports --------------------------------------------------------
+
+import org.cnoss.cms.entity.audit.AuditableEntity;
+
+//~--- JDK imports ------------------------------------------------------------
 
 import java.util.Date;
 
-import org.cnoss.cms.entity.audit.AuditableEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,34 +29,32 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
-@Table(name = "T_ADMIN")
+@Entity @Table(name = "T_ADMIN")
 public class Admin extends AuditableEntity {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 753947053738371728L;
-    @Column(name = "USERNAME", nullable = false)
-    private String username;
-    @Column(name = "PASSWORD", nullable = false)
-    private String password;
     @Column(name = "CATEGORY_ID")
-    private Long categoryId;
-    @Column(name = "ROLES", nullable = false)
-    private String roles;
-    @Column(name = "STATE")
-    private Long state;
+    private Long              categoryId;
     @Column(name = "EMAIL")
-    private String email;
+    private String            email;
+    @Column(name = "LAST_LOGIN_IP")
+    private String            lastLoginIp;
     @Column(name = "LAST_LOGIN_TIME")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date lastLoginTime;
-    @Column(name = "LAST_LOGIN_IP")
-    private String lastLoginIp;
+    private Date              lastLoginTime;
+    @Column(name = "PASSWORD", nullable = false)
+    private String            password;
+    @Column(name = "ROLES", nullable = false)
+    private String            roles;
+    @Column(name = "STATE")
+    private Long              state;
+    @Column(name = "USERNAME", nullable = false)
+    private String            username;
 
-    public Admin() {
-    }
+    public Admin() {}
 
     public String getUsername() {
         return username;

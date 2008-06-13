@@ -1,7 +1,24 @@
+/*
+ * @(#)Category.java   08/06/13
+ * 
+ * Copyright (c) 2008 conss 开发团队 
+ *
+ * @author 胡晓豪
+ *
+ *
+ */
+
+
+
 package org.cnoss.cms.entity;
 
-import java.util.List;
+//~--- non-JDK imports --------------------------------------------------------
+
 import org.cnoss.cms.entity.audit.AuditableEntity;
+
+//~--- JDK imports ------------------------------------------------------------
+
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,41 +31,39 @@ import javax.persistence.Table;
 
 /**
  * 文章分类
- *  
+ *
  */
-@Entity
-@Table(name = "T_CATEGORY")
+@Entity @Table(name = "T_CATEGORY")
 public class Category extends AuditableEntity {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1253758001385907671L;
-    @Column(name = "NAME", nullable = false)
-    private String name;
-    @Column(name = "PARENT_ID", nullable = false)
-    private long parentId;
-    @Column(name = "PARENT_ENUM")
-    private String parentEnum;
-    @Column(name = "CHILD_NUM")
-    private Long childNum;
-    @Column(name = "DESCRIPTION")
-    private String description;
-    @Column(name = "DEPTH", nullable = false)
-    private long depth;
     @Column(name = "BRANCH_ID", nullable = false)
-    private long branchId;
-    @Column(name = "ORDERING", nullable = false)
-    private long ordering;
-    @Column(name = "FOLDERS")
-    private String folders;
+    private long              branchId;
+    @Column(name = "CHILD_NUM")
+    private Long              childNum;
     @Column(name = "COLUMN_ID")
-    private Long columnId;
+    private Long              columnId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
-    private List<Content> contentList;
+    private List<Content>     contentList;
+    @Column(name = "DEPTH", nullable = false)
+    private long              depth;
+    @Column(name = "DESCRIPTION")
+    private String            description;
+    @Column(name = "FOLDERS")
+    private String            folders;
+    @Column(name = "NAME", nullable = false)
+    private String            name;
+    @Column(name = "ORDERING", nullable = false)
+    private long              ordering;
+    @Column(name = "PARENT_ENUM")
+    private String            parentEnum;
+    @Column(name = "PARENT_ID", nullable = false)
+    private long              parentId;
 
-    public Category() {
-    }
+    public Category() {}
 
     public String getName() {
         return name;

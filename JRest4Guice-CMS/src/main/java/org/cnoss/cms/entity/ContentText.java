@@ -1,10 +1,28 @@
+/*
+ * @(#)ContentText.java   08/06/13
+ * 
+ * Copyright (c) 2008 conss 开发团队 
+ *
+ * @author 胡晓豪
+ *
+ *
+ */
+
+
+
 package org.cnoss.cms.entity;
+
+//~--- non-JDK imports --------------------------------------------------------
 
 import org.cnoss.cms.entity.Content;
 import org.cnoss.cms.entity.audit.AuditableEntity;
 
+//~--- JDK imports ------------------------------------------------------------
+
 import java.io.Serializable;
+
 import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,22 +34,21 @@ import javax.persistence.Table;
 
 /**
  * 文章内容
-
+ *
  *
  */
-@Entity
-@Table(name = "T_CONTENT_TEXT")
+@Entity @Table(name = "T_CONTENT_TEXT")
 public class ContentText extends AuditableEntity {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -409760557896281460L;
-    @Column(name = "TEXT", nullable = false)
-    private String text;
     @JoinColumn(name = "CONTENT_ID", referencedColumnName = "ID")
     @ManyToOne
-    private Content content;
+    private Content           content;
+    @Column(name = "TEXT", nullable = false)
+    private String            text;
 
     public Content getContent() {
         return content;

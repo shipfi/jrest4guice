@@ -1,12 +1,30 @@
+/*
+ * @(#)News.java   08/06/13
+ * 
+ * Copyright (c) 2008 conss 开发团队 
+ *
+ * @author 胡晓豪
+ *
+ *
+ */
+
+
+
 package org.cnoss.cms.entity;
 
-import java.util.Date;
+//~--- non-JDK imports --------------------------------------------------------
 
 import org.cnoss.cms.entity.audit.AuditableEntity;
 
+//~--- JDK imports ------------------------------------------------------------
+
 import java.io.Serializable;
+
 import java.math.BigDecimal;
+
 import java.util.Date;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,27 +36,26 @@ import javax.persistence.TemporalType;
 
 /**
  * 新闻实体类
- * 
+ *
  */
-@Entity
-@Table(name = "T_NEWS")
+@Entity @Table(name = "T_NEWS")
 public class News extends AuditableEntity {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 6255479910828967446L;
-    @Column(name = "TITLE", nullable = false)
-    private String title;
     @Column(name = "CONTENT", nullable = false)
-    private String content;
-    @Column(name = "USERNAME", nullable = false)
-    private String username;
-    @Column(name = "STATE")
-    private Long state;
+    private String            content;
     @Column(name = "DATE_CREATED")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated;
+    private Date              dateCreated;
+    @Column(name = "STATE")
+    private Long              state;
+    @Column(name = "TITLE", nullable = false)
+    private String            title;
+    @Column(name = "USERNAME", nullable = false)
+    private String            username;
 
     public String getContent() {
         return content;

@@ -1,75 +1,92 @@
+/*
+ * @(#)Website.java   08/06/13
+ * 
+ * Copyright (c) 2008 conss 开发团队 
+ *
+ * @author 胡晓豪
+ *
+ *
+ */
+
+
+
 package org.cnoss.cms.entity;
+
+//~--- non-JDK imports --------------------------------------------------------
 
 import org.cnoss.cms.entity.audit.AuditableEntity;
 
-// 网站对象
+//网站对象
+public class Website extends AuditableEntity {
 
-public class Website extends AuditableEntity{
+    /**
+     *
+     */
+    private static final long serialVersionUID = 2769236467341279739L;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2769236467341279739L;
-	// 名称
-	private String name;
-	// 域名
-	private String domain;
-	// 管理员邮箱
-	private String masterEmail;
-	// keywords
-	private String keywords;
-	// description
-	private String description;
-	
-	// 版权
-	private String copyright;
+    // 版权
+    private String copyright;
 
-	public String getCopyright() {
-		return copyright;
-	}
+    // description
+    private String description;
 
-	public void setCopyright(String copyright) {
-		this.copyright = copyright;
-	}
+    // 域名
+    private String domain;
 
-	public String getDescription() {
-		return description;
-	}
+    // keywords
+    private String keywords;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    // 管理员邮箱
+    private String masterEmail;
 
-	public String getDomain() {
-		return domain;
-	}
+    // 名称
+    private String name;
 
-	public void setDomain(String domain) {
-		this.domain = domain;
-	}
+    public String getCopyright() {
+        return copyright;
+    }
 
-	public String getKeywords() {
-		return keywords;
-	}
+    public void setCopyright(String copyright) {
+        this.copyright = copyright;
+    }
 
-	public void setKeywords(String keywords) {
-		this.keywords = keywords;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getMasterEmail() {
-		return masterEmail;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setMasterEmail(String masterEmail) {
-		this.masterEmail = masterEmail;
-	}
+    public String getDomain() {
+        return domain;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-		
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public String getMasterEmail() {
+        return masterEmail;
+    }
+
+    public void setMasterEmail(String masterEmail) {
+        this.masterEmail = masterEmail;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
