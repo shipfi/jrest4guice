@@ -1,12 +1,30 @@
+/*
+ * @(#)DownloadComment.java   08/06/13
+ * 
+ * Copyright (c) 2008 conss 开发团队 
+ *
+ * @author 胡晓豪
+ *
+ *
+ */
+
+
+
 package org.cnoss.cms.entity;
 
-import java.util.Date;
+//~--- non-JDK imports --------------------------------------------------------
 
 import org.cnoss.cms.entity.audit.AuditableEntity;
 
+//~--- JDK imports ------------------------------------------------------------
+
 import java.io.Serializable;
+
 import java.math.BigDecimal;
+
 import java.util.Date;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -20,32 +38,31 @@ import javax.persistence.TemporalType;
 
 /**
  * DownloadComment.java
- * 
+ *
  */
-@Entity
-@Table(name = "T_DOWNLOAD_COMMENT")
+@Entity @Table(name = "T_DOWNLOAD_COMMENT")
 public class DownloadComment extends AuditableEntity {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -6072262512361577769L;
-    @Column(name = "USERNAME", nullable = false)
-    private String username;
-    @Column(name = "EMAIL", nullable = false)
-    private String email;
-    @Column(name = "HTTP")
-    private String http;
-    @Column(name = "IP", nullable = false)
-    private String ip;
-    @Column(name = "TEXT", nullable = false)
-    private String text;
     @Column(name = "DATE_CREATED", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated;
+    private Date              dateCreated;
     @JoinColumn(name = "DOWNLOAD_ID", referencedColumnName = "ID")
     @ManyToOne
-    private Download download;
+    private Download          download;
+    @Column(name = "EMAIL", nullable = false)
+    private String            email;
+    @Column(name = "HTTP")
+    private String            http;
+    @Column(name = "IP", nullable = false)
+    private String            ip;
+    @Column(name = "TEXT", nullable = false)
+    private String            text;
+    @Column(name = "USERNAME", nullable = false)
+    private String            username;
 
     public Download getDownload() {
         return download;

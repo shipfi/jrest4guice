@@ -1,7 +1,25 @@
+/*
+ * @(#)ContentComment.java   08/06/13
+ * 
+ * Copyright (c) 2008 conss 开发团队 
+ *
+ * @author 胡晓豪
+ *
+ *
+ */
+
+
+
 package org.cnoss.cms.entity;
 
+//~--- non-JDK imports --------------------------------------------------------
+
 import org.cnoss.cms.entity.audit.AuditableEntity;
+
+//~--- JDK imports ------------------------------------------------------------
+
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -10,36 +28,35 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
-@Table(name = "T_CONTENT_COMMENT")
+@Entity @Table(name = "T_CONTENT_COMMENT")
 public class ContentComment extends AuditableEntity {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -7403287834838003728L;
-    @Column(name = "USERNAME", nullable = false)
-    private String username;
-    @Column(name = "EMAIL", nullable = false)
-    private String email;
-    @Column(name = "WEBSITE")
-    private String website;
-    @Column(name = "IP", nullable = false)
-    private String ip;
-    @Column(name = "UP")
-    private Long up;
-    @Column(name = "DOWN")
-    private Long down;
-    @Column(name = "TITLE")
-    private String title;
-    @Column(name = "TEXT", nullable = false)
-    private String text;
-    @Column(name = "DATE_CREATED", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated;
     @JoinColumn(name = "CONTENT_ID", referencedColumnName = "ID")
     @ManyToOne
-    private Content content;
+    private Content           content;
+    @Column(name = "DATE_CREATED", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date              dateCreated;
+    @Column(name = "DOWN")
+    private Long              down;
+    @Column(name = "EMAIL", nullable = false)
+    private String            email;
+    @Column(name = "IP", nullable = false)
+    private String            ip;
+    @Column(name = "TEXT", nullable = false)
+    private String            text;
+    @Column(name = "TITLE")
+    private String            title;
+    @Column(name = "UP")
+    private Long              up;
+    @Column(name = "USERNAME", nullable = false)
+    private String            username;
+    @Column(name = "WEBSITE")
+    private String            website;
 
     public Content getContent() {
         return content;

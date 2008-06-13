@@ -1,15 +1,33 @@
+/*
+ * @(#)Download.java   08/06/13
+ * 
+ * Copyright (c) 2008 conss 开发团队 
+ *
+ * @author 胡晓豪
+ *
+ *
+ */
+
+
+
 package org.cnoss.cms.entity;
 
-import java.util.Date;
-import java.util.Set;
+//~--- non-JDK imports --------------------------------------------------------
 
 import org.cnoss.cms.entity.DownClass;
 import org.cnoss.cms.entity.audit.AuditableEntity;
 
+//~--- JDK imports ------------------------------------------------------------
+
 import java.io.Serializable;
+
 import java.math.BigDecimal;
+
 import java.util.Collection;
 import java.util.Date;
+import java.util.Date;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,59 +41,59 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
-@Table(name = "T_DOWNLOAD")
+@Entity @Table(name = "T_DOWNLOAD")
 public class Download extends AuditableEntity {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -8722574204403598710L;
-    @Column(name = "TITLE", nullable = false)
-    private String title;
-    @Column(name = "FILENAME", nullable = false)
-    private String filename;
-    @Column(name = "FOLDER", nullable = false)
-    private String folder;
-    @Column(name = "FILESIZE", nullable = false)
-    private String filesize;
-    @Column(name = "FILETYPE", nullable = false)
-    private String filetype;
-    @Column(name = "DESCRIPTION")
-    private String description;
-    @Column(name = "HITS", nullable = false)
-    private long hits;
-    @Column(name = "TIMES", nullable = false)
-    private long times;
-    @Column(name = "UPLOADER", nullable = false)
-    private String uploader;
-    @Column(name = "IS_VOUCH", nullable = false)
-    private long isVouch;
-    @Column(name = "IS_DEMO", nullable = false)
-    private long isDemo;
-    @Column(name = "DEMO_URLS")
-    private String demoUrls;
-    @Column(name = "TAGS")
-    private String tags;
-    @Column(name = "OS")
-    private String os;
-    @Column(name = "LANGUAGE")
-    private Long language;
-    @Column(name = "STAR")
-    private Long star;
     @Column(name = "DATE_CREATED", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated;
-    @Column(name = "UUID", nullable = false)
-    private String uuid;
-    @Column(name = "STATE", nullable = false)
-    private long state;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "downloadId")
-    private Collection<DownloadComment> downloadComments;
+    private Date              dateCreated;
+    @Column(name = "DEMO_URLS")
+    private String            demoUrls;
+    @Column(name = "DESCRIPTION")
+    private String            description;
     @JoinColumn(name = "CLASS_ID", referencedColumnName = "ID")
     @ManyToOne
+
     // 所属下载类别
-    private DownClass downClass;
+    private DownClass                   downClass;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "downloadId")
+    private Collection<DownloadComment> downloadComments;
+    @Column(name = "FILENAME", nullable = false)
+    private String                      filename;
+    @Column(name = "FILESIZE", nullable = false)
+    private String                      filesize;
+    @Column(name = "FILETYPE", nullable = false)
+    private String                      filetype;
+    @Column(name = "FOLDER", nullable = false)
+    private String                      folder;
+    @Column(name = "HITS", nullable = false)
+    private long                        hits;
+    @Column(name = "IS_DEMO", nullable = false)
+    private long                        isDemo;
+    @Column(name = "IS_VOUCH", nullable = false)
+    private long                        isVouch;
+    @Column(name = "LANGUAGE")
+    private Long                        language;
+    @Column(name = "OS")
+    private String                      os;
+    @Column(name = "STAR")
+    private Long                        star;
+    @Column(name = "STATE", nullable = false)
+    private long                        state;
+    @Column(name = "TAGS")
+    private String                      tags;
+    @Column(name = "TIMES", nullable = false)
+    private long                        times;
+    @Column(name = "TITLE", nullable = false)
+    private String                      title;
+    @Column(name = "UPLOADER", nullable = false)
+    private String                      uploader;
+    @Column(name = "UUID", nullable = false)
+    private String                      uuid;
 
     public DownClass getDownClass() {
         return downClass;
@@ -84,6 +102,7 @@ public class Download extends AuditableEntity {
     public void setDownClass(DownClass downClass) {
         this.downClass = downClass;
     }
+
     // 下载评论 SET
 
     public void addDownloadComment(DownloadComment downloadComment) {
