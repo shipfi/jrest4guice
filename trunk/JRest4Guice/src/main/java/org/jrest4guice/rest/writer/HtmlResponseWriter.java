@@ -60,7 +60,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 			if (template.exists()) {
 				ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(render);
 				if(viewRender != null)
-					viewRender.render(out, template, httpResult);
+					viewRender.render(out, templateUrl, httpResult);
 				else{
 					out.println(httpResult.toJson());
 				}
