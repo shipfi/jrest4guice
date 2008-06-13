@@ -60,11 +60,11 @@ public class ContactResource {
 	}
 
 	/**
-	 * 显示单个联系人的信息，并指定了到请求类型为text/html时的返回视图模块
+	 * 显示单个联系人的信息，并指定了当请求类型为text/html时的返回视图模块
 	 * contactId 联系对象ID
 	 */
 	@Get
-	@ViewTemplate("/template/contactDetail.html")
+	@ViewTemplate(url="/template/contactDetail.vm")
 	public Contact getContact(@Parameter("contactId") String contactId) {
 		return this.service.findContactById(contactId);
 	}
