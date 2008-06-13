@@ -147,6 +147,12 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.5</version>
+		</dependency>
+
 		<!-- test begin -->
 		<dependency>
 			<groupId>junit</groupId>

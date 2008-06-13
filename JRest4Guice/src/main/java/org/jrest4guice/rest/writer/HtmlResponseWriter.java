@@ -1,10 +1,6 @@
 package org.jrest4guice.rest.writer;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
@@ -15,6 +11,8 @@ import javax.servlet.http.HttpSession;
 import org.jrest4guice.rest.JRestResult;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.ViewTemplate;
+import org.jrest4guice.rest.render.ViewRender;
+import org.jrest4guice.rest.render.ViewRenderRegister;
 
 import com.google.inject.Inject;
 
@@ -45,45 +43,31 @@ public class HtmlResponseWriter implements ResponseWriter {
 			PrintWriter out = response.getWriter();
 
 			JRestResult httpResult = JRestResult.createHttpResult(result);
-			String dataStr = httpResult.toJson();
 			//获取模块路径
 			ViewTemplate annotation = method.getAnnotation(ViewTemplate.class);
 			String templateUrl = "";
+			String render = annotation.render();
 			if (annotation == null)
 				annotation = method.getDeclaringClass().getAnnotation(
 						ViewTemplate.class);
 			if (annotation == null)
 				templateUrl = "/" + method.getDeclaringClass().getName();
 			else {
-				templateUrl = annotation.value();
+				templateUrl = annotation.url();
 			}
 			//加载模块
 			File template = new File(this.session.getServletContext().getRealPath(templateUrl));
 			if (template.exists()) {
-				BufferedReader brd = new BufferedReader(new InputStreamReader(
-						new FileInputStream(template), "utf-8"));
-				try {
-					//输出模块
-					String line;
-					while ((line = brd.readLine()) != null) {
-						out.println(line);
-					}
-					//输出模块中的数据源
-					out.println("<script type=\"text/javascript\">");
-					out.println("  templateView_ds = new Spry.Data.JSONDataSet();");
-					out.println("  templateView_ds.setPath(\"content\")");
-					out.println("  templateView_ds.setDataFromDoc('" + dataStr
-							+ "');");
-					out.println("</script>");
-
-				} finally {
-					if (brd != null)
-						brd.close();
+				ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(render);
+				if(viewRender != null)
+					viewRender.render(out, template, httpResult);
+				else{
+					out.println(httpResult.toJson());
 				}
 			} else {
-				out.println(dataStr);
+				out.println(httpResult.toJson());
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println("向客户端写回数据错误:\n" + e.getMessage());
 			e.printStackTrace();
 		}
