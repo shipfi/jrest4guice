@@ -28,10 +28,14 @@ import org.jrest4guice.rest.annotations.MimeType;
  */
 public class JRestClient {
 	private final static Log log = LogFactory.getLog(JRestClient.class);
+	
+	private HttpClient client;
+	public JRestClient(){
+		this.client = new HttpClient();
+	}
 
 	public Object callRemote(String url, String methodType,
 			ModelMap<String, Object> parameters) throws Exception {
-		HttpClient client = new HttpClient();
 		HttpMethod method = initMethod(url, methodType, parameters);
 		// 设置连接超时
 		client.getHttpConnectionManager().getParams()
