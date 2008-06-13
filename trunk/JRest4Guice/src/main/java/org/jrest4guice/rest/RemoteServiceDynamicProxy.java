@@ -33,6 +33,8 @@ public class RemoteServiceDynamicProxy implements MethodInterceptor {
 
 	private Map<String, String> service_url_relation;
 
+	private JRestClient client;
+
 	public RemoteServiceDynamicProxy() {
 		Properties property = new Properties();
 		try {
@@ -51,6 +53,8 @@ public class RemoteServiceDynamicProxy implements MethodInterceptor {
 		this.remoteServiceUrls = Arrays.asList(urls);
 
 		this.service_url_relation = new HashMap<String, String>();
+
+		this.client = new JRestClient();
 	}
 
 	public <T> T createRemoteService(Class<T> serviceClazz) {
@@ -68,8 +72,6 @@ public class RemoteServiceDynamicProxy implements MethodInterceptor {
 	public Object intercept(Object instance, Method method, Object[] args,
 			MethodProxy proxy) throws Throwable {
 		Object result = null;
-
-		JRestClient client = new JRestClient();
 
 		Class<?> clazz = method.getDeclaringClass();
 		Remote remote = clazz.getAnnotation(Remote.class);
