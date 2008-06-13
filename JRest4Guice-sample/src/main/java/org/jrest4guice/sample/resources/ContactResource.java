@@ -19,9 +19,7 @@ import org.jrest4guice.sample.service.ContactService;
 import com.google.inject.Inject;
 
 /**
- * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
- * 
  * 联系人的资源对象，并声明为Remote（可以通过@RemoteService的注入到任一资源对象,通常用在跨应用的资源调用上）
  */
 @Path( { "/contact", "/contacts/{contactId}" })
@@ -61,7 +59,8 @@ public class ContactResource {
 	}
 
 	/**
-	 * 显示单个联系人的信息，并指定了当客户端请求类型为text/html时的视图显示模板（现在系统内置对Velocity与Spry的支持）
+	 * 显示单个联系人的信息
+	 * 并指定了当客户端请求类型为text/html时的视图显示模板（现在系统内置对Velocity与Spry的支持）
 	 * contactId 联系对象ID
 	 */
 	@Get
