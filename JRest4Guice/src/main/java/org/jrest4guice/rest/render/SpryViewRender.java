@@ -1,20 +1,25 @@
 package org.jrest4guice.rest.render;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import javax.servlet.http.HttpSession;
+
 import org.jrest4guice.rest.JRestResult;
 
+import com.google.inject.Inject;
+
 public class SpryViewRender implements ViewRender {
+	@Inject
+	protected HttpSession session;
 
 	@Override
-	public void render(PrintWriter out, File template, JRestResult result)
+	public void render(PrintWriter out, String templateUrl, JRestResult result)
 			throws Exception {
 		BufferedReader brd = new BufferedReader(new InputStreamReader(
-				new FileInputStream(template), "utf-8"));
+				new FileInputStream(this.session.getServletContext().getRealPath(templateUrl)), "utf-8"));
 		try {
 			String line;
 			while ((line = brd.readLine()) != null) {

@@ -1,30 +1,26 @@
 package org.jrest4guice.rest.render;
 
-import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.jrest4guice.rest.JRestResult;
 
-public class VelocityViewRender implements ViewRender {
+import com.google.inject.Inject;
 
-	public VelocityViewRender() {
-		try {
-			Velocity.init();
-		} catch (Exception e) {
-			throw new RuntimeException("初始化VelocityViewRender失败", e);
-		}
-	}
+public class VelocityViewRender implements ViewRender {
+	@Inject
+	protected HttpSession session;
 
 	@Override
-	public void render(PrintWriter out, File templateFile, JRestResult result)
+	public void render(PrintWriter out, String templateUrl, JRestResult result)
 			throws Exception {
 
-		Template template = Velocity.getTemplate(templateFile.getPath(),
-				"utf-8");
+		Template template = Velocity.getTemplate(templateUrl, "utf-8");
 		VelocityContext context = new VelocityContext();
 
 		context.put("context", result);
