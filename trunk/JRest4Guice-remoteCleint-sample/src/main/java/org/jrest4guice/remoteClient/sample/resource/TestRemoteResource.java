@@ -25,6 +25,12 @@ public class TestRemoteResource {
 		return this.service.listContacts(pageIndex, pageSize);
 	}
 
+	/**
+	 * 测试远程调用的速度
+	 * @param times
+	 * @param pageSize
+	 * @return
+	 */
 	@Get
 	@Path("/test")
 	public TestResult test(int times, int pageSize) {
