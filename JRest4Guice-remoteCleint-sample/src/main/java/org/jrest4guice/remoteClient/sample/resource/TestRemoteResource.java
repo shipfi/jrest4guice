@@ -2,9 +2,7 @@ package org.jrest4guice.remoteClient.sample.resource;
 
 import org.jrest4guice.client.Page;
 import org.jrest4guice.rest.annotations.Get;
-import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.Path;
-import org.jrest4guice.rest.annotations.ProduceMime;
 import org.jrest4guice.rest.annotations.RemoteService;
 import org.jrest4guice.sample.entity.Contact;
 import org.jrest4guice.sample.resources.ContactResource;
@@ -23,8 +21,19 @@ public class TestRemoteResource {
 	private ContactResource service;
 
 	@Get
-	@ProduceMime( {MimeType.MIME_OF_JSON,MimeType.MIME_OF_JAVABEAN})
 	public Page<Contact> listContacts(int pageIndex, int pageSize) {
 		return this.service.listContacts(pageIndex, pageSize);
+	}
+
+	@Get
+	@Path("/test")
+	public TestResult test(int times, int pageSize) {
+		long start = System.currentTimeMillis();
+		Page<Contact> page = null;
+		for(int i=0;i<times;i++)
+			page = this.service.listContacts(1, pageSize);
+		long end = System.currentTimeMillis();
+		
+		return new TestResult(end-start,page);
 	}
 }
