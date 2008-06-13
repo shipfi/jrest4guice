@@ -27,9 +27,9 @@ public class SpryViewRender implements ViewRender {
 			}
 			// 输出模块中的数据源
 			out.println("<script type=\"text/javascript\">");
-			out.println("  templateView_ds = new Spry.Data.JSONDataSet();");
-			out.println("  templateView_ds.setPath(\"content\")");
-			out.println("  templateView_ds.setDataFromDoc('" + result.toJson()
+			out.println("  context = new Spry.Data.JSONDataSet();");
+			out.println("  context.setPath(\"content\")");
+			out.println("  context.setDataFromDoc('" + result.toJson()
 					+ "');");
 			out.println("</script>");
 		} finally {
