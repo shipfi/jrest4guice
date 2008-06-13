@@ -43,9 +43,10 @@ public class HtmlResponseWriter implements ResponseWriter {
 			PrintWriter out = response.getWriter();
 
 			JRestResult httpResult = JRestResult.createHttpResult(result);
-			//获取模块路径
+			//获取模板路径
 			ViewTemplate annotation = method.getAnnotation(ViewTemplate.class);
 			String templateUrl = "";
+			//模板的渲染器
 			String render = annotation.render();
 			if (annotation == null)
 				annotation = method.getDeclaringClass().getAnnotation(
@@ -55,7 +56,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 			else {
 				templateUrl = annotation.url();
 			}
-			//加载模块
+			//如果模板文件存在，则调用相应的渲染器进行结果的渲染
 			File template = new File(this.session.getServletContext().getRealPath(templateUrl));
 			if (template.exists()) {
 				ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(render);
