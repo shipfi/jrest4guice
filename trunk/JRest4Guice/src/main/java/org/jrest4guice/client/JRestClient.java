@@ -21,6 +21,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jrest4guice.rest.annotations.MimeType;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ *
+ */
 public class JRestClient {
 	private final static Log log = LogFactory.getLog(JRestClient.class);
 
