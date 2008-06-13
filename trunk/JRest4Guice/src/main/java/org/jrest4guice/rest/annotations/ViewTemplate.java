@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.jrest4guice.rest.render.ViewRenderType;
+
 
 /**
  * 
@@ -14,5 +16,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE,ElementType.METHOD})
 public @interface ViewTemplate {
-	String value() default "";
+	String url() default "";
+	String render() default ViewRenderType.VELOCITY;
 }

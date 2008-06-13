@@ -18,6 +18,8 @@ import org.jrest4guice.rest.context.HttpResponseProvider;
 import org.jrest4guice.rest.context.HttpSessionProvider;
 import org.jrest4guice.rest.context.JRestContext;
 import org.jrest4guice.rest.context.ModelMapProvider;
+import org.jrest4guice.rest.render.ViewRender;
+import org.jrest4guice.rest.render.ViewRenderRegister;
 import org.jrest4guice.rest.writer.ResponseWriter;
 import org.jrest4guice.rest.writer.ResponseWriterRegister;
 
@@ -27,7 +29,7 @@ import com.google.inject.Module;
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
- *
+ * 
  */
 @SuppressWarnings("unchecked")
 public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
@@ -46,7 +48,8 @@ public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 				// ===================================================
 				// 初始化ResponseWriter
 				// ===================================================
-				ResponseWriterRegister register = new ResponseWriterRegister();
+				ResponseWriterRegister writerRegister = new ResponseWriterRegister();
+				ViewRenderRegister renderRegister = new ViewRenderRegister();
 
 				// 绑定固定的上下文对象
 				binder.bind(HttpServletRequest.class).toProvider(
@@ -61,7 +64,7 @@ public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 				JRestContext jRestContext = JRestContext.getInstance();
 				Path annotation;
 				String[] uris;
-				String mimiType,name;
+				String mimiType, name;
 				String[] mimiTypes;
 				Field[] fields;
 				RemoteService remoteServiceAnnotation;
@@ -69,32 +72,35 @@ public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 				Class type;
 				for (Class clazz : classes) {
 					if (clazz.isAnnotationPresent(Remote.class)) {
-						name = ((Remote)clazz.getAnnotation(Remote.class)).value();
-						if(name==null || name.trim().equals(""))
+						name = ((Remote) clazz.getAnnotation(Remote.class))
+								.value();
+						if (name == null || name.trim().equals(""))
 							name = clazz.getName();
-						
+
 						jRestContext.addRemoteService(name, clazz);
 					}
-					
+
 					if (clazz.isAnnotationPresent(Path.class)) {
-						//注册Rest服务
-						annotation = (Path) clazz
-								.getAnnotation(Path.class);
+						// 注册Rest服务
+						annotation = (Path) clazz.getAnnotation(Path.class);
 						uris = annotation.value();
 						int index = 0;
 						for (String uri : uris)
-							jRestContext.addResource(uri, clazz,index++==0);
+							jRestContext.addResource(uri, clazz, index++ == 0);
 
-						//绑定远程服务引用的Provider
+						// 绑定远程服务引用的Provider
 						fields = clazz.getDeclaredFields();
-						for(Field f: fields){
-							if(f.isAnnotationPresent(remoteServiceClass)){
-								remoteServiceAnnotation = f.getAnnotation(remoteServiceClass);
+						for (Field f : fields) {
+							if (f.isAnnotationPresent(remoteServiceClass)) {
+								remoteServiceAnnotation = f
+										.getAnnotation(remoteServiceClass);
 								type = f.getType();
-								binder.bind(type).annotatedWith(remoteServiceClass).toProvider(RemoteServiceProvider.create(type));
+								binder.bind(type).annotatedWith(
+										remoteServiceClass).toProvider(
+										RemoteServiceProvider.create(type));
 							}
 						}
-					}else if (ResponseWriter.class.isAssignableFrom(clazz)) {
+					} else if (ResponseWriter.class.isAssignableFrom(clazz)) {
 						// 注册ResponseWriter
 						try {
 							ResponseWriter writer = (ResponseWriter) clazz
@@ -103,9 +109,18 @@ public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 							mimiTypes = mimiType.split(",");
 							for (String mt : mimiTypes) {
 								if (!mt.trim().equals(""))
-									register.registResponseWriter(mt.trim(),
-											clazz);
+									writerRegister.registResponseWriter(mt
+											.trim(), clazz);
 							}
+						} catch (Exception e) {
+						}
+					} else if (ViewRender.class.isAssignableFrom(clazz)) {
+						// 注册ViewRender
+						try {
+							ViewRender render = (ViewRender) clazz
+									.newInstance();
+							renderRegister.registViewRender(render
+									.getRenderType(), clazz);
 						} catch (Exception e) {
 						}
 					}
