@@ -19,16 +19,20 @@ public class TestCallRemote {
 				.createRemoteService(ContactResource.class);
 		
 		Page<Contact> page = null;
-		for(int i=0;i<times;i++)
+		for(int i=0;i<times;i++){
 			page = resource.listContacts(1, pageSize);
-		
-		List<Contact> contacts = page.getResult();
+		}
+		debug(page);
 		
 		long end = System.currentTimeMillis();
-		
-		for (Contact ct : contacts)
-			System.out.print(ct.getName()+",");
 
 		System.out.println("\n运行 "+times+" 次，每次取 "+pageSize+" 条记录，总耗时： "+(end-start));
+	}
+
+	private static void debug(Page<Contact> page) {
+		System.out.println();
+		List<Contact> contacts = page.getResult();
+		for (Contact ct : contacts)
+			System.out.print(ct.getName()+",");
 	}
 }
