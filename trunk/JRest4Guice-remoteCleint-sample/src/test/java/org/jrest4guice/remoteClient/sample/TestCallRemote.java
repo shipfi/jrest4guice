@@ -10,8 +10,8 @@ import org.jrest4guice.sample.resources.ContactResource;
 public class TestCallRemote {
 	public static void main(String[] args) {
 		
-		int times = 1000;
-		int pageSize = 20;
+		int times = 10000;
+		int pageSize = 10;
 		
 		long start = System.currentTimeMillis();
 		RemoteServiceDynamicProxy proxy = new RemoteServiceDynamicProxy();
