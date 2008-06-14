@@ -7,6 +7,10 @@ import org.jrest4guice.guice.GuiceContext;
 
 import com.google.inject.Singleton;
 
+/**
+ * 视力渲染器注册
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ */
 @Singleton
 public class ViewRenderRegister {
 
