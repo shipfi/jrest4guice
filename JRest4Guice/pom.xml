@@ -152,6 +152,11 @@
 			<artifactId>velocity</artifactId>
 			<version>1.5</version>
 		</dependency>
+		<dependency>
+			<groupId>freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.8</version>
+		</dependency>
 
 		<!-- test begin -->
 		<dependency>
