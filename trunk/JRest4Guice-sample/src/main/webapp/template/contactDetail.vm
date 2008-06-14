@@ -6,6 +6,7 @@
 <link href="/css/default.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+	<h3>Velocity template</h3>
 	#set($contact = $context.content ) 
 	<div>
 		<div><span>当前用户： </span><span><b>$contact.name</b></span></div>
@@ -14,6 +15,5 @@
 		<div>&nbsp;$contact.EMail</div>
 		<div>&nbsp;$contact.address</div>
 	</div>
-	<a href="#" onclick="history.go(-1);void(0);return false;">back</a>
 </body>
 </html>
