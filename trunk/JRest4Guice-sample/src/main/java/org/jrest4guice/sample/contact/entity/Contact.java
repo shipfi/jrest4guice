@@ -12,6 +12,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.jrest4guice.jpa.EntityAble;
 
@@ -26,6 +28,7 @@ import org.jrest4guice.jpa.EntityAble;
 		@NamedQuery(name = "Contact.list[find]", query = "select e from Contact e order by e.changeDate desc"),
 		@NamedQuery(name = "Contact.list[count]", query = "select count(*) from Contact"),
 		@NamedQuery(name = "Contact.byName[load]", query = "select e from Contact e where e.name=?") })
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "contactCache")
 public class Contact implements EntityAble<String>, Serializable {
 
 	/**
