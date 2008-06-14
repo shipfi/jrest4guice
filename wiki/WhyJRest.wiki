@@ -5,10 +5,11 @@
 *特点:*
   * 基于Google guice 
   * 零配置，服务的自动扫描注册 
-  * 非侵入式，用户不需要实现特定的接口来实现Restful服务
+  * 非侵入式，用户不需要实现特定的接口来实现Restful服务 
   * 支持Post. Get. Put. Delete操作 
-  * 灵活的注入(支持上下文环境request/response以及参数的自动注入)
-  * 根据客户端要求返回不同类型的数据（xml/json/html）。当返回类型是html时，支持Velocity、Freemarker和Spry模板引擎进行渲染（参见@ViewTemplate） 
+  * 灵活的注入(支持上下文环境request/response/session以及参数的自动注入) 
+  * 根据客户端要求返回不同类型的数据（xml/json/html）
+  * 支持Velocity、Freemarker和Spry模板引擎（当返回类型是text/html时才有效,参见@ViewTemplate）
   * 支持JPA，通过增强的BaseEntityManager实现实体的CRUD 
   * 支持事务，通过@Transactional注解声明事务的类型 
   * 支持JAAS，通过@RolesAllowed注解声明操作所需要的角色 
