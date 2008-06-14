@@ -22,7 +22,7 @@ public class JRest4GuiceSampContextListener implements ServletContextListener {
 		initVelocity(event);
 
 		JRest4GuiceHelper
-		.useJRest("org.jrest4guice.sample.resources")//使用Rest，并指定要动态扫描注册的包路径
+		.useJRest("org.jrest4guice.sample.contact.resources")//使用Rest，并指定要动态扫描注册的包路径
 		.useJPA()//使用JPA
 		.useSecurity()//使用JAAS
 		.init();
