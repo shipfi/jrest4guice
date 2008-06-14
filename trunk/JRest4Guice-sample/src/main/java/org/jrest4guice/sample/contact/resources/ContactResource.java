@@ -60,12 +60,12 @@ public class ContactResource {
 
 	/**
 	 * 显示单个联系人的信息
-	 * 并指定了当客户端请求类型为text/html时的视图显示模板（现在系统内置对Velocity与Spry的支持）
+	 * 并指定了当客户端请求类型为text/html时的视图显示模板（现在系统内置对Velocity、Freemarker与Spry的支持）
 	 * contactId 联系对象ID
 	 */
 	@Get
-//	@ViewTemplate(url="/template/contactDetail.vm",render=ViewRenderType.VELOCITY)
-	@ViewTemplate(url="/template/contactDetail.ftl",render=ViewRenderType.FREEMARKER)
+	@ViewTemplate(url="/template/contactDetail.vm",render=ViewRenderType.VELOCITY)
+//	@ViewTemplate(url="/template/contactDetail.ftl",render=ViewRenderType.FREEMARKER)
 //	@ViewTemplate(url="/template/contactDetail.html",render=ViewRenderType.SPRY)
 	public Contact getContact(@Parameter("contactId") String contactId) {
 		return this.service.findContactById(contactId);
