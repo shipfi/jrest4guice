@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.jrest4guice.client.Page;
 import org.jrest4guice.rest.RemoteServiceDynamicProxy;
-import org.jrest4guice.sample.entity.Contact;
-import org.jrest4guice.sample.entity.User;
-import org.jrest4guice.sample.resources.ContactResource;
+import org.jrest4guice.sample.contact.entity.Contact;
+import org.jrest4guice.sample.contact.entity.User;
+import org.jrest4guice.sample.contact.resources.ContactResource;
 
 public class TestRemoteCall {
 	public static void main(String[] args) throws Exception {

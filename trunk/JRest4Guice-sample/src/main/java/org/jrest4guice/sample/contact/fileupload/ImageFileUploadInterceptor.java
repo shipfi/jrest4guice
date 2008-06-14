@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.fileupload;
+package org.jrest4guice.sample.contact.fileupload;
 
 import java.util.Map;
 import java.util.UUID;

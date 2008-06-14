@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.security;
+package org.jrest4guice.sample.contact.security;
 
 public class UserSecurityInfo {
 	private String userName;

@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.service.impl;
+package org.jrest4guice.sample.contact.service.impl;
 
 
 import javax.annotation.security.RolesAllowed;
@@ -7,8 +7,8 @@ import javax.persistence.EntityManager;
 import org.jrest4guice.client.Page;
 import org.jrest4guice.client.Pagination;
 import org.jrest4guice.jpa.BaseEntityManager;
-import org.jrest4guice.sample.entity.Contact;
-import org.jrest4guice.sample.service.ContactService;
+import org.jrest4guice.sample.contact.entity.Contact;
+import org.jrest4guice.sample.contact.service.ContactService;
 import org.jrest4guice.transaction.annotations.Transactional;
 import org.jrest4guice.transaction.annotations.TransactionalType;
 

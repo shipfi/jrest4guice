@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.service.impl;
+package org.jrest4guice.sample.contact.service.impl;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import org.jrest4guice.client.Page;
 import org.jrest4guice.client.Pagination;
 import org.jrest4guice.commons.lang.MD5Util;
 import org.jrest4guice.jpa.BaseEntityManager;
-import org.jrest4guice.sample.entity.Role;
-import org.jrest4guice.sample.entity.User;
-import org.jrest4guice.sample.service.UserManageService;
+import org.jrest4guice.sample.contact.entity.Role;
+import org.jrest4guice.sample.contact.entity.User;
+import org.jrest4guice.sample.contact.service.UserManageService;
 import org.jrest4guice.transaction.annotations.Transactional;
 import org.jrest4guice.transaction.annotations.TransactionalType;
 
