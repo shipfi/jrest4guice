@@ -4,8 +4,8 @@ import org.jrest4guice.client.Page;
 import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.rest.annotations.RemoteService;
-import org.jrest4guice.sample.entity.Contact;
-import org.jrest4guice.sample.resources.ContactResource;
+import org.jrest4guice.sample.contact.entity.Contact;
+import org.jrest4guice.sample.contact.resources.ContactResource;
 
 import com.google.inject.Inject;
 
