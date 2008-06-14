@@ -35,7 +35,7 @@
 		<init-param>
 			<param-name>interceptor</param-name>
 			<param-value>
-				org.jrest4guice.sample.fileupload.ImageFileUploadInterceptor
+				org.jrest4guice.sample.contact.fileupload.ImageFileUploadInterceptor
 			</param-value>
 		</init-param>
 	</servlet>

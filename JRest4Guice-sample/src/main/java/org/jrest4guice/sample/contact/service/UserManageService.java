@@ -1,11 +1,11 @@
-package org.jrest4guice.sample.service;
+package org.jrest4guice.sample.contact.service;
 
 import java.util.List;
 
 import org.jrest4guice.client.Page;
-import org.jrest4guice.sample.entity.Role;
-import org.jrest4guice.sample.entity.User;
-import org.jrest4guice.sample.service.impl.UserManageServiceBean;
+import org.jrest4guice.sample.contact.entity.Role;
+import org.jrest4guice.sample.contact.entity.User;
+import org.jrest4guice.sample.contact.service.impl.UserManageServiceBean;
 
 import com.google.inject.ImplementedBy;
 

@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.entity;
+package org.jrest4guice.sample.contact.entity;
 
 import java.io.Serializable;
 import java.util.Set;

@@ -1,9 +1,9 @@
-package org.jrest4guice.sample.service;
+package org.jrest4guice.sample.contact.service;
 
 
 import org.jrest4guice.client.Page;
-import org.jrest4guice.sample.entity.Contact;
-import org.jrest4guice.sample.service.impl.ContactServiceBean;
+import org.jrest4guice.sample.contact.entity.Contact;
+import org.jrest4guice.sample.contact.service.impl.ContactServiceBean;
 
 import com.google.inject.ImplementedBy;
 

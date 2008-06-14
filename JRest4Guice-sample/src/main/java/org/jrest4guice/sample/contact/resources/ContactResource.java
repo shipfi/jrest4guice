@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.resources;
+package org.jrest4guice.sample.contact.resources;
 
 import org.jrest4guice.client.Page;
 import org.jrest4guice.rest.annotations.Delete;
@@ -13,8 +13,8 @@ import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.Remote;
 import org.jrest4guice.rest.annotations.ViewTemplate;
 import org.jrest4guice.rest.render.ViewRenderType;
-import org.jrest4guice.sample.entity.Contact;
-import org.jrest4guice.sample.service.ContactService;
+import org.jrest4guice.sample.contact.entity.Contact;
+import org.jrest4guice.sample.contact.service.ContactService;
 
 import com.google.inject.Inject;
 

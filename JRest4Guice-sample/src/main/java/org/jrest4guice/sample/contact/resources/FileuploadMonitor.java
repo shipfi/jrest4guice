@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.resources;
+package org.jrest4guice.sample.contact.resources;
 
 import org.jrest4guice.commons.fileupload.UploadInfo;
 import org.jrest4guice.commons.fileupload.UploadMonitor;

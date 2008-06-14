@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.resources;
+package org.jrest4guice.sample.contact.resources;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.Path;
-import org.jrest4guice.sample.security.UserSecurityInfo;
-import org.jrest4guice.sample.service.UserManageService;
+import org.jrest4guice.sample.contact.security.UserSecurityInfo;
+import org.jrest4guice.sample.contact.service.UserManageService;
 import org.jrest4guice.security.Role;
 
 import com.google.inject.Inject;
@@ -56,11 +56,11 @@ public class SecurityResource {
 	@Get
 	@Path("{userName}/roles")
 	public List<Role> listUserRoles(String userName) {
-		List<org.jrest4guice.sample.entity.Role> userRoles = this.service
+		List<org.jrest4guice.sample.contact.entity.Role> userRoles = this.service
 				.getUserRoles(userName);
 		List<Role> roles = new ArrayList<Role>(userRoles.size());
 		Role role;
-		for (org.jrest4guice.sample.entity.Role _role : userRoles) {
+		for (org.jrest4guice.sample.contact.entity.Role _role : userRoles) {
 			role = new Role();
 			role.setId(_role.getId());
 			role.setName(_role.getName());
