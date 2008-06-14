@@ -10,7 +10,7 @@
 	<!-- 用户可以根据习惯通过listener或者servlet来初始化JRest4Guice的上下文，初始化详情请看JRest4GuiceSampContextListener的实现类 -->
 	<listener>
 		<listener-class>
-			org.jrest4guice.sample.listener.JRest4GuiceSampContextListener
+			org.jrest4guice.sample.listener.JRest4GuiceSampleContextListener
 		</listener-class>
 	</listener>
 
