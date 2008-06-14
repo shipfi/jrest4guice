@@ -1,7 +1,7 @@
 package org.jrest4guice.remoteClient.sample.resource;
 
 import org.jrest4guice.client.Page;
-import org.jrest4guice.sample.entity.Contact;
+import org.jrest4guice.sample.contact.entity.Contact;
 
 public class TestResult {
 	private long duration;
