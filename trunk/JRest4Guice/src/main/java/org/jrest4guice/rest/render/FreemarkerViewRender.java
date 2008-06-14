@@ -17,12 +17,19 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 
+/**
+ * Freemarker的视力渲染器
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ */
 public class FreemarkerViewRender implements ViewRender {
 	private static Configuration cfg;
 
 	@Inject
 	protected HttpSession session;
-
+	
+	/**
+	 * 初始化Freemarker的配置
+	 */
 	private void initFreemarker() {
 		if (cfg == null) {
 			try {
@@ -36,23 +43,30 @@ public class FreemarkerViewRender implements ViewRender {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, java.lang.String, org.jrest4guice.rest.JRestResult)
+	 */
 	@Override
 	public void render(PrintWriter out, String templateUrl, JRestResult result)
 			throws Exception {
 
 		this.initFreemarker();
-
+		//获取模板
 		Template template = cfg.getTemplate(templateUrl, "utf-8");
 		StringWriter writer = new StringWriter();
-
+		//往上下文中填入数据
 		Map context = new HashMap();
 		context.put("context", result);
 		template.process(context, writer);
 
+		//输出到用户端
 		writer.toString();
 		out.println(writer.toString());
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jrest4guice.rest.render.ViewRender#getRenderType()
+	 */
 	@Override
 	public String getRenderType() {
 		return ViewRenderType.FREEMARKER;
