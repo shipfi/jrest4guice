@@ -18,14 +18,13 @@ public class JRest4GuiceSampleContextListener implements ServletContextListener 
 
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
-		//初始化Velocity引擎
+		// 初始化Velocity引擎
 		initVelocity(event);
 
-		JRest4GuiceHelper
-		.useJRest("org.jrest4guice.sample")//使用Rest，并指定要动态扫描注册的包路径
-		.useJPA()//使用JPA
-		.useSecurity()//使用JAAS
-		.init();
+		JRest4GuiceHelper.useJRest("org.jrest4guice.sample")// 使用Rest，并指定要动态扫描注册的包路径
+				.useJPA()// 使用JPA
+				.useSecurity()// 使用JAAS
+				.init();
 	}
 
 	private void initVelocity(ServletContextEvent event) {
@@ -34,7 +33,7 @@ public class JRest4GuiceSampleContextListener implements ServletContextListener 
 		try {
 			Velocity.init();
 		} catch (Exception e) {
-			throw new RuntimeException("初始化VelocityViewRender失败", e);
+			throw new RuntimeException("初始化Velocity引擎失败", e);
 		}
 	}
 }
