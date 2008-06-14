@@ -47,7 +47,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 			ViewTemplate annotation = method.getAnnotation(ViewTemplate.class);
 			String templateUrl = "";
 			//模板的渲染器
-			String render = annotation.render();
+			String render = "";
 			if (annotation == null)
 				annotation = method.getDeclaringClass().getAnnotation(
 						ViewTemplate.class);
@@ -55,6 +55,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 				templateUrl = "/" + method.getDeclaringClass().getName();
 			else {
 				templateUrl = annotation.url();
+				render = annotation.render();
 			}
 			//如果模板文件存在，则调用相应的渲染器进行结果的渲染
 			File template = new File(this.session.getServletContext().getRealPath(templateUrl));
@@ -63,10 +64,10 @@ public class HtmlResponseWriter implements ResponseWriter {
 				if(viewRender != null)
 					viewRender.render(out, templateUrl, httpResult);
 				else{
-					out.println(httpResult.toJson());
+					out.println(httpResult.toTextPlain());
 				}
 			} else {
-				out.println(httpResult.toJson());
+				out.println(httpResult.toTextPlain());
 			}
 		} catch (Exception e) {
 			System.out.println("向客户端写回数据错误:\n" + e.getMessage());
