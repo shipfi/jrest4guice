@@ -64,7 +64,8 @@ public class ContactResource {
 	 * contactId 联系对象ID
 	 */
 	@Get
-	@ViewTemplate(url="/template/contactDetail.vm",render=ViewRenderType.VELOCITY)
+//	@ViewTemplate(url="/template/contactDetail.vm",render=ViewRenderType.VELOCITY)
+	@ViewTemplate(url="/template/contactDetail.ftl",render=ViewRenderType.FREEMARKER)
 //	@ViewTemplate(url="/template/contactDetail.html",render=ViewRenderType.SPRY)
 	public Contact getContact(@Parameter("contactId") String contactId) {
 		return this.service.findContactById(contactId);
