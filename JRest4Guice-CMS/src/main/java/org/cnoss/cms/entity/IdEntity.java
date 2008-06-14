@@ -12,9 +12,7 @@
 
 package org.cnoss.cms.entity;
 
-//~--- non-JDK imports --------------------------------------------------------
 
-import org.jrest4guice.jpa.EntityAble;
 
 //~--- JDK imports ------------------------------------------------------------
 
@@ -32,7 +30,7 @@ import javax.persistence.MappedSuperclass;
  *
  */
 @MappedSuperclass
-public abstract class IdEntity implements EntityAble<Long>, Serializable {
+public abstract class IdEntity implements Serializable {
     private Long id;
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
