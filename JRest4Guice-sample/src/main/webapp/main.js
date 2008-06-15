@@ -189,7 +189,7 @@ function clear(elem){
 	elem.find("input[@type!=button]").val("");
 	elem.find("textarea").val("");
 	//清除图片
-	$("#uploadFrame").attr("src","upload.html?fileUrl='"+$("#headPic").val()+"'");
+	$("#uploadFrame").attr("src","upload.html?fileUrl="+$("#headPic").val());
 	
 	validationHelper.reset();
 }
