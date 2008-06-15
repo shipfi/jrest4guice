@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:spry="http://ns.adobe.com/spry">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JRest4Guice 0.9.0 preview demo</title>
+
+<!-- Spry 验证的CSS -->
+<link href="javascript/spry/widgets/textfieldvalidation/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
+<link href="javascript/spry/widgets/textareavalidation/SpryValidationTextarea.css" rel="stylesheet" type="text/css" />
+
+<!-- 应用验证的CSS -->
+<link href="css/validation.css" rel="stylesheet" type="text/css" />
+
+<!-- 系统缺省的CSS -->
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<style>
+	.button {
+		margin-right: 20px;
+	}
+	input{
+		width: 132px;
+	}
+	.loadingBar {
+		background-color: red;
+		color: yellow;
+		font-size: 10px;
+		padding: 1px;
+		border: solid 1px olive;
+		top: 33px;
+		left: 234px;
+		clear: both;
+		width:70px;
+		position: absolute;
+	}
+</style>
+</head>
+<body>
+	<div style="background-image: url('images/body_head.gif');height: 84px;position: absolute;top:0px; width: 100%;left: 0px;">&nbsp;</div>
+	<img src="images/mouse.png" class="png" style="position: absolute;top:-25px;left: 12px;width: 94px;height: 94px;">
+	<div id="logoDiv" style="position: absolute;left:110px;top:28px;"><h3><span style="font-size:24px;color: green;font-weight: bold;">J</span>Rest4Guice</h3></div>
+	<!-- 操作栏 -->
+	<div id="controlBar" style="margin: 94px 0 8px 1px;height: 55px;width:60%;">
+		<div style="float: left;width: 65%;height: 55px;">
+			<div style="width: 100%;">
+				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="#"  title="为你添加新的联系人" onclick="createContact();void(0);return false;">增加</a>新的联系人，或者<a href="#"  title="获取最新的联系人列表" onclick="currentRowNo=0;contacts_ds.loadData();void(0);return false;">刷新</a>整个联系人列表。
+			</div>
+			<div style="margin-top: 4px;display: none;width: 500px;" id="cContactSpan">
+				还可以<a href="#" title="删除以下选择的联系人" onclick="deleteContact();void(0);return false;">删除</a>以下所选择的联系人: <span id="cContact" style="color: red;"></span>
+			</div>
+		</div>
+		<div style="float: right;width:32%;margin-right: 0px;margin-top: 23px;font-size: 10px;">
+			<div style="float: right;text-align: right;">
+				<div id="infoBar"></div>
+				<div id="navigation" style="margin-top: 4px;"></div>
+			</div>
+		</div>
+	</div>
+	<div style="float: left;width:60%;margin-right: 0px;clear: both;">
+		<!-- 为了提高用户体验，用一个同样的表头来先显示，避免Spry加载清除表格的闪烁（注意表格ID必须为目标表格ID+"_temp"，以便系统在加载完数据时自动清除） -->
+		<table id="contactTable_temp" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
+			<thead style="font-weight: bold;">
+				<tr style="height: 26px;background-image: url('images/head.jpg');color: white;">
+					<td style="width: 24px;"><input type="checkbox" style="width: 24px;"/></td>
+					<td style="width: 110px;">&nbsp;姓 名</td>
+					<td style="width: 110px;">&nbsp;移动电话</td>
+					<td style="width: 130px;">&nbsp;电子邮件</td>
+					<td>&nbsp;住址</td>
+				</tr>
+			</thead>
+		</table>
+		<!-- 列表显示区域 -->
+		<div id="contactListRegion" spry:region="contacts_ds" style="clear: both;" class="SpryHiddenRegion">
+			<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
+				<thead style="font-weight: bold;">
+					<tr style="height: 26px;background-image: url('images/head.jpg');color: white;">
+						<td style="width: 110px;" spry:sort="name">&nbsp;姓 名</td>
+						<td style="width: 110px;" spry:sort="mobilePhone">&nbsp;移动电话</td>
+						<td style="width: 130px;">&nbsp;电子邮件</td>
+						<td>&nbsp;住址</td>
+					</tr>
+				</thead>
+				<tbody spry:repeat="contacts_ds">
+					<tr rowId="{ds_RowID}" spry:odd="odd" spry:even="even" spry:setrow="contacts_ds" style="cursor: pointer;height: 22px;">
+						<td class="dragRow">&nbsp;{name}</td>
+						<td class="dragRow">&nbsp;{mobilePhone}</td>
+						<td class="dragRow">&nbsp;{EMail}</td>
+						<td class="dragRow">&nbsp;{address}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<!-- 编辑区域 -->
+	<div style="width: 36%;float: right;">
+		<div id="editArea" style="display: none;background-color:#EAF6FD;">
+			<form id="editForm">
+				<div id="editRegion" spry:detailregion="contact_detail_ds">
+					<fieldset style="margin: 10px;border: 1px solid olive;">
+						<legend id="Organization">联系人信息</legend>
+						<div style="margin: 8px;">
+							<input style="display: none;" type="text" id="id" value="{id}">
+							<div id="theName">
+								<div class="formLabel">姓名：</div>
+								<input type="text" id="name" value="{name}">
+								<div class="textfieldRequiredMsg">姓名不能为空.</div>
+							</div>
+							<fieldset style="float: right;border: 1px solid olive;margin-top: -54px;margin-right: 2px;">
+								<legend id="Organization">个人形象</legend>
+								<div>
+									<input type="hidden" id="headPic" value="{headPic}">
+									<iframe id="uploadFrame" frameborder="0" width="128" height="140" scrolling="no" style="background-color:#EAF6FD;"></iframe>
+								</div>
+							</fieldset>
+							<div id="theMobilePhone" style="clear: left;">
+								<div class="formLabel">移动电话：</div>
+								<input type="text" id="mobilePhone" value="{mobilePhone}">
+								<div class="textfieldInvalidFormatMsg">无效的移动电话.<br>(长度为11位，例：13710540124)</div>
+							</div>
+							<div id="theEmail">
+								<div class="formLabel">电子邮件：</div>
+								<input type="text" id="EMail" value="{EMail}">
+								<div class="textfieldInvalidFormatMsg">不正确的电子邮件格式.<br>(例：xxx@xxx.com)</div>
+							</div>
+							<div id="theAddress">
+								<div class="formLabel">家庭住址：</div>
+								<textarea rows="3" cols="32" id="address">{address}</textarea>
+								<div class="textareaMaxCharsMsg">长度不能超过50这个字符</div>
+							</div>
+							<br/>
+							<input type="button" onclick="saveOrUpdateContact();" value="确定" style="width: 40px;"> or <a href="#" onclick="doCancel();void(0);return false;">取消</a>
+						</div>
+					</fieldset>
+				</div>
+			</form>
+		</div>
+		<div id="infoArea" style="height: 334px;background: white;">
+			<ul style="margin-left: 2px;margin-top: -18px;">
+				<li style="margin-top: 16px;">
+					<h5>快速开始</h5>
+					<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里快速<a href="#" title="为你添加新的联系人" onclick="createContact();void(0);return false;">增加</a>新的联系人。
+				</li>
+				<li style="margin-top: 16px;">
+					<h5>操作小窍门</h5>
+					<ur>
+						<li style="margin-left: 24px;">通过屏幕右上方的搜索栏快速检索你的联系人。</li>
+						<li style="margin-left: 24px;">通过点击标题栏对你的查询结果进行排序。</li>
+						<li style="margin-left: 24px;">按住Ctrl键可以多选。</li>
+						<li style="margin-left: 24px;">通过拖拽的方式将选中的联系人，可以轻松的放入回收站。</li>
+					</ur>
+				</li>
+				<li style="margin-top: 16px;">
+					<h5>友情链接</h5>
+					<ur>
+						<li style="margin-left: 24px;"><a href="http://jrest4guice.googlecode.com">JRest4Guice - restful web service api for google guice</a></li>
+						<li style="margin-left: 24px;"><a href="http://code.google.com/p/google-guice/">Google Guice - Google IOC framework</a></li>
+						<li style="margin-left: 24px;"><a href="http://www.hibernate.org/410.html">Hibernate Search - Lucene for hibernate</a></li>
+						<li style="margin-left: 24px;"><a href="http://labs.adobe.com/technologies/spry/home.html">Adobe Spry</a></li>
+						<li style="margin-left: 24px;"><a href="http://jquery.com/">JQuery</a></li>
+					</ur>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="securityDiv" style="display: none;">
+		<div style="width: 100%;height: 26px;background-image: url('images/head.jpg');"><img src="images/close.gif" style="cursor: pointer;margin-top: 4px;" onclick="$.unblockUI();"></div>
+		<iframe id="securityIframe" frameborder="0" width="280" height="200" scrolling="no"></iframe>
+	</div>
+	
+	<div style="position: absolute;top:4px;right: 8px;border-bottom: solid 1px silver;">
+		<div style="margin-bottom: 4px;">
+		<a id="logoutButton" href="#" onclick="doLogout();void(0);return false;" style="display:none;">注销</a>
+		<a id="registButton" href="#" onclick="alert('很抱歉，此功能暂未实现！');void(0);return false;">闪电注册</a>
+		<a id="loginButton" href="#" onclick="doLogin();void(0);return false;">登录</a>
+		<input type="text" style="width: 160px;color: silver;margin-left: 20px;" value="搜索－此功能暂未实现！">
+		<br/>
+		</div>
+	</div>
+	<div id="welcomeDiv" style="position: absolute;top:42px;right: 8px;text-align: left;display: none;color: green;">
+		<img class="png" src="images/people.png" style="margin-bottom: -3px;width: 24px;height: 24px;margin-right: 4px;">欢迎您回来，<a id="userInfoSpan" href="#" onclick="alert('查看个人资料！');void(0);return false;"></a><br/>
+		<div style="margin-top: 8px;"><img src="images/warning.gif" style="margin-bottom: -3px;">你有&nbsp;<a id="todoSpan" href="#" onclick="alert('查看待办事项！');void(0);return false;">[4]</a>&nbsp;个待办事项要处理。</div>
+		<div><img src="images/warning.gif" style="margin-bottom: -3px;">&nbsp;<a id="todoSpan" href="#" onclick="alert('查看待办事项！');void(0);return false;">[12]</a>&nbsp;个好友请求未处理。</div>
+	</div>
+	<div class="recyle" style="position: absolute;bottom: 14px;left: 8px;width: 130px;text-align: center;height: 54px;">
+		<img class="png" id="recyle" src="images/recycle_empty.png" style="width: 48px;height: 48px;cursor: pointer;margin-top: 4px;"><span>回收站</span>
+	<div>
+
+	<!--
+	============================================================================================= 
+	// 装载所有的javascript文件
+	============================================================================================= 
+	-->
+	<!-- JQuery 核心 -->
+	<script type="text/javascript" src="javascript/lib/jquery-1.2.5.js"></script>
+	<script type="text/javascript" src="javascript/lib/jquery-ui-1.5.js"></script>
+	<script type="text/javascript" src="javascript/lib/jquery.blockUI.js"></script>
+	
+	<!-- Spry 核心 -->
+	<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryData.js"></script>
+	<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryJSONDataSet.js"></script>
+	<!-- Spry 验证 -->
+	<script type="text/javascript" src="javascript/spry/widgets/textfieldvalidation/SpryValidationTextField.js"></script>
+	<script type="text/javascript" src="javascript/spry/widgets/textareavalidation/SpryValidationTextarea.js"></script>
+	
+	<!-- 用户扩展的JS -->
+	<script language="JavaScript" type="text/javascript" src="javascript/lib/user-ext.js"></script>
+	
+	<!-- 应用自己的JS -->
+	<script type="text/javascript" src="main.js"></script>
+</body>
+</html>
