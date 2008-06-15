@@ -7,7 +7,6 @@
     commons-beanutils-xxx.jar
     commons-codec-xxx.jar
     commons-collections-xxx.jar
-    commons-fileupload-xxx.jar
     commons-httpclient-xxx.jar
     commons-io-xxx.jar
     commons-lang-xxx.jar
