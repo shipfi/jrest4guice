@@ -55,13 +55,9 @@ public class RequestProcessor {
 		HttpServletRequest request = (HttpServletRequest) servletReqest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 		
-		if(request.getContentLength()>JRest4GuiceHelper.getMaxBodyPayloadSize()){
-			this.writeErrorMessage(new Exception("body的大小超过最大许可范围： "+JRest4GuiceHelper.getMaxBodyPayloadSize()));
-			return;
-		}
-
 		// 获取字符编码
 		charset = request.getCharacterEncoding();
+
 		if (charset == null || charset.trim().equals("")) {
 			charset = "UTF-8";
 			try {
@@ -70,6 +66,11 @@ public class RequestProcessor {
 			}
 		}
 
+		if(request.getContentLength()>JRest4GuiceHelper.getMaxBodyPayloadSize()){
+			this.writeErrorMessage(new Exception("body的大小超过最大许可范围： "+JRest4GuiceHelper.getMaxBodyPayloadSize()));
+			return;
+		}
+		
 		String uri = request.getRequestURI();
 		String uri_bak = uri;
 		String contextPath = request.getContextPath();
