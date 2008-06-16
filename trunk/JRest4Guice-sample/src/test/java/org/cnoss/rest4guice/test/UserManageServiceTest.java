@@ -23,8 +23,9 @@ public class UserManageServiceTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
+		//初始化JRest4Guice
 		GuiceContext.getInstance().useJPA().init();
-
+		//获取服务
 		service = GuiceContext.getInstance().getBean(UserManageService.class);
 	}
 
@@ -39,7 +40,8 @@ public class UserManageServiceTest {
 		System.out.println("================================");
 
 		List<Role> userRoles = service
-				.getUserRoles("602881e417bb78010117bba509130001");
+				.getUserRoles("cnoss");
+		Assert.assertTrue(userRoles.size()==2);
 		for (Role role : userRoles)
 			System.out.println(role.getName());
 	}
@@ -50,6 +52,7 @@ public class UserManageServiceTest {
 		System.out.println("================================");
 		Page<User> page = service.getAllUsers(1, 100);
 		List<User> users = page.getResult();
+		Assert.assertTrue(users.size()==2);
 		for (User user : users)
 			System.out.println(user.getName());
 	}
