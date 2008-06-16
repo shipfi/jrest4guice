@@ -1,10 +1,12 @@
 package org.jrest4guice.rest;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +21,6 @@ import org.jrest4guice.rest.context.HttpContextManager;
 import org.jrest4guice.rest.context.JRestContext;
 import org.jrest4guice.rest.exception.RestMethodNotFoundException;
 import org.jrest4guice.rest.writer.JsonResponseWriter;
-
-import com.sun.xml.internal.ws.util.ByteArrayBuffer;
 
 /**
  * 
@@ -80,7 +80,7 @@ public class RequestProcessor {
 		HttpContextManager.setContext(request, response, params);
 		try {
 			int index;
-			if ((index = uri.indexOf(Remote.REMOTE_SERVICE_PREFIX)) != -1) {//以远程服务方式调用的处理
+			if ((index = uri.indexOf(Remote.REMOTE_SERVICE_PREFIX)) != -1) {// 以远程服务方式调用的处理
 				String serviceName = request
 						.getParameter(Remote.REMOTE_SERVICE_NAME_KEY);
 				String methodIndex = request
@@ -91,17 +91,22 @@ public class RequestProcessor {
 					index = Integer.parseInt(methodIndex);
 					ServiceExecutor exec = GuiceContext.getInstance().getBean(
 							ServiceExecutor.class);
-					List<Method> methods = ClassUtils.getSortedMethodList(clazz);
+					List<Method> methods = ClassUtils
+							.getSortedMethodList(clazz);
 					Service service = new Service(GuiceContext.getInstance()
 							.getBean(clazz), methods.get(index));
 					// 填充参数
-					fillParameters(request, params,true);
-					exec.execute(service, this.getHttpMethodType(RequestProcessor.METHOD_OF_POST),
-							charset,true);
+					fillParameters(request, params, true);
+					exec
+							.execute(
+									service,
+									this
+											.getHttpMethodType(RequestProcessor.METHOD_OF_POST),
+									charset, true);
 				} else {
 					this.writeRestServiceNotFoundMessage(uri_bak);
 				}
-			} else {//以普通Web方式调用的处理
+			} else {// 以普通Web方式调用的处理
 				// 从REST资源注册表中查找此URI对应的资源
 				Service service = JRestContext.getInstance()
 						.lookupResource(uri);
@@ -109,11 +114,11 @@ public class RequestProcessor {
 					ServiceExecutor exec = GuiceContext.getInstance().getBean(
 							ServiceExecutor.class);
 					// 填充参数
-					fillParameters(request, params,false);
+					fillParameters(request, params, false);
 					// 根据不同的请求方法调用REST对象的不同方法
 					String method = request.getMethod();
 					exec.execute(service, this.getHttpMethodType(method),
-							charset,false);
+							charset, false);
 				} else {
 					this.writeRestServiceNotFoundMessage(uri_bak);
 				}
@@ -127,9 +132,11 @@ public class RequestProcessor {
 	}
 
 	private void writeRestServiceNotFoundMessage(String uri) {
-		GuiceContext.getInstance().getBean(JsonResponseWriter.class)
-				.writeResult(null,new Exception("没有提供指定的Rest服务 (" + uri + ") ！"),
-						charset);
+		GuiceContext
+				.getInstance()
+				.getBean(JsonResponseWriter.class)
+				.writeResult(null,
+						new Exception("没有提供指定的Rest服务 (" + uri + ") ！"), charset);
 	}
 
 	private HttpMethodType getHttpMethodType(String method) {
@@ -150,7 +157,8 @@ public class RequestProcessor {
 	 * @modelMap request
 	 * @modelMap params
 	 */
-	private void fillParameters(HttpServletRequest request, ModelMap params,boolean isRpc) {
+	private void fillParameters(HttpServletRequest request, ModelMap params,
+			boolean isRpc) {
 		Enumeration names = request.getAttributeNames();
 		String name;
 		while (names.hasMoreElements()) {
@@ -167,12 +175,17 @@ public class RequestProcessor {
 
 		// 以http body方式提交的参数
 		try {
-			ByteArrayBuffer byteBuffer = new ByteArrayBuffer();
-			byteBuffer.write(request.getInputStream());
-			
-			if(!isRpc){
+			ServletInputStream inputStream = request.getInputStream();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			byte[] b = new byte[4096];
+			for (int n; (n = inputStream.read(b)) != -1;) {
+				baos.write(b);
+			}
+
+			if (!isRpc) {
 				// URL解码
-				String content = URLDecoder.decode(new String(byteBuffer.toByteArray()).trim(), charset);
+				String content = URLDecoder.decode(new String(baos
+						.toByteArray()).trim(), charset);
 				// 组装参数
 				if (content != "") {
 					String[] param_pairs = content.split("&");
@@ -183,10 +196,10 @@ public class RequestProcessor {
 							params.put(kv[0], kv[1]);
 					}
 				}
-			}else{
-				params.put(ModelMap.RPC_ARGS_KEY, byteBuffer.toByteArray());
+			} else {
+				params.put(ModelMap.RPC_ARGS_KEY, baos.toByteArray());
 			}
-			byteBuffer.close();
+			baos.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
