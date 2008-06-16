@@ -34,7 +34,6 @@ public class VelocityViewRender implements ViewRender {
 		//输出到用户端
 		StringWriter writer = new StringWriter();
 		template.merge(context, writer);
-		writer.toString();
 		out.println(writer.toString());
 	}
 
