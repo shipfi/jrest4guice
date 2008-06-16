@@ -998,7 +998,7 @@ if(Spry){
 	
 	SpryExt.PageInfoBar = function(){}
 	
-	SpryExt.PageInfoBar.maxPageCount = 9;
+	SpryExt.PageInfoBar.maxPageCount = 5;
 	SpryExt.PageInfoBar.pageSize = 14;
 	/**
 	 * 构造分页信息条
@@ -1045,25 +1045,22 @@ if(Spry){
 			textPerPage.style.visibility="hidden";
 		}
 		navigation.appendChild(textPerPage);
-		//定制 1 2 3 4 5 6
 		var pageSpan = document.createElement("span");
 		pageSpan.className="pageClass";
-		for(var i=0;i<maxPageCount;i++){
-			if(i>=pageCount) break;
-			if(pageInfo.pageIndex<5 || pageCount<=maxPageCount)
-				pageIndex = i+1;
-			else if(pageInfo.pageIndex >=5 && pageInfo.pageIndex<pageCount-4 && pageCount>maxPageCount)
-				pageIndex = pageInfo.pageIndex + i - 4;
-			else if(pageInfo.pageIndex>=pageCount-4 && pageInfo.pageIndex >=5 && pageCount>maxPageCount)
-				pageIndex = pageInfo.pageIndex + i -4 -(pageInfo.pageIndex-pageCount+4);
+		var _index = 1;
+		if(pageInfo.pageIndex>maxPageCount)
+			_index = pageInfo.pageIndex-maxPageCount+1;
+			
+		for(var i=_index;i<maxPageCount+_index;i++){
+			if(i>pageCount) break;
 			pageSpanClone = pageSpan.cloneNode(true);
-			pageSpanClone.innerHTML = " "+pageIndex+" ";
-			if(pageIndex == pageInfo.pageIndex)
+			pageSpanClone.innerHTML = " "+(i)+" ";
+			if(i == pageInfo.pageIndex)
 				pageSpanClone.className="pageClassd";	
 			else
 				pageSpanClone.onclick = function(){
 					goPage(parseInt(this.toString()));
-				}.bind(pageIndex);
+				}.bind(i);
 			navigation.appendChild(pageSpanClone);
 		}
 		//定制下一页
