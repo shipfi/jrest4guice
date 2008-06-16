@@ -12,6 +12,7 @@ import org.jrest4guice.rest.converter.DatePatternConverter;
  * 
  */
 public class JRest4GuiceHelper {
+	private static long maxBodyPayloadSize = 1024*1024;
 	/**
 	 * 打开JRest的支持
 	 * 
@@ -37,5 +38,17 @@ public class JRest4GuiceHelper {
 	public static void addBeanConvert(Converter converter, Class<?> clazz) {
 		BeanUtilsBean.getInstance().getConvertUtils()
 				.register(converter, clazz);
+	}
+	
+	/**
+	 * 设置客户端向服务端发送的http body的最大有效负载字节数
+	 * @param size
+	 */
+	public static void setMaxBodyPayloadSize(long size){
+		maxBodyPayloadSize = size;
+	}
+	
+	public static long getMaxBodyPayloadSize(){
+		return maxBodyPayloadSize;
 	}
 }
