@@ -1,0 +1,23 @@
+<ehcache>
+
+	<!-- 表示当内存缓存中对象数量超过类设置内存缓存数量时，将缓存对象写到硬盘 -->
+	<diskStore path="java.io.tmpdir" />
+
+	<!-- 默认Cache策略 -->
+	<defaultCache 
+		maxElementsInMemory="10000" 
+		eternal="false" 
+		timeToIdleSeconds="120"
+		timeToLiveSeconds="120" 
+		overflowToDisk="true" />
+
+    <!-- Bus cache -->
+    <cache
+		name="${context.projectName}Cache"
+		maxElementsInMemory="1000"
+		eternal="false"
+		timeToIdleSeconds="1800"
+		timeToLiveSeconds="1800"
+		overflowToDisk="true"
+	/>
+</ehcache>
