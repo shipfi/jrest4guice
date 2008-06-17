@@ -26,7 +26,7 @@ public class TestCallRemote {
 		
 		long end = System.currentTimeMillis();
 
-		System.out.println("\n运行 "+times+" 次，每次取 "+pageSize+" 条记录，总耗时： "+(end-start));
+		System.out.println("\n运行 "+times+" 次，每次取 "+pageSize+" 条记录，总耗时: "+(end-start));
 	}
 
 	private static void debug(Page<Contact> page) {
