@@ -38,6 +38,10 @@
 				org.jrest4guice.sample.contact.fileupload.ImageFileUploadInterceptor
 			</param-value>
 		</init-param>
+		<init-param>
+			<param-name>fileTypeAllowed</param-name>
+			<param-value>jpg,png,gif,bmp</param-value>
+		</init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>MonitoredFileUploadServlet</servlet-name>
