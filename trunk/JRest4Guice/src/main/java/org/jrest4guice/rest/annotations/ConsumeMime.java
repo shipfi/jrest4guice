@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  *
  */
 @Target( { ElementType.TYPE, ElementType.METHOD })

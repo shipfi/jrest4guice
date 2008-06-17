@@ -12,7 +12,7 @@ import org.jrest4guice.rest.JRest4GuiceHelper;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * 
  */
 public class DatePatternConverter {
@@ -107,7 +107,7 @@ public class DatePatternConverter {
 	 * @param pattern
 	 *            正则表达式
 	 * @param patterStr
-	 *            日期格式描述的字符串（如：2008-08-08）
+	 *            日期格式描述的字符串（如:2008-08-08）
 	 * @return
 	 */
 	public DatePatternConverter registDatePattern(Pattern pattern,

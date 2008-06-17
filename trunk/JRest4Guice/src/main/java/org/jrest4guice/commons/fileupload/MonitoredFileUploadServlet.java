@@ -25,7 +25,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  *
  */
 @SuppressWarnings( { "unused", "unchecked" })
@@ -39,9 +39,9 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 	private String uploadPath = "/upload";
 	// 是否是绝对路径
 	private boolean isAbsolute = false;
-	// 单个文件的最大上传大小：(缺省1M)
+	// 单个文件的最大上传大小:(缺省1M)
 	private long fileSizeMax = 1024 * 1024;
-	// 整个request的最大大小：(缺省10M)
+	// 整个request的最大大小:(缺省10M)
 	private long sizeMax = fileSizeMax * 10;
 	// 允许上传的文件类型
 	private Set<String> fileTypeAllowed;

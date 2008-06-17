@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  *
  */
 public class ModelMap<K, V> extends HashMap<K,V> {

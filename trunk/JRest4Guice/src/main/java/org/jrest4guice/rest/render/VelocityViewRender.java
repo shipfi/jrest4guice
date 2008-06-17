@@ -14,7 +14,7 @@ import com.google.inject.Inject;
 
 /**
  * Veloction的视力渲染器
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
 public class VelocityViewRender implements ViewRender {
 	@Inject
