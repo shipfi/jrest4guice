@@ -19,7 +19,7 @@ import org.jrest4guice.sample.contact.service.ContactService;
 import com.google.inject.Inject;
 
 /**
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * 联系人的资源对象，并声明为Remote（可以通过@RemoteService的注入到任一资源对象,通常用在跨应用的资源调用上）
  */
 @Path( { "/contact", "/contacts/{contactId}" })
