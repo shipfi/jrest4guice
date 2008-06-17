@@ -22,14 +22,6 @@
 		</developer>
 	</developers>
 
-	<repositories>
-		<repository>
-			<id>rest4g</id>
-			<name>rest4g.org Repository for Maven 2</name>
-			<url>http://cnoss.vicp.net/maven/2</url>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.cnoss</groupId>
@@ -38,4 +30,43 @@
 		</dependency>
 	</dependencies>
 
+	<repositories>
+		<repository>
+			<id>rest4g</id>
+			<name>rest4g.org Repository for Maven 2</name>
+			<url>http://cnoss.vicp.net/maven</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<scriptSourceDirectory>src/main/sql</scriptSourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>utf-8</encoding>
+					<compilerArguments>
+						<bootclasspath>
+							${java.home}/lib/rt.jar
+						</bootclasspath>
+					</compilerArguments>
+
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
