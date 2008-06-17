@@ -998,7 +998,7 @@ if(Spry){
 	
 	SpryExt.PageInfoBar = function(){}
 	
-	SpryExt.PageInfoBar.maxPageCount = 5;
+	SpryExt.PageInfoBar.maxPageCount = 3;
 	SpryExt.PageInfoBar.pageSize = 14;
 	/**
 	 * 构造分页信息条
@@ -1027,12 +1027,11 @@ if(Spry){
 			pageInfo.resultCount = 0;	
 		}
 		var pageCount = pageInfo.pageCount;
-		document.getElementById(infoBar).innerHTML = "&nbsp;&nbsp;检索到 "+pageInfo.resultCount + " "+msg+"，共 " + pageCount + " 页";
+		document.getElementById(infoBar).innerHTML = "&nbsp;&nbsp;"+pageInfo.resultCount + " "+msg+"，共 " + pageCount + " 页";
 		var navigation = document.getElementById(navigations);
 		
 		navigation.innerHTML = "";
 		
-		//  定制导航信息 ：上一页 1 2 3 下一页
 		//定制上一页
 		var textPerPage = document.createElement("span"); 
 		textPerPage.style.width = "50px";

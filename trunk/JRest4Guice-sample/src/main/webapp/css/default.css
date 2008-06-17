@@ -103,8 +103,7 @@ a:hover {
 .pageClass {
 	cursor: pointer;
 	text-decoration: underline;
-	margin-right: 2px;
-	width: 20px;
+	width: 16px;
 	float: left;
 }
 
