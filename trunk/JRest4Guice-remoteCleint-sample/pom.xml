@@ -25,7 +25,7 @@
 	<repositories>
 		<repository>
 			<id>rest4g</id>
-			<name>rest4g.net Repository for Maven 2</name>
+			<name>rest4g.org Repository for Maven 2</name>
 			<url>http://cnoss.vicp.net/maven/2</url>
 		</repository>
 	</repositories>
