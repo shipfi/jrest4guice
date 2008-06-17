@@ -106,6 +106,8 @@ public class CodeGenerator {
 	private void generateFile(File target, File file, boolean isRoot,
 			String entityName) {
 		if (file.isDirectory()) {
+			if(file.getName().equalsIgnoreCase(".svn"))
+				return;
 			File[] files = file.listFiles();
 			File _target = new File(target.getPath()
 					+ (isRoot ? "" : (File.separator + file.getName())));
@@ -213,7 +215,7 @@ public class CodeGenerator {
 
 	public static void main(String[] args) {
 		CodeGenerator generator = new CodeGenerator();
-		generator.createJPAProject("F:\\Temp\\Generators", "helloWorld",
-				"org.cnoss.rs.helloWorld");
+		generator.createJPAProject("F:\\Temp\\Generators", "user",
+				"org.cnoss.rs.user");
 	}
 }
