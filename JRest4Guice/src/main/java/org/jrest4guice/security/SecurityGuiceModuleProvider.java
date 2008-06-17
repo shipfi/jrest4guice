@@ -13,7 +13,7 @@ import com.google.inject.matcher.Matchers;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * 
  */
 public class SecurityGuiceModuleProvider extends ModuleProviderTemplate {

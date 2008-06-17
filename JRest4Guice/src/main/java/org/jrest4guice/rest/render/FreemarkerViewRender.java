@@ -19,7 +19,7 @@ import freemarker.template.Template;
 
 /**
  * Freemarker的视力渲染器
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
 public class FreemarkerViewRender implements ViewRender {
 	private static Configuration cfg;

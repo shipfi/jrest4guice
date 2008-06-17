@@ -6,7 +6,7 @@ import org.jrest4guice.rest.JRestResult;
 
 /**
  * 视图渲染器
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
 public interface ViewRender {
 	/**

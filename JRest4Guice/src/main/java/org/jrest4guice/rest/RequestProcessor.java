@@ -24,7 +24,7 @@ import org.jrest4guice.rest.writer.JsonResponseWriter;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * 
  */
 @SuppressWarnings("unchecked")
@@ -67,7 +67,7 @@ public class RequestProcessor {
 		}
 
 		if(request.getContentLength()>JRest4GuiceHelper.getMaxBodyPayloadSize()){
-			this.writeErrorMessage(new Exception("body的大小超过最大许可范围： "+JRest4GuiceHelper.getMaxBodyPayloadSize()));
+			this.writeErrorMessage(new Exception("body的大小超过最大许可范围: "+JRest4GuiceHelper.getMaxBodyPayloadSize()));
 			return;
 		}
 		

@@ -18,7 +18,7 @@ import com.google.inject.Singleton;
 
 /**
  * 
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  *
  */
 @Singleton
@@ -28,7 +28,7 @@ public class EntityManagerFactoryHolder {
 	private final ThreadLocal<EntityManager> entityManager = new ThreadLocal<EntityManager>();
 
 	public EntityManagerFactoryHolder() {
-		//注意：这一个版本只实现对一个persistence-unit的支持
+		//注意:这一个版本只实现对一个persistence-unit的支持
 		try {
 			Set<String> units = new PersistenceXmlReader().doParse();
 			this.entityManagerFactory = Persistence
