@@ -73,7 +73,7 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 		if (param != null && !param.trim().equals("")) {
 			String params[] = param.split(",");
 			for (String p : params)
-				this.fileTypeAllowed.add(p);
+				this.fileTypeAllowed.add("."+p);
 		}
 
 		param = config.getInitParameter("interceptor");
@@ -114,7 +114,7 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 			String fileName, extName;
 			// 上传的路径
 			File target = new File(this.isAbsolute ? this.uploadPath : hRequest
-					.getRealPath(this.uploadPath));
+					.getSession().getServletContext().getRealPath(this.uploadPath));
 			if (!target.exists())
 				target.mkdirs();
 
