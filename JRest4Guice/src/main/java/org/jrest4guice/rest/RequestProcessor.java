@@ -74,8 +74,9 @@ public class RequestProcessor {
 		String uri = request.getRequestURI();
 		String uri_bak = uri;
 		String contextPath = request.getContextPath();
-		if (!contextPath.trim().equals("/"))
-			uri = uri.replace(contextPath, "");
+		if (!contextPath.trim().equals("/") && uri.startsWith(contextPath)){
+			uri = uri.substring(contextPath.length());
+		}
 
 		if (this.urlPrefix != null)
 			uri = uri.replace(this.urlPrefix, "");
