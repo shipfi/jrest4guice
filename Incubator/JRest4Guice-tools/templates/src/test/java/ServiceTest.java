@@ -39,7 +39,7 @@ public class ${context.entityName}ServiceTest {
 		
 		List<${context.entityName}> entites = page.getResult();
 		
-		Assert.assertEquals(entites.size(), 1);
+		Assert.assertEquals(entites.size(), 2);
 	}
 
 	@Test
