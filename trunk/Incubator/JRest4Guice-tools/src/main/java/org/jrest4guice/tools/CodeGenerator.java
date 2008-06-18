@@ -72,6 +72,8 @@ public class CodeGenerator {
 			String entityName) {
 		this.useJPA = true;
 
+		this.packageNamePath = packageName.replace(".", File.separator);
+
 		// 往上下文中填入数据
 		this.context = new VelocityContext();
 		Map<String, String> contextMap = new HashMap<String, String>();
@@ -79,26 +81,33 @@ public class CodeGenerator {
 		contextMap.put("entityName", entityName);
 		context.put("context", contextMap);
 
-		File target = new File(targetPath);
+		File mainTarget = new File(targetPath+(".src.main.java").replace(".", File.separator));
+		File testTarget = new File(targetPath+(".src.test.java").replace(".", File.separator));
+
 		File file = new File(this.templatePath + File.separator
 				+ ("src.main.java.Service").replace(".", File.separator)
 				+ ".java");
-		this.generateFile(target, file, false, entityName);
+		this.generateFile(mainTarget, file, false, entityName);
 
 		file = new File(this.templatePath + File.separator
 				+ ("src.main.java.ServiceBean").replace(".", File.separator)
 				+ ".java");
-		this.generateFile(target, file, false, entityName);
+		this.generateFile(mainTarget, file, false, entityName);
 
 		file = new File(this.templatePath + File.separator
 				+ ("src.main.java.Entity").replace(".", File.separator)
 				+ ".java");
-		this.generateFile(target, file, false, entityName);
+		this.generateFile(mainTarget, file, false, entityName);
 
 		file = new File(this.templatePath + File.separator
 				+ ("src.main.java.Resource").replace(".", File.separator)
 				+ ".java");
-		this.generateFile(target, file, false, entityName);
+		this.generateFile(mainTarget, file, false, entityName);
+
+		file = new File(this.templatePath + File.separator
+				+ ("src.test.java.ServiceTest").replace(".", File.separator)
+				+ ".java");
+		this.generateFile(testTarget, file, false, entityName);
 	}
 
 	/**
@@ -225,18 +234,17 @@ public class CodeGenerator {
 		System.out.println("欢迎使用JRest4Guice代码生成工具\n");
 		System.out.println("可用命令");
 		System.out.println("===========================");
-		System.out.println("  1 创建helloworld的Web工程");
-		System.out.println("  2 创建带JPA实现的Web工程");
-		System.out.println("  3 创建新资源");
-		System.out.println("  q 退出");
+		System.out.println("  1     创建helloworld的Web工程");
+		System.out.println("  2     创建带JPA实现的Web工程");
+		System.out.println("  3     创建新资源");
+		System.out.println("  q     退出");
 		System.out.println("===========================");
-		System.out.print("\n请选择你的操作命令:(1) ");
+		System.out.print("\n请选择输入你的操作命令:(1) ");
 		codeGenerateType = readUserInput();
 		if (codeGenerateType.equals(""))
 			codeGenerateType = "1";
 		System.out.println(codeGenerateType);
 		
-
 		if (codeGenerateType.equals("1") || codeGenerateType.equals("2")) {
 			System.out.print("\n请输入你要创建的项目名称:(helloWorld) ");
 			projectName = readUserInput();
@@ -244,14 +252,18 @@ public class CodeGenerator {
 				projectName = "helloWorld";
 			System.out.println(projectName);
 		} else {
-			System.out.print("\n请输入你要创建的资源名称:(HelloWorld) ");
+			System.out.print("\n请输入你要创建的资源名称:(User) ");
 			entityName = readUserInput();
-			if (entityName == null)
-				entityName = "HelloWorld";
+			if (entityName.equals(""))
+				entityName = "User";
 			System.out.println(entityName);
 		}
 
-		System.out.print("\n请输入代码生成的目标路径:(Generators) ");
+		if (codeGenerateType.equals("1") || codeGenerateType.equals("2"))
+			System.out.print("\n请输入代码生成的目标路径:(Generators) ");
+		else
+			System.out.print("\n请输入目标项目的根路径:(Generators) ");
+			
 		targetPath = readUserInput();
 		if (targetPath.equals(""))
 			targetPath = "Generators";
