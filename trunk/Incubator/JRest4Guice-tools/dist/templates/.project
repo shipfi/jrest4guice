@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>${projectName}</name>
+	<name>${context.projectName}</name>
 	<comment></comment>
 	<projects>
 	</projects>

@@ -1,7 +1,10 @@
 package org.jrest4guice.tools;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +15,9 @@ import org.apache.velocity.app.Velocity;
 
 /**
  * 代码生成器
+ * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
- *
+ * 
  */
 public class CodeGenerator {
 	private VelocityContext context;
@@ -106,7 +110,7 @@ public class CodeGenerator {
 	private void generateFile(File target, File file, boolean isRoot,
 			String entityName) {
 		if (file.isDirectory()) {
-			if(file.getName().equalsIgnoreCase(".svn"))
+			if (file.getName().equalsIgnoreCase(".svn"))
 				return;
 			File[] files = file.listFiles();
 			File _target = new File(target.getPath()
@@ -161,8 +165,8 @@ public class CodeGenerator {
 							+ "resource" + File.separator;
 					checkDirExist(packagePath);
 					outputFileName = entityName + outputFileName;
-				} else if (file.getName().equalsIgnoreCase("Service.java") ||
-						file.getName().equalsIgnoreCase("ServiceTest.java")) {
+				} else if (file.getName().equalsIgnoreCase("Service.java")
+						|| file.getName().equalsIgnoreCase("ServiceTest.java")) {
 					if (!this.useJPA)
 						return;
 					packagePath = target.getPath() + File.separator
@@ -206,6 +210,8 @@ public class CodeGenerator {
 	private void initVelocity() {
 		Velocity.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH,
 				this.templatePath);
+		Velocity.setProperty(Velocity.RUNTIME_LOG_LOGSYSTEM_CLASS,
+				"org.apache.velocity.runtime.log.SimpleLog4JLogSystem");
 		try {
 			Velocity.init();
 		} catch (Exception e) {
@@ -214,8 +220,75 @@ public class CodeGenerator {
 	}
 
 	public static void main(String[] args) {
+		String targetPath = null, codeGenerateType = null, projectName = null, packageName = null, entityName = null;
+
+		System.out.println("欢迎使用JRest4Guice代码生成工具\n");
+		System.out.println("可用命令");
+		System.out.println("===========================");
+		System.out.println("  1 创建helloworld的Web工程");
+		System.out.println("  2 创建带JPA实现的Web工程");
+		System.out.println("  3 创建新资源");
+		System.out.println("  q 退出");
+		System.out.println("===========================");
+		System.out.print("\n请选择你的操作命令:(1) ");
+		codeGenerateType = readUserInput();
+		if (codeGenerateType.equals(""))
+			codeGenerateType = "1";
+		System.out.println(codeGenerateType);
+		
+
+		if (codeGenerateType.equals("1") || codeGenerateType.equals("2")) {
+			System.out.print("\n请输入你要创建的项目名称:(helloWorld) ");
+			projectName = readUserInput();
+			if (projectName.equals(""))
+				projectName = "helloWorld";
+			System.out.println(projectName);
+		} else {
+			System.out.print("\n请输入你要创建的资源名称:(HelloWorld) ");
+			entityName = readUserInput();
+			if (entityName == null)
+				entityName = "HelloWorld";
+			System.out.println(entityName);
+		}
+
+		System.out.print("\n请输入代码生成的目标路径:(Generators) ");
+		targetPath = readUserInput();
+		if (targetPath.equals(""))
+			targetPath = "Generators";
+		System.out.println(targetPath);
+
+		System.out.print("\n请输入包的名称:(org.cnoss.rs) ");
+		packageName = readUserInput();
+		if (packageName.equals(""))
+			packageName = "org.cnoss.rs";
+		System.out.println(packageName);
+
+		File targetPathFile = new File(targetPath);
+		if (!targetPathFile.exists())
+			targetPathFile.mkdirs();
+
 		CodeGenerator generator = new CodeGenerator();
-		generator.createJPAProject("F:\\Temp\\Generators", "user",
-				"org.cnoss.rs.user");
+		if (codeGenerateType.equals("1")) {
+			generator.createSimpleProject(targetPath, projectName, packageName);
+		} else if (codeGenerateType.equals("2")) {
+			generator.createJPAProject(targetPath, projectName, packageName);
+		} else if (codeGenerateType.equals("3")) {
+			generator.createResource(targetPath, packageName, entityName);
+		}
+		
+		System.out.println("\n\n代码生成成功,请查看 "+targetPath+" 目录");
+	}
+
+	private static String readUserInput() {
+		String value = null;
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		try {
+			value = br.readLine().trim();
+			if (value.equalsIgnoreCase("q")) {
+				System.exit(-1);
+			}
+		} catch (IOException e) {
+		}
+		return value;
 	}
 }
