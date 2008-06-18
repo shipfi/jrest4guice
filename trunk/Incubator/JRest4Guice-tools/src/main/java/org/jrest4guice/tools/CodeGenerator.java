@@ -234,10 +234,10 @@ public class CodeGenerator {
 		System.out.println("欢迎使用JRest4Guice代码生成工具\n");
 		System.out.println("可用命令");
 		System.out.println("===========================");
-		System.out.println("  1     创建helloworld的Web工程");
-		System.out.println("  2     创建带JPA实现的Web工程");
-		System.out.println("  3     创建新资源");
-		System.out.println("  q     退出");
+		System.out.println("  1     \"创建helloworld的Web工程\"");
+		System.out.println("  2     \"创建带JPA实现的Web工程\"");
+		System.out.println("  3     \"创建Restful资源(会自动产生resource/service/entity/junit)\"");
+		System.out.println("  q     \"退出\"");
 		System.out.println("===========================");
 		System.out.print("\n请选择输入你的操作命令:(1) ");
 		codeGenerateType = readUserInput();
