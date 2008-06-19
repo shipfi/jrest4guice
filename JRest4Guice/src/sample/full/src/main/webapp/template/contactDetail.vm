@@ -1,0 +1,19 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>联系人详细信息(Velocity template)</title>
+<!-- 系统缺省的CSS -->
+<link href="/css/default.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<h3>Velocity template</h3>
+	#set($contact = $context.content ) 
+	<div>
+		<div><span>当前用户： </span><span><b>$contact.name</b></span></div>
+		<div>&nbsp;$contact.name</div>
+		<div>&nbsp;$contact.mobilePhone</div>
+		<div>&nbsp;$contact.EMail</div>
+		<div>&nbsp;$contact.address</div>
+	</div>
+</body>
+</html>
