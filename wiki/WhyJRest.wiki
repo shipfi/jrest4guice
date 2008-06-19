@@ -170,7 +170,7 @@ public class TestRemoteResource {
 *Demo演示:*
 [http://cnoss.vicp.net/]
 ----
-*请大家直接从SVN中获取JRest4Guice、JRest4Guice-sample、libraries三个工程即可*
+*请大家直接从SVN中获取JRest4Guice工程即可*
 
 *真诚希望大家提出宝贵意见，联系方式：*
   * Email：zhangyouqun@gmail.com
