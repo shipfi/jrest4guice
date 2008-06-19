@@ -24,4 +24,9 @@ public class TestResult {
 	public void setPage(Page<Contact> page) {
 		this.page = page;
 	}
+	
+	@Override
+	public String toString(){
+		return "持续时间： "+this.duration+" 毫秒";
+	}
 }
