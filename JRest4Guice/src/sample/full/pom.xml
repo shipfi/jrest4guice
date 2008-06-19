@@ -21,6 +21,11 @@
 			<artifactId>JRest4Guice-core</artifactId>
 			<version>0.0.9</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+		</dependency>
 	</dependencies>
 
 	<properties>
