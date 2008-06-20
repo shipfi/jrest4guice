@@ -4,7 +4,7 @@
 	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_JRest" version="2.5">
-	<display-name>HelloWorld</display-name>
+	<display-name>JRest4Guice-remoteClient-sample</display-name>
 	
 	<listener>
 		<listener-class>
