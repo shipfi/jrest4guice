@@ -11,6 +11,7 @@ import org.jrest4guice.sample.contact.resources.ContactResource;
 import org.jrest4guice.security.Role;
 
 public class TestRemoteCall {
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) throws Exception {
 		//通过JRestClient直接访问rest资源
 		JRestClient client = new JRestClient();
