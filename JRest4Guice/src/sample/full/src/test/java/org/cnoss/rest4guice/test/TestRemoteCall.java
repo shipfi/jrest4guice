@@ -17,7 +17,7 @@ public class TestRemoteCall {
 		ModelMap<String, Object> urlParam = new ModelMap<String, Object>();
 		urlParam.put("pageIndex", "1");
 		urlParam.put("pageSize", "5");
-		Object result = client.callRemote("http://localhost/resource/contacts",
+		Object result = client.callRemote("http://localhost/full/resource/contacts",
 				"get", urlParam);
 
 		Page<Contact> page = (Page<Contact>) result;
@@ -30,7 +30,7 @@ public class TestRemoteCall {
 		urlParam.put("userName", "cnoss");
 		urlParam.put("userPassword", "123");
 		List<Role> roles = (List<Role>) client.callRemote(
-				"http://localhost/resource/security/cnoss/roles", "get", null);
+				"http://localhost/full/resource/security/cnoss/roles", "get", null);
 		for (Role r : roles)
 			System.out.println(r.getName());
 
