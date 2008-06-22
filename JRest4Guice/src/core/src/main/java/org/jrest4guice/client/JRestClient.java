@@ -38,6 +38,13 @@ public class JRestClient {
 	public HttpClient getHttpClient() {
 		return httpClient;
 	}
+	
+	/**
+	 * 将HttpClient与当前会员进行绑定，可以共享JAAS状态
+	 * @param jsessionId
+	 */
+	public void registJSessionId(String jsessionId){
+	}
 
 	public Object callRemote(String url, String methodType,
 			ModelMap<String, Object> parameters) throws Exception {
@@ -45,13 +52,9 @@ public class JRestClient {
 		// 设置连接超时
 		httpClient.getHttpConnectionManager().getParams()
 				.setConnectionTimeout(3000);
-		// method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new
-		// DefaultHttpMethodRetryHandler(1,false));
 		Object responseBody = null;
 		try {
 			method.addRequestHeader("accept", MimeType.MIME_OF_JAVABEAN);
-
-			// Execute the method.
 			int statusCode = httpClient.executeMethod(method);
 
 			if (statusCode != HttpStatus.SC_OK) {
