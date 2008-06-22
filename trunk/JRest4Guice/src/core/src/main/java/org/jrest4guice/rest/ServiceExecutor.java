@@ -159,7 +159,7 @@ public class ServiceExecutor {
 
 			// 转换参数值
 			if (value == null)
-				value = BeanUtilsBean.getInstance().getConvertUtils().convert(modelMap.get(pName).toString(),parameterTypes[index]);
+				value = BeanUtilsBean.getInstance().getConvertUtils().convert((String)modelMap.get(pName),parameterTypes[index]);
 			// 添加当前参数
 			params.add(value);
 
