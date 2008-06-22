@@ -27,9 +27,6 @@ public class TestRemoteCall {
 			System.out.println(ct.getName());
 
 		System.out.println("==================================");
-		urlParam.clear();
-		urlParam.put("userName", "cnoss");
-		urlParam.put("userPassword", "123");
 		List<Role> roles = (List<Role>) client.callRemote(
 				"http://localhost/full/resource/security/cnoss/roles", "get", null);
 		for (Role r : roles)

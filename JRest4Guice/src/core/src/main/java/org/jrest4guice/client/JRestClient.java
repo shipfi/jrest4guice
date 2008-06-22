@@ -29,16 +29,21 @@ import org.jrest4guice.rest.annotations.MimeType;
 public class JRestClient {
 	private final static Log log = LogFactory.getLog(JRestClient.class);
 	
-	private HttpClient client;
+	private HttpClient httpClient;
+	
 	public JRestClient(){
-		this.client = new HttpClient();
+		this.httpClient = new HttpClient();
+	}
+	
+	public HttpClient getHttpClient() {
+		return httpClient;
 	}
 
 	public Object callRemote(String url, String methodType,
 			ModelMap<String, Object> parameters) throws Exception {
 		HttpMethod method = initMethod(url, methodType, parameters);
 		// 设置连接超时
-		client.getHttpConnectionManager().getParams()
+		httpClient.getHttpConnectionManager().getParams()
 				.setConnectionTimeout(3000);
 		// method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new
 		// DefaultHttpMethodRetryHandler(1,false));
@@ -47,7 +52,7 @@ public class JRestClient {
 			method.addRequestHeader("accept", MimeType.MIME_OF_JAVABEAN);
 
 			// Execute the method.
-			int statusCode = client.executeMethod(method);
+			int statusCode = httpClient.executeMethod(method);
 
 			if (statusCode != HttpStatus.SC_OK) {
 				log.error("调用Http方法出错: " + method.getStatusLine());
@@ -56,6 +61,10 @@ public class JRestClient {
 			ObjectInputStream obj_in = new ObjectInputStream(method
 					.getResponseBodyAsStream());
 			responseBody = obj_in.readObject();
+			
+			if(responseBody instanceof Exception){
+				throw (Exception)responseBody;
+			}
 
 		} catch (Exception e) {
 			log.error("连接错误: " + e.getMessage(), e);
