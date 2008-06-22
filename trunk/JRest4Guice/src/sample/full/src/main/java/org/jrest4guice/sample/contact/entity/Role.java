@@ -115,4 +115,8 @@ public class Role implements EntityAble<String>, Serializable {
 			return false;
 		return true;
 	}
+	
+	public String toString(){
+		return "name="+this.name;
+	}
 }
