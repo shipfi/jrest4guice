@@ -12,7 +12,7 @@ import org.jrest4guice.security.exception.LoginErrorException;
 public class SecurityHelper {
 
 	public synchronized  void login(HttpClient httpClient,
-			String securityHost, String loginUrl) throws Exception {
+			String securityHost, String loginUrl,String userName,String password) throws Exception {
 		Exception exception = null;
 
 		GetMethod authget = null;
@@ -28,9 +28,9 @@ public class SecurityHelper {
 			int statuscode = authget.getStatusCode();
 
 			authpost = new PostMethod(securityHost + "/j_security_check");
-			NameValuePair userid = new NameValuePair("j_username", "cnoss");
-			NameValuePair password = new NameValuePair("j_password", "123");
-			authpost.setRequestBody(new NameValuePair[] { userid, password });
+			NameValuePair j_username = new NameValuePair("j_username", userName);
+			NameValuePair j_password = new NameValuePair("j_password", password);
+			authpost.setRequestBody(new NameValuePair[] { j_username, j_password });
 
 			httpClient.executeMethod(authpost);
 			statuscode = authpost.getStatusCode();

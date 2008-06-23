@@ -22,7 +22,7 @@ public class JaasTest {
 		client = new JRestClient();
 	}
 
-	@Test
+	//@Test
 	public void testWithoutLogin() {
 		try {
 			this.doTest(client);
@@ -42,7 +42,8 @@ public class JaasTest {
 	}
 
 	public void login(HttpClient httpClient) throws Exception {
-		new SecurityHelper().login(httpClient, "http://localhost/full", "/login.jsp");
+		new SecurityHelper().login(httpClient, "http://localhost/full",
+				"/login.jsp", "cnoss", "123");
 	}
 
 	private void doTest(JRestClient client) throws Exception {
