@@ -22,7 +22,7 @@ public class JaasTest {
 		client = new JRestClient();
 	}
 
-	//@Test
+	@Test
 	public void testWithoutLogin() {
 		try {
 			this.doTest(client);
@@ -41,7 +41,12 @@ public class JaasTest {
 		}
 	}
 
-	public void login(HttpClient httpClient) throws Exception {
+	/**
+	 * 登录
+	 * @param httpClient
+	 * @throws Exception
+	 */
+	private void login(HttpClient httpClient) throws Exception {
 		new SecurityHelper().login(httpClient, "http://localhost/full",
 				"/login.jsp", "cnoss", "123");
 	}
@@ -60,6 +65,7 @@ public class JaasTest {
 		List<Role> roles = page.getResult();
 
 		Assert.assertTrue(roles.size() == 3);
+		System.out.println("\n\n所有角色如下：\n=======================");
 		for (Role role : roles)
 			System.out.println(role.getName());
 	}
