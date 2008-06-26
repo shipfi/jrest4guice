@@ -21,7 +21,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.cnoss</groupId>
-			<artifactId>JRest4Guice</artifactId>
+			<artifactId>JRest4Guice-core</artifactId>
 			<version>0.0.9</version>
 		</dependency>
 	</dependencies>

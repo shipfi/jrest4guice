@@ -1,10 +1,9 @@
-package ${context.packageName}.service.impl;
+package ${context.packageName}.domain;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 
 import ${context.packageName}.entity.${context.entityName};
-import ${context.packageName}.service.${context.entityName}Service;
 import org.jrest4guice.client.Page;
 import org.jrest4guice.client.Pagination;
 import org.jrest4guice.jpa.BaseEntityManager;
@@ -19,7 +18,7 @@ import com.google.inject.Inject;
  * 
  */
 @SuppressWarnings( { "unchecked", "unused" })
-public class ${context.entityName}ServiceBean implements ${context.entityName}Service {
+public class ${context.entityName}Domain{
 	private BaseEntityManager<String, ${context.entityName}> entityManager;
 
 	@Inject
