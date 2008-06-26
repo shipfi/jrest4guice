@@ -41,8 +41,8 @@ public class ContactServiceDomain{
 		return contact.getId();
 	}
 
-	@Transactional
-	@RolesAllowed({"admin","user"})
+	@Transactional //事务声明
+	@RolesAllowed({"admin","user"}) //权限声明
 	public void deleteContact(String contactId) {
 		String[] ids = contactId.split(",");
 		Contact contact;

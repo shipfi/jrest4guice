@@ -11,6 +11,7 @@ import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.rest.annotations.Post;
 import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.RESTful;
+import org.jrest4guice.rest.render.ViewRenderType;
 import org.jrest4guice.sample.contact.domain.ContactServiceDomain;
 import org.jrest4guice.sample.contact.entity.Contact;
 
@@ -18,7 +19,8 @@ import com.google.inject.Inject;
 
 /**
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
- * 联系人的资源对象，并声明remoteable为真（可以通过@RemoteReference的注入到任一资源对象,通常用在跨应用的资源调用上）
+ * 联系人的资源对象
+ * 声明remoteable为真（可以通过@RemoteReference的注入到任一资源对象,通常用在跨应用的资源调用上）
  */
 @RESTful(name = "ContactResource", remoteable = true)
 @Path( { "/contact", "/contacts/{contactId}" })
@@ -48,10 +50,16 @@ public class ContactResource {
 	 * 显示联系人列表 
 	 * pageIndex 页码 
 	 * pageSize 每页记录数
+	 * 注：
+	 * 	@PageFlow ：当服务端返回类型是Text/Html类型时，重定向用户的请求到指定的页面，实现最基本功能的MVC。
+	 * 		在这里，指明当操作成功时，重定向到列表人列表页面，并使用Velocity模板进行渲染，当操作失败时，
+	 * 		将用户请求重定向到操作出错页面。
 	 */
 	@Get
 	@Path("/contacts")
-	@PageFlow(success = @PageInfo(url = "/template/contacts.vm"))
+	@PageFlow(
+			success = @PageInfo(url = "/template/contacts.vm",render=ViewRenderType.VELOCITY), 
+			error = @PageInfo(url = "/template/error.vm",render=ViewRenderType.VELOCITY))
 	public Page<Contact> listContacts(int pageIndex, int pageSize) {
 		return this.domain.listContacts(pageIndex, pageSize);
 	}
