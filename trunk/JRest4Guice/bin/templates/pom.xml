@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>${context.packageName}</groupId>
+	<artifactId>${context.projectName}</artifactId>
+	<packaging>war</packaging>
+	<name>${context.projectName}</name>
+	<version>0.0.1-SNAPSHOT</version>
+	<description />
+
+	<repositories>
+		<repository>
+			<id>rest4g</id>
+			<name>rest4g.org Repository for Maven 2</name>
+			<url>http://cnoss.vicp.net/maven</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.cnoss</groupId>
+			<artifactId>JRest4Guice-core</artifactId>
+			<version>0.0.9</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<scriptSourceDirectory>src/main/sql</scriptSourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>utf-8</encoding>
+					<compilerArguments>
+						<bootclasspath>
+							${java.home}/lib/rt.jar
+						</bootclasspath>
+					</compilerArguments>
+
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
