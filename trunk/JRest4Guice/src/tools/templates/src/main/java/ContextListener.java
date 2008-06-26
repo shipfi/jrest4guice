@@ -20,7 +20,7 @@ public class ContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent event) {
 		// 初始化Velocity引擎
 		initVelocity(event);
-		#if($userJPA)
+		#if($useJPA)
 		JRest4GuiceHelper.useJRest("${context.packageName}")// 使用Rest，并指定要动态扫描注册的包路径
 			.useJPA()// 使用JPA
 			.init();
