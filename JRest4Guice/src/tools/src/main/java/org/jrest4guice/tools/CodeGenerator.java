@@ -155,7 +155,7 @@ public class CodeGenerator {
 						return;
 					packagePath = target.getPath() + File.separator
 							+ this.packageNamePath + File.separator
-							+ "resource" + File.separator;
+							+ "service" + File.separator;
 					checkDirExist(packagePath);
 
 					outputFileName = entityName + outputFileName;
@@ -173,24 +173,16 @@ public class CodeGenerator {
 						return;
 					packagePath = target.getPath() + File.separator
 							+ this.packageNamePath + File.separator
-							+ "resource" + File.separator;
+							+ "service" + File.separator;
 					checkDirExist(packagePath);
 					outputFileName = entityName + outputFileName;
-				} else if (file.getName().equalsIgnoreCase("Service.java")
-						|| file.getName().equalsIgnoreCase("ServiceTest.java")) {
+				} else if (file.getName().equalsIgnoreCase("Domain.java")
+						|| file.getName().equalsIgnoreCase("DomainTest.java")) {
 					if (!this.useJPA)
 						return;
 					packagePath = target.getPath() + File.separator
-							+ this.packageNamePath + File.separator + "service"
+							+ this.packageNamePath + File.separator + "domain"
 							+ File.separator;
-					checkDirExist(packagePath);
-					outputFileName = entityName + outputFileName;
-				} else if (file.getName().equalsIgnoreCase("ServiceBean.java")) {
-					if (!this.useJPA)
-						return;
-					packagePath = target.getPath() + File.separator
-							+ this.packageNamePath + File.separator + "service"
-							+ File.separator + "impl" + File.separator;
 					checkDirExist(packagePath);
 					outputFileName = entityName + outputFileName;
 				} else
