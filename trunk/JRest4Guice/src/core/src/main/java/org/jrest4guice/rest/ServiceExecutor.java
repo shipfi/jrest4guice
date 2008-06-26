@@ -27,6 +27,7 @@ import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.rest.annotations.Post;
 import org.jrest4guice.rest.annotations.ProduceMime;
 import org.jrest4guice.rest.annotations.Put;
+import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.context.HttpContextManager;
 import org.jrest4guice.rest.writer.ResponseWriter;
 import org.jrest4guice.rest.writer.ResponseWriterRegister;
@@ -44,7 +45,7 @@ public class ServiceExecutor {
 	private HttpServletRequest request;
 	@Inject
 	private HttpServletResponse response;
-	
+
 	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
 
@@ -65,7 +66,7 @@ public class ServiceExecutor {
 	 * @return
 	 */
 	public void execute(Service service, HttpMethodType methodType,
-			String charset,boolean isRpc) throws Throwable {
+			String charset, boolean isRpc) throws Throwable {
 		Object result = null;
 		Object instance = service.getInstance();
 		String name = instance.getClass().getName();
@@ -75,9 +76,9 @@ public class ServiceExecutor {
 		}
 
 		Method method = service.getMethod();
-		if(method == null)
+		if (method == null)
 			method = restServiceMethodMap.get(name).get(methodType);
-		
+
 		if (method == null)
 			return;
 
@@ -88,15 +89,16 @@ public class ServiceExecutor {
 			try {
 				Object[] args = null;
 				// 构造参数集合
-				if(!isRpc){
+				if (!isRpc) {
 					List params = constructParams(method, modelMap);
 					args = params.size() > 0 ? params.toArray() : null;
-				}else{
-					byte[] bytes = (byte[])modelMap.get(ModelMap.RPC_ARGS_KEY);
-					ObjectInputStream obj_in = new ObjectInputStream(new ByteArrayInputStream(bytes));
-					args =  (Object[])obj_in.readObject();
+				} else {
+					byte[] bytes = (byte[]) modelMap.get(ModelMap.RPC_ARGS_KEY);
+					ObjectInputStream obj_in = new ObjectInputStream(
+							new ByteArrayInputStream(bytes));
+					args = (Object[]) obj_in.readObject();
 				}
-				
+
 				// 执行业务方法
 				result = method.invoke(instance, args);
 				// 向客户端写回结果
@@ -114,7 +116,8 @@ public class ServiceExecutor {
 					throwable = new Exception("调用" + method.getName()
 							+ "时出错: 原因是参数不完整!", exception);
 				} else if (exception instanceof java.lang.reflect.InvocationTargetException) {
-					throwable = ((InvocationTargetException) exception).getTargetException();
+					throwable = ((InvocationTargetException) exception)
+							.getTargetException();
 				}
 				writeResult(charset, throwable, method);
 			}
@@ -159,7 +162,8 @@ public class ServiceExecutor {
 
 			// 转换参数值
 			if (value == null)
-				value = BeanUtilsBean.getInstance().getConvertUtils().convert((String)modelMap.get(pName),parameterTypes[index]);
+				value = BeanUtilsBean.getInstance().getConvertUtils().convert(
+						(String) modelMap.get(pName), parameterTypes[index]);
 			// 添加当前参数
 			params.add(value);
 
@@ -184,7 +188,8 @@ public class ServiceExecutor {
 		for (Method m : methods) {
 			type = null;
 			methodName = m.getName();
-			if (methodName.equalsIgnoreCase("getClass") || m.isAnnotationPresent(Path.class))
+			if (methodName.equalsIgnoreCase("getClass")
+					|| m.isAnnotationPresent(Path.class))
 				continue;
 
 			if (m.isAnnotationPresent(Get.class)) {
@@ -196,16 +201,13 @@ public class ServiceExecutor {
 			} else if (m.isAnnotationPresent(Delete.class)) {
 				type = HttpMethodType.DELETE;
 			} else {
-				if (methodName.startsWith(RequestProcessor.METHOD_OF_GET)) {
+				if (methodName.startsWith(RESTful.METHOD_OF_GET)) {
 					type = HttpMethodType.GET;
-				} else if (methodName
-						.startsWith(RequestProcessor.METHOD_OF_POST)) {
+				} else if (methodName.startsWith(RESTful.METHOD_OF_POST)) {
 					type = HttpMethodType.POST;
-				} else if (methodName
-						.startsWith(RequestProcessor.METHOD_OF_PUT)) {
+				} else if (methodName.startsWith(RESTful.METHOD_OF_PUT)) {
 					type = HttpMethodType.PUT;
-				} else if (methodName
-						.startsWith(RequestProcessor.METHOD_OF_DELETE)) {
+				} else if (methodName.startsWith(RESTful.METHOD_OF_DELETE)) {
 					type = HttpMethodType.DELETE;
 				}
 			}
@@ -232,7 +234,6 @@ public class ServiceExecutor {
 		String accepts = request.getHeader("accept");
 		if (accepts == null || accepts.indexOf(MimeType.MIME_OF_ALL) != -1)
 			accepts = "*/*";
-		
 
 		accepts = accepts.toLowerCase();
 
@@ -253,7 +254,7 @@ public class ServiceExecutor {
 				}
 			}
 		}
-		
+
 		method.getDeclaringClass().getName();
 
 		if (mimeType == null) {// 如果不存在指定的返回类型数据，系统向客户端写回异常
@@ -265,6 +266,6 @@ public class ServiceExecutor {
 		ResponseWriter responseWriter = ResponseWriterRegister.getInstance()
 				.getResponseWriter(mimeType);
 		if (responseWriter != null)
-			responseWriter.writeResult(method,result, charset);
+			responseWriter.writeResult(method, result, charset);
 	}
 }

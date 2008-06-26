@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.contact.resources;
+package org.jrest4guice.sample.contact.service;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.Path;
+import org.jrest4guice.sample.contact.domain.UserManageDomain;
 import org.jrest4guice.sample.contact.security.UserSecurityInfo;
-import org.jrest4guice.sample.contact.service.UserManageService;
 import org.jrest4guice.security.Role;
 
 import com.google.inject.Inject;
@@ -23,7 +23,7 @@ import com.google.inject.Inject;
 @Path("/security")
 public class SecurityResource {
 	@Inject
-	private UserManageService service;
+	private UserManageDomain domain;
 	
 	@Inject
 	HttpServletRequest request;
@@ -31,7 +31,7 @@ public class SecurityResource {
 	@Get
 	@Path("auth")
 	public boolean authUser(String userName, String userPassword) {
-		boolean result = this.service.authUser(userName, userPassword);
+		boolean result = this.domain.authUser(userName, userPassword);
 		return result;
 	}
 
@@ -56,7 +56,7 @@ public class SecurityResource {
 	@Get
 	@Path("{userName}/roles")
 	public List<Role> listUserRoles(String userName) {
-		List<org.jrest4guice.sample.contact.entity.Role> userRoles = this.service
+		List<org.jrest4guice.sample.contact.entity.Role> userRoles = this.domain
 				.getUserRoles(userName);
 		List<Role> roles = new ArrayList<Role>(userRoles.size());
 		Role role;

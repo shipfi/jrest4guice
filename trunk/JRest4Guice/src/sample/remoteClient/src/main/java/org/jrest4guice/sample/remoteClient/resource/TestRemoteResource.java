@@ -3,9 +3,9 @@ package org.jrest4guice.sample.remoteClient.resource;
 import org.jrest4guice.client.Page;
 import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.Path;
-import org.jrest4guice.rest.annotations.RemoteService;
+import org.jrest4guice.rest.annotations.RemoteReference;
 import org.jrest4guice.sample.contact.entity.Contact;
-import org.jrest4guice.sample.contact.resources.ContactResource;
+import org.jrest4guice.sample.contact.service.ContactResource;
 
 import com.google.inject.Inject;
 
@@ -17,7 +17,7 @@ import com.google.inject.Inject;
 @Path( { "/testCallRemote"})
 public class TestRemoteResource {
 	@Inject
-	@RemoteService
+	@RemoteReference
 	private ContactResource service;
 
 	@Get

@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.contact.service.impl;
+package org.jrest4guice.sample.contact.domain;
 
 
 import javax.annotation.security.RolesAllowed;
@@ -8,7 +8,6 @@ import org.jrest4guice.client.Page;
 import org.jrest4guice.client.Pagination;
 import org.jrest4guice.jpa.BaseEntityManager;
 import org.jrest4guice.sample.contact.entity.Contact;
-import org.jrest4guice.sample.contact.service.ContactService;
 import org.jrest4guice.transaction.annotations.Transactional;
 import org.jrest4guice.transaction.annotations.TransactionalType;
 
@@ -19,8 +18,8 @@ import com.google.inject.Inject;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  *
  */
-@SuppressWarnings( { "unchecked", "unused" })
-public class ContactServiceBean implements ContactService {
+@SuppressWarnings( { "unused" })
+public class ContactServiceDomain{
 	private BaseEntityManager<String, Contact> entityManager;
 
 	@Inject

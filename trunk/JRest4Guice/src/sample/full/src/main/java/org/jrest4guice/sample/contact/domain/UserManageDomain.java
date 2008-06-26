@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.contact.service.impl;
+package org.jrest4guice.sample.contact.domain;
 
 import java.util.List;
 
@@ -11,7 +11,6 @@ import org.jrest4guice.commons.lang.MD5Util;
 import org.jrest4guice.jpa.BaseEntityManager;
 import org.jrest4guice.sample.contact.entity.Role;
 import org.jrest4guice.sample.contact.entity.User;
-import org.jrest4guice.sample.contact.service.UserManageService;
 import org.jrest4guice.transaction.annotations.Transactional;
 import org.jrest4guice.transaction.annotations.TransactionalType;
 
@@ -22,8 +21,8 @@ import com.google.inject.Inject;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * 
  */
-@SuppressWarnings( { "unchecked", "unused" })
-public class UserManageServiceBean implements UserManageService {
+@SuppressWarnings( { "unused" })
+public class UserManageDomain{
 	private BaseEntityManager<String, User> userEntityManager;
 	private BaseEntityManager<String, Role> roleEntityManager;
 
@@ -35,7 +34,6 @@ public class UserManageServiceBean implements UserManageService {
 				Role.class, em);
 	}
 
-	@Override
 	@Transactional(type = TransactionalType.READOLNY)
 	public boolean authUser(String name, String password) {
 		User user = this.userEntityManager.loadByNamedQuery(
@@ -43,20 +41,17 @@ public class UserManageServiceBean implements UserManageService {
 		return user != null;
 	}
 
-	@Override
 	@Transactional(type = TransactionalType.READOLNY)
 	public List<Role> getUserRoles(String name) {
 		return this.roleEntityManager.listByNamedQuery("listByUserName", name);
 	}
 
-	@Override
 	@Transactional(type = TransactionalType.READOLNY)
 	@RolesAllowed("admin")
 	public User findUser(String name) {
 		return this.userEntityManager.loadByNamedQuery("byName", name);
 	}
 
-	@Override
 	@Transactional(type = TransactionalType.READOLNY)
 	@RolesAllowed("admin")
 	public Page<Role> getAllRoles(int pageIndex, int pageSize) {
@@ -64,7 +59,6 @@ public class UserManageServiceBean implements UserManageService {
 				pageIndex, pageSize));
 	}
 
-	@Override
 	@Transactional(type = TransactionalType.READOLNY)
 	@RolesAllowed("admin")
 	public Page<User> getAllUsers(int pageIndex, int pageSize) {

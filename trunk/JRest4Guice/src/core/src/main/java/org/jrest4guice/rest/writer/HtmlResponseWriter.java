@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jrest4guice.rest.JRestResult;
 import org.jrest4guice.rest.annotations.MimeType;
-import org.jrest4guice.rest.annotations.ViewTemplate;
+import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.render.ViewRender;
 import org.jrest4guice.rest.render.ViewRenderRegister;
 
@@ -44,34 +44,34 @@ public class HtmlResponseWriter implements ResponseWriter {
 
 			JRestResult httpResult = JRestResult.createHttpResult(result);
 			//获取模板路径
-			ViewTemplate annotation = method.getAnnotation(ViewTemplate.class);
-			String templateUrl = "";
-			//模板的渲染器
-			String render = "";
-			if (annotation == null)
-				annotation = method.getDeclaringClass().getAnnotation(
-						ViewTemplate.class);
-			if (annotation == null)
-				templateUrl = "/" + method.getDeclaringClass().getName();
-			else {
-				templateUrl = annotation.url();
-				render = annotation.render();
-			}
-			//如果模板文件存在，则调用相应的渲染器进行结果的渲染
-			File template = new File(this.session.getServletContext().getRealPath(templateUrl));
-			if (template.exists()) {
-				ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(render);
-				if(viewRender != null)
-					viewRender.render(out, templateUrl, httpResult);
-				else{
-					out.println(httpResult.toTextPlain());
+			PageFlow annotation = method.getAnnotation(PageFlow.class);
+			if (annotation == null){
+				writeTextPlain(out, httpResult);
+			}else {
+				String templateUrl = annotation.success().url();
+				//模板的渲染器
+				String render = annotation.success().render();
+
+				//如果模板文件存在，则调用相应的渲染器进行结果的渲染
+				File template = new File(this.session.getServletContext().getRealPath(templateUrl));
+				if (template.exists()) {
+					ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(render);
+					if(viewRender != null)
+						viewRender.render(out, templateUrl, httpResult);
+					else{
+						writeTextPlain(out, httpResult);
+					}
+				} else {
+					writeTextPlain(out, httpResult);
 				}
-			} else {
-				out.println(httpResult.toTextPlain());
 			}
 		} catch (Exception e) {
 			System.out.println("向客户端写回数据错误:\n" + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+
+	private void writeTextPlain(PrintWriter out, JRestResult httpResult) {
+		out.println(httpResult.toTextPlain());
 	}
 }

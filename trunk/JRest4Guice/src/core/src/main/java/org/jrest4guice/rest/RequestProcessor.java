@@ -16,7 +16,7 @@ import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.commons.lang.ClassUtils;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.annotations.HttpMethodType;
-import org.jrest4guice.rest.annotations.Remote;
+import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.context.HttpContextManager;
 import org.jrest4guice.rest.context.JRestContext;
 import org.jrest4guice.rest.exception.RestMethodNotFoundException;
@@ -29,12 +29,6 @@ import org.jrest4guice.rest.writer.JsonResponseWriter;
  */
 @SuppressWarnings("unchecked")
 public class RequestProcessor {
-
-	public static final String METHOD_OF_GET = "get";
-	public static final String METHOD_OF_POST = "post";
-	public static final String METHOD_OF_PUT = "put";
-	public static final String METHOD_OF_DELETE = "delete";
-
 	private String charset;
 
 	private String urlPrefix;
@@ -54,7 +48,7 @@ public class RequestProcessor {
 			ServletResponse servletResponse) throws Throwable {
 		HttpServletRequest request = (HttpServletRequest) servletReqest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
-		
+
 		// 获取字符编码
 		charset = request.getCharacterEncoding();
 
@@ -66,15 +60,17 @@ public class RequestProcessor {
 			}
 		}
 
-		if(request.getContentLength()>JRest4GuiceHelper.getMaxBodyPayloadSize()){
-			this.writeErrorMessage(new Exception("body的大小超过最大许可范围: "+JRest4GuiceHelper.getMaxBodyPayloadSize()));
+		if (request.getContentLength() > JRest4GuiceHelper
+				.getMaxBodyPayloadSize()) {
+			this.writeErrorMessage(new Exception("body的大小超过最大许可范围: "
+					+ JRest4GuiceHelper.getMaxBodyPayloadSize()));
 			return;
 		}
-		
+
 		String uri = request.getRequestURI();
 		String uri_bak = uri;
 		String contextPath = request.getContextPath();
-		if (!contextPath.trim().equals("/") && uri.startsWith(contextPath)){
+		if (!contextPath.trim().equals("/") && uri.startsWith(contextPath)) {
 			uri = uri.substring(contextPath.length());
 		}
 
@@ -87,11 +83,11 @@ public class RequestProcessor {
 		HttpContextManager.setContext(request, response, params);
 		try {
 			int index;
-			if ((index = uri.indexOf(Remote.REMOTE_SERVICE_PREFIX)) != -1) {// 以远程服务方式调用的处理
+			if ((index = uri.indexOf(RESTful.REMOTE_SERVICE_PREFIX)) != -1) {// 以远程服务方式调用的处理
 				String serviceName = request
-						.getParameter(Remote.REMOTE_SERVICE_NAME_KEY);
+						.getParameter(RESTful.REMOTE_SERVICE_NAME_KEY);
 				String methodIndex = request
-						.getParameter(Remote.REMOTE_SERVICE_METHOD_INDEX_KEY);
+						.getParameter(RESTful.REMOTE_SERVICE_METHOD_INDEX_KEY);
 				Class<?> clazz = JRestContext.getInstance().getRemoteService(
 						serviceName);
 				if (clazz != null) {
@@ -108,7 +104,7 @@ public class RequestProcessor {
 							.execute(
 									service,
 									this
-											.getHttpMethodType(RequestProcessor.METHOD_OF_POST),
+											.getHttpMethodType(RESTful.METHOD_OF_POST),
 									charset, true);
 				} else {
 					this.writeRestServiceNotFoundMessage(uri_bak);
@@ -143,20 +139,18 @@ public class RequestProcessor {
 	}
 
 	private void writeErrorMessage(Exception e) {
-		GuiceContext
-				.getInstance()
-				.getBean(JsonResponseWriter.class)
-				.writeResult(null,e, charset);
+		GuiceContext.getInstance().getBean(JsonResponseWriter.class)
+				.writeResult(null, e, charset);
 	}
 
 	private HttpMethodType getHttpMethodType(String method) {
-		if (METHOD_OF_GET.equalsIgnoreCase(method))
+		if (RESTful.METHOD_OF_GET.equalsIgnoreCase(method))
 			return HttpMethodType.GET;
-		else if (METHOD_OF_POST.equalsIgnoreCase(method))
+		else if (RESTful.METHOD_OF_POST.equalsIgnoreCase(method))
 			return HttpMethodType.POST;
-		else if (METHOD_OF_PUT.equalsIgnoreCase(method))
+		else if (RESTful.METHOD_OF_PUT.equalsIgnoreCase(method))
 			return HttpMethodType.PUT;
-		else if (METHOD_OF_DELETE.equalsIgnoreCase(method))
+		else if (RESTful.METHOD_OF_DELETE.equalsIgnoreCase(method))
 			return HttpMethodType.DELETE;
 		return null;
 	}
