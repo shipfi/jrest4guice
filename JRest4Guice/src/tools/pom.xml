@@ -7,11 +7,20 @@
 		<groupId>org.cnoss</groupId>
 		<version>0.0.9</version>
 	</parent>
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cnoss</groupId>
 	<artifactId>JRest4Guice-tools</artifactId>
 	<name>JRest4Guice-tools</name>
 	<version>0.0.1</version>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.cnoss</groupId>
+			<artifactId>JRest4Guice-core</artifactId>
+			<version>0.0.9</version>
+		</dependency>
+	</dependencies>
 
 	<properties>
 		<maven.test.skip>true</maven.test.skip>
