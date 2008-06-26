@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.contact.resources;
+package org.jrest4guice.sample.contact.service;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -7,9 +7,9 @@ import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.ModelBean;
 import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.rest.annotations.Post;
+import org.jrest4guice.sample.contact.domain.UserManageDomain;
 import org.jrest4guice.sample.contact.entity.Role;
 import org.jrest4guice.sample.contact.entity.User;
-import org.jrest4guice.sample.contact.service.UserManageService;
 
 import com.google.inject.Inject;
 
@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 @Path( { "/user" })
 public class UserManageResource {
 	@Inject
-	private UserManageService service;
+	private UserManageDomain domain;
 
 	@Inject
 	HttpServletRequest request;
@@ -35,12 +35,12 @@ public class UserManageResource {
 	@Get
 	@Path("{userName}")
 	public User findUser(String userName) {
-		return this.service.findUser(userName);
+		return this.domain.findUser(userName);
 	}
 
 	@Get
 	@Path("{userName}/roles")
 	public Page<Role> listCurrentUserRolse(int pageIndex, int pageSize) {
-		return this.service.getAllRoles(pageIndex, pageSize);
+		return this.domain.getAllRoles(pageIndex, pageSize);
 	}
 }

@@ -11,8 +11,8 @@ import javax.servlet.http.HttpSession;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.guice.ModuleProviderTemplate;
 import org.jrest4guice.rest.annotations.Path;
-import org.jrest4guice.rest.annotations.Remote;
-import org.jrest4guice.rest.annotations.RemoteService;
+import org.jrest4guice.rest.annotations.RemoteReference;
+import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.context.HttpRequestProvider;
 import org.jrest4guice.rest.context.HttpResponseProvider;
 import org.jrest4guice.rest.context.HttpSessionProvider;
@@ -68,26 +68,20 @@ public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 				String mimiType, name;
 				String[] mimiTypes;
 				Field[] fields;
-				RemoteService remoteServiceAnnotation;
-				Class<RemoteService> remoteServiceClass = RemoteService.class;
+				RemoteReference remoteServiceAnnotation;
+				RESTful resourceAnnotation;
+				Class<RemoteReference> remoteServiceClass = RemoteReference.class;
 				Class type;
 				for (Class clazz : classes) {
-					if (clazz.isAnnotationPresent(Remote.class)) {
-						name = ((Remote) clazz.getAnnotation(Remote.class))
-								.value();
-						if (name == null || name.trim().equals(""))
-							name = clazz.getName();
-
-						jRestContext.addRemoteService(name, clazz);
-					}
-
-					if (clazz.isAnnotationPresent(Path.class)) {
-						// 注册Rest服务
-						annotation = (Path) clazz.getAnnotation(Path.class);
-						uris = annotation.value();
-						int index = 0;
-						for (String uri : uris)
-							jRestContext.addResource(uri, clazz, index++ == 0);
+					if (clazz.isAnnotationPresent(RESTful.class)) {
+						resourceAnnotation = (RESTful)clazz.getAnnotation(RESTful.class);
+						if(resourceAnnotation.remoteable()){
+							name = resourceAnnotation.name();
+							if (name == null || name.trim().equals(""))
+								name = clazz.getName();
+	
+							jRestContext.addRemoteService(name, clazz);
+						}
 
 						// 绑定远程服务引用的Provider
 						fields = clazz.getDeclaredFields();
@@ -101,7 +95,18 @@ public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
 										RemoteServiceProvider.create(type));
 							}
 						}
-					} else if (ResponseWriter.class.isAssignableFrom(clazz)) {
+					}
+
+					if (clazz.isAnnotationPresent(Path.class)) {
+						// 注册Rest服务
+						annotation = (Path) clazz.getAnnotation(Path.class);
+						uris = annotation.value();
+						int index = 0;
+						for (String uri : uris)
+							jRestContext.addResource(uri, clazz, index++ == 0);
+					}else if (clazz.isAnnotationPresent(RESTful.class)) { 
+						jRestContext.addResourceByClassMethodInfo(clazz);
+					}else if (ResponseWriter.class.isAssignableFrom(clazz)) {
 						// 注册ResponseWriter
 						try {
 							ResponseWriter writer = (ResponseWriter) clazz

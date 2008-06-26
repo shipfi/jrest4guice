@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>联系人列表(Velocity template)</title>
+<!-- 系统缺省的CSS -->
+<link href="/full/css/default.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<h3>Velocity template</h3>
+	#set($contacts = $context.content ) 
+	<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
+		<thead style="font-weight: bold;">
+			<tr style="height: 26px;background-image: url('/full/images/head.jpg');color: white;">
+				<td style="width: 110px;">&nbsp;姓 名</td>
+				<td style="width: 110px;">&nbsp;移动电话</td>
+				<td style="width: 130px;">&nbsp;电子邮件</td>
+				<td>&nbsp;住址</td>
+			</tr>
+		</thead>
+		<tbody>
+		#foreach( $contact in $contacts)
+			<tr style="cursor: pointer;height: 22px;">
+				<td>&nbsp;<a href="contacts/$contact.id">$contact.name</a></td>
+				<td>&nbsp;$contact.mobilePhone</td>
+				<td>&nbsp;$contact.EMail</td>
+				<td>&nbsp;$contact.address</td>
+			</tr>
+		#end
+		</tbody>
+	</table>
+</body>
+</html>

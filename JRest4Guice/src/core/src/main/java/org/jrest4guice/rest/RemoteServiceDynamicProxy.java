@@ -10,7 +10,7 @@ import java.util.Properties;
 import org.jrest4guice.client.JRestClient;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.commons.lang.ClassUtils;
-import org.jrest4guice.rest.annotations.Remote;
+import org.jrest4guice.rest.annotations.RESTful;
 
 import com.google.inject.Singleton;
 import com.google.inject.cglib.proxy.Enhancer;
@@ -58,8 +58,12 @@ public class RemoteServiceDynamicProxy implements MethodInterceptor {
 	}
 
 	public <T> T createRemoteService(Class<T> serviceClazz) {
-		if (!serviceClazz.isAnnotationPresent(Remote.class))
-			throw new RuntimeException(serviceClazz.getName() + "不支持远程调用！");
+		if (!serviceClazz.isAnnotationPresent(RESTful.class)) {
+			RESTful annotation = (RESTful) serviceClazz
+					.getAnnotation(RESTful.class);
+			if (!annotation.remoteable())
+				throw new RuntimeException(serviceClazz.getName() + "不支持远程调用！");
+		}
 
 		this.methods = ClassUtils.getSortedMethodList(serviceClazz);
 
@@ -74,8 +78,8 @@ public class RemoteServiceDynamicProxy implements MethodInterceptor {
 		Object result = null;
 
 		Class<?> clazz = method.getDeclaringClass();
-		Remote remote = clazz.getAnnotation(Remote.class);
-		String name = remote.value();
+		RESTful annotation = (RESTful) clazz.getAnnotation(RESTful.class);
+		String name = annotation.name();
 		if (name == null || name.trim().equals(""))
 			name = clazz.getName();
 
@@ -93,12 +97,12 @@ public class RemoteServiceDynamicProxy implements MethodInterceptor {
 		String serviceUrl = "";
 		if (this.service_url_relation.containsKey(clazz.getName())) {
 			serviceUrl = this.service_url_relation.get(clazz.getName());
-			serviceUrl += Remote.REMOTE_SERVICE_PREFIX + "?"
-			+ Remote.REMOTE_SERVICE_NAME_KEY + "=" + name + "&"
-			+ Remote.REMOTE_SERVICE_METHOD_INDEX_KEY + "=" + index;
+			serviceUrl += RESTful.REMOTE_SERVICE_PREFIX + "?"
+					+ RESTful.REMOTE_SERVICE_NAME_KEY + "=" + name + "&"
+					+ RESTful.REMOTE_SERVICE_METHOD_INDEX_KEY + "=" + index;
 			try {
 				result = client.callRemote("http://" + serviceUrl,
-						RequestProcessor.METHOD_OF_POST, parameters);
+						RESTful.METHOD_OF_POST, parameters);
 			} catch (Exception e) {
 				result = this.try2lookupRemoteServiceAndExcute(result, client,
 						clazz, name, index, parameters);
@@ -120,12 +124,12 @@ public class RemoteServiceDynamicProxy implements MethodInterceptor {
 			if (!surl.endsWith("/"))
 				surl = surl + "/";
 
-			serviceUrl = surl + Remote.REMOTE_SERVICE_PREFIX + "?"
-					+ Remote.REMOTE_SERVICE_NAME_KEY + "=" + name + "&"
-					+ Remote.REMOTE_SERVICE_METHOD_INDEX_KEY + "=" + index;
+			serviceUrl = surl + RESTful.REMOTE_SERVICE_PREFIX + "?"
+					+ RESTful.REMOTE_SERVICE_NAME_KEY + "=" + name + "&"
+					+ RESTful.REMOTE_SERVICE_METHOD_INDEX_KEY + "=" + index;
 			try {
 				result = client.callRemote("http://" + serviceUrl,
-						RequestProcessor.METHOD_OF_POST, parameters);
+						RESTful.METHOD_OF_POST, parameters);
 				this.service_url_relation.put(clazz.getName(), surl);
 				break;
 			} catch (Exception e) {

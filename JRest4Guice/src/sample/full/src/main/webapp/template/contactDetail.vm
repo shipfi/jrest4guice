@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>联系人详细信息(Velocity template)</title>
 <!-- 系统缺省的CSS -->
-<link href="/css/default.css" rel="stylesheet" type="text/css" />
+<link href="/full/css/default.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<h3>Velocity template</h3>
@@ -15,5 +15,9 @@
 		<div>&nbsp;$contact.EMail</div>
 		<div>&nbsp;$contact.address</div>
 	</div>
+	
+	<br>
+	<a href="/full/resource/contacts">返回</a>
+	</br>
 </body>
 </html>

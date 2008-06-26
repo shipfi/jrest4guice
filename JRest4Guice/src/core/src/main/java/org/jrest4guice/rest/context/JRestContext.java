@@ -22,7 +22,7 @@ public class JRestContext {
 	private ServiceRoute root = new ServiceRoute();
 	private Pattern paramPattern = Pattern.compile("\\{([a-zA-Z_]+[0-9]*)\\}");
 	private static final String PARAM_KEY = "_$__PARAM_$__";
-	
+
 	private Map<String, Class<?>> remoteService;
 
 	private JRestContext() {
@@ -36,16 +36,15 @@ public class JRestContext {
 	public static JRestContext getInstance() {
 		return SingletonHolder.instance;
 	}
-	
-	public JRestContext addRemoteService(String name,Class<?> service){
+
+	public JRestContext addRemoteService(String name, Class<?> service) {
 		this.remoteService.put(name, service);
 		return this;
 	}
-	
-	public Class<?> getRemoteService(String name){
+
+	public Class<?> getRemoteService(String name) {
 		return this.remoteService.get(name);
 	}
-	
 
 	/**
 	 * 添加资源到上下文
@@ -62,6 +61,15 @@ public class JRestContext {
 		if (!processMethod)
 			return;
 
+		this.addResourceByClassMethodInfo(resourceClass, current);
+	}
+
+	public void addResourceByClassMethodInfo(Class resourceClass) {
+		this.addResourceByClassMethodInfo(resourceClass, root);
+	}
+
+	public void addResourceByClassMethodInfo(Class resourceClass,
+			ServiceRoute current) {
 		Method[] methods = resourceClass.getMethods();
 		String[] paths;
 		for (Method method : methods) {
@@ -148,7 +156,8 @@ public class JRestContext {
 
 			ServiceRoute parent = current.getParent();
 			if (child == null
-					&& (parent!=null && this.hasRouteNode(path, parent.getRouteChildren()))) {
+					&& (parent != null && this.hasRouteNode(path, parent
+							.getRouteChildren()))) {
 				continue;
 			}
 
