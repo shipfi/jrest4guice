@@ -41,7 +41,7 @@ public class HttpContextManager {
 			GuiceContext.getInstance().getBean(EntityManagerFactoryHolder.class).closeEntityManager();
 	}
 
-	static HttpServletRequest getRequest() {
+	public static HttpServletRequest getRequest() {
 		HttpContext context = localContext.get();
 		if (null == context) {
 			throw new RuntimeException(
@@ -52,7 +52,7 @@ public class HttpContextManager {
 		return context.getRequest();
 	}
 
-	static HttpServletResponse getResponse() {
+	public static HttpServletResponse getResponse() {
 		HttpContext context = localContext.get();
 		if (null == context) {
 			throw new RuntimeException(

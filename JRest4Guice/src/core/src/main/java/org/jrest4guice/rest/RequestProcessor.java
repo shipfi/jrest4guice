@@ -78,16 +78,20 @@ public class RequestProcessor {
 
 		if (this.urlPrefix != null)
 			uri = uri.replace(this.urlPrefix, "");
+		
+		String method = request.getMethod();
 
-		// 检查Cache
-		String mimeType = RequestUtil.getMimeType(request);
-		String resourceUrl = ResourceCacheManager.getInstance()
-				.findStaticCacheResource(uri, mimeType, request);
-		if (resourceUrl != null) {
-			RequestDispatcher rd = request.getSession().getServletContext()
-					.getRequestDispatcher(resourceUrl);
-			rd.forward(request, response);
-			return;
+		// 针对Get类型的资源做Cache检查
+		if (RESTful.METHOD_OF_GET.equalsIgnoreCase(method)){
+			String mimeType = RequestUtil.getMimeType(request);
+			String resourceUrl = ResourceCacheManager.getInstance()
+					.findStaticCacheResource(uri, mimeType, request);
+			if (resourceUrl != null) {
+				RequestDispatcher rd = request.getSession().getServletContext()
+						.getRequestDispatcher(resourceUrl);
+				rd.forward(request, response);
+				return;
+			}
 		}
 
 		// REST资源的参数，这些参数都包含在URL中
@@ -132,7 +136,6 @@ public class RequestProcessor {
 					// 填充参数
 					fillParameters(request, params, false);
 					// 根据不同的请求方法调用REST对象的不同方法
-					String method = request.getMethod();
 					exec.execute(service, this.getHttpMethodType(method),
 							charset, false);
 					
