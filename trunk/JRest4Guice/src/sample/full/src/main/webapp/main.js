@@ -70,7 +70,7 @@ function init(){
 	contact_detail_ds.setURL("resource/contacts/{contacts_ds::id}");
 	contact_detail_ds.useCache = false;
 	contact_detail_ds.setPath("content");
-	contact_detail_ds.setRequestInfo({headers:{"Accept":"application/json"}},true);
+	contact_detail_ds.setRequestInfo({headers:{"Accept":"application/json","If-Modified-Since":"Thu, 01 Jan 1970 00:00:00 GMT"}},true);
 	
 	//装饰AJAX请求的Loading条
 	new SpryExt.DataSetDecorator().decorateAjaxLoading(contacts_ds).decorateAjaxLoading(contact_detail_ds);
