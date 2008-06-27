@@ -17,6 +17,7 @@ import org.jrest4guice.rest.context.HttpContextManager;
 public class DefaultResourceCacheProvider implements ResourceCacheProvider {
 	
 	public DefaultResourceCacheProvider(){
+		//添加Hibernate事件监听器，来实现资源缓存的更新
 		HibernateEventListener.getInstance().addPostUpdateEventListener(new PostUpdateEventListener(){
 			@Override
 			public void onPostUpdate(PostUpdateEvent event) {
