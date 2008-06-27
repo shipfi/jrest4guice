@@ -63,4 +63,26 @@ public class DefaultResourceCacheProvider implements ResourceCacheProvider {
 		} else
 			return null;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.jrest4guice.rest.cache.ResourceCacheProvider#clearStaticResouceCache
+	 * (java.lang.String)
+	 */
+	public void clearStaticResouceCache(String resourceId,
+			HttpServletRequest request) {
+		File cacheDirectory = new File(request.getSession().getServletContext()
+				.getRealPath(
+						ResourceCacheManager.getInstance().getCacheStorePath()));
+		File[] files = cacheDirectory.listFiles();
+		if(files == null)
+			return;
+		
+		for(File file :files){
+			if(file.getName().indexOf(resourceId) != -1)
+				file.delete();
+		}
+	}
 }

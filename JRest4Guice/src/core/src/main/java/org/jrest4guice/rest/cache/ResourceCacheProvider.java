@@ -20,4 +20,10 @@ public interface ResourceCacheProvider {
 	 * @return
 	 */
 	public String findStaticCacheResource(String url, String mimeType,HttpServletRequest request);
+
+	/**
+	 * 根据资源标识清除相应的缓存
+	 * @param resourceId
+	 */
+	public void clearStaticResouceCache(String resourceId,HttpServletRequest request);
 }
