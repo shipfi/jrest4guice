@@ -6,7 +6,31 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.event.PostDeleteEvent;
+import org.hibernate.event.PostDeleteEventListener;
+import org.hibernate.event.PostUpdateEvent;
+import org.hibernate.event.PostUpdateEventListener;
+import org.jrest4guice.jpa.HibernateEventListener;
+import org.jrest4guice.rest.context.HttpContextManager;
+
+@SuppressWarnings("serial")
 public class DefaultResourceCacheProvider implements ResourceCacheProvider {
+	
+	public DefaultResourceCacheProvider(){
+		HibernateEventListener.getInstance().addPostUpdateEventListener(new PostUpdateEventListener(){
+			@Override
+			public void onPostUpdate(PostUpdateEvent event) {
+				DefaultResourceCacheProvider.this.clearStaticResouceCache(event.getId().toString(),HttpContextManager.getRequest());
+			}
+		});
+		HibernateEventListener.getInstance().addPostDeleteEventListener(new PostDeleteEventListener(){
+			@Override
+			public void onPostDelete(PostDeleteEvent event) {
+				DefaultResourceCacheProvider.this.clearStaticResouceCache(event.getId().toString(),HttpContextManager.getRequest());
+			}
+		});
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
