@@ -60,6 +60,10 @@ public class ResourceCacheManager {
 		return this.resourceCacheProvider.findStaticCacheResource(url, mimeType, request);
 	}
 	
+	public void clearStaticResouceCache(String resourceId,HttpServletRequest request){
+		this.resourceCacheProvider.clearStaticResouceCache(resourceId, request);
+	}
+
 	/**
 	 * 返回资源缓存管理者的实例
 	 * @return
