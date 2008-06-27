@@ -70,7 +70,7 @@ public class ContactResource {
 	 */
 	@Get
 	@PageFlow(success = @PageInfo(url = "/template/contactDetail.vm"))
-	@Cache
+	@Cache //声明需要缓存结果，可以减少应用服务器及数据库的压力
 	public Contact getContact(@Parameter("contactId") String contactId) {
 		return this.domain.findContactById(contactId);
 	}
