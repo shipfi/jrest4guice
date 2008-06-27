@@ -139,7 +139,7 @@ Spry.Utils.loadURL.Request = function()
 	this.headers = {};
 };
 
-Spry.Utils.loadURL.Request.props = [ "method", "url", "async", "username", "password", "postData", "successCallback", "errorCallback", "headers", "userData", "xhRequest","Accept" ];
+Spry.Utils.loadURL.Request.props = [ "method", "url", "async", "username", "password", "postData", "successCallback", "errorCallback", "headers", "userData", "xhRequest","Accept","If-Modified-Since"];
 
 Spry.Utils.loadURL.Request.prototype.extractRequestOptions = function(opts, undefineRequestProps)
 {
