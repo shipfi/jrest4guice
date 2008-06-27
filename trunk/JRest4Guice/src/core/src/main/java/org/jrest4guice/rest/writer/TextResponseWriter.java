@@ -3,13 +3,11 @@ package org.jrest4guice.rest.writer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jrest4guice.rest.annotations.Cache;
-import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
 import org.jrest4guice.rest.context.HttpContextManager;
 
