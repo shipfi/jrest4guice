@@ -1,6 +1,7 @@
 package org.jrest4guice.sample.contact.service;
 
 import org.jrest4guice.client.Page;
+import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.annotations.Delete;
 import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.ModelBean;
@@ -30,7 +31,7 @@ public class ContactResource {
 
 	/**
 	 * 创建新的联系人 
-	 * contact 联系人实体
+	 * @param contact 联系人实体
 	 */
 	@Post
 	public String createContact(@ModelBean Contact contact) {
@@ -39,7 +40,7 @@ public class ContactResource {
 
 	/**
 	 * 修改联系人信息 
-	 * contact 联系人实体
+	 * @param contact 联系人实体
 	 */
 	@Put
 	public void putContact(@ModelBean Contact contact) {
@@ -48,12 +49,11 @@ public class ContactResource {
 
 	/**
 	 * 显示联系人列表 
-	 * pageIndex 页码 
-	 * pageSize 每页记录数
-	 * 注：
-	 * 	@PageFlow ：当服务端返回类型是Text/Html类型时，重定向用户的请求到指定的页面，实现最基本功能的MVC。
+	 * PageFlow ：当服务端返回类型是Text/Html类型时，重定向用户的请求到指定的页面，实现最基本功能的MVC。
 	 * 		在这里，指明当操作成功时，重定向到列表人列表页面，并使用Velocity模板进行渲染，当操作失败时，
 	 * 		将用户请求重定向到操作出错页面。
+	 * @param pageIndex 页码 
+	 * @param pageSize 每页记录数
 	 */
 	@Get
 	@Path("/contacts")
@@ -66,17 +66,18 @@ public class ContactResource {
 
 	/**
 	 * 显示单个联系人的信息 
-	 * contactId 联系对象ID
+	 * @param contactId 联系对象ID
 	 */
 	@Get
 	@PageFlow(success = @PageInfo(url = "/template/contactDetail.vm"))
+	@Cache
 	public Contact getContact(@Parameter("contactId") String contactId) {
 		return this.domain.findContactById(contactId);
 	}
 
 	/**
 	 * 删除指定ID的联系人 
-	 * contactId 联系对象ID
+	 * @param contactId 联系对象ID
 	 */
 	@Delete
 	public void deleteContact(@Parameter("contactId") String contactId) {

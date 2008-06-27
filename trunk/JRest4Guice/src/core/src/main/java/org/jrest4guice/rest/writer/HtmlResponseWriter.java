@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.jrest4guice.rest.JRestResult;
+import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.render.ViewRender;
@@ -57,7 +58,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 				if (template.exists()) {
 					ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(render);
 					if(viewRender != null)
-						viewRender.render(out, templateUrl, httpResult);
+						viewRender.render(out, templateUrl, httpResult,method.isAnnotationPresent(Cache.class));
 					else{
 						writeTextPlain(out, httpResult);
 					}

@@ -20,7 +20,8 @@ public interface ViewRender {
 	 * @param out	输出流
 	 * @param templateUrl	模块的路径
 	 * @param result	业务数据
+	 * @param cache	是否要缓存
 	 * @throws Exception
 	 */
-	public void render(PrintWriter out,String templateUrl,JRestResult result) throws Exception;
+	public void render(PrintWriter out,String templateUrl,JRestResult result,boolean cache) throws Exception;
 }

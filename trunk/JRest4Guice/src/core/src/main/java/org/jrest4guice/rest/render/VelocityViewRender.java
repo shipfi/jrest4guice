@@ -3,12 +3,16 @@ package org.jrest4guice.rest.render;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.jrest4guice.rest.JRestResult;
+import org.jrest4guice.rest.annotations.MimeType;
+import org.jrest4guice.rest.cache.ResourceCacheManager;
+import org.jrest4guice.rest.context.HttpContextManager;
 
 import com.google.inject.Inject;
 
@@ -18,13 +22,15 @@ import com.google.inject.Inject;
  */
 public class VelocityViewRender implements ViewRender {
 	@Inject
+	protected HttpServletRequest request;
+	@Inject
 	protected HttpSession session;
 
 	/* (non-Javadoc)
 	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, java.lang.String, org.jrest4guice.rest.JRestResult)
 	 */
 	@Override
-	public void render(PrintWriter out, String templateUrl, JRestResult result)
+	public void render(PrintWriter out, String templateUrl, JRestResult result,boolean cache)
 			throws Exception {
 		//获取模板
 		Template template = Velocity.getTemplate(templateUrl, "utf-8");
@@ -34,7 +40,12 @@ public class VelocityViewRender implements ViewRender {
 		//输出到用户端
 		StringWriter writer = new StringWriter();
 		template.merge(context, writer);
-		out.println(writer.toString());
+		String content = writer.toString();
+		out.println(content);
+		
+		if(cache){
+			ResourceCacheManager.getInstance().cacheStaticResource(HttpContextManager.getCurrentRestUri(), MimeType.MIME_OF_TEXT_HTML, content.getBytes(), request);
+		}
 	}
 
 	/* (non-Javadoc)

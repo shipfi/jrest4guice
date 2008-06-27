@@ -230,25 +230,15 @@ public class ServiceExecutor {
 	 *            当前调用的服务方法
 	 */
 	private void writeResult(String charset, Object result, Method method) {
-		// 获取客户端中的请求数据类型
-		String accepts = request.getHeader("accept");
-		if (accepts == null || accepts.indexOf(MimeType.MIME_OF_ALL) != -1)
-			accepts = "*/*";
-
-		accepts = accepts.toLowerCase();
-
-		// 缺省的数据返回类型
-		String mimeType = accepts.split(",")[0];
-
-		if (mimeType.equals(MimeType.MIME_OF_ALL))
-			mimeType = MimeType.MIME_OF_TEXT_HTML;
+		String accept = RequestUtil.getAccepte(this.request);
+		String mimeType = RequestUtil.getMimeType(this.request);
 
 		// 获取服务方法上的数据返回类型
 		if (method.isAnnotationPresent(ProduceMime.class)) {
 			ProduceMime pmAnnotation = method.getAnnotation(ProduceMime.class);
 			String[] mimeTypes = pmAnnotation.value();
 			for (String mime : mimeTypes) {
-				if (accepts.indexOf(mime) != -1) {
+				if (accept.indexOf(mime) != -1) {
 					mimeType = mime;
 					break;
 				}
@@ -258,7 +248,7 @@ public class ServiceExecutor {
 		method.getDeclaringClass().getName();
 
 		if (mimeType == null) {// 如果不存在指定的返回类型数据，系统向客户端写回异常
-			result = new Exception("服务端没有提供{" + accepts + "}类型的数据返回");
+			result = new Exception("服务端没有提供{" + accept + "}类型的数据返回");
 			mimeType = MimeType.MIME_OF_ALL;
 		}
 

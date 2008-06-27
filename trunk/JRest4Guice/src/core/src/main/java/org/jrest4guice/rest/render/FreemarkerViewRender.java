@@ -47,7 +47,7 @@ public class FreemarkerViewRender implements ViewRender {
 	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, java.lang.String, org.jrest4guice.rest.JRestResult)
 	 */
 	@Override
-	public void render(PrintWriter out, String templateUrl, JRestResult result)
+	public void render(PrintWriter out, String templateUrl, JRestResult result,boolean cache)
 			throws Exception {
 
 		this.initFreemarker();
