@@ -16,7 +16,16 @@ import org.jrest4guice.jpa.EntityManagerFactoryHolder;
 @SuppressWarnings("unchecked")
 public class HttpContextManager {
 	static final ThreadLocal<HttpContext> localContext = new ThreadLocal<HttpContext>();
+	static final ThreadLocal<String> currentRestUri = new ThreadLocal<String>();
 
+	public static void setCurrentRestUri(String url){
+		currentRestUri.set(url);
+	}
+	
+	public static String getCurrentRestUri(){
+		return currentRestUri.get();
+	}
+	
 	private HttpContextManager() {
 	}
 
@@ -27,6 +36,7 @@ public class HttpContextManager {
 
 	public static void clearContext() {
 		localContext.remove();
+		currentRestUri.remove();
 		if(GuiceContext.getInstance().isUseJPA())
 			GuiceContext.getInstance().getBean(EntityManagerFactoryHolder.class).closeEntityManager();
 	}

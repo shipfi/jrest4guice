@@ -6,6 +6,7 @@ import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -17,6 +18,7 @@ import org.jrest4guice.commons.lang.ClassUtils;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.annotations.HttpMethodType;
 import org.jrest4guice.rest.annotations.RESTful;
+import org.jrest4guice.rest.cache.ResourceCacheManager;
 import org.jrest4guice.rest.context.HttpContextManager;
 import org.jrest4guice.rest.context.JRestContext;
 import org.jrest4guice.rest.exception.RestMethodNotFoundException;
@@ -77,6 +79,17 @@ public class RequestProcessor {
 		if (this.urlPrefix != null)
 			uri = uri.replace(this.urlPrefix, "");
 
+		// 检查Cache
+		String mimeType = RequestUtil.getMimeType(request);
+		String resourceUrl = ResourceCacheManager.getInstance()
+				.findStaticCacheResource(uri, mimeType, request);
+		if (resourceUrl != null) {
+			RequestDispatcher rd = request.getSession().getServletContext()
+					.getRequestDispatcher(resourceUrl);
+			rd.forward(request, response);
+			return;
+		}
+
 		// REST资源的参数，这些参数都包含在URL中
 		ModelMap<String, String> params = new ModelMap<String, String>();
 		// 设置上下文中的环境变量
@@ -100,12 +113,9 @@ public class RequestProcessor {
 							.getBean(clazz), methods.get(index));
 					// 填充参数
 					fillParameters(request, params, true);
-					exec
-							.execute(
-									service,
-									this
-											.getHttpMethodType(RESTful.METHOD_OF_POST),
-									charset, true);
+					exec.execute(service, this
+							.getHttpMethodType(RESTful.METHOD_OF_POST),
+							charset, true);
 				} else {
 					this.writeRestServiceNotFoundMessage(uri_bak);
 				}
@@ -116,12 +126,17 @@ public class RequestProcessor {
 				if (service != null) {
 					ServiceExecutor exec = GuiceContext.getInstance().getBean(
 							ServiceExecutor.class);
+					
+					HttpContextManager.setCurrentRestUri(uri);
+					
 					// 填充参数
 					fillParameters(request, params, false);
 					// 根据不同的请求方法调用REST对象的不同方法
 					String method = request.getMethod();
 					exec.execute(service, this.getHttpMethodType(method),
 							charset, false);
+					
+					
 				} else {
 					this.writeRestServiceNotFoundMessage(uri_bak);
 				}

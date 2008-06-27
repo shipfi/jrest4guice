@@ -20,7 +20,7 @@ public class SpryViewRender implements ViewRender {
 	protected HttpSession session;
 
 	@Override
-	public void render(PrintWriter out, String templateUrl, JRestResult result)
+	public void render(PrintWriter out, String templateUrl, JRestResult result,boolean cache)
 			throws Exception {
 		BufferedReader brd = new BufferedReader(new InputStreamReader(
 				new FileInputStream(this.session.getServletContext().getRealPath(templateUrl)), "utf-8"));

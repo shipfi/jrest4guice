@@ -8,6 +8,11 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jrest4guice.rest.annotations.Cache;
+import org.jrest4guice.rest.annotations.MimeType;
+import org.jrest4guice.rest.cache.ResourceCacheManager;
+import org.jrest4guice.rest.context.HttpContextManager;
+
 import com.google.inject.Inject;
 
 /**
@@ -30,6 +35,10 @@ public abstract class TextResponseWriter implements ResponseWriter {
 			result = "";
 		
 		String textContent = this.generateTextContent(result);
+		
+		if(method.isAnnotationPresent(Cache.class))
+			ResourceCacheManager.getInstance().cacheStaticResource(HttpContextManager.getCurrentRestUri(), this.getMimeType(), textContent.getBytes(), request);
+			
 		
 		try {
 			response.setCharacterEncoding(charset);
