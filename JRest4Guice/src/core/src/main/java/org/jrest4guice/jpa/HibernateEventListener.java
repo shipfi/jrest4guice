@@ -17,6 +17,9 @@ import com.google.inject.Singleton;
 
 @SuppressWarnings("serial")
 @Singleton
+/**
+ * Hibernate的持久化事件监听器，用户可能添加自己感兴趣的事件监听器来处理持久化后的额外业务逻辑
+ */
 public class HibernateEventListener implements PostDeleteEventListener,
 		PostInsertEventListener, PostUpdateEventListener, Initializable {
 	
@@ -31,20 +34,39 @@ public class HibernateEventListener implements PostDeleteEventListener,
 		postUpdateEventListeners = new ArrayList<PostUpdateEventListener>(0);
 		initializables = new ArrayList<Initializable>(0);
 	}
-
+	
+	/**
+	 * 添加PostDeleteEventListener
+	 * @param listener
+	 */
 	public void addPostDeleteEventListener(PostDeleteEventListener listener) {
 		postDeleteEventListeners.add(listener);
 	}
+	/**
+	 * 添加PostInsertEventListener
+	 * @param listener
+	 */
 	public void addPostInsertEventListener(PostInsertEventListener listener) {
 		postInsertEventListeners.add(listener);
 	}
+	/**
+	 * 添加PostUpdateEventListener
+	 * @param listener
+	 */
 	public void addPostUpdateEventListener(PostUpdateEventListener listener) {
 		postUpdateEventListeners.add(listener);
 	}
-	public void addInitializable(Initializable listener) {
-		initializables.add(listener);
+	/**
+	 * 添加Initializable
+	 * @param initializable
+	 */
+	public void addInitializable(Initializable initializable) {
+		initializables.add(initializable);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.hibernate.event.PostDeleteEventListener#onPostDelete(org.hibernate.event.PostDeleteEvent)
+	 */
 	@Override
 	public void onPostDelete(PostDeleteEvent event) {
 		for(PostDeleteEventListener listener:postDeleteEventListeners){
@@ -52,6 +74,9 @@ public class HibernateEventListener implements PostDeleteEventListener,
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.hibernate.event.PostInsertEventListener#onPostInsert(org.hibernate.event.PostInsertEvent)
+	 */
 	@Override
 	public void onPostInsert(PostInsertEvent event) {
 		for(PostInsertEventListener listener:postInsertEventListeners){
@@ -66,6 +91,9 @@ public class HibernateEventListener implements PostDeleteEventListener,
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.hibernate.event.Initializable#initialize(org.hibernate.cfg.Configuration)
+	 */
 	@Override
 	public void initialize(Configuration config) {
 		for(Initializable listener:initializables){
@@ -73,6 +101,10 @@ public class HibernateEventListener implements PostDeleteEventListener,
 		}
 	}
 	
+	/**
+	 * 返回HibernateEventListener实例的引用
+	 * @return
+	 */
 	public static HibernateEventListener getInstance(){
 		return GuiceContext.getInstance().getBean(HibernateEventListener.class);
 	}
