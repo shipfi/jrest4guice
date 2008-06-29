@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.event.PostDeleteEvent;
 import org.hibernate.event.PostDeleteEventListener;
 import org.hibernate.event.PostUpdateEvent;
@@ -15,6 +17,7 @@ import org.jrest4guice.rest.context.HttpContextManager;
 
 @SuppressWarnings("serial")
 public class DefaultResourceCacheProvider implements ResourceCacheProvider {
+	private static Log log = LogFactory.getLog(DefaultResourceCacheProvider.class);
 	
 	public DefaultResourceCacheProvider(){
 		//添加Hibernate事件监听器，来实现资源缓存的更新
@@ -49,17 +52,22 @@ public class DefaultResourceCacheProvider implements ResourceCacheProvider {
 				+ "/" + uri + "." + mimeType;
 		File file = new File(request.getSession().getServletContext()
 				.getRealPath(resourceUrl));
+		File parentFile = file.getParentFile();
+		if(parentFile != null && !parentFile.exists())
+			parentFile.mkdirs();
 		FileOutputStream fout = null;
 		try {
 			fout = new FileOutputStream(file);
 			fout.write(content);
 			fout.flush();
 		} catch (Exception e) {
+			log.error("cacheStaticResource 失败：",e);
 		} finally {
 			try {
 				if (fout != null)
 					fout.close();
 			} catch (IOException e) {
+				log.error("cacheStaticResource 关闭文件失败：",e);
 			}
 		}
 	}
@@ -98,16 +106,20 @@ public class DefaultResourceCacheProvider implements ResourceCacheProvider {
 	 */
 	public void clearStaticResouceCache(String resourceId,
 			HttpServletRequest request) {
-		File cacheDirectory = new File(request.getSession().getServletContext()
-				.getRealPath(
-						ResourceCacheManager.getInstance().getCacheStorePath()));
-		File[] files = cacheDirectory.listFiles();
-		if(files == null)
-			return;
-		
-		for(File file :files){
-			if(file.getName().indexOf(resourceId) != -1)
-				file.delete();
+		try {
+			File cacheDirectory = new File(request.getSession().getServletContext()
+					.getRealPath(
+							ResourceCacheManager.getInstance().getCacheStorePath()));
+			File[] files = cacheDirectory.listFiles();
+			if(files == null)
+				return;
+			
+			for(File file :files){
+				if(file.getName().indexOf(resourceId) != -1)
+					file.delete();
+			}
+		} catch (Exception e) {
+			log.error("clearStaticResouceCache 失败：",e);
 		}
 	}
 }
