@@ -19,8 +19,8 @@ import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.annotations.HttpMethodType;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
-import org.jrest4guice.rest.context.HttpContextManager;
 import org.jrest4guice.rest.context.JRestContext;
+import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.exception.RestMethodNotFoundException;
 import org.jrest4guice.rest.writer.JsonResponseWriter;
 
@@ -97,7 +97,7 @@ public class RequestProcessor {
 		// REST资源的参数，这些参数都包含在URL中
 		ModelMap<String, String> params = new ModelMap<String, String>();
 		// 设置上下文中的环境变量
-		HttpContextManager.setContext(request, response, params);
+		RestContextManager.setContext(request, response, params);
 		try {
 			int index;
 			if ((index = uri.indexOf(RESTful.REMOTE_SERVICE_PREFIX)) != -1) {// 以远程服务方式调用的处理
@@ -131,7 +131,7 @@ public class RequestProcessor {
 					ServiceExecutor exec = GuiceContext.getInstance().getBean(
 							ServiceExecutor.class);
 					
-					HttpContextManager.setCurrentRestUri(uri);
+					RestContextManager.setCurrentRestUri(uri);
 					
 					// 填充参数
 					fillParameters(request, params, false);
@@ -148,7 +148,7 @@ public class RequestProcessor {
 			this.writeRestServiceNotFoundMessage(uri_bak);
 		} finally {
 			// 清除上下文中的环境变量
-			HttpContextManager.clearContext();
+			RestContextManager.clearContext();
 		}
 	}
 

@@ -28,7 +28,7 @@ import org.jrest4guice.rest.annotations.Post;
 import org.jrest4guice.rest.annotations.ProduceMime;
 import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.RESTful;
-import org.jrest4guice.rest.context.HttpContextManager;
+import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.writer.ResponseWriter;
 import org.jrest4guice.rest.writer.ResponseWriterRegister;
 
@@ -84,7 +84,7 @@ public class ServiceExecutor {
 
 		Exception exception = null;
 
-		ModelMap modelMap = HttpContextManager.getModelMap();
+		ModelMap modelMap = RestContextManager.getModelMap();
 		if (method != null) {
 			try {
 				Object[] args = null;

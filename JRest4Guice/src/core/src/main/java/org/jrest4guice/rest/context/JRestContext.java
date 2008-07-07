@@ -141,7 +141,7 @@ public class JRestContext {
 			paramChild = current.getParamChild(PARAM_KEY);
 			if (paramChild != null) {
 				for (ServiceRoute p : paramChild)
-					HttpContextManager.getModelMap()
+					RestContextManager.getModelMap()
 							.put(p.getParamName(), path);
 			}
 
