@@ -1,4 +1,4 @@
-package org.cnoss.rest4guice.test;
+package org.jrest4guice.sample.contact.test;
 
 import java.util.List;
 
