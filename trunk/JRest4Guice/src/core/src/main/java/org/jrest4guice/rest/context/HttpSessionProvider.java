@@ -12,6 +12,6 @@ import com.google.inject.Provider;
 public class HttpSessionProvider implements Provider<HttpSession> {
 
 	public HttpSession get() {
-		return HttpContextManager.getRequest().getSession();
+		return RestContextManager.getRequest().getSession();
 	}
 }

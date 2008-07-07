@@ -13,7 +13,7 @@ import org.hibernate.event.PostDeleteEventListener;
 import org.hibernate.event.PostUpdateEvent;
 import org.hibernate.event.PostUpdateEventListener;
 import org.jrest4guice.jpa.HibernateEventListener;
-import org.jrest4guice.rest.context.HttpContextManager;
+import org.jrest4guice.rest.context.RestContextManager;
 
 @SuppressWarnings("serial")
 public class DefaultResourceCacheProvider implements ResourceCacheProvider {
@@ -24,13 +24,13 @@ public class DefaultResourceCacheProvider implements ResourceCacheProvider {
 		HibernateEventListener.getInstance().addPostUpdateEventListener(new PostUpdateEventListener(){
 			@Override
 			public void onPostUpdate(PostUpdateEvent event) {
-				DefaultResourceCacheProvider.this.clearStaticResouceCache(event.getId().toString(),HttpContextManager.getRequest());
+				DefaultResourceCacheProvider.this.clearStaticResouceCache(event.getId().toString(),RestContextManager.getRequest());
 			}
 		});
 		HibernateEventListener.getInstance().addPostDeleteEventListener(new PostDeleteEventListener(){
 			@Override
 			public void onPostDelete(PostDeleteEvent event) {
-				DefaultResourceCacheProvider.this.clearStaticResouceCache(event.getId().toString(),HttpContextManager.getRequest());
+				DefaultResourceCacheProvider.this.clearStaticResouceCache(event.getId().toString(),RestContextManager.getRequest());
 			}
 		});
 	}

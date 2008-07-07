@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -12,7 +11,7 @@ import org.apache.velocity.app.Velocity;
 import org.jrest4guice.rest.JRestResult;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
-import org.jrest4guice.rest.context.HttpContextManager;
+import org.jrest4guice.rest.context.RestContextManager;
 
 import com.google.inject.Inject;
 
@@ -22,9 +21,9 @@ import com.google.inject.Inject;
  */
 public class VelocityViewRender implements ViewRender {
 	@Inject
-	protected HttpServletRequest request;
+	private HttpServletRequest request;
 	@Inject
-	protected HttpSession session;
+	private VelocityContext context;
 
 	/* (non-Javadoc)
 	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, java.lang.String, org.jrest4guice.rest.JRestResult)
@@ -35,7 +34,7 @@ public class VelocityViewRender implements ViewRender {
 		//获取模板
 		Template template = Velocity.getTemplate(templateUrl, "utf-8");
 		//往上下文中填入数据
-		VelocityContext context = new VelocityContext();
+		context.put("contextPath", this.request.getContextPath());
 		context.put("context", result);
 		//输出到用户端
 		StringWriter writer = new StringWriter();
@@ -44,7 +43,7 @@ public class VelocityViewRender implements ViewRender {
 		out.println(content);
 		
 		if(cache){
-			ResourceCacheManager.getInstance().cacheStaticResource(HttpContextManager.getCurrentRestUri(), MimeType.MIME_OF_TEXT_HTML, content.getBytes(), request);
+			ResourceCacheManager.getInstance().cacheStaticResource(RestContextManager.getCurrentRestUri(), MimeType.MIME_OF_TEXT_HTML, content.getBytes(), request);
 		}
 	}
 
