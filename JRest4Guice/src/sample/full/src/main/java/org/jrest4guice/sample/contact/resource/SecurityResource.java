@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.Path;
-import org.jrest4guice.sample.contact.domain.UserManageService;
 import org.jrest4guice.sample.contact.security.UserSecurityInfo;
+import org.jrest4guice.sample.contact.service.UserManageService;
 import org.jrest4guice.security.Role;
 
 import com.google.inject.Inject;

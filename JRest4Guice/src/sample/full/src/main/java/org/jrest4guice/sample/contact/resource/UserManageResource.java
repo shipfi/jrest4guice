@@ -7,9 +7,9 @@ import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.ModelBean;
 import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.rest.annotations.Post;
-import org.jrest4guice.sample.contact.domain.UserManageService;
 import org.jrest4guice.sample.contact.entity.Role;
 import org.jrest4guice.sample.contact.entity.User;
+import org.jrest4guice.sample.contact.service.UserManageService;
 
 import com.google.inject.Inject;
 

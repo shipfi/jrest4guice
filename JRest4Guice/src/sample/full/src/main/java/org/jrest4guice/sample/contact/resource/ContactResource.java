@@ -13,8 +13,8 @@ import org.jrest4guice.rest.annotations.Post;
 import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.render.ViewRenderType;
-import org.jrest4guice.sample.contact.domain.ContactService;
 import org.jrest4guice.sample.contact.entity.Contact;
+import org.jrest4guice.sample.contact.service.ContactService;
 
 import com.google.inject.Inject;
 
