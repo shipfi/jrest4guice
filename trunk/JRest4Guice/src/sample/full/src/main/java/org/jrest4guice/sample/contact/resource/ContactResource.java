@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.contact.service;
+package org.jrest4guice.sample.contact.resource;
 
 import org.jrest4guice.client.Page;
 import org.jrest4guice.rest.annotations.Cache;
@@ -13,7 +13,7 @@ import org.jrest4guice.rest.annotations.Post;
 import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.render.ViewRenderType;
-import org.jrest4guice.sample.contact.domain.ContactServiceDomain;
+import org.jrest4guice.sample.contact.domain.ContactService;
 import org.jrest4guice.sample.contact.entity.Contact;
 
 import com.google.inject.Inject;
@@ -27,7 +27,7 @@ import com.google.inject.Inject;
 @Path( { "/contact", "/contacts/{contactId}" })
 public class ContactResource {
 	@Inject
-	private ContactServiceDomain domain;
+	private ContactService domain;
 
 	/**
 	 * 创建新的联系人 

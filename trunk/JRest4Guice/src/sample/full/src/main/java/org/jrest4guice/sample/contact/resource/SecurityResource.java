@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.contact.service;
+package org.jrest4guice.sample.contact.resource;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.Path;
-import org.jrest4guice.sample.contact.domain.UserManageDomain;
+import org.jrest4guice.sample.contact.domain.UserManageService;
 import org.jrest4guice.sample.contact.security.UserSecurityInfo;
 import org.jrest4guice.security.Role;
 
@@ -23,7 +23,7 @@ import com.google.inject.Inject;
 @Path("/security")
 public class SecurityResource {
 	@Inject
-	private UserManageDomain domain;
+	private UserManageService domain;
 	
 	@Inject
 	HttpServletRequest request;

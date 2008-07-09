@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.contact.service;
+package org.jrest4guice.sample.contact.resource;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -7,7 +7,7 @@ import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.ModelBean;
 import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.rest.annotations.Post;
-import org.jrest4guice.sample.contact.domain.UserManageDomain;
+import org.jrest4guice.sample.contact.domain.UserManageService;
 import org.jrest4guice.sample.contact.entity.Role;
 import org.jrest4guice.sample.contact.entity.User;
 
@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 @Path( { "/user" })
 public class UserManageResource {
 	@Inject
-	private UserManageDomain domain;
+	private UserManageService domain;
 
 	@Inject
 	HttpServletRequest request;
