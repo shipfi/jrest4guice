@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.jrest4guice.client.Page;
 import org.jrest4guice.client.Pagination;
 
@@ -78,8 +79,19 @@ public class BaseEntityManager<PK extends Serializable, E extends EntityAble<PK>
 	 *            实体对象
 	 * @return
 	 */
-	public PK create(final E newInstance) {
-		this.em.persist(newInstance);
+	public PK create(E newInstance) {
+		E orginalObj = this.checkEnhanced(newInstance);
+		boolean equals = orginalObj.equals(newInstance);
+		
+		this.em.persist(orginalObj);
+		
+		if(!equals){
+			try {
+				BeanUtils.copyProperties(newInstance, orginalObj);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return newInstance.getId();
 	}
 
@@ -89,8 +101,9 @@ public class BaseEntityManager<PK extends Serializable, E extends EntityAble<PK>
 	 * @param e
 	 *            实体对象
 	 */
-	public boolean delete(final E entity) {
+	public boolean delete(E entity) {
 		if (entity != null) {
+			entity = this.checkEnhanced(entity);
 			this.em.remove(entity);
 			return true;
 		}
@@ -346,8 +359,21 @@ public class BaseEntityManager<PK extends Serializable, E extends EntityAble<PK>
 	 */
 	public boolean remove(final DeletedFlag entity) {
 		if (entity != null && !entity.isDeleted()) {
-			entity.setDeleted(true);
-			this.em.merge(entity);
+			
+			E orginalObj = this.checkEnhanced((E)entity);
+			boolean equals = orginalObj.equals(entity);
+			
+			((DeletedFlag)orginalObj).setDeleted(true);
+			this.em.merge(orginalObj);
+			
+			if(!equals){
+				try {
+					BeanUtils.copyProperties(entity, orginalObj);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
 			return true;
 		}
 		return false;
@@ -374,9 +400,22 @@ public class BaseEntityManager<PK extends Serializable, E extends EntityAble<PK>
 	 * 
 	 * @param entity
 	 */
-	public E update(final E entity) {
+	public E update(E entity) {
 		if (entity != null) {
-			return this.em.merge(entity);
+			E orginalObj = this.checkEnhanced(entity);
+			boolean equals = orginalObj.equals(entity);
+			
+			this.em.merge(orginalObj);
+			
+			if(!equals){
+				try {
+					BeanUtils.copyProperties(entity, orginalObj);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			return entity;
 		} else {
 			return null;
 		}
@@ -580,5 +619,32 @@ public class BaseEntityManager<PK extends Serializable, E extends EntityAble<PK>
 	private void pagingQuery(final Query query, final Pagination pagination) {
 		query.setFirstResult(pagination.getFirstResult());
 		query.setMaxResults(pagination.getMaxResults());
+	}
+	
+	/**
+	 * 检查对象是否被动态增强过，如果被增强，则返回增强前的类型，并拷贝属性值
+	 * @param entity
+	 * @return
+	 */
+	private E checkEnhanced(E entity){
+		if(entity == null)
+			return entity;
+		String name;
+		int index;
+		name = entity.getClass().getName();
+		index = name.indexOf("$$");
+		if(index != -1){
+			name = name.substring(0,index);
+			Object origObject;
+			try {
+				origObject = Class.forName(name).newInstance();
+				BeanUtils.copyProperties(origObject, entity);
+				return (E)origObject;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println(name);
+		}
+		return entity;
 	}
 }
