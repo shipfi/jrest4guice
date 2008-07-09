@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.contact.domain;
+package org.jrest4guice.sample.contact.service;
 
 
 import javax.annotation.security.RolesAllowed;
