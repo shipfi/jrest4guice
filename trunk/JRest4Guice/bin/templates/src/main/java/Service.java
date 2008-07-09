@@ -1,4 +1,4 @@
-package ${context.packageName}.domain;
+package ${context.packageName}.service;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
@@ -18,7 +18,7 @@ import com.google.inject.Inject;
  * 
  */
 @SuppressWarnings( { "unchecked", "unused" })
-public class ${context.entityName}Domain{
+public class ${context.entityName}Service{
 	private BaseEntityManager<String, ${context.entityName}> entityManager;
 
 	@Inject

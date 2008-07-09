@@ -155,7 +155,7 @@ public class CodeGenerator {
 						return;
 					packagePath = target.getPath() + File.separator
 							+ this.packageNamePath + File.separator
-							+ "service" + File.separator;
+							+ "resource" + File.separator;
 					checkDirExist(packagePath);
 
 					outputFileName = entityName + outputFileName;
@@ -176,12 +176,12 @@ public class CodeGenerator {
 							+ "service" + File.separator;
 					checkDirExist(packagePath);
 					outputFileName = entityName + outputFileName;
-				} else if (file.getName().equalsIgnoreCase("Domain.java")
-						|| file.getName().equalsIgnoreCase("DomainTest.java")) {
+				} else if (file.getName().equalsIgnoreCase("Service.java")
+						|| file.getName().equalsIgnoreCase("ServiceTest.java")) {
 					if (!this.useJPA)
 						return;
 					packagePath = target.getPath() + File.separator
-							+ this.packageNamePath + File.separator + "domain"
+							+ this.packageNamePath + File.separator + "service"
 							+ File.separator;
 					checkDirExist(packagePath);
 					outputFileName = entityName + outputFileName;
