@@ -6,7 +6,7 @@ import junit.framework.Assert;
 
 import org.jrest4guice.client.Page;
 import org.jrest4guice.guice.GuiceContext;
-import org.jrest4guice.sample.contact.domain.UserManageDomain;
+import org.jrest4guice.sample.contact.domain.UserManageService;
 import org.jrest4guice.sample.contact.entity.Role;
 import org.jrest4guice.sample.contact.entity.User;
 import org.junit.BeforeClass;
@@ -19,19 +19,19 @@ import org.junit.Test;
  */
 public class UserManageServiceTest {
 
-	private static UserManageDomain domain;
+	private static UserManageService service;
 
 	@BeforeClass
 	public static void setUp() throws Exception {
 		//初始化JRest4Guice
 		GuiceContext.getInstance().useJPA().init();
 		//获取服务
-		domain = GuiceContext.getInstance().getBean(UserManageDomain.class);
+		service = GuiceContext.getInstance().getBean(UserManageService.class);
 	}
 
 	@Test
 	public void testAuthUser() {
-		Assert.assertTrue(domain.authUser("cnoss", "123"));
+		Assert.assertTrue(service.authUser("cnoss", "123"));
 	}
 
 	@Test
@@ -39,7 +39,7 @@ public class UserManageServiceTest {
 		System.out.println("\nRoles");
 		System.out.println("================================");
 
-		List<Role> userRoles = domain
+		List<Role> userRoles = service
 				.getUserRoles("cnoss");
 		Assert.assertTrue(userRoles.size()==2);
 		for (Role role : userRoles)
@@ -50,7 +50,7 @@ public class UserManageServiceTest {
 	public void testGetAllUsers() {
 		System.out.println("\nUsers");
 		System.out.println("================================");
-		Page<User> page = domain.getAllUsers(1, 100);
+		Page<User> page = service.getAllUsers(1, 100);
 		List<User> users = page.getResult();
 		Assert.assertTrue(users.size()==2);
 		for (User user : users)

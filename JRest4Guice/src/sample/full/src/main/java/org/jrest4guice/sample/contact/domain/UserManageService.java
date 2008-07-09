@@ -22,7 +22,7 @@ import com.google.inject.Inject;
  * 
  */
 @SuppressWarnings( { "unused" })
-public class UserManageDomain{
+public class UserManageService{
 	private BaseEntityManager<String, User> userEntityManager;
 	private BaseEntityManager<String, Role> roleEntityManager;
 
