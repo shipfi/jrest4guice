@@ -8,7 +8,8 @@ import javax.persistence.EntityManager;
 import org.jrest4guice.client.Page;
 import org.jrest4guice.client.Pagination;
 import org.jrest4guice.commons.lang.MD5Util;
-import org.jrest4guice.jpa.BaseEntityManager;
+import org.jrest4guice.persistence.BaseEntityManager;
+import org.jrest4guice.persistence.jpa.JpaEntityManager;
 import org.jrest4guice.sample.contact.entity.Role;
 import org.jrest4guice.sample.contact.entity.User;
 import org.jrest4guice.transaction.annotations.Transactional;
@@ -28,9 +29,9 @@ public class UserManageService{
 
 	@Inject
 	private void init(EntityManager em) {
-		this.userEntityManager = new BaseEntityManager<String, User>(
+		this.userEntityManager = new JpaEntityManager<String, User>(
 				User.class, em);
-		this.roleEntityManager = new BaseEntityManager<String, Role>(
+		this.roleEntityManager = new JpaEntityManager<String, Role>(
 				Role.class, em);
 	}
 

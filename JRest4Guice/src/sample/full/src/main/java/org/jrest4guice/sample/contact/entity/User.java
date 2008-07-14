@@ -16,7 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.jrest4guice.jpa.EntityAble;
+import org.jrest4guice.persistence.EntityAble;
 import org.jrest4guice.rest.json.annotations.JsonExclude;
 
 /**
