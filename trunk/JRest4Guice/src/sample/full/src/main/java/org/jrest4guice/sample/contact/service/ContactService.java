@@ -6,7 +6,8 @@ import javax.persistence.EntityManager;
 
 import org.jrest4guice.client.Page;
 import org.jrest4guice.client.Pagination;
-import org.jrest4guice.jpa.BaseEntityManager;
+import org.jrest4guice.persistence.BaseEntityManager;
+import org.jrest4guice.persistence.jpa.JpaEntityManager;
 import org.jrest4guice.sample.contact.entity.Contact;
 import org.jrest4guice.transaction.annotations.Transactional;
 import org.jrest4guice.transaction.annotations.TransactionalType;
@@ -24,7 +25,7 @@ public class ContactService{
 
 	@Inject
 	private void init(EntityManager em) {
-		this.entityManager = new BaseEntityManager<String, Contact>(
+		this.entityManager = new JpaEntityManager<String, Contact>(
 				Contact.class, em);
 	}
 

@@ -36,8 +36,8 @@
 			<property name="hibernate.connection.password" value=""/>
 			<property name="hibernate.connection.url" value="jdbc:hsqldb:."/>
 
-			<property name="hibernate.ejb.event.post-update" value="org.jrest4guice.jpa.HibernateEventListener" />
-			<property name="hibernate.ejb.event.post-delete" value="org.jrest4guice.jpa.HibernateEventListener" />
+			<property name="hibernate.ejb.event.post-update" value="org.jrest4guice.persistence.hibernate.HibernateEventListener" />
+			<property name="hibernate.ejb.event.post-delete" value="org.jrest4guice.persistence.hibernate.HibernateEventListener" />
 		</properties>
 	</persistence-unit>
 </persistence>

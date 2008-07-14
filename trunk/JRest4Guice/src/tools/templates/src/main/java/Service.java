@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import ${context.packageName}.entity.${context.entityName};
 import org.jrest4guice.client.Page;
 import org.jrest4guice.client.Pagination;
-import org.jrest4guice.jpa.BaseEntityManager;
+import org.jrest4guice.persistence.jpa.JpaEntityManager;
 import org.jrest4guice.transaction.annotations.Transactional;
 import org.jrest4guice.transaction.annotations.TransactionalType;
 
