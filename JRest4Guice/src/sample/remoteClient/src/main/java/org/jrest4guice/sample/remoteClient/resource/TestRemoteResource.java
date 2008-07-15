@@ -5,7 +5,7 @@ import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.rest.annotations.RemoteReference;
 import org.jrest4guice.sample.contact.entity.Contact;
-import org.jrest4guice.sample.contact.service.ContactResource;
+import org.jrest4guice.sample.contact.resource.ContactResource;
 
 import com.google.inject.Inject;
 
