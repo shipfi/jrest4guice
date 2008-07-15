@@ -6,7 +6,7 @@
 			<zipfileset dir="target/classes" includes="**/security/**"/>
 		</jar>
 		<jar destfile="client/Jrest4Guice-full-sample-client.jar">
-			<zipfileset dir="target/classes" includes="**/entity/Contact.class,**/service/ContactResource.class"/>
+			<zipfileset dir="target/classes" includes="**/entity/Contact.class,**/resource/ContactResource.class"/>
 		</jar>
 	</target>
 </project>
