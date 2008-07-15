@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.google.inject.Singleton;
+import com.sun.xml.internal.bind.v2.TODO;
 
 /**
  * 
@@ -18,7 +19,7 @@ public class SessionFactoryHolder {
 	public SessionFactoryHolder() {
 		//注意:这一个版本只实现对一个persistence-unit的支持
 		try {
-			
+			//TODO 初始化SessionFactory
 		} catch (Exception e) {
 			throw new RuntimeException("初始化 SessionFactoryHolder 失败",e);
 		}
