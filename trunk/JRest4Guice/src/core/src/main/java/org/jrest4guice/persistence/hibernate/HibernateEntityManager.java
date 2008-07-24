@@ -40,9 +40,9 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	 * @param session
 	 *            当前应用的实体管理器
 	 */
-	public HibernateEntityManager(final Class<E> type, final Session em) {
+	public HibernateEntityManager(final Class<E> type, final Session session) {
 		this.type = type;
-		this.session = em;
+		this.session = session;
 	}
 
 	/*

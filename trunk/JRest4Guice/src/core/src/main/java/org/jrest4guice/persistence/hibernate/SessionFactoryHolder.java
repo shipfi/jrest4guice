@@ -2,6 +2,7 @@ package org.jrest4guice.persistence.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.AnnotationConfiguration;
 
 import com.google.inject.Singleton;
 import com.sun.xml.internal.bind.v2.TODO;
@@ -17,9 +18,8 @@ public class SessionFactoryHolder {
 	private final ThreadLocal<Session> session = new ThreadLocal<Session>();
 
 	public SessionFactoryHolder() {
-		//注意:这一个版本只实现对一个persistence-unit的支持
 		try {
-			//TODO 初始化SessionFactory
+			sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
 		} catch (Exception e) {
 			throw new RuntimeException("初始化 SessionFactoryHolder 失败",e);
 		}
