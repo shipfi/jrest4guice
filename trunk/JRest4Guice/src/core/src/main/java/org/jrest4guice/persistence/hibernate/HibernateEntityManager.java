@@ -244,7 +244,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	 * @see org.jrest4guice.persistence.jpa.BaseEntityManager#load(PK)
 	 */
 	public E load(final PK pk) {
-		return (E) this.session.load(this.type, pk);
+		return (E)this.session.get(this.type,pk);
 	}
 
 	/*
