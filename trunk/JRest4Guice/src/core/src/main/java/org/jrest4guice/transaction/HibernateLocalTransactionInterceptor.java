@@ -23,7 +23,7 @@ public class HibernateLocalTransactionInterceptor implements MethodInterceptor {
 		Transactional transactional = methodInvocation.getMethod().getAnnotation(Transactional.class);
 		TransactionalType type = transactional.type();
 		
-		final Transaction transaction = session.beginTransaction();
+		final Transaction transaction = session.getTransaction();
 		
 		if(transaction.isActive()){
 			return methodInvocation.proceed();
