@@ -601,7 +601,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 		if (parameters == null) {
 			return;
 		}
-		int index = 1;
+		int index = 0;
 		for (final Object parameter : parameters) {
 			// if (parameter instanceof TemporalValue) {
 			// final TemporalValue time = (TemporalValue) parameter;
