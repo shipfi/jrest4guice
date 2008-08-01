@@ -5,7 +5,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 import com.google.inject.Singleton;
-import com.sun.xml.internal.bind.v2.TODO;
 
 /**
  * 
