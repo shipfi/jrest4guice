@@ -8,4 +8,5 @@ public class ViewRenderType {
 	public final static String SPRY = "spry";
 	public final static String VELOCITY = "velocity";
 	public final static String FREEMARKER = "freemarker";
+	public static final String JSP = "jsp";
 }

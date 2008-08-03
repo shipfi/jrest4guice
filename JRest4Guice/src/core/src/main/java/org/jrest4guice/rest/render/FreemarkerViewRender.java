@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.jrest4guice.rest.JRestResult;
+import org.jrest4guice.rest.annotations.PageFlow;
 
 import com.google.inject.Inject;
 
@@ -44,15 +45,15 @@ public class FreemarkerViewRender implements ViewRender {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, java.lang.String, org.jrest4guice.rest.JRestResult)
+	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.JRestResult, boolean)
 	 */
 	@Override
-	public void render(PrintWriter out, String templateUrl, JRestResult result,boolean cache)
+	public void render(PrintWriter out, PageFlow annotation, JRestResult result,boolean cache)
 			throws Exception {
 
 		this.initFreemarker();
 		//获取模板
-		Template template = cfg.getTemplate(templateUrl, "utf-8");
+		Template template = cfg.getTemplate(annotation.success().url(), "utf-8");
 		StringWriter writer = new StringWriter();
 		//往上下文中填入数据
 		Map context = new HashMap();

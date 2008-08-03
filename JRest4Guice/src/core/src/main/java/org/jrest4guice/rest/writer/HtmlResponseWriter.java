@@ -58,7 +58,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 				if (template.exists()) {
 					ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(render);
 					if(viewRender != null)
-						viewRender.render(out, templateUrl, httpResult,method.isAnnotationPresent(Cache.class));
+						viewRender.render(out, annotation, httpResult,method.isAnnotationPresent(Cache.class));
 					else{
 						writeTextPlain(out, httpResult);
 					}
