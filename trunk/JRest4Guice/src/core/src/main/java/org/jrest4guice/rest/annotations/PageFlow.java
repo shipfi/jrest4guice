@@ -16,6 +16,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface PageFlow {
+	
+	public static String FORWARD = "forward";
+	public static String REDIRECT = "redirect";
+	
 	/**
 	 * 成功时要转向的下一个流程（通常是一个页面）
 	 */
@@ -25,4 +29,10 @@ public @interface PageFlow {
 	 * 出错时要转向的下一个流程（通常是一个页面）
 	 */
 	PageInfo error() default @PageInfo(url = PageInfo.deaultErrorUrl);
+	
+	/**
+	 * 页面转向的类型（forward/redirect)
+	 * @return
+	 */
+	String type() default FORWARD;
 }

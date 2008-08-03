@@ -10,6 +10,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.jrest4guice.rest.JRestResult;
 import org.jrest4guice.rest.annotations.MimeType;
+import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
 import org.jrest4guice.rest.context.RestContextManager;
 
@@ -26,13 +27,13 @@ public class VelocityViewRender implements ViewRender {
 	private VelocityContext context;
 
 	/* (non-Javadoc)
-	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, java.lang.String, org.jrest4guice.rest.JRestResult)
+	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.JRestResult, boolean)
 	 */
 	@Override
-	public void render(PrintWriter out, String templateUrl, JRestResult result,boolean cache)
+	public void render(PrintWriter out, PageFlow annotation, JRestResult result,boolean cache)
 			throws Exception {
 		//获取模板
-		Template template = Velocity.getTemplate(templateUrl, "utf-8");
+		Template template = Velocity.getTemplate(annotation.success().url(), "utf-8");
 		//往上下文中填入数据
 		context.put("contextPath", this.request.getContextPath());
 		context.put("context", result);
