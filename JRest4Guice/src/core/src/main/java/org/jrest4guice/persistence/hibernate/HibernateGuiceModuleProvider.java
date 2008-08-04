@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.search.FullTextSession;
 import org.jrest4guice.guice.ModuleProviderTemplate;
 
 import com.google.inject.Binder;
@@ -26,6 +27,8 @@ public class HibernateGuiceModuleProvider extends ModuleProviderTemplate{
 						SessionFactoryProvider.class);
 				binder.bind(Session.class).toProvider(
 						SessionProvider.class);
+				binder.bind(FullTextSession.class).toProvider(
+						FullTextSessionProvider.class);
 			}
 		});
 
