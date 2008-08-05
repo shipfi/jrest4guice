@@ -1,0 +1,13 @@
+{
+	'menu' : {
+		'id' : 0,
+		'code' : 'code',
+		'name' : 'name',
+		'url' : 'url',
+		'suburl' : 'suburl',
+		'img' : 'img',
+		'target' : 'target',
+		'parentId' : 0,
+		'displayOrder' : 0
+	}
+}

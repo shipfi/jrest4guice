@@ -1,0 +1,9 @@
+﻿{
+	'resources' : [
+		{'id':1,'name':'全部资源','descr':'系统所有功能'}
+	],
+	pager : {
+		totalRows : 1,
+		limit : 10
+	}
+}

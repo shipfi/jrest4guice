@@ -1,0 +1,16 @@
+﻿{
+	'menu' : {
+		'id' : 101,
+		'name' : '用户设置',
+		'url' : 'pages\/user\/index.html',
+		'suburl' : null,
+		'img' : 'ico-1.gif',
+		'target' : null,
+		'parentId' : 100,
+		'displayOrder' : 1
+	},
+	'topMenus' : [
+		{'id':100,'name':'系统管理'},
+		{'id':120,'name':'内容管理'}
+	]
+}

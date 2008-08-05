@@ -1,0 +1,17 @@
+﻿{
+	'role' : {
+		'id' : 1,
+		'name' : '超级管理员',
+		'descr' : '传说中的Administrator',
+		'permissions' : [
+			{'id' : 1, 'name' : '全部权限'},
+			{'id' : 3, 'name' : '数据库管理'}
+		]
+	},
+	'allpermis' : [
+		{'id' : 1, 'name' : '全部权限'},
+		{'id' : 2, 'name' : '操作系统管理'},
+		{'id' : 3, 'name' : '数据库管理'},
+		{'id' : 4, 'name' : '业务系统管理'},
+	]
+}

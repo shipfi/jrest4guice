@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link type="text/css" media="all" rel="stylesheet" href="../../styles/default/basic.css" />
+<link type="text/css" media="all" rel="stylesheet" href="../../styles/default/edit.css" />
+<style type="text/css">
+<!--
+li div {
+	float:left;
+	padding-left:10px;
+	width: 150px;
+	height:30px;
+}
+
+fieldset label {
+	width:auto;
+	font-weight:normal;
+}
+-->
+</style>
+
+<script type="text/javascript" src="../../scripts/jquery.js?v=1.2.3"></script>
+<script type="text/javascript" src="../../scripts/toolkit.js?v=1.0.0"></script>
+<script type="text/javascript" src="../../scripts/global.js?v=1.0.0"></script>
+<script type="text/javascript">
+<!--
+function initialize(data){
+	loadScripts2([CMS.ctx.base + '/server/scripts/validation.js?model=permission']);
+}
+//-->
+</script>
+
+</head>
+<body>
+<textarea id="main_jst" style="display:none;">
+<form name="permissionForm" id="permissionForm" method="post" action="${CMS.ctx.base}/pages/permission/update/${permission.id}.html">
+	<div>
+		<input type="hidden" name="model.id" value="${permission.id}" />
+	</div>
+	<ul>
+		<li>
+			<label for="name">名称:</label>
+			<input type="text" class="text" name="model.name" id="model_name" value="${permission.name}" />
+		</li>
+		<li>
+			<label for="authority">权限（AUTH_开头）:</label>
+			<input type="text" class="text" name="model.authority" id="model_authority" value="${permission.authority}" />
+		</li>
+		<li>
+			<label for="descr">描述:</label>
+			<input type="text" class="text" name="model.descr" id="model_descr" value="${permission.descr}" />
+		</li>
+		<li>
+			<fieldset>
+				<legend>资源</legend>
+				{for resc in allresc}
+				{eval}
+					checked = permission.resources.some(function(r){
+						return r.id == this.id;
+					},resc);			
+				{/eval}
+				<div>
+					<input type="checkbox" class="checkbox" name="model.rescids" id="model_rescids_${resc.id}" value="${resc.id}"{if checked} checked="checked"{/if} />
+					<label for="model_rescids_${resc.id}">${resc.name}</label>
+				</div>
+				{/for}
+			</fieldset>
+		</li>
+		<li>
+			<fieldset>
+				<legend>菜单</legend>
+				{for menu in allmenu}
+				{eval}
+					checked = permission.menus.some(function(m){
+						return m.id == this.id;
+					},menu);			
+				{/eval}
+				<div>
+					<input type="checkbox" class="checkbox" name="model.menuids" id="model_menuids_${menu.id}" value="${menu.id}"{if checked} checked="checked"{/if} />
+					<label for="model_menuids_${menu.id}">${menu.name}</label>
+				</div>
+				{/for}
+			</fieldset>
+		</li>
+		<li class="op">
+			<input type="submit" class="cms-ajax button" name="method:update" value="${CMS.ctx.lang['op.save']}" />
+			<input type="button" class="cms-back button" value="${CMS.ctx.lang['op.back']}" />
+		</li>
+	</ul>
+</form>
+</textarea>
+<div id="main"></div>
+</body>
+</html>

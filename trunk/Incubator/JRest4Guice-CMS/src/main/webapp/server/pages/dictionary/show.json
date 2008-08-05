@@ -1,0 +1,9 @@
+﻿{
+	'dictionary' : {
+		'id' : 1,
+		'name' : 'issueTime',
+		'text' : '信息发布时间',
+		'descr' : '信息自动发布的时间列表',
+		'displayOrder' : 1
+	}
+}

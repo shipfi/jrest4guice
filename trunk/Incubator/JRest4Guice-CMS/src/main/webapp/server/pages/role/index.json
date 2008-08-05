@@ -1,0 +1,23 @@
+﻿{
+	'roles' : [
+		{
+			'id' : 1,
+			'name' : '超级管理员',
+			'descr' : '传说中的Administrator'
+		},
+		{
+			'id' : 2,
+			'name' : '系统管理员',
+			'descr' : '传说中的Admin'
+		},
+		{
+			'id' : 3,
+			'name' : '数据库管理员',
+			'descr' : '传说中的DBA'
+		}
+	],
+	pager : {
+		totalRows : 31,
+		limit : 10
+	}
+}

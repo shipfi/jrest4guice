@@ -1,0 +1,96 @@
+html,
+body {
+	height:100%;
+}
+
+body {
+	background:#adc0ea;
+	font-family:"宋体", Arial, Helvetica, sans-serif;
+	font-size:12px;	
+}
+
+body,
+a, div, form, img, p, span,
+h1, h2, h3, h4, h5, h6,
+ol, ul, li, dl, dt, dd {
+	margin:0;
+	padding:0;
+	border:none;
+}
+
+fieldset,
+legend,
+select,
+input.text,
+input.checkbox,
+input.radio {
+	margin:0;
+	padding:0;
+}
+
+table, thead, tbody, tfoot, th, tr, td {
+	margin:0;
+	padding:0;
+}
+
+a {
+	text-decoration:none;
+	color:#000000;
+}
+
+h1 {
+	font-size:20px;
+}
+
+h2 {
+	font-size:18px;
+}
+
+h3 {
+	font-size:16px;
+}
+
+h4 {
+	font-size:14px;
+}
+
+h5{
+	font-size:12px;
+}
+
+h6{
+	font-size:12px;
+	font-weight:normal;
+}
+
+li {
+	list-style:none;
+}
+
+label {
+	font-weight:bold;
+}
+
+.hide {
+	display:none;
+}
+
+.left {
+	float:left;
+}
+
+.right {
+	float:right;
+}
+
+.clear {
+	clear:both;
+}
+
+.error {
+	color:#f00;
+}
+
+.datetime {
+	width:120px;
+}

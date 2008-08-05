@@ -1,0 +1,4 @@
+{
+	actionMessages: [CMS.ctx.lang['tip.delete.success']],
+	id: 1
+}

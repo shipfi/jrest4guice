@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link type="text/css" media="all" rel="stylesheet" href="../../styles/default/basic.css" />
+<link type="text/css" media="all" rel="stylesheet" href="../../styles/default/edit.css" />
+<style type="text/css">
+<!--
+
+-->
+</style>
+
+<script type="text/javascript" src="../../scripts/jquery.js?v=1.2.3"></script>
+<script type="text/javascript" src="../../scripts/toolkit.js?v=1.0.0"></script>
+<script type="text/javascript" src="../../scripts/global.js?v=1.0.0"></script>
+<script type="text/javascript">
+<!--
+function prepare(data){
+	return false;
+}
+
+function initialize(data){
+	loadScripts2([CMS.ctx.base + '/server/scripts/validation.js?model=dictionary']);
+}
+//-->
+</script>
+
+</head>
+<body>
+<textarea id="main_jst" style="display:none;">
+<form name="dictionaryForm" id="dictionaryForm" method="post" action="${CMS.ctx.base}/pages/dictionary/create.html">
+	<div>
+		<input type="hidden" name="model.parentId" value="${model.parentId}" />
+	</div>
+	<ul>
+		<li>
+			<label for="asscNames">关联字典:</label>
+			<input type="text" class="text" name="model.asscNames" id="model_asscNames" value="" />
+		</li>
+		<li>
+			<label for="text">字典文本:</label>
+			<input type="text" class="text" name="model.text" id="model_text" value="" />
+		</li>
+		<li>
+			<label for="descr">描述:</label>
+			<input type="text" class="text" name="model.descr" id="model_descr" value="" />
+		</li>
+		<li>
+			<label for="displayOrder">显示次序:</label>
+			<input type="text" class="text" name="model.displayOrder" id="model_displayOrder" value="" />
+		</li>
+		<li class="op">
+			<input type="submit" class="cms-ajax button" name="method:create" value="${CMS.ctx.lang['op.save']}" />
+			<input type="button" class="cms-back button" value="${CMS.ctx.lang['op.back']}" />
+		</li>
+	</ul>
+</form>
+</textarea>
+<div id="main"></div>
+</body>
+</html>

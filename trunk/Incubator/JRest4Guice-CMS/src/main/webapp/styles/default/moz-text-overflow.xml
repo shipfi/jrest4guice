@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<bindings xmlns="http://www.mozilla.org/xbl" xmlns:html="http://www.w3.org/1999/xhtml">
+<binding id="XBLDocument" applyauthorstyles="false">
+	<implementation>
+		<constructor>
+			//<![CDATA[
+			function _overflow(e)
+			{
+				var el = e.currentTarget;
+				//el.className="_textOverflow";
+				el.style.overflow="hidden";
+				el.ins.style.display="block";
+			}
+
+			function _underflow(e)
+			{	
+				var el = e.currentTarget;
+				//el.className="_textUnderflow";
+				el.style.overflow="auto";
+				el.ins.style.display="none";
+			}
+
+			this.className="_textUnderflow";
+			this.addEventListener("overflow", _overflow, false);
+			this.addEventListener("underflow", _underflow, false);
+			this.ins = document.createElement("ins");
+			this.ins.innerHTML="&hellip;";
+			this.appendChild(this.ins);	
+			//]]>
+		</constructor>
+	</implementation>
+</binding>
+</bindings>

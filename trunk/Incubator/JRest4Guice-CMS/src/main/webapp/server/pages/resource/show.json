@@ -1,0 +1,8 @@
+{
+	'resource' : {
+		'id' : 0,
+		'name' : 'name',
+		'url' : 'url',
+		'descr' : 'descr'
+	}
+}
