@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link type="text/css" media="all" rel="stylesheet" href="styles/default/basic.css" />
+<link type="text/css" media="all" rel="stylesheet" href="styles/default/tree.css" />
+<style type="text/css">
+<!--
+.head {
+	background:url(styles/default/images/bg-nav.gif) repeat-x;
+	width:182px;
+	line-height:22px;
+	cursor:pointer;
+	letter-spacing:5px;
+}
+
+.head div {
+	background:url(styles/default/images/ico-arrow-1-r.gif) no-repeat 8px center;
+	padding-left:20px;
+}
+
+.subs {
+	background:#f4f3ee;
+	border-bottom:1px solid #000000;
+}
+
+#navigation .selected div {
+	background:url(styles/default/images/ico-arrow-1-d.gif) no-repeat 8px center;
+}
+
+.subnav  a {
+	display: block;
+	margin: 3px 0 3px 5px;
+	padding: 3px 0 0 6px;	
+	height: 18px;
+	line-height: 18px;	
+	letter-spacing:5px;
+}
+
+.subnav  a:hover, .highlight {
+	background: #adc0ea;
+}
+
+.subnav img {
+	margin-right: 10px;
+	width:16px;
+	height:16px;
+	vertical-align:middle;
+}
+
+-->
+</style>
+
+<script type="text/javascript" src="scripts/jquery.js?v=1.2.3"></script>
+<script type="text/javascript" src="scripts/template.js?v=1.0.38"></script>
+<script type="text/javascript" src="scripts/toolkit.js?v=1.0.0"></script>
+<script type="text/javascript">
+<!--
+$(document).ready (function () {
+	loadContext(true);
+	if (!CMS.ctx.loginUser.name) {
+		window.top.location = CMS.ctx.base + '/j_acegi_logout';
+		return;
+	}
+	
+	parseJST(loadNav(true));
+
+	$('.subs').each(function (i, subnav) {
+		$(subnav).attr('origheight', $(subnav).height());
+	});
+	$('#navigation').accordion({
+		autoheight : false,
+		header : '.head',
+		fillSpace : true
+	}).bind("change.ui-accordion", function(event, ui) {
+		resize();
+	});
+	$(top).resize(function(){
+		resize();
+	});
+	resize();
+	$('.tree').SimpleTree();
+	$('.toggler').click();
+	$('.subnav a').click(function () {
+		$('a.highlight').removeClass('highlight');
+		$(this).addClass('highlight');
+		this.blur();
+		return true;
+	});
+});
+
+function resize () {
+	var h = $('body').height() - ($('.head').height()+1) * $('.head').length;
+	$('.subs').each(function (i, subnav) {
+		$(subnav).height(h);
+		$(subnav).css({'overflow':'auto'});
+	});
+}
+-->
+</script>
+</head>
+
+<body>
+<textarea id="main_jst" style="display:none;">
+	<div id="navigation">
+		<div>
+		{var defaultUrl='javascript:void(0)'}
+		{for menu in navMenus}
+		{if !menu.parentId}
+		</div>
+		<div class="head"><div>${menu.name}</div></div>
+		<div class="subs">
+		{else}
+			{if menu.suburl}
+			<div class="tree">
+				<ul>
+					<li class="root">
+						<ul>
+							<li>
+								<span class="text"><a href="${$V(menu.url,defaultUrl)}" target="mainFrame">${menu.name}</a></span>
+								<ul class="ajax">
+									<li>{url:${menu.suburl}}</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			{else}
+			<div class="subnav"><a href="${$V(menu.url,defaultUrl)}" target="mainFrame"><img src="images/menu/${menu.img}" />${menu.name}</a></div>
+			{/if}
+		{/if}
+		{/for}
+		</div>
+	</div>
+</textarea>
+<div id="main"></div>
+</body>
+</html>

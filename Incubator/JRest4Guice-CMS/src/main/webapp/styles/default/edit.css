@@ -1,0 +1,51 @@
+﻿#main {
+	float:left;
+	position:relative;
+	margin-left:-300px;
+	left:50%;
+	width:600px;
+}
+
+ul {
+	float:left;
+	background:#eff0f5;
+	margin-top:30px;
+	padding:20px 0 20px 30px;
+}
+
+li {
+	float:left;
+	padding-bottom:5px;
+	width:600px;
+}
+
+li fieldset {
+	width:530px;
+}
+
+li legend {
+	margin-bottom:20px;
+	font-weight:bold;
+}
+
+label {
+	float:left;
+	padding-left:10px;
+	width:150px;
+}
+
+select,
+input.text,
+input.checkbox,
+input.radio {
+	float:left;
+}
+
+input.text {	
+	width:370px;
+}
+
+li.op {
+	text-align:center;
+	margin-top:20px;
+}

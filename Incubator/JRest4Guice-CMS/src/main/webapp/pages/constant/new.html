@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link type="text/css" media="all" rel="stylesheet" href="../../styles/default/basic.css" />
+<link type="text/css" media="all" rel="stylesheet" href="../../styles/default/edit.css" />
+<style type="text/css">
+<!--
+
+-->
+</style>
+
+<script type="text/javascript" src="../../scripts/jquery.js?v=1.2.3"></script>
+<script type="text/javascript" src="../../scripts/toolkit.js?v=1.0.0"></script>
+<script type="text/javascript" src="../../scripts/global.js?v=1.0.0"></script>
+<script type="text/javascript">
+<!--
+function prepare(data){
+	return false;
+}
+
+function initialize(data){
+	loadScripts2([CMS.ctx.base + '/server/scripts/validation.js?model=constant']);
+}
+//-->
+</script>
+
+</head>
+<body>
+<textarea id="main_jst" style="display:none;">
+<form name="constantForm" id="constantForm" method="post" action="${CMS.ctx.base}/pages/constant/create.html">
+	<div>
+	
+	</div>
+	<ul>
+		<li>
+			<label for="name">名称:</label>
+			<input type="text" class="text" name="model.name" id="model_name" value="" />
+		</li>
+		<li>
+			<label for="value">值:</label>
+			<input type="text" class="text" name="model.value" id="model_value" value="" />
+		</li>
+		<li>
+			<label for="descr">描述:</label>
+			<input type="text" class="text" name="model.descr" id="model_descr" value="" />
+		</li>
+		<li class="op">
+			<input type="submit" class="cms-ajax button" name="method:create" value="${CMS.ctx.lang['op.save']}" />
+			<input type="button" class="cms-back button" value="${CMS.ctx.lang['op.back']}" />
+		</li>
+	</ul>
+</form>
+</textarea>
+<div id="main"></div>
+</body>
+</html>

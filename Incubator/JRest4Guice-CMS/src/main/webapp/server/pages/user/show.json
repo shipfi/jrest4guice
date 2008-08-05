@@ -1,0 +1,14 @@
+{
+	'user' : {
+		'id' : 1,
+		'name' : 'administrator',
+		'password' : '7c4a8d09ca3762af61e59520943dc26494f8941b',
+		'fullname' : '张XX',
+		'mobile' : '139********',
+		'email' : 'zhang**@163.com',
+		'roles' : [
+			{'id' : 1, 'name' : '超级管理员'},
+			{'id' : 3, 'name' : '数据库管理员'}
+		]
+	}
+}

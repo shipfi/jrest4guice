@@ -1,0 +1,39 @@
+﻿{
+	'users' : [
+		{
+			'id' : 1,
+			'name' : 'administrator',
+			'fullname' : '张XX',
+			'mobile' : '139********',
+			'email' : 'zhang**@163.com',
+			'roles' : [
+				{'id' : 1, 'name' : '超级管理员'},
+				{'id' : 3, 'name' : '数据库管理员'}
+			]
+		},
+		{
+			'id' : 2,
+			'name' : 'system',
+			'fullname' : '王XX',
+			'mobile' : '139********',
+			'email' : 'wang**@163.com',
+			'roles' : [
+				{'id' : 2, 'name' : '系统管理员'}
+			]
+		},
+		{
+			'id' : 3,
+			'name' : 'dba',
+			'fullname' : '李XX',
+			'mobile' : '139********',
+			'email' : 'li**@163.com',
+			'roles' : [
+				{'id' : 3, 'name' : '数据库管理员'}
+			]
+		}
+	],
+	pager : {
+		totalRows : 31,
+		limit : 10
+	}
+}

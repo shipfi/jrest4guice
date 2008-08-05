@@ -1,0 +1,8 @@
+﻿{
+	'constant' : {
+		'id' : 1,
+		'name' : 'RMB',
+		'value' : 1,
+		'descr' : '人民币'
+	}
+}

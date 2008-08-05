@@ -1,0 +1,14 @@
+﻿{
+	'constants' : [
+		{
+			'id' : 1,
+			'name' : 'RMB',
+			'value' : 1,
+			'descr' : '人民币'
+		}
+	],
+	pager : {
+		totalRows : 1,
+		limit : 10
+	}
+}
