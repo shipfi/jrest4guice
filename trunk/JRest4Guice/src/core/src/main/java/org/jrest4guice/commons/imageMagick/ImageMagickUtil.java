@@ -5,6 +5,13 @@ import org.jrest4guice.commons.lang.RuntimeExector;
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
+
+	composite -dissolve 100% -gravity SouthEast logoWatermark.png -resize 300% girl.jpg girl_watermark.jpg
+	-gravity type
+		direction primitive gravitates to when annotating the image.
+		Choices are: NorthWest, North, NorthEast, West, Center, East, SouthWest, South, SouthEast. Or you can use -list with a 'Gravity' option to get a complete list of -
+		gravity settings available in your ImageMagick installation.
+ *
  *
  */
 public class ImageMagickUtil {
