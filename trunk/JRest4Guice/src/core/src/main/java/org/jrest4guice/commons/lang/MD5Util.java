@@ -1,5 +1,10 @@
 package org.jrest4guice.commons.lang;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
+ *
+ */
 public final class MD5Util {
 	/** DOCUMENT ME! */
 	private static final int S11 = 7;
