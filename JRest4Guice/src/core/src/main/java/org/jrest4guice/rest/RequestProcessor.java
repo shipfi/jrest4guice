@@ -79,6 +79,23 @@ public class RequestProcessor {
 		if (this.urlPrefix != null)
 			uri = uri.replace(this.urlPrefix, "");
 		
+		//==================================================================
+		// 处理html不支持put/delete方法的情况下通过在url中补!update与!delete
+		//==================================================================
+		HttpMethodType method_type = null;
+		if(uri.indexOf("!update") != -1){
+			method_type = HttpMethodType.PUT;
+		}
+		if(uri.indexOf("!delete")!=-1){
+			method_type = HttpMethodType.DELETE;
+		}
+		
+		if(method_type != null){
+			uri = uri.replace("!update","");
+			uri = uri.replace("!delete","");
+		}
+		//==================================================================
+		
 		String method = request.getMethod();
 
 		// 针对Get类型的资源做Cache检查
@@ -130,16 +147,12 @@ public class RequestProcessor {
 				if (service != null) {
 					ServiceExecutor exec = GuiceContext.getInstance().getBean(
 							ServiceExecutor.class);
-					
 					RestContextManager.setCurrentRestUri(uri);
-					
 					// 填充参数
 					fillParameters(request, params, false);
 					// 根据不同的请求方法调用REST对象的不同方法
-					exec.execute(service, this.getHttpMethodType(method),
+					exec.execute(service, method_type==null?this.getHttpMethodType(method):method_type,
 							charset, false);
-					
-					
 				} else {
 					this.writeRestServiceNotFoundMessage(uri_bak);
 				}
