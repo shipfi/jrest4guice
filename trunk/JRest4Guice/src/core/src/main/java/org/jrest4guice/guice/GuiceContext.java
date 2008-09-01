@@ -105,11 +105,16 @@ public class GuiceContext {
 	 * 打开JPA支持
 	 * @return
 	 */
-	public GuiceContext useJPA(){
+	public GuiceContext useJPA(String... packages){
 		Assert.isFalse(this.useJPA, "已经打开了JPA支持");
 		Assert.isFalse(this.useHibernate, "已经打开了Hibernate支持，不能再使用JPA");
 		this.useJPA = true;
-		this.addModuleProvider(new JpaGuiceModuleProvider(),new TransactionGuiceModuleProvider(new JpaLocalTransactionInterceptor()));
+		
+		JpaGuiceModuleProvider jpaGuiceModuleProvider = new JpaGuiceModuleProvider();
+		if(packages != null)
+			jpaGuiceModuleProvider.addScanPackages(packages);
+		
+		this.addModuleProvider(jpaGuiceModuleProvider,new TransactionGuiceModuleProvider(new JpaLocalTransactionInterceptor()));
 		return this;
 	}
 
@@ -117,11 +122,16 @@ public class GuiceContext {
 	 * 打开Hibernate支持
 	 * @return
 	 */
-	public GuiceContext useHibernate(){
+	public GuiceContext useHibernate(String... packages){
 		Assert.isFalse(this.useHibernate, "已经打开了Hibernate支持");
 		Assert.isFalse(this.useJPA, "已经打开了JPA支持，不能再使用Hibernate");
 		this.useHibernate = true;
-		this.addModuleProvider(new HibernateGuiceModuleProvider(),new TransactionGuiceModuleProvider(new HibernateLocalTransactionInterceptor()));
+		
+		HibernateGuiceModuleProvider hibernateGuiceModuleProvider = new HibernateGuiceModuleProvider();
+		if(packages != null)
+			hibernateGuiceModuleProvider.addScanPackages(packages);
+		
+		this.addModuleProvider(hibernateGuiceModuleProvider,new TransactionGuiceModuleProvider(new HibernateLocalTransactionInterceptor()));
 		return this;
 	}
 	
