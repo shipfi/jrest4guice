@@ -25,7 +25,7 @@ import com.google.inject.Singleton;
 public class EntityManagerFactoryHolder {
 	private EntityManagerFactory entityManagerFactory;
 
-	private final ThreadLocal<EntityManager> entityManager = new ThreadLocal<EntityManager>();
+	private final ThreadLocal<EntityManagerInfo> entityManager = new ThreadLocal<EntityManagerInfo>();
 
 	public EntityManagerFactoryHolder() {
 		//注意:这一个版本只实现对一个persistence-unit的支持
@@ -42,22 +42,22 @@ public class EntityManagerFactoryHolder {
 		return this.entityManagerFactory;
 	}
 
-	public EntityManager getEntityManager() {
-		EntityManager em = this.entityManager.get();
+	public EntityManagerInfo getEntityManagerInfo() {
+		EntityManagerInfo em = this.entityManager.get();
 		// 如果不存在，则创建一个新的
 		if (em == null) {
-			em = getEntityManagerFactory().createEntityManager();
+			em = new EntityManagerInfo(getEntityManagerFactory().createEntityManager());
 			this.entityManager.set(em);
 		}
 		return em;
 	}
 
 	public void closeEntityManager() {
-		EntityManager em = this.entityManager.get();
+		EntityManagerInfo em = this.entityManager.get();
 		if (em != null) {
 			try {
-				if (em.isOpen())
-					em.close();
+				if (em.getEntityManager().isOpen())
+					em.getEntityManager().close();
 			} finally {
 				this.entityManager.remove();
 			}

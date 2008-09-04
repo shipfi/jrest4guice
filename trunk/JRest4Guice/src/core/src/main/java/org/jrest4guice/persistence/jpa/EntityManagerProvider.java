@@ -19,6 +19,6 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 	}
 
 	public EntityManager get() {
-		return holder.getEntityManager();
+		return holder.getEntityManagerInfo().getEntityManager();
 	}
 }

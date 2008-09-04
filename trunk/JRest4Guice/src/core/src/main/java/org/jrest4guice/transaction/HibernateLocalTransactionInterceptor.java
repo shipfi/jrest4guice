@@ -2,10 +2,10 @@ package org.jrest4guice.transaction;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
+import org.jrest4guice.persistence.hibernate.SessionInfo;
 import org.jrest4guice.transaction.annotations.Transactional;
 import org.jrest4guice.transaction.annotations.TransactionalType;
 
@@ -18,12 +18,16 @@ public class HibernateLocalTransactionInterceptor implements MethodInterceptor {
 	@Override
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable {
 		SessionFactoryHolder sessionFH = GuiceContext.getInstance().getBean(SessionFactoryHolder.class);
-		Session session = sessionFH.getSession();
+		SessionInfo session = sessionFH.getSessionInfo();
 		
 		Transactional transactional = methodInvocation.getMethod().getAnnotation(Transactional.class);
 		TransactionalType type = transactional.type();
 		
-		final Transaction transaction = session.getTransaction();
+		final Transaction transaction = session.getSession().getTransaction();
+
+		if(type != TransactionalType.READOLNY){
+			session.setNeed2ProcessTransaction(true);
+		}
 		
 		if(transaction.isActive()){
 			return methodInvocation.proceed();

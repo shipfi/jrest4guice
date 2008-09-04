@@ -14,14 +14,16 @@
 
             <!-- Basic stack -->
             <interceptor-stack name="rest4gBasicStack">
-                <interceptor-ref name="basicStack"/>
                 <interceptor-ref name="rest4gLifeCycle"/>
+                <interceptor-ref name="paramsPrepareParamsStack"/>
+                <interceptor-ref name="basicStack"/>
             </interceptor-stack>
 
             <!-- Default stack -->
 			<interceptor-stack name="rest4gDefaultStack">
-				<interceptor-ref name="defaultStack" />
                 <interceptor-ref name="rest4gLifeCycle"/>
+                <interceptor-ref name="paramsPrepareParamsStack"/>
+				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 		</interceptors>
 	</package>
