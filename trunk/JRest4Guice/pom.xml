@@ -10,6 +10,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>src/core</module>
+		<module>src/plugin/struts</module>
 		<module>src/tools</module>
 		<module>src/sample/full</module>
 		<module>src/sample/helloWorld</module>
