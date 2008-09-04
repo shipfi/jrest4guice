@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>JRest4Guice</artifactId>
+		<groupId>org.cnoss</groupId>
+		<version>0.0.9</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.cnoss</groupId>
+	<artifactId>JRest4Guice-struts-plugin</artifactId>
+	<packaging>jar</packaging>
+	<name>JRest4Guice-struts-plugin</name>
+	<version>0.0.1</version>
+	<description />
+
+	<dependencies>
+		<dependency>
+			<groupId>org.cnoss</groupId>
+			<artifactId>JRest4Guice-core</artifactId>
+			<version>0.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>opensymphony</groupId>
+			<artifactId>xwork</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+	</dependencies>
+
+	<properties>
+		<maven.test.skip>true</maven.test.skip>
+	</properties>
+</project>
