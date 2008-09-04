@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.jrest4guice.commons.lang.Assert;
 import org.jrest4guice.persistence.hibernate.HibernateGuiceModuleProvider;
 import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
@@ -14,6 +16,8 @@ import org.jrest4guice.security.SecurityGuiceModuleProvider;
 import org.jrest4guice.transaction.HibernateLocalTransactionInterceptor;
 import org.jrest4guice.transaction.JpaLocalTransactionInterceptor;
 import org.jrest4guice.transaction.TransactionGuiceModuleProvider;
+import org.jrest4guice.transaction.annotations.Transactional;
+import org.jrest4guice.transaction.annotations.TransactionalType;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

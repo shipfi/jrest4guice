@@ -19,6 +19,6 @@ public class SessionProvider implements Provider<Session> {
 	}
 
 	public Session get() {
-		return holder.getSession();
+		return holder.getSessionInfo().getSession();
 	}
 }
