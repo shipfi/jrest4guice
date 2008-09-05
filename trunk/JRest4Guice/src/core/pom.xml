@@ -66,18 +66,6 @@
 			<artifactId>junit</artifactId>
 			<version>4.4</version>
 		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>2.3</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymockclassextension</artifactId>
-			<version>2.3</version>
-			<scope>test</scope>
-		</dependency>
 		<!-- test end -->
 
 		<!-- guice begin -->
@@ -225,20 +213,6 @@
 			<groupId>net.sf.ezmorph</groupId>
 			<artifactId>ezmorph</artifactId>
 			<version>1.0.3</version>
-		</dependency>
-		<!-- utils end -->
-
-
-		<dependency>
-			<groupId>opensymphony</groupId>
-			<artifactId>xwork</artifactId>
-			<version>2.0.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.struts</groupId>
-			<artifactId>struts2-core</artifactId>
-			<version>2.0.6</version>
 		</dependency>
 	</dependencies>
 

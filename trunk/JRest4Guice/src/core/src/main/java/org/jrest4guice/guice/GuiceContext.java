@@ -105,6 +105,10 @@ public class GuiceContext {
 		return this;
 	}
 	
+	public boolean isInitialized() {
+		return initialized;
+	}
+
 	/**
 	 * 打开JPA支持
 	 * @return

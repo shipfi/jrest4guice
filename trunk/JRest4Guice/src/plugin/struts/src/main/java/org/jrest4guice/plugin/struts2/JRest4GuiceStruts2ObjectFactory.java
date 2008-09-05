@@ -66,6 +66,8 @@ public class JRest4GuiceStruts2ObjectFactory extends ObjectFactory {
 	}
 
 	public Object buildBean(Class clazz, Map extraContext) {
+		if(!GuiceContext.getInstance().isInitialized())
+			GuiceContext.getInstance().init();
 		return GuiceContext.getInstance().getBean(clazz);
 	}
 
