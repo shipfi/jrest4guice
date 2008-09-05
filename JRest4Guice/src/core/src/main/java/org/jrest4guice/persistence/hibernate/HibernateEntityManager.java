@@ -44,6 +44,20 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 		this.type = type;
 		this.session = session;
 	}
+	
+	public void test(){
+		E e = (E) new E<PK>(){
+			@Override
+			public PK getId() {
+				return null;
+			}
+			@Override
+			public void setId(PK id) {
+			}
+		};
+		System.out.println("class name : "+e.getClass());
+		System.out.println("class name : "+e.getClass().getName());
+	}
 
 	/*
 	 * (non-Javadoc)

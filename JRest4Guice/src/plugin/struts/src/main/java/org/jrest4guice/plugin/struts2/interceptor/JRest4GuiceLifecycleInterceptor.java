@@ -35,8 +35,6 @@ public class JRest4GuiceLifecycleInterceptor extends AbstractInterceptor {
 			HttpServletRequest request = (HttpServletRequest) ctx
 					.get(ServletActionContext.HTTP_REQUEST);
 			
-			System.out.println(request.getRequestURL());
-			
 			HttpServletResponse response = (HttpServletResponse) ctx
 					.get(ServletActionContext.HTTP_RESPONSE);  		
 			RestContextManager.setContext(request, response, new ModelMap<String, String>());
