@@ -51,6 +51,7 @@ import com.google.inject.util.ToStringBuilder;
  * @author crazybob@google.com (Bob Lee)
  * @see BinderImpl
  */
+@SuppressWarnings({"serial","unchecked","unused"})
 class InjectorImpl implements Injector {
 
 	/**
@@ -176,7 +177,7 @@ class InjectorImpl implements Injector {
 			try {
 				final Provider<?> provider = getProvider(key.ofType(entryType));
 				return new InternalFactory<T>() {
-					@SuppressWarnings("unchecked")
+					
 					public T get(InternalContext context) {
 						return (T) provider;
 					}
@@ -402,7 +403,7 @@ class InjectorImpl implements Injector {
 		return Collections.<Key<?>, Binding<?>> unmodifiableMap(bindings);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public <T> BindingImpl<T> getBinding(Key<T> key) {
 		return (BindingImpl<T>) bindings.get(key);
 	}
@@ -436,7 +437,6 @@ class InjectorImpl implements Injector {
 		}
 
 		// safe because we only put matching entries into the map
-		@SuppressWarnings("unchecked")
 		private <T> List<BindingImpl<T>> getFromMap(TypeLiteral<T> type) {
 			return (List<BindingImpl<T>>) map.get(type);
 		}
@@ -603,7 +603,7 @@ class InjectorImpl implements Injector {
 	}
 
 	final Map<Class<?>, ConstructorInjector> constructors = new ReferenceCache<Class<?>, ConstructorInjector>() {
-		@SuppressWarnings("unchecked")
+		
 		protected ConstructorInjector<?> create(Class<?> implementation) {
 			if (implementation.isInterface()) {
 				errorHandler.handle(defaultSource,
@@ -626,7 +626,7 @@ class InjectorImpl implements Injector {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	static <T> Constructor<T> invalidConstructor() {
 		try {
 			return (Constructor<T>) InvalidConstructor.class
@@ -770,12 +770,12 @@ class InjectorImpl implements Injector {
 	/**
 	 * Gets a constructor function for a given implementation class.
 	 */
-	@SuppressWarnings("unchecked")
+	
 	<T> ConstructorInjector<T> getConstructor(Class<T> implementation) {
 		return constructors.get(implementation);
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	<T> ConstructorInjector<T> getConstructor(TypeLiteral<T> implementation) {
 		return constructors.get(implementation.getRawType());
 	}
@@ -841,7 +841,7 @@ class InjectorImpl implements Injector {
 								+ Strings.capitalize(primitive.getName()),
 								String.class);
 				Converter<T> converter = new Converter<T>() {
-					@SuppressWarnings("unchecked")
+					
 					public T convert(Member member, Key<T> key, String value)
 							throws ConstantConversionException {
 						try {
@@ -951,7 +951,7 @@ class InjectorImpl implements Injector {
 
 		// Inject the class itself.
 		synchronized (implicitBindings) {
-			@SuppressWarnings("unchecked")
+			
 			InternalFactory<T> factory = (InternalFactory<T>) implicitBindings
 					.get(type);
 			if (factory != null) {
@@ -1024,7 +1024,7 @@ class InjectorImpl implements Injector {
 		}
 	};
 
-	@SuppressWarnings("unchecked")
+	
 	static <T> InternalFactory<T> invalidFactory() {
 		return (InternalFactory<T>) INVALID_FACTORY;
 	}
