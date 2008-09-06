@@ -1,12 +1,16 @@
 package org.jrest4guice.persistence;
 
-import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 
 import org.jrest4guice.guice.GuiceContext;
+import org.jrest4guice.guice.InjectorContext;
 import org.jrest4guice.persistence.hibernate.HibernateEntityManager;
 import org.jrest4guice.persistence.hibernate.SessionProvider;
 import org.jrest4guice.persistence.jpa.EntityManagerProvider;
 import org.jrest4guice.persistence.jpa.JpaEntityManager;
+
+import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 import com.google.inject.Provider;
 
@@ -17,13 +21,24 @@ import com.google.inject.Provider;
  *
  */
 @SuppressWarnings("unchecked")
-public class BaseEntityManagerProvider<PK extends Serializable, E extends EntityAble<PK>> implements Provider<BaseEntityManager> {
+public class BaseEntityManagerProvider implements Provider<BaseEntityManager> {
     public BaseEntityManager get() {
-    	BaseEntityManager em = null;
+    	Field field = InjectorContext.currentField();
+    	Class<?> clazz = String.class;
+    	Type genericType = field.getGenericType();
+    	if(genericType instanceof ParameterizedTypeImpl){
+    		ParameterizedTypeImpl pgType = (ParameterizedTypeImpl)genericType;
+    		Type[] actualTypeArguments = pgType.getActualTypeArguments();
+    		clazz = (Class<?>)actualTypeArguments[1];
+    	}
+    	
+//		System.out.println("泛行的类型："+clazz.getName());
+
+		BaseEntityManager em = null;
     	if(GuiceContext.getInstance().isUseJPA())
-    		em = new JpaEntityManager(String.class,GuiceContext.getInstance().getBean(EntityManagerProvider.class).get());
+    		em = new JpaEntityManager(clazz,GuiceContext.getInstance().getBean(EntityManagerProvider.class).get());
     	else if(GuiceContext.getInstance().isUseHibernate())
-    		em = new HibernateEntityManager(String.class,GuiceContext.getInstance().getBean(SessionProvider.class).get());
+    		em = new HibernateEntityManager(clazz,GuiceContext.getInstance().getBean(SessionProvider.class).get());
     	
     	return em;
     }

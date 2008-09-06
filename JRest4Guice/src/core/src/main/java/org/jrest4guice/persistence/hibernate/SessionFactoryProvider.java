@@ -12,12 +12,8 @@ import com.google.inject.Provider;
  *
  */
 public class SessionFactoryProvider implements Provider<SessionFactory> {
-    private final SessionFactoryHolder sessionFactoryHolder;
-
     @Inject
-    public SessionFactoryProvider(SessionFactoryHolder sessionFactoryHolder) {
-        this.sessionFactoryHolder = sessionFactoryHolder;
-    }
+    private SessionFactoryHolder sessionFactoryHolder;
 
     public SessionFactory get() {
         return this.sessionFactoryHolder.getSessionFactory();

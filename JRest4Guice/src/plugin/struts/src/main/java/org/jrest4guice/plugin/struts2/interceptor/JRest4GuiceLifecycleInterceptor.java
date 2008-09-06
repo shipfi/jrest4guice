@@ -53,7 +53,7 @@ public class JRest4GuiceLifecycleInterceptor extends AbstractInterceptor {
 				EntityManagerFactoryHolder emfH = GuiceContext.getInstance().getBean(EntityManagerFactoryHolder.class);
 				EntityManagerInfo entityManager = emfH.getEntityManagerInfo();
 				jpaTS = entityManager.getEntityManager().getTransaction();
-				need2ProcessTransaction = entityManager.isNeed2ProcessTransaction() && !jpaTS.isActive();
+				need2ProcessTransaction = entityManager.isNeed2ProcessTransaction();
 			}else if(GuiceContext.getInstance().isUseHibernate()){
 				SessionFactoryHolder sessionFH = GuiceContext.getInstance().getBean(SessionFactoryHolder.class);
 				SessionInfo session = sessionFH.getSessionInfo();
