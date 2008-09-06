@@ -26,5 +26,7 @@
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 		</interceptors>
+
+		<default-interceptor-ref name="rest4gDefaultStack" />
 	</package>
 </struts>
