@@ -10,7 +10,6 @@
 	
 	<!-- Configuration for the default package. -->
 	<package name="struts-crud" extends="rest4g-default">
-		<default-interceptor-ref name="rest4gDefaultStack" />
 
 		<action name="index"
 			class="org.jrest4guice.sample.struts2.action.EmployeeAction" method="list">
