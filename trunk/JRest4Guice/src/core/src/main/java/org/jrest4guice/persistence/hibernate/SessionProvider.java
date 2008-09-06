@@ -11,12 +11,8 @@ import com.google.inject.Provider;
  *
  */
 public class SessionProvider implements Provider<Session> {
-	private final SessionFactoryHolder holder;
-
 	@Inject
-	public SessionProvider(SessionFactoryHolder holder) {
-		this.holder = holder;
-	}
+	private SessionFactoryHolder holder;
 
 	public Session get() {
 		return holder.getSessionInfo().getSession();

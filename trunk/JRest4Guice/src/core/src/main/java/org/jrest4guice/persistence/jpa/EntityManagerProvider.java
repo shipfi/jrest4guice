@@ -11,12 +11,8 @@ import com.google.inject.Provider;
  *
  */
 public class EntityManagerProvider implements Provider<EntityManager> {
-	private final EntityManagerFactoryHolder holder;
-
 	@Inject
-	public EntityManagerProvider(EntityManagerFactoryHolder holder) {
-		this.holder = holder;
-	}
+	private EntityManagerFactoryHolder holder;
 
 	public EntityManager get() {
 		return holder.getEntityManagerInfo().getEntityManager();
