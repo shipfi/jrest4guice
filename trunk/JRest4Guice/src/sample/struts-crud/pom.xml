@@ -4,9 +4,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cnoss</groupId>
-	<artifactId>JRest4Guice-struts-crud</artifactId>
+	<artifactId>JRest4Guice-sample-struts2-crud</artifactId>
 	<packaging>war</packaging>
-	<name>JRest4Guice-struts-crud</name>
+	<name>JRest4Guice-sample-struts2-crud</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
 		<plugins>

@@ -4,9 +4,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cnoss</groupId>
-	<artifactId>JRest4Guice-full-sample</artifactId>
+	<artifactId>JRest4Guice-sample-full</artifactId>
 	<packaging>war</packaging>
-	<name>JRest4Guice-full-sample</name>
+	<name>JRest4Guice-sample-full</name>
 	<version>0.0.9</version>
 	<description />
 
