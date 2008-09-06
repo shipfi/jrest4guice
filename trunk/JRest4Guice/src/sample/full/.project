@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>JRest4Guice-full-sample</name>
+	<name>JRest4Guice-sample-full</name>
 	<comment></comment>
 	<projects>
 		<project>JRest4Guice-core</project>

@@ -4,7 +4,7 @@
 	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_JRest4Guice-full-sample" version="2.5">
-	<display-name>JRest4Guice-full-sample</display-name>
+	<display-name>JRest4Guice-sample-full</display-name>
 	
 	<!-- 通过 JRest4GuiceSampContextListener 来初始化JRest4Guice的上下文 -->
 	<!-- 用户可以根据习惯通过listener或者servlet来初始化JRest4Guice的上下文，初始化详情请看JRest4GuiceSampContextListener的实现类 -->
