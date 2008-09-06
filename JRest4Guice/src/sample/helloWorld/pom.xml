@@ -32,6 +32,11 @@
 			<artifactId>JRest4Guice-core</artifactId>
 			<version>0.0.9</version>
 		</dependency>
+		<dependency>
+			<groupId>org.cnoss</groupId>
+			<artifactId>JRest4Guice-rest</artifactId>
+			<version>0.0.9</version>
+		</dependency>
 	</dependencies>
 
 	<properties>
