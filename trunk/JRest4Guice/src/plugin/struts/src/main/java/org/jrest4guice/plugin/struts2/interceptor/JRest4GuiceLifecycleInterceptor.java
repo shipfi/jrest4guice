@@ -18,6 +18,11 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
+ *
+ */
 public class JRest4GuiceLifecycleInterceptor extends AbstractInterceptor {
 
 	/**
@@ -31,7 +36,7 @@ public class JRest4GuiceLifecycleInterceptor extends AbstractInterceptor {
 
 		ActionContext ctx = ActionContext.getContext();
 		if(ctx != null){
-			//注入http的上下文
+			//注入Web上下文
 			HttpServletRequest request = (HttpServletRequest) ctx
 					.get(ServletActionContext.HTTP_REQUEST);
 			
