@@ -33,6 +33,11 @@
 			<version>0.0.9</version>
 		</dependency>
 		<dependency>
+			<groupId>org.cnoss</groupId>
+			<artifactId>JRest4Guice-rest</artifactId>
+			<version>0.0.9</version>
+		</dependency>
+		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>

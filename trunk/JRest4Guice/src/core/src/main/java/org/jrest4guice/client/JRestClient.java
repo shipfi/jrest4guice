@@ -19,7 +19,6 @@ import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jrest4guice.rest.annotations.MimeType;
 
 /**
  * 
@@ -54,7 +53,7 @@ public class JRestClient {
 				.setConnectionTimeout(3000);
 		Object responseBody = null;
 		try {
-			method.addRequestHeader("accept", MimeType.MIME_OF_JAVABEAN);
+			method.addRequestHeader("accept", "application/javabean");
 			int statusCode = httpClient.executeMethod(method);
 
 			if (statusCode != HttpStatus.SC_OK) {

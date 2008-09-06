@@ -8,11 +8,11 @@ import org.apache.struts2.ServletActionContext;
 import org.hibernate.Transaction;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.guice.GuiceContext;
+import org.jrest4guice.guice.WebContextManager;
 import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
 import org.jrest4guice.persistence.hibernate.SessionInfo;
 import org.jrest4guice.persistence.jpa.EntityManagerFactoryHolder;
 import org.jrest4guice.persistence.jpa.EntityManagerInfo;
-import org.jrest4guice.rest.context.RestContextManager;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
@@ -37,7 +37,7 @@ public class JRest4GuiceLifecycleInterceptor extends AbstractInterceptor {
 			
 			HttpServletResponse response = (HttpServletResponse) ctx
 					.get(ServletActionContext.HTTP_RESPONSE);  		
-			RestContextManager.setContext(request, response, new ModelMap<String, String>());
+			WebContextManager.setContext(request, response, new ModelMap<String, String>());
 		}
 		
 		boolean need2ProcessTransaction = false;
@@ -75,7 +75,7 @@ public class JRest4GuiceLifecycleInterceptor extends AbstractInterceptor {
 			throw e;
 		} finally {
 			//清除上下文对象
-			RestContextManager.clearContext();
+			WebContextManager.clearContext();
 		}
 		return result;
 	}
