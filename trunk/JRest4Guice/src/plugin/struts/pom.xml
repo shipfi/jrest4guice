@@ -8,9 +8,9 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cnoss</groupId>
-	<artifactId>JRest4Guice-struts-plugin</artifactId>
+	<artifactId>JRest4Guice-plugin-struts2</artifactId>
 	<packaging>jar</packaging>
-	<name>JRest4Guice-struts-plugin</name>
+	<name>JRest4Guice-plugin-struts2</name>
 	<version>0.0.1</version>
 	<description />
 	
