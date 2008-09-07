@@ -86,17 +86,18 @@ public class JRest4GuiceModuleProvider extends ModuleProviderTemplate {
 							jRestContext.addRemoteService(name, clazz);
 						}
 
-						// 绑定远程服务引用的Provider
-						fields = clazz.getDeclaredFields();
-						for (Field f : fields) {
-							if (f.isAnnotationPresent(remoteServiceClass)) {
-								remoteServiceAnnotation = f
-										.getAnnotation(remoteServiceClass);
-								type = f.getType();
-								binder.bind(type).annotatedWith(
-										remoteServiceClass).toProvider(
-										RemoteServiceProvider.create(type));
-							}
+					}
+
+					// 绑定远程服务引用的Provider
+					fields = clazz.getDeclaredFields();
+					for (Field f : fields) {
+						if (f.isAnnotationPresent(remoteServiceClass)) {
+							remoteServiceAnnotation = f
+									.getAnnotation(remoteServiceClass);
+							type = f.getType();
+							binder.bind(type).annotatedWith(
+									remoteServiceClass).toProvider(
+									RemoteServiceProvider.create(type));
 						}
 					}
 
