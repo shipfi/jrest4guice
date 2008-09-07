@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
  *
  */
 @SuppressWarnings("unchecked")
-public class JRestRequestServlet extends HttpServlet {
+public class JRest4GuiceRequestServlet extends HttpServlet {
 	/**
 	 * 
 	 */

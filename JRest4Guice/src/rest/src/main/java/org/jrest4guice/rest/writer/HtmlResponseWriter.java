@@ -1,6 +1,5 @@
 package org.jrest4guice.rest.writer;
 
-import java.io.File;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
@@ -49,20 +48,12 @@ public class HtmlResponseWriter implements ResponseWriter {
 			if (annotation == null){
 				writeTextPlain(out, httpResult);
 			}else {
-				String templateUrl = annotation.success().url();
 				//模板的渲染器
-				String render = annotation.success().render();
-
+				ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(annotation.success());
 				//如果模板文件存在，则调用相应的渲染器进行结果的渲染
-				File template = new File(this.session.getServletContext().getRealPath(templateUrl));
-				if (template.exists()) {
-					ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(render);
-					if(viewRender != null)
-						viewRender.render(out, annotation, httpResult,method.isAnnotationPresent(Cache.class));
-					else{
-						writeTextPlain(out, httpResult);
-					}
-				} else {
+				if(viewRender != null)
+					viewRender.render(out, annotation, httpResult,method.isAnnotationPresent(Cache.class));
+				else{
 					writeTextPlain(out, httpResult);
 				}
 			}

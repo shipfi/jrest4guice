@@ -28,7 +28,7 @@ public @interface PageFlow {
 	/**
 	 * 出错时要转向的下一个流程（通常是一个页面）
 	 */
-	PageInfo error() default @PageInfo(url = PageInfo.deaultErrorUrl);
+	PageInfo error() default @PageInfo(value = PageInfo.deaultErrorUrl);
 	
 	/**
 	 * 页面转向的类型（forward/redirect)

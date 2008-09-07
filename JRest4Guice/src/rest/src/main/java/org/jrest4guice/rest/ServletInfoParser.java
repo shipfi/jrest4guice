@@ -38,11 +38,11 @@ class ServletInfoParser extends DefaultHandler {
 			Attributes attributes) throws SAXException {
 		this.clearContent();
 
-		if (qName.equalsIgnoreCase("servlet-mapping")) {
+		if (qName.equalsIgnoreCase("filter-mapping")) {
 			startParseServletMapping = true;
 		}
 
-		if (startParseServletMapping && qName.equalsIgnoreCase("servlet-name")) {
+		if (startParseServletMapping && qName.equalsIgnoreCase("filter-name")) {
 			servletName = null;
 		}
 
@@ -62,11 +62,11 @@ class ServletInfoParser extends DefaultHandler {
 
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		if (qName.equalsIgnoreCase("servlet-mapping")) {
+		if (qName.equalsIgnoreCase("filter-mapping")) {
 			startParseServletMapping = false;
 		}
 
-		if (startParseServletMapping && qName.equalsIgnoreCase("servlet-name")) {
+		if (startParseServletMapping && qName.equalsIgnoreCase("filter-name")) {
 			servletName = content.toString();
 			this.clearContent();
 		}

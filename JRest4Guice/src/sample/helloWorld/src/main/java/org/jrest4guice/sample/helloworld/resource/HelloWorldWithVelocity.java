@@ -14,7 +14,7 @@ import org.jrest4guice.rest.annotations.Path;
 public class HelloWorldWithVelocity {
 
 	@Get
-	@PageFlow(success = @PageInfo(url = "/template/HelloWorld.vm"))
+	@PageFlow(success = @PageInfo(value = "/template/HelloWorld.vm"))
 	public String sayHello() {
 		return "hello JRest4Guice world";
 	}
