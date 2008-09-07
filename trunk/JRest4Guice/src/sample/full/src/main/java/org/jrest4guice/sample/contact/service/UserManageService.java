@@ -23,6 +23,7 @@ import com.google.inject.Inject;
  * 
  */
 @SuppressWarnings( { "unused" })
+@Transactional
 public class UserManageService{
 	@Inject
 	private BaseEntityManager<String, User> userEntityManager;

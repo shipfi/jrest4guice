@@ -20,11 +20,11 @@ import com.google.inject.Inject;
  *
  */
 @SuppressWarnings( { "unused" })
+@Transactional
 public class ContactService{
 	@Inject
 	private BaseEntityManager<String, Contact> entityManager;
 
-	@Transactional
 	public String createContact(Contact contact) {
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");
@@ -37,7 +37,6 @@ public class ContactService{
 		return contact.getId();
 	}
 
-	@Transactional //事务声明
 	public void deleteContact(String contactId) {
 		String[] ids = contactId.split(",");
 		Contact contact;
@@ -61,7 +60,6 @@ public class ContactService{
 				new Pagination(pageIndex, pageSize));
 	}
 
-	@Transactional
 	public void updateContact(Contact contact) {
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");
