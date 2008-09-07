@@ -21,13 +21,8 @@ import com.google.inject.Inject;
  */
 @SuppressWarnings( { "unused" })
 public class ContactService{
-	private BaseEntityManager<String, Contact> entityManager;
-
 	@Inject
-	private void init(EntityManager em) {
-		this.entityManager = new JpaEntityManager<String, Contact>(
-				Contact.class, em);
-	}
+	private BaseEntityManager<String, Contact> entityManager;
 
 	@Transactional
 	public String createContact(Contact contact) {
