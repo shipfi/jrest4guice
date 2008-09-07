@@ -18,18 +18,18 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  *
  */
-class ServletInfoParser extends DefaultHandler {
+class FilterInfoParser extends DefaultHandler {
 
 	private boolean startParseServletMapping;
 
-	private String servletName;
+	private String filterName;
 	private String urlPattern;
 
 	private StringBuffer content;
 
 	private Map<String, String> servletInfos;
 
-	public ServletInfoParser() {
+	public FilterInfoParser() {
 		this.content = new StringBuffer();
 		this.servletInfos = new HashMap<String, String>(0);
 	}
@@ -43,7 +43,7 @@ class ServletInfoParser extends DefaultHandler {
 		}
 
 		if (startParseServletMapping && qName.equalsIgnoreCase("filter-name")) {
-			servletName = null;
+			filterName = null;
 		}
 
 		if (startParseServletMapping && qName.equalsIgnoreCase("url-pattern")) {
@@ -67,7 +67,7 @@ class ServletInfoParser extends DefaultHandler {
 		}
 
 		if (startParseServletMapping && qName.equalsIgnoreCase("filter-name")) {
-			servletName = content.toString();
+			filterName = content.toString();
 			this.clearContent();
 		}
 
@@ -76,8 +76,8 @@ class ServletInfoParser extends DefaultHandler {
 			this.clearContent();
 		}
 
-		if (this.servletName != null && this.urlPattern != null) {
-			this.servletInfos.put(this.servletName, this.urlPattern);
+		if (this.filterName != null && this.urlPattern != null) {
+			this.servletInfos.put(this.filterName, this.urlPattern);
 		}
 	}
 
