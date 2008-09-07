@@ -24,16 +24,10 @@ import com.google.inject.Inject;
  */
 @SuppressWarnings( { "unused" })
 public class UserManageService{
-	private BaseEntityManager<String, User> userEntityManager;
-	private BaseEntityManager<String, Role> roleEntityManager;
-
 	@Inject
-	private void init(EntityManager em) {
-		this.userEntityManager = new JpaEntityManager<String, User>(
-				User.class, em);
-		this.roleEntityManager = new JpaEntityManager<String, Role>(
-				Role.class, em);
-	}
+	private BaseEntityManager<String, User> userEntityManager;
+	@Inject
+	private BaseEntityManager<String, Role> roleEntityManager;
 
 	@Transactional(type = TransactionalType.READOLNY)
 	public boolean authUser(String name, String password) {
