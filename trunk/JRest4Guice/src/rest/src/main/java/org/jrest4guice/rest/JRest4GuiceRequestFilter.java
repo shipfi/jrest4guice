@@ -50,10 +50,10 @@ public class JRest4GuiceRequestFilter implements Filter {
 				extNameExcludes.add(ext);
 		}
 
-		ServletInfoParser servletInfoParser = new ServletInfoParser();
+		FilterInfoParser servletInfoParser = new FilterInfoParser();
 		try {
-			Map<String, String> servletInfos = servletInfoParser.parse(config.getServletContext());
-			String urlPattern = servletInfos.get(config.getFilterName());
+			Map<String, String> filterInfos = servletInfoParser.parse(config.getServletContext());
+			String urlPattern = filterInfos.get(config.getFilterName());
 			this.urlPrefix = urlPattern;
 			
 			if(urlPattern.endsWith("*"))
