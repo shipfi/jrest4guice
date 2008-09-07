@@ -17,6 +17,12 @@ public interface ViewRender {
 	public String getRenderType();
 	
 	/**
+	 * 返回渲染器的类型的缩略名
+	 * @return
+	 */
+	public String getRenderTypeShortName();
+
+	/**
 	 * 渲染数据
 	 * @param out	输出流
 	 * @param annotation	页面流程定义的注解

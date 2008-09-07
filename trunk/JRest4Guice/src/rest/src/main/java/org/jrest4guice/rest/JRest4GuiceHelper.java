@@ -25,7 +25,7 @@ public class JRest4GuiceHelper {
 		new DatePatternConverter().addDefaultDateConverter();
 		//打开JRest的支持
 		return GuiceContext.getInstance().addModuleProvider(
-				new JRestGuiceModuleProvider(scanPaths)).addModuleProvider(
+				new JRest4GuiceModuleProvider(scanPaths)).addModuleProvider(
 				new JndiGuiceModuleProvider(scanPaths));
 	}
 

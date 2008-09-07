@@ -53,7 +53,7 @@ public class FreemarkerViewRender implements ViewRender {
 
 		this.initFreemarker();
 		//获取模板
-		Template template = cfg.getTemplate(annotation.success().url(), "utf-8");
+		Template template = cfg.getTemplate(annotation.success().value(), "utf-8");
 		StringWriter writer = new StringWriter();
 		//往上下文中填入数据
 		Map context = new HashMap();
@@ -70,6 +70,11 @@ public class FreemarkerViewRender implements ViewRender {
 	 */
 	@Override
 	public String getRenderType() {
-		return ViewRenderType.FREEMARKER;
+		return ResultType.FREEMARKER;
+	}
+
+	@Override
+	public String getRenderTypeShortName() {
+		return ".ftl";
 	}
 }

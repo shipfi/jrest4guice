@@ -34,8 +34,8 @@ import com.google.inject.Module;
  * 
  */
 @SuppressWarnings("unchecked")
-public class JRestGuiceModuleProvider extends ModuleProviderTemplate {
-	public JRestGuiceModuleProvider(String... packages) {
+public class JRest4GuiceModuleProvider extends ModuleProviderTemplate {
+	public JRest4GuiceModuleProvider(String... packages) {
 		super(packages);
 		this.addScanPackages("org.jrest4guice.rest.writer");
 		this.addScanPackages("org.jrest4guice.rest.render");

@@ -25,7 +25,7 @@ window.onload = function(){
  */
 function onTimeout(){
 	new Thread(function(){
-		SpryExt.rest.doGet("resource/security/userRoles",function(json){
+		SpryExt.rest.doGet("security/userRoles",function(json){
 			if(json.content != ""){
 				SpryExt.security.currentUserName = json.content.userName;
 				SpryExt.security.currentUserRoles = json.content.userRoles;
@@ -52,7 +52,7 @@ function doSecurityCheck(){
  * 初始化
  */
 function init(){
-	contacts_ds.setURL("resource/contacts");
+	contacts_ds.setURL("contacts");
 	contacts_ds.useCache = false;
 	contacts_ds.setPath("content");
 	contacts_ds.setRequestInfo({headers:{"Accept":"application/json"}},true);
@@ -67,7 +67,7 @@ function init(){
 		}
 	});
 
-	contact_detail_ds.setURL("resource/contacts/{contacts_ds::id}");
+	contact_detail_ds.setURL("contacts/{contacts_ds::id}");
 	contact_detail_ds.useCache = false;
 	contact_detail_ds.setPath("content");
 	contact_detail_ds.setRequestInfo({headers:{"Accept":"application/json","If-Modified-Since":"Thu, 01 Jan 1970 00:00:00 GMT"}},true);
@@ -214,7 +214,7 @@ function saveOrUpdateContact(){
 	//收集数据
 	var postData = SpryExt.DataHelper.gatherData(form);
 	currentContact = contacts_ds.getCurrentRow();
-	var url = "resource/contact";
+	var url = "contact";
 	//保存联系人
 	SpryExt.rest._call(restMethod,url,function(result){
 		if(result.errorType == ""){
@@ -245,7 +245,7 @@ function deleteContact(id,nme){
 		return;
 	
 	//删除联系人
-	SpryExt.rest.doDelete("resource/contacts/"+ids,function(result){
+	SpryExt.rest.doDelete("contacts/"+ids,function(result){
 		if(result.errorType == ""){
 			contacts_ds.loadData();
 			currentContact = null;

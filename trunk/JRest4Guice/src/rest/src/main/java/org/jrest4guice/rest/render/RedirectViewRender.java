@@ -15,7 +15,7 @@ import com.google.inject.Inject;
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-public class JspViewRender implements ViewRender {
+public class RedirectViewRender implements ViewRender {
 	@Inject
 	private HttpServletRequest request;
 	@Inject
@@ -27,9 +27,14 @@ public class JspViewRender implements ViewRender {
 	@Override
 	public void render(PrintWriter out, PageFlow annotation, JRestResult result,
 			boolean cache) throws Exception {
-		request.setAttribute("context", result);
-		request.getRequestDispatcher(annotation.success().value()).forward(this.request,
-				this.response);
+		String path = annotation.success().value();
+		String contextPath = request.getContextPath();
+		if(!contextPath.endsWith("/"))
+			contextPath += "/";
+		if(path.startsWith("/"))
+			path = path.substring(1);
+			
+		response.sendRedirect(contextPath+ path);
 	}
 
 	/*
@@ -39,11 +44,11 @@ public class JspViewRender implements ViewRender {
 	 */
 	@Override
 	public String getRenderType() {
-		return ResultType.JSP;
+		return ResultType.REDIRECT;
 	}
-	
+
 	@Override
 	public String getRenderTypeShortName() {
-		return ".jsp";
+		return null;
 	}
 }

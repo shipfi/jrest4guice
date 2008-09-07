@@ -6,18 +6,41 @@
 <link href="/full/css/default.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<h3>Velocity template</h3>
+	<br>
 	#set($contact = $context.content ) 
-	<div>
-		<div><span>当前用户： </span><span><b>$contact.name</b></span></div>
-		<div>&nbsp;$contact.name</div>
-		<div>&nbsp;$contact.mobilePhone</div>
-		<div>&nbsp;$contact.EMail</div>
-		<div>&nbsp;$contact.address</div>
-	</div>
+	#if(!$contact.id)
+		<h4>请输入联系人的相关信息</h4>
+		#set($action="/full/contact")
+	#else
+		<h4>修改联系人<font color=green>"$!{contact.name}"</font>的信息</h4>
+		#set($action="/full/contacts/"+$!{contact.id}+"!update")
+	#end
+	
+	<form action="${action}" method="post">
+		#if($contact.id)
+			<input name="id" type="hidden" value="$!{contact.id}">
+		#end
+		<table>
+			<tr>
+				<td>姓    名</td><td><input name="name" type="text" value="$!{contact.name}"></td>	
+			</tr>
+			<tr>
+				<td>手    机</td><td><input name="mobilePhone" type="text" value="$!{contact.mobilePhone}"></td>	
+			</tr>
+			<tr>
+				<td>电子邮箱</td><td><input name="EMail" type="text" value="$!{contact.EMail}"></td>	
+			</tr>
+			<tr>
+				<td>家庭住址</td><td><textarea name="address">$!{contact.address}</textarea></td>
+			</tr>
+		</table>
+		<br/>
+		<input type="submit" value="确定">
+		<input type="reset" value="取消">
+	</form>
 	
 	<br>
-	<a href="/full/resource/contacts">返回</a>
+	<a href="/full/contacts">返回联系人列表</a>
 	</br>
 </body>
 </html>

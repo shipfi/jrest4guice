@@ -94,6 +94,7 @@ public class RequestProcessor {
 			uri = uri.replace("!update","");
 			uri = uri.replace("!delete","");
 		}
+		
 		//==================================================================
 		
 		String method = request.getMethod();

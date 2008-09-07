@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.jrest4guice.rest.render.ViewRenderType;
+import org.jrest4guice.rest.render.ResultType;
 
 /**
  * 
@@ -19,6 +19,6 @@ import org.jrest4guice.rest.render.ViewRenderType;
 public @interface PageInfo {
 	public static String deaultErrorUrl = "/template/error.vm";
 
-	String url();
-	String render() default ViewRenderType.VELOCITY;
+	String value();
+	String type() default ResultType.PLAINTEXT;
 }

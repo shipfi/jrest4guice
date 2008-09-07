@@ -12,7 +12,7 @@ import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.rest.annotations.Post;
 import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.RESTful;
-import org.jrest4guice.rest.render.ViewRenderType;
+import org.jrest4guice.rest.render.ResultType;
 import org.jrest4guice.sample.contact.entity.Contact;
 import org.jrest4guice.sample.contact.service.ContactService;
 
@@ -27,15 +27,16 @@ import com.google.inject.Inject;
 @Path( { "/contact", "/contacts/{contactId}" })
 public class ContactResource {
 	@Inject
-	private ContactService domain;
+	private ContactService service;
 
 	/**
 	 * 创建新的联系人 
 	 * @param contact 联系人实体
 	 */
 	@Post
+	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT))
 	public String createContact(@ModelBean Contact contact) {
-		return this.domain.createContact(contact);
+		return this.service.createContact(contact);
 	}
 
 	/**
@@ -43,8 +44,9 @@ public class ContactResource {
 	 * @param contact 联系人实体
 	 */
 	@Put
+	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT))
 	public void putContact(@ModelBean Contact contact) {
-		this.domain.updateContact(contact);
+		this.service.updateContact(contact);
 	}
 
 	/**
@@ -58,10 +60,10 @@ public class ContactResource {
 	@Get
 	@Path("/contacts")
 	@PageFlow(
-			success = @PageInfo(url = "/template/contacts.vm",render=ViewRenderType.VELOCITY), 
-			error = @PageInfo(url = "/template/error.vm",render=ViewRenderType.VELOCITY))
+			success = @PageInfo(value = "/template/contacts.vm",type=ResultType.VELOCITY), 
+			error = @PageInfo(value = "/template/error.vm",type=ResultType.VELOCITY))
 	public Page<Contact> listContacts(int pageIndex, int pageSize) {
-		return this.domain.listContacts(pageIndex, pageSize);
+		return this.service.listContacts(pageIndex, pageSize);
 	}
 
 	/**
@@ -69,10 +71,12 @@ public class ContactResource {
 	 * @param contactId 联系对象ID
 	 */
 	@Get
-	@PageFlow(success = @PageInfo(url = "/template/contactDetail.vm"))
-	@Cache //声明需要缓存结果，可以减少应用服务器及数据库的压力
+	@PageFlow(success = @PageInfo(value = "/template/contactDetail.vm"))
+//	@Cache //声明需要缓存结果，可以减少应用服务器及数据库的压力
 	public Contact getContact(@Parameter("contactId") String contactId) {
-		return this.domain.findContactById(contactId);
+		if(contactId == null)
+			return new Contact();
+		return this.service.findContactById(contactId);
 	}
 
 	/**
@@ -80,7 +84,8 @@ public class ContactResource {
 	 * @param contactId 联系对象ID
 	 */
 	@Delete
+	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT))
 	public void deleteContact(@Parameter("contactId") String contactId) {
-		this.domain.deleteContact(contactId);
+		this.service.deleteContact(contactId);
 	}
 }

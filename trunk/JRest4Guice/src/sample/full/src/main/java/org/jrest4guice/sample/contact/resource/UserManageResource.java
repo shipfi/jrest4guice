@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 @Path( { "/user" })
 public class UserManageResource {
 	@Inject
-	private UserManageService domain;
+	private UserManageService service;
 
 	@Inject
 	HttpServletRequest request;
@@ -35,12 +35,12 @@ public class UserManageResource {
 	@Get
 	@Path("{userName}")
 	public User findUser(String userName) {
-		return this.domain.findUser(userName);
+		return this.service.findUser(userName);
 	}
 
 	@Get
 	@Path("{userName}/roles")
 	public Page<Role> listCurrentUserRolse(int pageIndex, int pageSize) {
-		return this.domain.getAllRoles(pageIndex, pageSize);
+		return this.service.getAllRoles(pageIndex, pageSize);
 	}
 }

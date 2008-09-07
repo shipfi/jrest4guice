@@ -33,7 +33,7 @@ public class VelocityViewRender implements ViewRender {
 	public void render(PrintWriter out, PageFlow annotation, JRestResult result,boolean cache)
 			throws Exception {
 		//获取模板
-		Template template = Velocity.getTemplate(annotation.success().url(), "utf-8");
+		Template template = Velocity.getTemplate(annotation.success().value(), "utf-8");
 		//往上下文中填入数据
 		context.put("contextPath", this.request.getContextPath());
 		context.put("context", result);
@@ -53,6 +53,11 @@ public class VelocityViewRender implements ViewRender {
 	 */
 	@Override
 	public String getRenderType() {
-		return ViewRenderType.VELOCITY;
+		return ResultType.VELOCITY;
+	}
+
+	@Override
+	public String getRenderTypeShortName() {
+		return ".vm";
 	}
 }
