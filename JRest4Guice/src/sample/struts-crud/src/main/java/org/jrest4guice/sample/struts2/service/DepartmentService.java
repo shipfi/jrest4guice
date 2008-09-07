@@ -9,6 +9,7 @@ import org.jrest4guice.transaction.annotations.TransactionalType;
 
 import com.google.inject.Inject;
 
+@Transactional
 public class DepartmentService{
 	@Inject
 	private BaseEntityManager<String, Department> entityManager;

@@ -1,5 +1,8 @@
 package org.jrest4guice.transaction;
 
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Method;
+
 import javax.persistence.EntityTransaction;
 
 import org.aopalliance.intercept.MethodInterceptor;
@@ -21,7 +24,12 @@ public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 		EntityManagerFactoryHolder emfH = GuiceContext.getInstance().getBean(EntityManagerFactoryHolder.class);
 		EntityManagerInfo entityManager = emfH.getEntityManagerInfo();
 		
-		Transactional transactional = methodInvocation.getMethod().getAnnotation(Transactional.class);
+		Method method = methodInvocation.getMethod();
+		Transactional transactional = method.getAnnotation(Transactional.class);
+		if(transactional == null){
+			transactional = method.getDeclaringClass().getAnnotation(Transactional.class);
+		}
+		
 		TransactionalType type = transactional.type();
 		if(type != TransactionalType.READOLNY){
 			entityManager.setNeed2ProcessTransaction(true);

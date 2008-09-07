@@ -1,5 +1,7 @@
 package org.jrest4guice.transaction;
 
+import java.lang.reflect.Method;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.hibernate.Transaction;
@@ -20,7 +22,12 @@ public class HibernateLocalTransactionInterceptor implements MethodInterceptor {
 		SessionFactoryHolder sessionFH = GuiceContext.getInstance().getBean(SessionFactoryHolder.class);
 		SessionInfo session = sessionFH.getSessionInfo();
 		
-		Transactional transactional = methodInvocation.getMethod().getAnnotation(Transactional.class);
+		Method method = methodInvocation.getMethod();
+		Transactional transactional = method.getAnnotation(Transactional.class);
+		if(transactional == null){
+			transactional = method.getDeclaringClass().getAnnotation(Transactional.class);
+		}
+
 		TransactionalType type = transactional.type();
 		
 		final Transaction transaction = session.getSession().getTransaction();
