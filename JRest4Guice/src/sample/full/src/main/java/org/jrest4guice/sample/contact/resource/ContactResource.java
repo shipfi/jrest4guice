@@ -59,8 +59,8 @@ public class ContactResource {
 	@Get
 	@Path("/contacts")
 	@PageFlow(
-			success = @PageInfo(value = "/template/contacts.vm",type=ResultType.VELOCITY), 
-			error = @PageInfo(value = "/template/error.vm",type=ResultType.VELOCITY))
+			success = @PageInfo(value = "/template/contacts.vm"), 
+			error = @PageInfo(value = "/template/error.vm"))
 	public Page<Contact> listContacts(int pageIndex, int pageSize) {
 		return this.service.listContacts(pageIndex, pageSize);
 	}
