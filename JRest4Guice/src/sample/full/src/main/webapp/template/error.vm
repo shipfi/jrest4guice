@@ -6,13 +6,14 @@
 <link href="/full/css/default.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+	<center>
 	<br>
 	#set($msg = $context.errorMessage )
-	
-	<h3>$!{msg}</h3>
-	 
+	<img src="/full/images/error.png" style="margin-top:40px;">
+	<h3>操作错误：$!{msg}</h3>
 	<br>
-	<a href="javascript:history.go(-1);">返回联系人列表</a>
+	<img src="/full/images/go.gif" style="margin-bottom: -22px;"><a href="javascript:history.go(-1);" style="font-weight: bold;font-size: 18px;">返回</a>
 	</br>
+	</center>
 </body>
 </html>
