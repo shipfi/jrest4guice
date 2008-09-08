@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Transaction;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
@@ -17,8 +19,12 @@ import org.jrest4guice.transaction.annotations.TransactionalType;
  *
  */
 public class HibernateLocalTransactionInterceptor implements MethodInterceptor {
+	private static Log log = LogFactory.getLog(HibernateLocalTransactionInterceptor.class);
+
 	@Override
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable {
+		log.debug("[HibernateLocalTransactionInterceptor]进入＝》"+methodInvocation.getMethod().getName());
+
 		SessionFactoryHolder sessionFH = GuiceContext.getInstance().getBean(SessionFactoryHolder.class);
 		SessionInfo session = sessionFH.getSessionInfo();
 		
@@ -59,6 +65,7 @@ public class HibernateLocalTransactionInterceptor implements MethodInterceptor {
 			throw e;
 		}
 		
+		log.debug("[HibernateLocalTransactionInterceptor]离开＝》"+methodInvocation.getMethod().getName());
 		//返回业务方法的执行结果
 		return result;
 	}

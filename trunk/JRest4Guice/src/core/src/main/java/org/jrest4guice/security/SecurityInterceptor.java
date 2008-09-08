@@ -2,8 +2,6 @@ package org.jrest4guice.security;
 
 import java.lang.reflect.Method;
 import java.security.Principal;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
