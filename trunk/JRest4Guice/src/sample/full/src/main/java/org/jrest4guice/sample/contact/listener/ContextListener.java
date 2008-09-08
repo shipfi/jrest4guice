@@ -24,7 +24,7 @@ public class ContextListener implements ServletContextListener {
 		JRest4GuiceHelper.useJRest("org.jrest4guice.sample")// 使用Rest，并指定要动态扫描注册的包路径
 				.useJPA()// 使用JPA
 				.useSecurity()// 使用JAAS
-//				.enableCustomInterceptor("org.jrest4guice.sample")//打开自定义的拦截器支持，允许通过@Interceptors来支持自定义的拦截器
+				.enableCustomInterceptor("org.jrest4guice.sample")//打开自定义的拦截器支持，允许通过@Interceptors来支持自定义的拦截器
 				.init();
 	}
 
