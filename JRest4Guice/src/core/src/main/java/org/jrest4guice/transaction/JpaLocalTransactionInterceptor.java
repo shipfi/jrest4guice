@@ -1,12 +1,13 @@
 package org.jrest4guice.transaction;
 
-import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
 
 import javax.persistence.EntityTransaction;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.persistence.jpa.EntityManagerFactoryHolder;
 import org.jrest4guice.persistence.jpa.EntityManagerInfo;
@@ -19,8 +20,12 @@ import org.jrest4guice.transaction.annotations.TransactionalType;
  *
  */
 public class JpaLocalTransactionInterceptor implements MethodInterceptor {
+	private static Log log = LogFactory.getLog(JpaLocalTransactionInterceptor.class);
+	
 	@Override
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable {
+		log.debug("[JpaLocalTransactionInterceptor]进入＝》"+methodInvocation.getMethod().getName());
+
 		EntityManagerFactoryHolder emfH = GuiceContext.getInstance().getBean(EntityManagerFactoryHolder.class);
 		EntityManagerInfo entityManager = emfH.getEntityManagerInfo();
 		
@@ -59,6 +64,8 @@ public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 			}
 			throw e;
 		}
+		
+		log.debug("[JpaLocalTransactionInterceptor]离开＝》"+methodInvocation.getMethod().getName());
 		
 		//返回业务方法的执行结果
 		return result;

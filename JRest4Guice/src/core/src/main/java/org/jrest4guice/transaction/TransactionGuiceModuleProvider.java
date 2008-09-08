@@ -33,8 +33,8 @@ public class TransactionGuiceModuleProvider extends ModuleProviderTemplate {
 			@Override
 			public void configure(Binder binder) {
 				AbstractMatcher<Class> classMatcher = new AbstractMatcher<Class>() {
-					public boolean matches(Class subclass) {
-						return subclass.isAnnotationPresent(Transactional.class);
+					public boolean matches(Class clazz) {
+						return clazz.isAnnotationPresent(Transactional.class);
 					}
 					public String toString() {
 						return "annotatedWith(" + Transactional.class.getSimpleName()

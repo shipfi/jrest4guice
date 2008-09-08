@@ -5,9 +5,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.jrest4guice.commons.lang.Assert;
+import org.jrest4guice.interceptor.InterceptorGuiceModuleProvider;
 import org.jrest4guice.persistence.hibernate.HibernateGuiceModuleProvider;
 import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
 import org.jrest4guice.persistence.jpa.EntityManagerFactoryHolder;
@@ -16,8 +15,6 @@ import org.jrest4guice.security.SecurityGuiceModuleProvider;
 import org.jrest4guice.transaction.HibernateLocalTransactionInterceptor;
 import org.jrest4guice.transaction.JpaLocalTransactionInterceptor;
 import org.jrest4guice.transaction.TransactionGuiceModuleProvider;
-import org.jrest4guice.transaction.annotations.Transactional;
-import org.jrest4guice.transaction.annotations.TransactionalType;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -109,6 +106,17 @@ public class GuiceContext {
 		return initialized;
 	}
 
+
+	/**
+	 * 打开自定义的拦截器支持，允许通过@Interceptors来支持自定义的拦截器
+	 * @param packages
+	 * @return
+	 */
+	public GuiceContext enableCustomInterceptor(String... packages){
+		this.addModuleProvider(new InterceptorGuiceModuleProvider(packages));
+		return this;
+	}
+
 	/**
 	 * 打开JPA支持
 	 * @return
@@ -171,6 +179,7 @@ public class GuiceContext {
 	public GuiceContext init() {
 		if (initialized)
 			return this;
+
 		synchronized (GuiceContext.class) {
 			if (initialized)
 				return this;
