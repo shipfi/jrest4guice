@@ -32,8 +32,13 @@ public class VelocityViewRender implements ViewRender {
 	@Override
 	public void render(PrintWriter out, PageFlow annotation, JRestResult result,boolean cache)
 			throws Exception {
+		
+		String url = annotation.success().value();
+		if(result.getErrorMessage() != null){
+			url = annotation.error().value();
+		}
 		//获取模板
-		Template template = Velocity.getTemplate(annotation.success().value(), "utf-8");
+		Template template = Velocity.getTemplate(url, "utf-8");
 		//往上下文中填入数据
 		context.put("contextPath", this.request.getContextPath());
 		context.put("context", result);

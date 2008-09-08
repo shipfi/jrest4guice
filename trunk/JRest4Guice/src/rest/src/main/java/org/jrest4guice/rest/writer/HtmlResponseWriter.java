@@ -11,10 +11,12 @@ import org.jrest4guice.rest.JRestResult;
 import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
+import org.jrest4guice.rest.annotations.PageInfo;
 import org.jrest4guice.rest.render.ViewRender;
 import org.jrest4guice.rest.render.ViewRenderRegister;
 
 import com.google.inject.Inject;
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Annotation;
 
 /**
  * 
@@ -48,8 +50,14 @@ public class HtmlResponseWriter implements ResponseWriter {
 			if (annotation == null){
 				writeTextPlain(out, httpResult);
 			}else {
+				PageInfo pageInfo = null;
+				if(result instanceof Exception){
+					pageInfo = annotation.error();
+				}else
+					pageInfo = annotation.success();
+				
 				//模板的渲染器
-				ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(annotation.success());
+				ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(pageInfo);
 				//如果模板文件存在，则调用相应的渲染器进行结果的渲染
 				if(viewRender != null)
 					viewRender.render(out, annotation, httpResult,method.isAnnotationPresent(Cache.class));
