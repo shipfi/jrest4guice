@@ -58,7 +58,7 @@ public class ContactService{
 		return this.entityManager.load(contactId);
 	}
 
-	@Transactional(type=TransactionalType.READOLNY)
+	@Transactional(type=TransactionalType.READOLNY)//覆盖类级别的事务类型为只读
 	@Interceptor(ListContactsInterceptor.class)//覆盖类级别的拦截器
 	public Page<Contact> listContacts(int pageIndex, int pageSize)
 			throws RuntimeException {
