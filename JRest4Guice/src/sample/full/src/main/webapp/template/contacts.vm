@@ -25,7 +25,7 @@
 			<tr style="cursor: pointer;height: 22px;">
 				<td>&nbsp;<a href="contacts/${contact.id}">$contact.name</a></td>
 				<td>&nbsp;$contact.mobilePhone</td>
-				<td>&nbsp;$contact.EMail</td>
+				<td>&nbsp;$contact.email</td>
 				<td>&nbsp;$contact.address</td>
 				<td>&nbsp;<a href="contacts/${contact.id}!delete">删除</a></td>
 			</tr>
