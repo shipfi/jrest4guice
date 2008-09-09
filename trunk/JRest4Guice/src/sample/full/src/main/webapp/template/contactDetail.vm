@@ -6,8 +6,8 @@
 <link href="/full/css/default.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<br>
-	#set($contact = $context.content ) 
+	#set($contact = $context.content)
+	
 	#if(!$contact.id)
 		<h4>请输入联系人的相关信息</h4>
 		#set($action="/full/contact")
@@ -16,6 +16,16 @@
 		#set($action="/full/contacts/"+$!{contact.id}+"!update")
 	#end
 	
+	#if($context.invalidValues)
+		<div style="text-align: left;margin-top: 28px;width:30%;">
+		<h5>操作错误！</h5>
+		<hr style="text-align: left;margin-top: -18px;"/>
+		#foreach($value in $context.invalidValues)
+			<b><font color=red>$!{value.propertyName}：&nbsp;&nbsp;</font></b><font color=green>$!{value.message}</font><br/>
+		#end
+		</div>
+	#end
+
 	<form action="${action}" method="post">
 		#if($contact.id)
 			<input name="id" type="hidden" value="$!{contact.id}">
