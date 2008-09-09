@@ -33,7 +33,8 @@ public class ContactResource {
 	 * @param contact 联系人实体
 	 */
 	@Post
-	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT))
+	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT)
+			,error=@PageInfo(value="/contact",type=ResultType.REDIRECT))
 	public String createContact(@ModelBean Contact contact) {
 		return this.service.createContact(contact);
 	}
@@ -43,7 +44,8 @@ public class ContactResource {
 	 * @param contact 联系人实体
 	 */
 	@Put
-	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT))
+	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT)
+			,error=@PageInfo(value="/contact",type=ResultType.REDIRECT))
 	public void putContact(@ModelBean Contact contact) {
 		this.service.updateContact(contact);
 	}
@@ -59,8 +61,7 @@ public class ContactResource {
 	@Get
 	@Path("/contacts")
 	@PageFlow(
-			success = @PageInfo(value = "/template/contacts.vm"), 
-			error = @PageInfo(value = "/template/error.vm"))
+			success = @PageInfo(value = "/template/contacts.vm"))
 	public Page<Contact> listContacts(int pageIndex, int pageSize) {
 		return this.service.listContacts(pageIndex, pageSize);
 	}
