@@ -18,6 +18,7 @@ import org.apache.commons.beanutils.BeanUtilsBean;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jrest4guice.client.ModelMap;
+import org.jrest4guice.commons.i18n.annotations.ResourceBundle;
 import org.jrest4guice.commons.lang.ParameterNameDiscoverer;
 import org.jrest4guice.rest.annotations.Delete;
 import org.jrest4guice.rest.annotations.Get;
@@ -173,7 +174,11 @@ public class ServiceExecutor {
 			
 			if(isModelBean){
 				//启用验证
-				ClassValidator validator = new ClassValidator(value.getClass());
+				Class<?> modelClass = value.getClass();
+				java.util.ResourceBundle rb = null;
+				if(modelClass.isAnnotationPresent(ResourceBundle.class))
+					rb = java.util.ResourceBundle.getBundle(modelClass.getAnnotation(ResourceBundle.class).value());
+				ClassValidator validator = new ClassValidator(modelClass,rb);
 				InvalidValue[] invalidValues = validator.getInvalidValues(value);
 				if(invalidValues != null && invalidValues.length>0){
 					throw new ValidatorException(invalidValues);
