@@ -15,6 +15,11 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.Email;
+import org.hibernate.validator.Length;
+import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.NotNull;
+import org.jrest4guice.commons.i18n.annotations.ResourceBundle;
 import org.jrest4guice.persistence.EntityAble;
 
 /**
@@ -29,6 +34,7 @@ import org.jrest4guice.persistence.EntityAble;
 		@NamedQuery(name = "Contact.list[count]", query = "select count(*) from Contact"),
 		@NamedQuery(name = "Contact.byName[load]", query = "select e from Contact e where e.name=?") })
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "contactCache")
+@ResourceBundle("fullSample")
 public class Contact implements EntityAble<String>, Serializable {
 
 	/**
@@ -55,7 +61,7 @@ public class Contact implements EntityAble<String>, Serializable {
 	private String mobilePhone;
 
 	@Column(name = "eMail", nullable = true, length = 36)
-	private String eMail;
+	private String email;
 
 	@Lob
 	@Column(name = "address", nullable = true, length = 2000)
@@ -80,6 +86,8 @@ public class Contact implements EntityAble<String>, Serializable {
 		this.id = id;
 	}
 
+	@NotNull(message="{contact.name}")
+	@NotEmpty(message="{contact.name}")
 	public String getName() {
 		return name;
 	}
@@ -96,6 +104,9 @@ public class Contact implements EntityAble<String>, Serializable {
 		this.homePhone = homePhone;
 	}
 
+	@NotNull(message="{contact.mobile}")
+	@NotEmpty(message="{contact.mobile}")
+	@Length(max=11,message="{contact.mobile}")
 	public String getMobilePhone() {
 		return mobilePhone;
 	}
@@ -104,12 +115,13 @@ public class Contact implements EntityAble<String>, Serializable {
 		this.mobilePhone = mobilePhone;
 	}
 
-	public String getEMail() {
-		return eMail;
+	@Email(message="{contact.email}")
+	public String getEmail() {
+		return email;
 	}
 
-	public void setEMail(String mail) {
-		eMail = mail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getAddress() {
