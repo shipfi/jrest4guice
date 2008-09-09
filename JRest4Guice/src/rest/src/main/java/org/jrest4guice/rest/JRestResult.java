@@ -3,6 +3,7 @@ package org.jrest4guice.rest;
 import net.sf.json.JSONObject;
 import net.sf.json.xml.XMLSerializer;
 
+import org.hibernate.validator.InvalidValue;
 import org.jrest4guice.client.Page;
 import org.jrest4guice.rest.json.JsonConfigFactory;
 
@@ -12,10 +13,22 @@ import org.jrest4guice.rest.json.JsonConfigFactory;
  * 
  */
 public class JRestResult {
+	
+	public static final String INVALID_VALUE_KEY = "_$_invalidvalue_key_$__";
+	
 	private String errorType;
 
 	private String errorMessage;
-
+	
+	/**
+	 * 对Hibernate validator的支持
+	 */
+	private InvalidValue[] invalidValues;
+	
+	private Object invalidBean;
+	
+	private boolean inChain = false;
+	
 	/**
 	 * 所有记录的总数
 	 */
@@ -137,5 +150,29 @@ public class JRestResult {
 
 	public void setErrorType(String errorType) {
 		this.errorType = errorType;
+	}
+
+	public InvalidValue[] getInvalidValues() {
+		return invalidValues;
+	}
+
+	public void setInvalidValues(InvalidValue[] invalidValues) {
+		this.invalidValues = invalidValues;
+		if(this.invalidValues != null && this.invalidValues.length>0){
+			this.invalidBean = this.invalidValues[0].getBean();
+			this.content = this.invalidBean;
+		}
+	}
+
+	public Object getInvalidBean() {
+		return invalidBean;
+	}
+
+	public boolean isInChain() {
+		return inChain;
+	}
+
+	public void setInChain(boolean inChain) {
+		this.inChain = inChain;
 	}
 }
