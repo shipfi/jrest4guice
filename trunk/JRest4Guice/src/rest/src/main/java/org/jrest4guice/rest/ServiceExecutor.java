@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
+import org.hibernate.validator.ClassValidator;
+import org.hibernate.validator.InvalidValue;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.commons.lang.ParameterNameDiscoverer;
 import org.jrest4guice.rest.annotations.Delete;
@@ -29,6 +31,7 @@ import org.jrest4guice.rest.annotations.ProduceMime;
 import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.context.RestContextManager;
+import org.jrest4guice.rest.exception.ValidatorException;
 import org.jrest4guice.rest.writer.ResponseWriter;
 import org.jrest4guice.rest.writer.ResponseWriterRegister;
 
@@ -148,15 +151,18 @@ public class ServiceExecutor {
 		ParameterNameDiscoverer pnDiscoverer = new ParameterNameDiscoverer();
 		String[] parameterNames = pnDiscoverer.getParameterNames(method);
 
+		boolean isModelBean = false;
 		for (Annotation[] annotations : annotationArray) {
 			value = null;
 			pName = parameterNames[index];
+			isModelBean = false;
 			for (Annotation annotation : annotations) {
 				if (annotation instanceof Parameter) {
 					pName = ((Parameter) annotation).value();
 				} else if (annotation instanceof ModelBean) {
 					value = parameterTypes[index].newInstance();
 					BeanUtils.populate(value, modelMap);
+					isModelBean = true;
 				}
 			}
 
@@ -164,6 +170,16 @@ public class ServiceExecutor {
 			if (value == null)
 				value = BeanUtilsBean.getInstance().getConvertUtils().convert(
 						(String) modelMap.get(pName), parameterTypes[index]);
+			
+			if(isModelBean){
+				//启用验证
+				ClassValidator validator = new ClassValidator(value.getClass());
+				InvalidValue[] invalidValues = validator.getInvalidValues(value);
+				if(invalidValues != null && invalidValues.length>0){
+					throw new ValidatorException(invalidValues);
+				}
+			}
+			
 			// 添加当前参数
 			params.add(value);
 

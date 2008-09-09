@@ -7,16 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.validator.InvalidValue;
 import org.jrest4guice.rest.JRestResult;
 import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.annotations.PageInfo;
+import org.jrest4guice.rest.exception.ValidatorException;
 import org.jrest4guice.rest.render.ViewRender;
 import org.jrest4guice.rest.render.ViewRenderRegister;
 
 import com.google.inject.Inject;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Annotation;
 
 /**
  * 
@@ -53,8 +54,20 @@ public class HtmlResponseWriter implements ResponseWriter {
 				PageInfo pageInfo = null;
 				if(result instanceof Exception){
 					pageInfo = annotation.error();
-				}else
+					if(result instanceof ValidatorException){
+						httpResult.setInvalidValues(((ValidatorException)result).getInvalidValues());
+						session.setAttribute(JRestResult.INVALID_VALUE_KEY, httpResult.getInvalidValues());
+					}
+					
+				}else{
 					pageInfo = annotation.success();
+					Object invalidValues = session.getAttribute(JRestResult.INVALID_VALUE_KEY);
+					if(invalidValues != null){
+						httpResult.setInvalidValues((InvalidValue[])invalidValues);
+						httpResult.setInChain(true);
+					}
+					session.removeAttribute(JRestResult.INVALID_VALUE_KEY);
+				}
 				
 				//模板的渲染器
 				ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(pageInfo);
