@@ -128,3 +128,8 @@ a:hover {
 .png {
 	behavior: url("css/png.htc");
 }
+
+.error{
+	margin-left:16px;
+	color: red;
+}
