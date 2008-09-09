@@ -1,5 +1,8 @@
 package org.jrest4guice.rest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.sf.json.JSONObject;
 import net.sf.json.xml.XMLSerializer;
 
@@ -25,6 +28,8 @@ public class JRestResult {
 	 */
 	private InvalidValue[] invalidValues;
 	
+	private Map<String, InvalidValue> invalidValueMap;
+
 	private Object invalidBean;
 	
 	private boolean inChain = false;
@@ -161,7 +166,16 @@ public class JRestResult {
 		if(this.invalidValues != null && this.invalidValues.length>0){
 			this.invalidBean = this.invalidValues[0].getBean();
 			this.content = this.invalidBean;
+			
+			this.invalidValueMap = new HashMap<String, InvalidValue>(this.invalidValues.length);
+			for(InvalidValue value :this.invalidValues){
+				this.invalidValueMap.put(value.getPropertyName(), value);
+			}
 		}
+	}
+
+	public Map<String, InvalidValue> getInvalidValueMap() {
+		return invalidValueMap;
 	}
 
 	public Object getInvalidBean() {
