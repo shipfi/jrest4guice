@@ -55,15 +55,15 @@ public class ContactResource {
 	 * PageFlow ：当服务端返回类型是Text/Html类型时，重定向用户的请求到指定的页面，实现最基本功能的MVC。
 	 * 		在这里，指明当操作成功时，重定向到列表人列表页面，并使用Velocity模板进行渲染，当操作失败时，
 	 * 		将用户请求重定向到操作出错页面。
-	 * @param pageIndex 页码 
-	 * @param pageSize 每页记录数
+	 * @param page 页码 
+	 * @param size 每页记录数
 	 */
 	@Get
 	@Path("/contacts")
 	@PageFlow(
 			success = @PageInfo(value = "/template/contacts.vm"))
-	public Page<Contact> listContacts(int pageIndex, int pageSize) {
-		return this.service.listContacts(pageIndex, pageSize);
+	public Page<Contact> listContacts(int page, int size) {
+		return this.service.listContacts(page, size);
 	}
 
 	/**
