@@ -104,16 +104,6 @@ public class SNASessionFileterHelper {
 		return sessionId;
 	}
 
-	/**
-	 * 将缓存中会话对话的值恢复到当前的HttpSession
-	 * @param hSession
-	 * @param snaSession
-	 */
-	public void restoreHttpSession(HttpSession hSession,SNASession snaSession) {
-		for(Object key:snaSession.keySet()){
-			hSession.setAttribute(key.toString(), snaSession.get(key));
-		}
-	}
 
 	/**
 	 * 创建HttpSession的包装对象
@@ -133,10 +123,20 @@ public class SNASessionFileterHelper {
 								.equalsIgnoreCase(SNASessionFileterHelper.SET_ATTRIBUTE)) {
 							snaSession.put(args[0], args[1]);
 							log.debug(SNASessionFileterHelper.SET_ATTRIBUTE+"＝》"+args[0]+"="+args[1]);
+							return null;
+						} else if (methodName
+								.equalsIgnoreCase(SNASessionFileterHelper.GET_ATTRIBUTE)) {
+							Object value = method.invoke(hSession, args);
+							if(value == null){
+								value = snaSession.get(args[0]);
+							}
+							log.debug(SNASessionFileterHelper.GET_ATTRIBUTE+"＝》"+args[0]+"'s value is "+value);
+							return value;
 						} else if (methodName
 								.equalsIgnoreCase(SNASessionFileterHelper.REMOVE_ATTRIBUTE)) {
 							snaSession.remove(args[0]);
 							log.debug(SNASessionFileterHelper.REMOVE_ATTRIBUTE+"＝》"+args[0]);
+							return null;
 						}
 						return method.invoke(hSession, args);
 					}
