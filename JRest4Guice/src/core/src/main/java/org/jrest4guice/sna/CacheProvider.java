@@ -7,8 +7,16 @@ package org.jrest4guice.sna;
  */
 public interface CacheProvider {
 	
+	/**
+	 * 返回当前提供者的名称
+	 * @return
+	 */
 	public String getName();
 	
+	/**
+	 * 设置缓存服务器的地址列表
+	 * @param servers
+	 */
 	public void setCacheServers(String servers);
 	
 	/**
