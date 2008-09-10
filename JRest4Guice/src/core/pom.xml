@@ -67,26 +67,6 @@
 			    </execution>
 			  </executions>
 			</plugin>
-
-			<plugin>
-			  <groupId>org.codehaus.mojo</groupId>
-			  <artifactId>build-helper-maven-plugin</artifactId>
-			  <version>1.1</version>
-			  <executions>
-			    <execution>
-			      <id>add-test-source</id>
-			      <phase>generate-sources</phase>
-			      <goals>
-			        <goal>add-test-source</goal>
-			      </goals>
-			      <configuration>
-			        <sources>
-			          <source>src/patchs/test</source>
-			        </sources>
-			      </configuration>
-			    </execution>
-			  </executions>
-			</plugin>
 			<!-- 使Maven2支持多源代码路径的插件  （结束）-->
 
 		</plugins>
