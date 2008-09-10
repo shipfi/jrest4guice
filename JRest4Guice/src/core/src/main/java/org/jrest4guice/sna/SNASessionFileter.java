@@ -31,12 +31,12 @@ public class SNASessionFileter implements Filter {
 	/**
 	 * 缺省的缓存服务提供者
 	 */
-	private final String cacheProvider = "memcached";
+	private final String cacheProviderName = "memcached";
 
 	/**
-	 * 缓存管理器
+	 * 缓存提供者
 	 */
-	private CacheProvider cacheManager;
+	private CacheProvider cacheProvider;
 	/**
 	 * SNA会话过滤器的助手
 	 */
@@ -51,24 +51,24 @@ public class SNASessionFileter implements Filter {
 		
 		String _cacheProvider = config.getInitParameter(CACHE_PROVIDER);
 		if(_cacheProvider == null || _cacheProvider.trim().equals(""))
-			_cacheProvider = cacheProvider;
+			_cacheProvider = cacheProviderName;
 		
 		//获取缓存管理的实现
-		this.cacheManager = CacheProviderRegister.getInstance().getCacheProvider(_cacheProvider);
+		this.cacheProvider = CacheProviderRegister.getInstance().getCacheProvider(_cacheProvider);
 		
-		if(this.cacheManager == null){
+		if(this.cacheProvider == null){
 			throw new ServletException("无法根据名称\""+_cacheProvider+"\"来初始化缓存提供者，请确认您有没有通过GuiceContext.useSNA()来打开SNA的支持！");
 		}
-		this.cacheManager.setCacheServers(cacheServers);
+		this.cacheProvider.setCacheServers(cacheServers);
 		
 		//初始化SNA会话助手
-		this.helper = new SNASessionFileterHelper(this.cacheManager);
+		this.helper = new SNASessionFileterHelper(this.cacheProvider);
 	}
 
 	@Override
 	public void destroy() {
-		if (this.cacheManager != null) {
-			this.cacheManager.shutDown();
+		if (this.cacheProvider != null) {
+			this.cacheProvider.shutDown();
 		}
 	}
 
@@ -91,11 +91,11 @@ public class SNASessionFileter implements Filter {
 		} finally {
 			//从缓存服务器客户删除已空的会话对象
 			if (snaSession.isEmpty()) {
-				this.cacheManager.delete(sessionId);
+				this.cacheProvider.delete(sessionId);
 			} else if (snaSession.isDuty()) {
 				//将变更后的会话对象缓存回缓存服务器
 				snaSession.setDuty(false);
-				this.cacheManager.put(sessionId, snaSession);
+				this.cacheProvider.put(sessionId, snaSession);
 			}
 		}
 	}
