@@ -17,12 +17,12 @@ import com.google.inject.Inject;
 @Path( { "/testCallRemote"})
 public class TestRemoteResource {
 	@Inject
-	@RemoteReference
+	@RemoteReference//注入远程资源对象
 	private ContactResource service;
 
 	@Get
-	public Page<Contact> listContacts(int pageIndex, int pageSize) {
-		return this.service.listContacts(pageIndex, pageSize);
+	public Page<Contact> listContacts(int page, int size) {
+		return this.service.listContacts(page, size);
 	}
 
 	/**
