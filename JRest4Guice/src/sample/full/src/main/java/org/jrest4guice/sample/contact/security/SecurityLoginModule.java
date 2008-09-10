@@ -16,6 +16,7 @@ import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.security.Role;
 import org.jrest4guice.security.User;
 
+@SuppressWarnings("unchecked")
 public class SecurityLoginModule implements LoginModule {
 	private Subject subject;
 
