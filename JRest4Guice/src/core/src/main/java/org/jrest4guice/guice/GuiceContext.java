@@ -12,6 +12,7 @@ import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
 import org.jrest4guice.persistence.jpa.EntityManagerFactoryHolder;
 import org.jrest4guice.persistence.jpa.JpaGuiceModuleProvider;
 import org.jrest4guice.security.SecurityGuiceModuleProvider;
+import org.jrest4guice.sna.SNAGuiceModuleProvider;
 import org.jrest4guice.transaction.HibernateLocalTransactionInterceptor;
 import org.jrest4guice.transaction.JpaLocalTransactionInterceptor;
 import org.jrest4guice.transaction.TransactionGuiceModuleProvider;
@@ -169,6 +170,16 @@ public class GuiceContext {
 	public GuiceContext useSecurity(){
 		this.useSecurity = true;
 		this.addModuleProvider(new SecurityGuiceModuleProvider());
+		return this;
+	}
+	
+	/**
+	 * 打开SNA支持
+	 * @param packages cache提供者的扫描路径
+	 * @return
+	 */
+	public GuiceContext useSNA(String... packages){
+		this.addModuleProvider(new SNAGuiceModuleProvider());
 		return this;
 	}
 
