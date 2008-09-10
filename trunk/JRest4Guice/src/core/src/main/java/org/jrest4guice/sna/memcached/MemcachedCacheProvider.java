@@ -10,6 +10,9 @@ public class MemcachedCacheProvider implements CacheProvider {
 	private MemCachedClient memCachedClient = null;
 	private SockIOPool sockIOPool = null;
 	
+	/* (non-Javadoc)
+	 * @see org.jrest4guice.sna.CacheProvider#setCacheServers(java.lang.String)
+	 */
 	@Override
 	public void setCacheServers(String servers) {
 		this.sockIOPool = SockIOPool.getInstance();
@@ -59,6 +62,9 @@ public class MemcachedCacheProvider implements CacheProvider {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jrest4guice.sna.CacheProvider#getName()
+	 */
 	@Override
 	public String getName() {
 		return "memcached";
