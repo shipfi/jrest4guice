@@ -82,8 +82,6 @@ public class SNASessionFileter implements Filter {
 		String sessionId = this.helper.getSessionId(hRequest, hResponse);
 		//从缓存服务器获取当前的会话对象
 		SNASession snaSession = this.helper.getSession(sessionId);
-		//将缓存客户的会话信息恢复到当前会话
-		this.helper.restoreHttpSession(hRequest.getSession(),snaSession);
 		try {
 			//进入下个过滤器处理
 			chain.doFilter(this.helper.createRequestWrapper(hRequest, snaSession),
