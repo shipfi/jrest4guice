@@ -15,6 +15,7 @@
 	</listener>
 
 	<!-- SNA会话过滤器 -->
+	<!--
 	<filter>
 		<filter-name>SNASessionFileter</filter-name>
 		<filter-class>org.jrest4guice.sna.SNASessionFileter</filter-class>
@@ -31,7 +32,8 @@
 		<filter-name>SNASessionFileter</filter-name>
 		<url-pattern>*</url-pattern>
 	</filter-mapping>
-
+	-->
+	
 	<!-- 过滤所有Restful的请求 -->
 	<filter>
 		<filter-name>JRest4GuiceRequestFilter</filter-name>
