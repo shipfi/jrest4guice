@@ -13,15 +13,19 @@
   * 通过@PageFlow实现对MVC module2的支持，输出结果支持Velocity、Freemarker和Spry模板引擎（当返回类型是text/html时才有效）
   * 支持JPA，通过增强的BaseEntityManager实现实体的CRUD 
   * 支持事务，通过@Transactional注解声明事务的类型 
-  * 支持JAAS，通过@RolesAllowed注解声明操作所需要的角色 
+  * 支持JAAS，通过@RolesAllowed注解声明操作所需要的角色
+  * 支持Hibernate validator
+  * 支持拦截器 (interceptor)
   * 支持分布式资源对象，实现业务逻辑的分布式部署 
-*下一步计划:*
-  * 数据验证的支持
-  * OSGI的支持 
-  * 分布式事务的支持 
+  * 提供了与Struts2集成的插件
 
 *代码示例:*
 {{{
+
+//=======================================================
+//资源类
+//=======================================================
+
 /**
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * 联系人的资源对象
@@ -31,15 +35,19 @@
 @Path( { "/contact", "/contacts/{contactId}" })
 public class ContactResource {
 	@Inject
-	private ContactServiceDomain domain;
+	private ContactService service;//注入联系人管理的服务对象
 
 	/**
 	 * 创建新的联系人 
+	 * PageFlow ：当服务端返回类型是Text/Html类型时，重定向用户的请求到指定的页面，实现最基本功能的MVC。
+	 * 		在这里，指明当操作成功时，重定向到/contacts，当操作失败时，将用户请求重定向到/contact。
 	 * @param contact 联系人实体
 	 */
 	@Post
+	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT)
+			,error=@PageInfo(value="/contact",type=ResultType.REDIRECT))
 	public String createContact(@ModelBean Contact contact) {
-		return this.domain.createContact(contact);
+		return this.service.createContact(contact);
 	}
 
 	/**
@@ -47,25 +55,22 @@ public class ContactResource {
 	 * @param contact 联系人实体
 	 */
 	@Put
+	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT)
+			,error=@PageInfo(value="/contact",type=ResultType.REDIRECT))
 	public void putContact(@ModelBean Contact contact) {
-		this.domain.updateContact(contact);
+		this.service.updateContact(contact);
 	}
 
 	/**
 	 * 显示联系人列表 
-	 * PageFlow ：当服务端返回类型是Text/Html类型时，重定向用户的请求到指定的页面，实现最基本功能的MVC。
-	 * 		在这里，指明当操作成功时，重定向到列表人列表页面，并使用Velocity模板进行渲染，当操作失败时，
-	 * 		将用户请求重定向到操作出错页面。
-	 * @param pageIndex 页码 
-	 * @param pageSize 每页记录数
+	 * @param page 页码 
+	 * @param size 每页记录数
 	 */
 	@Get
 	@Path("/contacts")
-	@PageFlow(
-			success = @PageInfo(url = "/template/contacts.vm",render=ViewRenderType.VELOCITY), 
-			error = @PageInfo(url = "/template/error.vm",render=ViewRenderType.VELOCITY))
-	public Page<Contact> listContacts(int pageIndex, int pageSize) {
-		return this.domain.listContacts(pageIndex, pageSize);
+	@PageFlow(success = @PageInfo(value = "/template/contacts.vm"))
+	public Page<Contact> listContacts(int page, int size) {
+		return this.service.listContacts(page, size);
 	}
 
 	/**
@@ -73,10 +78,11 @@ public class ContactResource {
 	 * @param contactId 联系对象ID
 	 */
 	@Get
-	@PageFlow(success = @PageInfo(url = "/template/contactDetail.vm"))
-	@Cache //声明需要缓存结果，可以减少应用服务器及数据库的压力
+	@PageFlow(success = @PageInfo(value = "/template/contactDetail.vm"))
 	public Contact getContact(@Parameter("contactId") String contactId) {
-		return this.domain.findContactById(contactId);
+		if(contactId == null)
+			return new Contact();
+		return this.service.findContactById(contactId);
 	}
 
 	/**
@@ -84,95 +90,103 @@ public class ContactResource {
 	 * @param contactId 联系对象ID
 	 */
 	@Delete
+	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT))
 	public void deleteContact(@Parameter("contactId") String contactId) {
-		this.domain.deleteContact(contactId);
+		this.service.deleteContact(contactId);
 	}
 }
-  
-/**  
- * 业务领域对象  
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>  
- *  
- */  
-@SuppressWarnings( { "unused" })   
-public class ContactServiceDomain{   
-    private BaseEntityManager<String, Contact> entityManager;   
-  
-    @Inject  
-    private void init(EntityManager em) {   
-        this.entityManager = new BaseEntityManager<String, Contact>(   
-                Contact.class, em);   
-    }   
-  
-    @Transactional  
-    public String createContact(Contact contact) {   
-        if (contact == null)   
-            throw new RuntimeException("联系人的内容不能为空");   
-  
-        if (this.entityManager.loadByNamedQuery("byName", contact.getName()) != null) {   
-            throw new RuntimeException("联系人的姓名相同，请重新输入");   
-        }   
-  
-        this.entityManager.create(contact);   
-        return contact.getId();   
-    }   
-  
-    @Transactional //事务声明   
-    @RolesAllowed({"admin","user"}) //权限声明   
-    public void deleteContact(String contactId) {   
-        String[] ids = contactId.split(",");   
-        Contact contact;   
-        for (String id : ids) {   
-            contact = this.findContactById(id);   
-            if (contact == null)   
-                throw new RuntimeException("联系人不存在");   
-            this.entityManager.delete(contact);   
-        }   
-    }   
-  
-    @Transactional(type=TransactionalType.READOLNY)   
-    public Contact findContactById(String contactId) {   
-        return this.entityManager.load(contactId);   
-    }   
-  
-    @Transactional(type=TransactionalType.READOLNY)   
-    public Page<Contact> listContacts(int pageIndex, int pageSize)   
-            throws RuntimeException {   
-        return this.entityManager.pageByNamedQuery("list",   
-                new Pagination(pageIndex, pageSize));   
-    }   
-  
-    @Transactional  
-    public void updateContact(Contact contact) {   
-        if (contact == null)   
-            throw new RuntimeException("联系人的内容不能为空");   
-           
-        Contact tmpContact = this.entityManager.loadByNamedQuery("byName", contact.getName());   
-        if(tmpContact != null && !contact.getId().equals(tmpContact.getId()))   
-            throw new RuntimeException("联系人的姓名相同，请重新输入");   
-  
-        this.entityManager.update(contact);   
-    }   
-}   
-  
-  
-/**  
- * 远程资源引用的示例  
- * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ：86895156)</a>  
- *   
- */  
-@Path({"/testCallRemote"})   
-public class TestRemoteResource {   
-    @Inject  
-    @RemoteReference //注入远程资源对象的引用   
-    private ContactResource service;   
-  
-    @Get  
-    @ProduceMime( {MimeType.MIME_OF_JSON,MimeType.MIME_OF_JAVABEAN})   
-    public Page<Contact> listContacts(int pageIndex, int pageSize) {   
-        return this.service.listContacts(pageIndex, pageSize);   
-    }   
-}  
+
+
+//=======================================================
+//业务类
+//=======================================================
+
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
+ *
+ */
+@Transactional//事务支持，缺省为TransactionalType.REQUIRED，可以在方法中覆写
+@Interceptors({//自定义的拦截器（类级别的，作用于所有的方法，可以在方法中覆写）
+	@Interceptor(TestInterceptor.class),
+	@Interceptor(LogInterceptor.class)
+})
+public class ContactService{
+	//注入实体管理器
+	@Inject
+	private BaseEntityManager<String, Contact> entityManager;
+
+	public String createContact(Contact contact) {
+		if (contact == null)
+			throw new RuntimeException("联系人的内容不能为空");
+
+		if (this.entityManager.loadByNamedQuery("byName", contact.getName()) != null) {
+			throw new RuntimeException("联系人的姓名相同，请重新输入");
+		}
+
+		this.entityManager.create(contact);
+		return contact.getId();
+	}
+
+	public void deleteContact(String contactId) {
+		String[] ids = contactId.split(",");
+		Contact contact;
+		for (String id : ids) {
+			contact = this.findContactById(id);
+			if (contact == null)
+				throw new RuntimeException("联系人不存在");
+			this.entityManager.delete(contact);
+		}
+	}
+
+	@Transactional(type=TransactionalType.READOLNY)
+	public Contact findContactById(String contactId) {
+		return this.entityManager.load(contactId);
+	}
+
+	@Transactional(type=TransactionalType.READOLNY)//覆盖类级别的事务类型为只读
+	@Interceptor(ListContactsInterceptor.class)//覆盖类级别的拦截器
+	public Page<Contact> listContacts(int pageIndex, int pageSize)
+			throws RuntimeException {
+		return this.entityManager.pageByNamedQuery("list",
+				new Pagination(pageIndex, pageSize));
+	}
+
+	public void updateContact(Contact contact) {
+		if (contact == null)
+			throw new RuntimeException("联系人的内容不能为空");
+		
+		Contact tmpContact = this.entityManager.loadByNamedQuery("byName", contact.getName());
+		if(tmpContact != null && !contact.getId().equals(tmpContact.getId()))
+			throw new RuntimeException("联系人的姓名相同，请重新输入");
+
+		this.entityManager.update(contact);
+	}
+}
+
+
+//=======================================================
+//远程调用的案例
+//=======================================================
+
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
+ *
+ */
+@Path( { "/testCallRemote"})
+public class TestRemoteResource {
+	@Inject
+	@RemoteReference//注入远程资源对象
+	private ContactResource service;
+
+	@Get
+	public Page<Contact> listContacts(int page, int size) {
+		return this.service.listContacts(page, size);
+	}
+}
+
+
 }}}
 
 *Demo演示:*
