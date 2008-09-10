@@ -26,10 +26,12 @@ import com.google.inject.Inject;
 @Path( { "/contact", "/contacts/{contactId}" })
 public class ContactResource {
 	@Inject
-	private ContactService service;
+	private ContactService service;//注入联系人管理的服务对象
 
 	/**
 	 * 创建新的联系人 
+	 * PageFlow ：当服务端返回类型是Text/Html类型时，重定向用户的请求到指定的页面，实现最基本功能的MVC。
+	 * 		在这里，指明当操作成功时，重定向到/contacts，当操作失败时，将用户请求重定向到/contact。
 	 * @param contact 联系人实体
 	 */
 	@Post
@@ -52,16 +54,12 @@ public class ContactResource {
 
 	/**
 	 * 显示联系人列表 
-	 * PageFlow ：当服务端返回类型是Text/Html类型时，重定向用户的请求到指定的页面，实现最基本功能的MVC。
-	 * 		在这里，指明当操作成功时，重定向到列表人列表页面，并使用Velocity模板进行渲染，当操作失败时，
-	 * 		将用户请求重定向到操作出错页面。
 	 * @param page 页码 
 	 * @param size 每页记录数
 	 */
 	@Get
 	@Path("/contacts")
-	@PageFlow(
-			success = @PageInfo(value = "/template/contacts.vm"))
+	@PageFlow(success = @PageInfo(value = "/template/contacts.vm"))
 	public Page<Contact> listContacts(int page, int size) {
 		return this.service.listContacts(page, size);
 	}
@@ -72,7 +70,6 @@ public class ContactResource {
 	 */
 	@Get
 	@PageFlow(success = @PageInfo(value = "/template/contactDetail.vm"))
-//	@Cache //声明需要缓存结果，可以减少应用服务器及数据库的压力
 	public Contact getContact(@Parameter("contactId") String contactId) {
 		if(contactId == null)
 			return new Contact();
