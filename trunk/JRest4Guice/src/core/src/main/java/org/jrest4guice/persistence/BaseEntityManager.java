@@ -10,7 +10,13 @@ import org.jrest4guice.client.Pagination;
 
 import com.google.inject.ProvidedBy;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
+ *
+ */
 @ProvidedBy(BaseEntityManagerProvider.class)
+@SuppressWarnings("unchecked")
 public interface BaseEntityManager<PK extends Serializable, E extends EntityAble<PK>> {
 
 	public static final String COUNT_SUFFIX = "[count]";
