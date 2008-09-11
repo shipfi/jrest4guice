@@ -1,6 +1,7 @@
 package org.jrest4guice.rest;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -76,12 +77,11 @@ public class JRest4GuiceRequestFilter implements Filter {
 
 		HttpServletRequest request = (HttpServletRequest) servletReqest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
-
-		// REST资源的参数
-		ModelMap<String, String> params = new ModelMap<String, String>();
-		// 设置上下文中的环境变量
-		RestContextManager.setContext(request, response, params);
 		
+		Principal userPrincipal = request.getUserPrincipal();
+		if(userPrincipal!=null)
+			System.out.println("doFilter: "+userPrincipal.getName());
+
 		String uri = request.getRequestURI();
 		uri = uri.replace(request.getContextPath(), "");
 
@@ -98,11 +98,13 @@ public class JRest4GuiceRequestFilter implements Filter {
 
 		if (uri == null || "".equals(uri) || "/".equals(uri)) {
 			filterChain.doFilter(request, response);
-			// 清除上下文中的环境变量
-			RestContextManager.clearContext();
 			return;
 		}
 
+		// REST资源的参数
+		ModelMap<String, String> params = new ModelMap<String, String>();
+		// 设置上下文中的环境变量
+		RestContextManager.setContext(request, response, params);
 		try {
 			new RequestProcessor().setUrlPrefix(this.urlPrefix).process(servletReqest, servletResponse);
 		} catch (Throwable e) {
