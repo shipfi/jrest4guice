@@ -14,6 +14,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jrest4guice.client.ModelMap;
+import org.jrest4guice.rest.context.RestContextManager;
+
 public class JRest4GuiceRequestFilter implements Filter {
 	/**
 	 * 
@@ -74,7 +77,11 @@ public class JRest4GuiceRequestFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) servletReqest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-		// REST资源的参数，这些参数都包含在URL中
+		// REST资源的参数
+		ModelMap<String, String> params = new ModelMap<String, String>();
+		// 设置上下文中的环境变量
+		RestContextManager.setContext(request, response, params);
+		
 		String uri = request.getRequestURI();
 		uri = uri.replace(request.getContextPath(), "");
 
@@ -91,6 +98,8 @@ public class JRest4GuiceRequestFilter implements Filter {
 
 		if (uri == null || "".equals(uri) || "/".equals(uri)) {
 			filterChain.doFilter(request, response);
+			// 清除上下文中的环境变量
+			RestContextManager.clearContext();
 			return;
 		}
 
@@ -98,6 +107,9 @@ public class JRest4GuiceRequestFilter implements Filter {
 			new RequestProcessor().setUrlPrefix(this.urlPrefix).process(servletReqest, servletResponse);
 		} catch (Throwable e) {
 			e.printStackTrace();
+		}finally{
+			// 清除上下文中的环境变量
+			RestContextManager.clearContext();
 		}
 	}
 

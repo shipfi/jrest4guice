@@ -55,6 +55,10 @@ public class RestContextManager {
 	private RestContextManager() {
 	}
 
+	public static HttpContext getContext(){
+		return httpContext.get();
+	}
+
 	public static void setContext(HttpServletRequest request,
 			HttpServletResponse response, ModelMap param) {
 		httpContext.set(new HttpContext(request, response, param));
@@ -101,7 +105,7 @@ public class RestContextManager {
 		return context.getModelMap();
 	}
 
-	static class HttpContext {
+	public static class HttpContext {
 		final HttpServletRequest request;
 		final HttpServletResponse response;
 		final ModelMap modelMap;
