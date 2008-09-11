@@ -1,6 +1,8 @@
 package org.jrest4guice.sample.contact.service;
 
 
+import javax.annotation.security.RolesAllowed;
+
 import org.jrest4guice.client.Page;
 import org.jrest4guice.client.Pagination;
 import org.jrest4guice.interceptor.annotations.Interceptor;
@@ -42,6 +44,7 @@ public class ContactService{
 		return contact.getId();
 	}
 
+	@RolesAllowed("admin")
 	public void deleteContact(String contactId) {
 		String[] ids = contactId.split(",");
 		Contact contact;
