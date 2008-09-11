@@ -11,6 +11,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jrest4guice.commons.http.CookieUtil;
+
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
@@ -55,6 +57,7 @@ public class SNASessionFileter implements Filter {
 		
 		//获取缓存管理的实现
 		this.cacheProvider = CacheProviderRegister.getInstance().getCacheProvider(_cacheProvider);
+		CacheProviderProvider.setCurrentSecurityContext(this.cacheProvider);
 		
 		if(this.cacheProvider == null){
 			throw new ServletException("无法根据名称\""+_cacheProvider+"\"来初始化缓存提供者，请确认您有没有通过GuiceContext.useSNA()来打开SNA的支持！");
@@ -77,18 +80,20 @@ public class SNASessionFileter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest hRequest = (HttpServletRequest) request;
 		HttpServletResponse hResponse = (HttpServletResponse) response;
-
+		
 		//获取会话ID
-		String sessionId = this.helper.getSessionId(hRequest, hResponse);
+		String sessionId = CookieUtil.getSessionId(hRequest, hResponse);
+		
 		//从缓存服务器获取当前的会话对象
-		SNASession snaSession = this.helper.getSession(sessionId);
+		SNASession snaSession = this.helper.getSNASession(sessionId,hRequest.getSession());
+		
 		try {
 			//进入下个过滤器处理
 			chain.doFilter(this.helper.createRequestWrapper(hRequest, snaSession),
 					hResponse);
 		} finally {
 			//从缓存服务器客户删除已空的会话对象
-			if (snaSession.isEmpty()) {
+			if (snaSession.isEmpty() && snaSession.isDuty()) {
 				this.cacheProvider.delete(sessionId);
 			} else if (snaSession.isDuty()) {
 				//将变更后的会话对象缓存回缓存服务器

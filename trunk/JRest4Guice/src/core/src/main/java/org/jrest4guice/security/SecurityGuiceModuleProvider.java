@@ -23,6 +23,7 @@ public class SecurityGuiceModuleProvider extends ModuleProviderTemplate {
 		modules.add(new Module() {
 			@Override
 			public void configure(Binder binder) {
+				binder.bind(SecurityContext.class).toProvider(SecurityContextProvoider.class);
 				binder.bindInterceptor(Matchers.any(), Matchers
 						.annotatedWith(RolesAllowed.class),
 						new SecurityInterceptor());

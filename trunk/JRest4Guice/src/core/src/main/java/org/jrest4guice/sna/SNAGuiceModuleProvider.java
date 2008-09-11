@@ -27,6 +27,7 @@ public class SNAGuiceModuleProvider extends ModuleProviderTemplate {
 		modules.add(new Module() {
 			@Override
 			public void configure(Binder binder) {
+				binder.bind(CacheProvider.class).toProvider(CacheProviderProvider.class);
 				CacheProviderRegister cacheManagerRegister = new CacheProviderRegister();
 				for (Class clazz : classes) {
 					if(CacheProvider.class.isAssignableFrom(clazz)){

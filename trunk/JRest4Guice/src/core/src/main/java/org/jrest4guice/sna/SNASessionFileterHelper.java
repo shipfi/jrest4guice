@@ -3,10 +3,9 @@ package org.jrest4guice.sna;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Enumeration;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -25,7 +24,6 @@ public class SNASessionFileterHelper {
 	static final String SET_ATTRIBUTE = "setAttribute";
 	static final String GET_ATTRIBUTE = "getAttribute";
 	static final String GET_SESSION = "getSession";
-	static final String SESSION_NAME = "_$_sna-session-id_$_";
 
 	/**
 	 * 缓存提供者
@@ -71,37 +69,29 @@ public class SNASessionFileterHelper {
 	 * @param id
 	 * @return
 	 */
-	public SNASession getSession(String id) {
+	public SNASession getSNASession(String id,HttpSession hSession) {
 		Object value = cacheProvider.get(id);
 		if (value == null) {
 			return new SNASession();
 		}
-		return (SNASession) value;
-	}
 
-	/**
-	 * 从Cookie中获取会话ID
-	 * @param request
-	 * @param hResponse
-	 * @return
+		SNASession result = (SNASession) value;
+		this.try2SynchronizeHttpSession2SNASession(hSession, result);
+		return result;
+	}
+	
+	/*
+	 * 处理当cache服务器重启后的会话同步
 	 */
-	public String getSessionId(HttpServletRequest request,
-			HttpServletResponse hResponse) {
-		Cookie[] cookies = request.getCookies();
-		String sessionId = null;
-		if (cookies != null) {
-			for (int i = 0;i < cookies.length; i++) {
-				if (cookies[i].getName().equalsIgnoreCase(SNASessionFileterHelper.SESSION_NAME)) {
-					sessionId = cookies[i].getValue();
-					break;
-				}
+	public void try2SynchronizeHttpSession2SNASession(HttpSession hSession,SNASession snaSession){
+		if(snaSession.isEmpty()){
+			Enumeration names = hSession.getAttributeNames();
+			String name;
+			while(names.hasMoreElements()){
+				name = names.nextElement().toString();
+				snaSession.put(name, hSession.getAttribute(name));
 			}
 		}
-		if (sessionId == null || sessionId.trim().length() == 0) {
-			sessionId = request.getSession().getId();
-			this.storeSNASessionId(sessionId, hResponse);
-		}
-		return sessionId;
 	}
 
 
@@ -123,7 +113,6 @@ public class SNASessionFileterHelper {
 								.equalsIgnoreCase(SNASessionFileterHelper.SET_ATTRIBUTE)) {
 							snaSession.put(args[0], args[1]);
 							log.debug(SNASessionFileterHelper.SET_ATTRIBUTE+"＝》"+args[0]+"="+args[1]);
-							return null;
 						} else if (methodName
 								.equalsIgnoreCase(SNASessionFileterHelper.GET_ATTRIBUTE)) {
 							Object value = method.invoke(hSession, args);
@@ -136,21 +125,9 @@ public class SNASessionFileterHelper {
 								.equalsIgnoreCase(SNASessionFileterHelper.REMOVE_ATTRIBUTE)) {
 							snaSession.remove(args[0]);
 							log.debug(SNASessionFileterHelper.REMOVE_ATTRIBUTE+"＝》"+args[0]);
-							return null;
 						}
 						return method.invoke(hSession, args);
 					}
 				});
-	}
-
-	/**
-	 * 缓存会话ID
-	 * @param sessionId
-	 * @param response
-	 */
-	private void storeSNASessionId(String sessionId, HttpServletResponse response) {
-		Cookie cookie = new Cookie(SNASessionFileterHelper.SESSION_NAME, sessionId);
-		cookie.setPath("/");
-		response.addCookie(cookie);
 	}
 }

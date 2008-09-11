@@ -7,6 +7,9 @@ package org.jrest4guice.sna;
  */
 public interface CacheProvider {
 	
+	public static String USER_PRINCIPAL_CACHE_KEY_PREFIX = "_$_userPrincipal_$_";
+	
+	
 	/**
 	 * 返回当前提供者的名称
 	 * @return
