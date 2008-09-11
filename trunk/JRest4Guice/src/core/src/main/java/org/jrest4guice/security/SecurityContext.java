@@ -36,8 +36,9 @@ public class SecurityContext {
 		if (uRoleObj == null) {
 			Principal userPrincipal = this.request.getUserPrincipal();
 			if (userPrincipal != null) {
+				String userName = userPrincipal.getName();
 				String cacheName = CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX
-						+ userPrincipal.getName();
+						+ userName;
 				uRoleObj = this.cacheProvider.get(cacheName);
 
 				this.session
@@ -45,7 +46,7 @@ public class SecurityContext {
 								CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX,
 								uRoleObj);
 
-				this.cacheProvider.delete(cacheName);
+				this.clearUserPrincipalCache(userName);
 			}
 		}
 		if (uRoleObj != null && uRoleObj instanceof UserRole)
@@ -78,5 +79,22 @@ public class SecurityContext {
 		}
 
 		return result;
+	}
+	
+	/**
+	 * 保存用户的权限信息
+	 * @param userName
+	 * @param userRole
+	 */
+	public void storeUserPrincipal(String userName,UserRole userRole){
+		this.cacheProvider.put(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX+userName, userRole);
+	}
+
+	/**
+	 * 清除用户的权限信息
+	 * @param userName
+	 */
+	public void clearUserPrincipalCache(String userName){
+		this.cacheProvider.delete(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX+userName);
 	}
 }
