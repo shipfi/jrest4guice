@@ -69,4 +69,10 @@ public class MemcachedCacheProvider implements CacheProvider {
 	public String getName() {
 		return "memcached";
 	}
+
+	@Override
+	public boolean isAvailable() {
+		this.memCachedClient.set(CACHE_TEST_KEY, "hello");
+		return this.memCachedClient.keyExists(CACHE_TEST_KEY);
+	}
 }

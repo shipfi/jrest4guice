@@ -8,6 +8,7 @@ package org.jrest4guice.sna;
 public interface CacheProvider {
 	
 	public static String USER_PRINCIPAL_CACHE_KEY_PREFIX = "_$_userPrincipal_$_";
+	public static String CACHE_TEST_KEY = "_$_test_key_$_";
 	
 	
 	/**
@@ -47,5 +48,11 @@ public interface CacheProvider {
 	 * 关闭缓存
 	 */
 	public void shutDown();
+	
+	/**
+	 * 检测缓存提供者是否有效
+	 * @return
+	 */
+	public boolean isAvailable();
 
 }
