@@ -112,10 +112,7 @@ public class RequestProcessor {
 			}
 		}
 
-		// REST资源的参数，这些参数都包含在URL中
-		ModelMap<String, String> params = new ModelMap<String, String>();
-		// 设置上下文中的环境变量
-		RestContextManager.setContext(request, response, params);
+		ModelMap<String, String> params = RestContextManager.getContext().getModelMap();
 		try {
 			int index;
 			if ((index = uri.indexOf(RESTful.REMOTE_SERVICE_PREFIX)) != -1) {// 以远程服务方式调用的处理
@@ -160,9 +157,6 @@ public class RequestProcessor {
 			}
 		} catch (RestMethodNotFoundException e) {
 			this.writeRestServiceNotFoundMessage(uri_bak);
-		} finally {
-			// 清除上下文中的环境变量
-			RestContextManager.clearContext();
 		}
 	}
 
