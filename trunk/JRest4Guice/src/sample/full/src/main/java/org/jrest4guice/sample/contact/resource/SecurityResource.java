@@ -8,15 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.jrest4guice.commons.http.CookieUtil;
 import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.sample.contact.security.UserSecurityInfo;
 import org.jrest4guice.sample.contact.service.UserManageService;
 import org.jrest4guice.security.Role;
+import org.jrest4guice.security.SecurityContext;
 import org.jrest4guice.security.User;
 import org.jrest4guice.security.UserRole;
-import org.jrest4guice.sna.CacheProvider;
 
 import com.google.inject.Inject;
 
@@ -36,8 +35,8 @@ public class SecurityResource {
 	@Inject
 	HttpServletResponse response;
 
-	@Inject(optional = true)
-	private CacheProvider cacheProvider;
+	@Inject
+	private SecurityContext securityContext;
 
 	@Get
 	@Path("auth")
@@ -50,7 +49,8 @@ public class SecurityResource {
 			userRole.setUser(user);
 			userRole.setRoles(roles);
 			
-			cacheProvider.put(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX+userName, userRole);
+			//缓存当前用户的权限信息
+			this.securityContext.storeUserPrincipal(userName, userRole);
 		}
 		return result;
 	}
