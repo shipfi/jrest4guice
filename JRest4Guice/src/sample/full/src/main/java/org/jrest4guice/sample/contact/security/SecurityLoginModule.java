@@ -68,13 +68,13 @@ public class SecurityLoginModule implements LoginModule {
 			urlParam.put("userName", username);
 			urlParam.put("userPassword", new String(password));
 			Object result = client.callRemote(
-					"http://localhost/full/resource/security/auth", "get", urlParam);
+					"http://localhost:8080/full/security/auth", "get", urlParam);
 			if (result != null) {
 				Boolean value = Boolean.valueOf(result.toString());
 				succeeded = value.booleanValue();
 			}
 		} catch (Exception e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 		// ==================================================================
 
@@ -98,7 +98,7 @@ public class SecurityLoginModule implements LoginModule {
 			// ==================================================================
 			try {
 				List<Role> roles = (List<Role>) client.callRemote(
-						"http://localhost/full/resource/security/" + this.username
+						"http://localhost:8080/full/security/" + this.username
 								+ "/roles", "get", null);
 				if (roles != null) {
 					this.roles = roles;
@@ -118,7 +118,7 @@ public class SecurityLoginModule implements LoginModule {
 			guest.setName("guest");
 			subject.getPrincipals().add(guest);
 
-			clearUserNameAndPassword();
+			this.clearUserNameAndPassword();
 			commitSucceeded = true;
 			return true;
 		}
@@ -137,7 +137,7 @@ public class SecurityLoginModule implements LoginModule {
 	}
 
 	private void clear() {
-		clearUserNameAndPassword();
+		this.clearUserNameAndPassword();
 		user = null;
 		roles = null;
 	}
