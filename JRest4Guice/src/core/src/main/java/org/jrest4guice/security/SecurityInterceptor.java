@@ -1,7 +1,6 @@
 package org.jrest4guice.security;
 
 import java.lang.reflect.Method;
-import java.security.Principal;
 
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -22,8 +21,10 @@ import com.google.inject.Inject;
  */
 public class SecurityInterceptor implements MethodInterceptor {
 	@Inject
-	private HttpServletRequest request;
-
+	private SecurityContext securityContext;
+	@Inject
+	protected HttpServletRequest request;
+	
 	@Override
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable {
 		GuiceContext.getInstance().injectorMembers(this);
@@ -36,25 +37,18 @@ public class SecurityInterceptor implements MethodInterceptor {
 				.getDeclaringClass();
 		if (!declaringClass.isAnnotationPresent(PermitAll.class)) {
 			if (method.isAnnotationPresent(RolesAllowed.class)) {
-				Principal userPrincipal = request.getUserPrincipal();
-				if (userPrincipal == null)
+				UserRole userPrincipal = securityContext.getUserPrincipal();
+				if (userPrincipal == null && request.getUserPrincipal() == null)
 					throw new UserNotLoginException("没有登录");
 				
 				RolesAllowed annotation = method
 						.getAnnotation(RolesAllowed.class);
 				String[] roles = annotation.value();
 
-				boolean hasPermission = false;
-				for (String roleName : roles) {
-					if (request.isUserInRole(roleName)) {
-						hasPermission = true;
-						break;
-					}
-				}
+				boolean hasPermission = securityContext.isUserInRole(roles);
 
 				if (!hasPermission)
 					throw new AccessDeniedException("拒绝访问");
-
 			}
 		}
 
