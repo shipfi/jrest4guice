@@ -1,7 +1,9 @@
 package org.jrest4guice.security;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,6 +21,11 @@ public class SecurityContext {
 	protected HttpSession session;
 
 	private UserRole userRole;
+	
+	/**
+	 * 用户权限信息字典（仅在用户没有缓存服务器的时候使用）
+	 */
+	private static Map<String, UserRole> userRoleMap = new HashMap<String, UserRole>(0);
 
 	/**
 	 * 获取当前用户的权限信息
@@ -34,19 +41,27 @@ public class SecurityContext {
 		Object uRoleObj = this.session
 				.getAttribute(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX);
 		if (uRoleObj == null) {
+			System.out.println("uRoleObj 为空 ！！！！！");
 			Principal userPrincipal = this.request.getUserPrincipal();
+			System.out.println("userPrincipal："+userPrincipal);
 			if (userPrincipal != null) {
 				String userName = userPrincipal.getName();
+				System.out.println("userPrincipal name ："+userName);
+
 				String cacheName = CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX
 						+ userName;
-				uRoleObj = this.cacheProvider.get(cacheName);
-
+				
+				
+				if(this.cacheProvider.isAvailable()){
+					uRoleObj = this.cacheProvider.get(cacheName);
+					this.clearUserPrincipalCache(userName);
+				}else{//从缓存服务器中获取不到当前用户的权限信息
+					uRoleObj = this.userRoleMap.get(userName);
+				}
 				this.session
-						.setAttribute(
-								CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX,
-								uRoleObj);
-
-				this.clearUserPrincipalCache(userName);
+				.setAttribute(
+						CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX,
+						uRoleObj);
 			}
 		}
 		if (uRoleObj != null && uRoleObj instanceof UserRole)
@@ -87,7 +102,11 @@ public class SecurityContext {
 	 * @param userRole
 	 */
 	public void storeUserPrincipal(String userName,UserRole userRole){
-		this.cacheProvider.put(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX+userName, userRole);
+		if(this.cacheProvider.isAvailable())
+			this.cacheProvider.put(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX+userName, userRole);
+		else{
+			SecurityContext.userRoleMap.put(userName, userRole);
+		}
 	}
 
 	/**
@@ -95,6 +114,9 @@ public class SecurityContext {
 	 * @param userName
 	 */
 	public void clearUserPrincipalCache(String userName){
-		this.cacheProvider.delete(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX+userName);
+		if(this.cacheProvider.isAvailable())
+			this.cacheProvider.delete(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX+userName);
+		else
+			SecurityContext.userRoleMap.remove(userName);
 	}
 }
