@@ -44,6 +44,7 @@ import com.google.inject.util.ReferenceCache;
 import com.google.inject.util.StackTraceElements;
 import com.google.inject.util.Strings;
 import com.google.inject.util.ToStringBuilder;
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundOperation.ANONYMOUS;
 
 /**
  * Default {@link Injector} implementation.
@@ -483,7 +484,10 @@ class InjectorImpl implements Injector {
 			try {
 				Object value = factory.get(context);
 				if (value == null) {
-					throw new AssertionError(); // we should have prevented this
+					Inject annotation = field.getAnnotation(Inject.class);
+					if(annotation == null || !annotation.optional()){
+						throw new AssertionError(); // we should have prevented this
+					}
 				}
 				field.set(o, value);
 			} catch (IllegalAccessException e) {

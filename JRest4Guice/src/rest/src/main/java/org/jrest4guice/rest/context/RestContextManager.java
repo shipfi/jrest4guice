@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.velocity.VelocityContext;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.guice.GuiceContext;
-import org.jrest4guice.persistence.jpa.EntityManagerFactoryHolder;
 
 
 /**
@@ -75,9 +74,7 @@ public class RestContextManager {
 	public static HttpServletRequest getRequest() {
 		HttpContext context = httpContext.get();
 		if (null == context) {
-			throw new RuntimeException(
-					"Cannot access scoped object. It appears we"
-							+ " are not currently inside an HTTP Servlet request");
+			return null;
 		}
 
 		return context.getRequest();
@@ -86,9 +83,7 @@ public class RestContextManager {
 	public static HttpServletResponse getResponse() {
 		HttpContext context = httpContext.get();
 		if (null == context) {
-			throw new RuntimeException(
-					"Cannot access scoped object. It appears we"
-							+ " are not currently inside an HTTP Servlet request");
+			return null;
 		}
 
 		return context.getResponse();
@@ -97,9 +92,7 @@ public class RestContextManager {
 	public static ModelMap getModelMap() {
 		HttpContext context = httpContext.get();
 		if (null == context) {
-			throw new RuntimeException(
-					"Cannot access scoped object. It appears we"
-							+ " are not currently inside an HTTP Servlet request");
+			return null;
 		}
 
 		return context.getModelMap();

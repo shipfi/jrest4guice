@@ -13,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.commons.http.CookieUtil;
@@ -158,9 +159,11 @@ public class JRest4GuiceRequestFilter implements Filter {
 		if(this.cacheProvider!=null && this.cacheProvider.isAvailable()){
 			//获取会话ID
 			String sessionId = CookieUtil.getSessionId(hRequest, hResponse);
+			HttpSession session = hRequest.getSession();
 			//从缓存服务器获取当前的会话对象
-			SNASession snaSession = this.helper.getSNASession(sessionId,hRequest.getSession());
-			
+			SNASession snaSession = this.helper.getSNASession(sessionId,session);
+			session.setAttribute(CookieUtil.SESSION_NAME, sessionId);
+
 			try {
 				HttpServletRequest requestWrapper = this.helper.createRequestWrapper(hRequest, snaSession);
 				// 设置上下文中的环境变量
