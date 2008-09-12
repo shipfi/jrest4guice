@@ -1,5 +1,6 @@
 package org.jrest4guice.rest.context;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.google.inject.Provider;
@@ -12,6 +13,9 @@ import com.google.inject.Provider;
 public class HttpSessionProvider implements Provider<HttpSession> {
 
 	public HttpSession get() {
-		return RestContextManager.getRequest().getSession();
+		HttpServletRequest request = RestContextManager.getRequest();
+		if(request == null)
+			return null;
+		return request.getSession();
 	}
 }

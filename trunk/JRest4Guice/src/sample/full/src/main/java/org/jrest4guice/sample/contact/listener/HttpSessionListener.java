@@ -7,11 +7,11 @@ import org.jrest4guice.security.SecurityContext;
 public class HttpSessionListener implements
 		javax.servlet.http.HttpSessionListener {
 	@Override
-	public void sessionCreated(HttpSessionEvent arg0) {
+	public void sessionCreated(HttpSessionEvent event) {
 	}
 
 	@Override
-	public void sessionDestroyed(HttpSessionEvent arg0) {
-		SecurityContext.getInstance().clearUserPrincipalCache();
+	public void sessionDestroyed(HttpSessionEvent event) {
+		SecurityContext.getInstance().clearUserSessionCache(event.getSession());
 	}
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.jrest4guice.commons.http.CookieUtil;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.sna.CacheProvider;
 
@@ -16,13 +17,11 @@ import com.google.inject.Inject;
 public class SecurityContext {
 	@Inject
 	private CacheProvider cacheProvider;
-	@Inject
+	@Inject(optional=true)
 	protected HttpServletRequest request;
-	@Inject
+	@Inject(optional=true)
 	protected HttpSession session;
 
-	private UserRole userRole;
-	
 	/**
 	 * 用户权限信息字典（仅在用户没有缓存服务器的时候使用）
 	 */
@@ -36,22 +35,14 @@ public class SecurityContext {
 	 * @return
 	 */
 	public final UserRole getUserPrincipal() {
-//		System.out.println("getUserPrincipal:"+this.request);
-		if (this.userRole != null)
-			return this.userRole;
-
 		if (this.cacheProvider == null || this.request == null)
 			return null;
 		Object uRoleObj = this.session
 				.getAttribute(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX);
 		if (uRoleObj == null) {
-//			System.out.println("uRoleObj 为空 ！！！！！");
 			Principal userPrincipal = this.request.getUserPrincipal();
-//			System.out.println("userPrincipal："+userPrincipal);
 			if (userPrincipal != null) {
 				String userName = userPrincipal.getName();
-//				System.out.println("userPrincipal name ："+userName);
-
 				String cacheName = CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX
 						+ userName;
 				
@@ -68,8 +59,9 @@ public class SecurityContext {
 						uRoleObj);
 			}
 		}
-		if (uRoleObj != null && uRoleObj instanceof UserRole)
+		if (uRoleObj != null && uRoleObj instanceof UserRole){
 			return (UserRole) uRoleObj;
+		}
 		return null;
 	}
 
@@ -127,12 +119,19 @@ public class SecurityContext {
 	}
 
 	/**
-	 * 清除当前会话的用户权限信息
+	 * 清除当前会话在缓存服务器中的缓存信息
 	 */
-	public void clearUserPrincipalCache(){
-		Object currentUserName = this.session.getAttribute(CURRENT_USER_KEY);
+	public void clearUserSessionCache(HttpSession session){
+		Object currentUserName = session.getAttribute(CURRENT_USER_KEY);
 		if(currentUserName != null){
 			this.clearUserPrincipalCache(currentUserName.toString());
+		}
+		
+		//to-do 是否要清除缓存服务器的当前会话对象，还是由缓存服务器自己超时
+		if(this.cacheProvider.isAvailable()){
+			Object cookieId = session.getAttribute(CookieUtil.SESSION_NAME);
+			if(cookieId != null)
+				this.cacheProvider.delete(cookieId.toString());
 		}
 	}
 	
