@@ -28,6 +28,7 @@ public class SecurityInterceptor implements MethodInterceptor {
 	@Override
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable {
 		GuiceContext.getInstance().injectorMembers(this);
+		GuiceContext.getInstance().injectorMembers(this.securityContext);
 
 		// ======================================================
 		// 进行权限拦截

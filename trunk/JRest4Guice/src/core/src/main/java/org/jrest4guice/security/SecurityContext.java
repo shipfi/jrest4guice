@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.sna.CacheProvider;
 
 import com.google.inject.Inject;
@@ -26,6 +27,8 @@ public class SecurityContext {
 	 * 用户权限信息字典（仅在用户没有缓存服务器的时候使用）
 	 */
 	private static Map<String, UserRole> userRoleMap = new HashMap<String, UserRole>(0);
+	
+	public final static String CURRENT_USER_KEY = "_$_current_user_$_";
 
 	/**
 	 * 获取当前用户的权限信息
@@ -33,6 +36,7 @@ public class SecurityContext {
 	 * @return
 	 */
 	public final UserRole getUserPrincipal() {
+//		System.out.println("getUserPrincipal:"+this.request);
 		if (this.userRole != null)
 			return this.userRole;
 
@@ -41,12 +45,12 @@ public class SecurityContext {
 		Object uRoleObj = this.session
 				.getAttribute(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX);
 		if (uRoleObj == null) {
-			System.out.println("uRoleObj 为空 ！！！！！");
+//			System.out.println("uRoleObj 为空 ！！！！！");
 			Principal userPrincipal = this.request.getUserPrincipal();
-			System.out.println("userPrincipal："+userPrincipal);
+//			System.out.println("userPrincipal："+userPrincipal);
 			if (userPrincipal != null) {
 				String userName = userPrincipal.getName();
-				System.out.println("userPrincipal name ："+userName);
+//				System.out.println("userPrincipal name ："+userName);
 
 				String cacheName = CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX
 						+ userName;
@@ -56,7 +60,7 @@ public class SecurityContext {
 					uRoleObj = this.cacheProvider.get(cacheName);
 					this.clearUserPrincipalCache(userName);
 				}else{//从缓存服务器中获取不到当前用户的权限信息
-					uRoleObj = this.userRoleMap.get(userName);
+					uRoleObj = SecurityContext.userRoleMap.get(userName);
 				}
 				this.session
 				.setAttribute(
@@ -107,6 +111,8 @@ public class SecurityContext {
 		else{
 			SecurityContext.userRoleMap.put(userName, userRole);
 		}
+		
+		this.session.setAttribute(CURRENT_USER_KEY, userName);
 	}
 
 	/**
@@ -118,5 +124,24 @@ public class SecurityContext {
 			this.cacheProvider.delete(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX+userName);
 		else
 			SecurityContext.userRoleMap.remove(userName);
+	}
+
+	/**
+	 * 清除当前会话的用户权限信息
+	 */
+	public void clearUserPrincipalCache(){
+		Object currentUserName = this.session.getAttribute(CURRENT_USER_KEY);
+		if(currentUserName != null){
+			this.clearUserPrincipalCache(currentUserName.toString());
+		}
+	}
+	
+	
+	/**
+	 * 返回SecurityContext的实例引用
+	 * @return
+	 */
+	public static SecurityContext getInstance(){
+		return GuiceContext.getInstance().getBean(SecurityContext.class);
 	}
 }

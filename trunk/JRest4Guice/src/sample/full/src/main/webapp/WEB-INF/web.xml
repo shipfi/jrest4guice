@@ -8,43 +8,59 @@
 	
 	<!-- 通过 JRest4GuiceSampContextListener 来初始化JRest4Guice的上下文 -->
 	<!-- 用户可以根据习惯通过listener或者servlet来初始化JRest4Guice的上下文，初始化详情请看JRest4GuiceSampContextListener的实现类 -->
+	<!-- -------------------------------------------------------- -->
 	<listener>
 		<listener-class>
 			org.jrest4guice.sample.contact.listener.ContextListener
 		</listener-class>
 	</listener>
+	<!-- -------------------------------------------------------- -->
+	
 
-	<!-- SNA会话过滤器 -->
-	<!--
+	<!-- 会话监听器，用来清除安全上下文 -->
+	<!-- -------------------------------------------------------- -->
+	<listener>
+		<listener-class>
+			org.jrest4guice.sample.contact.listener.HttpSessionListener
+		</listener-class>
+	</listener>
+	<!-- -------------------------------------------------------- -->
+	
+	<!-- 会话超时设置 -->
+	<!-- -------------------------------------------------------- -->
+	<session-config>
+		<session-timeout>5</session-timeout>
+	</session-config>
+	<!-- -------------------------------------------------------- -->
+
+
+	<!-- 过滤所有Restful的请求 -->
+	<!-- -------------------------------------------------------- -->
 	<filter>
-		<filter-name>SNASessionFileter</filter-name>
-		<filter-class>org.jrest4guice.sna.SNASessionFileter</filter-class>
+		<filter-name>JRest4GuiceRequestFilter</filter-name>
+		<filter-class>org.jrest4guice.rest.JRest4GuiceRequestFilter</filter-class>
+		<!-- 打开缓存服务器支持 -->
+		<!-- ---------------------------------------------------- -->
 		<init-param>
 			<param-name>cacheServers</param-name>
+			<!-- 缓存服务器列表，多个之前以逗号隔开 -->
 			<param-value>localhost:11211</param-value>
 		</init-param>
 		<init-param>
 			<param-name>cacheProvider</param-name>
+			<!-- 缓存服务器提供者 -->
 			<param-value>memcached</param-value>
 		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>SNASessionFileter</filter-name>
-		<url-pattern>*</url-pattern>
-	</filter-mapping>
-	-->
-	
-	<!-- 过滤所有Restful的请求 -->
-	<filter>
-		<filter-name>JRest4GuiceRequestFilter</filter-name>
-		<filter-class>org.jrest4guice.rest.JRest4GuiceRequestFilter</filter-class>
+		<!-- ---------------------------------------------------- -->
 	</filter>
 	<filter-mapping>
 		<filter-name>JRest4GuiceRequestFilter</filter-name>
 		<url-pattern>*</url-pattern>
 	</filter-mapping>
+	<!-- -------------------------------------------------------- -->
 
 	<!-- 带监视功能的文件上传组件 -->
+	<!-- -------------------------------------------------------- -->
 	<servlet>
 		<servlet-name>MonitoredFileUploadServlet</servlet-name>
 		<servlet-class>
@@ -65,16 +81,19 @@
 		<servlet-name>MonitoredFileUploadServlet</servlet-name>
 		<url-pattern>/uploadFile</url-pattern>
 	</servlet-mapping>
+	<!-- -------------------------------------------------------- -->
 	
+
+	<!-- 首页定义 -->
+	<!-- -------------------------------------------------------- -->
 	<welcome-file-list>
 		<welcome-file>main.html</welcome-file>
 	</welcome-file-list>
+	<!-- -------------------------------------------------------- -->
 	
 	<!-- 权限声明 -->
+	<!-- -------------------------------------------------------- -->
 	<security-constraint>
-		<display-name>
-			Tomcat server configuation security constraint
-		</display-name>
 		<web-resource-collection>
 			<web-resource-name>Protected Area</web-resource-name>
 			<url-pattern>/login.jsp</url-pattern>
@@ -85,10 +104,11 @@
 	</security-constraint>
 	<login-config>
 		<auth-method>FORM</auth-method>
-		<realm-name>jaas role validate</realm-name>
+		<realm-name>full sample jaas</realm-name>
 		<form-login-config>
 			<form-login-page>/login.jsp</form-login-page>
 			<form-error-page>/loginFail.html</form-error-page>
 		</form-login-config>
 	</login-config>
+	<!-- -------------------------------------------------------- -->
 </web-app>

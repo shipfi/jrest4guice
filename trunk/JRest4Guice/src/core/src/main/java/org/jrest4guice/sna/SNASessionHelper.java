@@ -16,9 +16,9 @@ import org.apache.commons.logging.LogFactory;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * 
  */
-public class SNASessionFileterHelper {
+public class SNASessionHelper {
 	
-	static Log log = LogFactory.getLog(SNASessionFileterHelper.class);
+	static Log log = LogFactory.getLog(SNASessionHelper.class);
 	
 	static final String REMOVE_ATTRIBUTE = "removeAttribute";
 	static final String SET_ATTRIBUTE = "setAttribute";
@@ -30,7 +30,7 @@ public class SNASessionFileterHelper {
 	 */
 	private CacheProvider cacheProvider;
 
-	public SNASessionFileterHelper(CacheProvider cacheManager) {
+	public SNASessionHelper(CacheProvider cacheManager) {
 		this.cacheProvider = cacheManager;
 	}
 
@@ -52,9 +52,9 @@ public class SNASessionFileterHelper {
 					public Object invoke(Object proxy, Method method,
 							Object[] args) throws Throwable {
 						if (method.getName().equalsIgnoreCase(
-								SNASessionFileterHelper.GET_SESSION)) {
+								SNASessionHelper.GET_SESSION)) {
 							if (proxySession == null) {
-								proxySession = SNASessionFileterHelper.this.createSessionWrapper(hSession,
+								proxySession = SNASessionHelper.this.createSessionWrapper(hSession,
 										session);
 							}
 							return proxySession;
@@ -110,21 +110,21 @@ public class SNASessionFileterHelper {
 							Object[] args) throws Throwable {
 						String methodName = method.getName();
 						if (methodName
-								.equalsIgnoreCase(SNASessionFileterHelper.SET_ATTRIBUTE)) {
+								.equalsIgnoreCase(SNASessionHelper.SET_ATTRIBUTE)) {
 							snaSession.put(args[0], args[1]);
-							log.debug(SNASessionFileterHelper.SET_ATTRIBUTE+"＝》"+args[0]+"="+args[1]);
+							log.debug(SNASessionHelper.SET_ATTRIBUTE+"＝》"+args[0]+"="+args[1]);
 						} else if (methodName
-								.equalsIgnoreCase(SNASessionFileterHelper.GET_ATTRIBUTE)) {
+								.equalsIgnoreCase(SNASessionHelper.GET_ATTRIBUTE)) {
 							Object value = method.invoke(hSession, args);
 							if(value == null){
 								value = snaSession.get(args[0]);
 							}
-							log.debug(SNASessionFileterHelper.GET_ATTRIBUTE+"＝》"+args[0]+"'s value is "+value);
+							log.debug(SNASessionHelper.GET_ATTRIBUTE+"＝》"+args[0]+"'s value is "+value);
 							return value;
 						} else if (methodName
-								.equalsIgnoreCase(SNASessionFileterHelper.REMOVE_ATTRIBUTE)) {
+								.equalsIgnoreCase(SNASessionHelper.REMOVE_ATTRIBUTE)) {
 							snaSession.remove(args[0]);
-							log.debug(SNASessionFileterHelper.REMOVE_ATTRIBUTE+"＝》"+args[0]);
+							log.debug(SNASessionHelper.REMOVE_ATTRIBUTE+"＝》"+args[0]);
 						}
 						return method.invoke(hSession, args);
 					}

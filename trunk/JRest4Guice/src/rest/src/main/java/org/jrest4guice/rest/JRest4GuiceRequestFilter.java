@@ -1,7 +1,6 @@
 package org.jrest4guice.rest;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jrest4guice.client.ModelMap;
+import org.jrest4guice.commons.http.CookieUtil;
 import org.jrest4guice.rest.context.RestContextManager;
+import org.jrest4guice.sna.CacheProvider;
+import org.jrest4guice.sna.CacheProviderProvider;
+import org.jrest4guice.sna.CacheProviderRegister;
+import org.jrest4guice.sna.SNASession;
+import org.jrest4guice.sna.SNASessionHelper;
 
 public class JRest4GuiceRequestFilter implements Filter {
 	/**
@@ -44,6 +49,32 @@ public class JRest4GuiceRequestFilter implements Filter {
 		extNameExcludes.add("css");
 	}
 
+
+	/**
+	 * 缓存服务器的提供者
+	 */
+	public static final String CACHE_PROVIDER = "cacheProvider";
+
+	/**
+	 * 缓存服务器列表的参数关键字
+	 */
+	public static final String CACHE_SERVERS = "cacheServers";
+	
+	/**
+	 * 缺省的缓存服务提供者
+	 */
+	private final String cacheProviderName = "memcached";
+
+	/**
+	 * 缓存提供者
+	 */
+	private CacheProvider cacheProvider;
+	/**
+	 * SNA会话过滤器的助手
+	 */
+	private SNASessionHelper helper;
+	
+	
 	@Override
 	public void init(FilterConfig config) throws ServletException {
 		// 初始化需要被过滤器忽略的资源扩展名
@@ -68,6 +99,26 @@ public class JRest4GuiceRequestFilter implements Filter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+	
+		String cacheServers = config.getInitParameter(CACHE_SERVERS);
+		if (cacheServers != null && !cacheServers.trim().equals("")) {
+			String _cacheProvider = config.getInitParameter(CACHE_PROVIDER);
+			if(_cacheProvider == null || _cacheProvider.trim().equals(""))
+				_cacheProvider = cacheProviderName;
+			
+			//获取缓存管理的实现
+			this.cacheProvider = CacheProviderRegister.getInstance().getCacheProvider(_cacheProvider);
+			CacheProviderProvider.setCurrentSecurityContext(this.cacheProvider);
+			
+			if(this.cacheProvider == null){
+				throw new ServletException("无法根据名称\""+_cacheProvider+"\"来初始化缓存提供者，请确认您有没有通过GuiceContext.useSNA()来打开SNA的支持！");
+			}
+			this.cacheProvider.setCacheServers(cacheServers);
+			
+			//初始化SNA会话助手
+			this.helper = new SNASessionHelper(this.cacheProvider);
+		}
 	}
 
 	@Override
@@ -75,15 +126,15 @@ public class JRest4GuiceRequestFilter implements Filter {
 			ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
 
-		HttpServletRequest request = (HttpServletRequest) servletReqest;
-		HttpServletResponse response = (HttpServletResponse) servletResponse;
+		HttpServletRequest hRequest = (HttpServletRequest) servletReqest;
+		HttpServletResponse hResponse = (HttpServletResponse) servletResponse;
 		
-		Principal userPrincipal = request.getUserPrincipal();
-		if(userPrincipal!=null)
-			System.out.println("doFilter: "+userPrincipal.getName());
+//		Principal userPrincipal = hRequest.getUserPrincipal();
+//		if(userPrincipal!=null)
+//			System.out.println("doFilter: "+userPrincipal.getName());
 
-		String uri = request.getRequestURI();
-		uri = uri.replace(request.getContextPath(), "");
+		String uri = hRequest.getRequestURI();
+		uri = uri.replace(hRequest.getContextPath(), "");
 
 		// 忽略以下的文件不处理
 		String _uri = uri.trim().toLowerCase();
@@ -91,31 +142,62 @@ public class JRest4GuiceRequestFilter implements Filter {
 		if (index != -1) {
 			String ext_name = _uri.substring(index + 1);
 			if (extNameExcludes.contains(ext_name)) {
-				filterChain.doFilter(request, response);
+				filterChain.doFilter(hRequest, hResponse);
 				return;
 			}
 		}
 
 		if (uri == null || "".equals(uri) || "/".equals(uri)) {
-			filterChain.doFilter(request, response);
+			filterChain.doFilter(hRequest, hResponse);
 			return;
 		}
-
+		
 		// REST资源的参数
 		ModelMap<String, String> params = new ModelMap<String, String>();
-		// 设置上下文中的环境变量
-		RestContextManager.setContext(request, response, params);
-		try {
-			new RequestProcessor().setUrlPrefix(this.urlPrefix).process(servletReqest, servletResponse);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}finally{
-			// 清除上下文中的环境变量
-			RestContextManager.clearContext();
+
+		if(this.cacheProvider!=null && this.cacheProvider.isAvailable()){
+			//获取会话ID
+			String sessionId = CookieUtil.getSessionId(hRequest, hResponse);
+			//从缓存服务器获取当前的会话对象
+			SNASession snaSession = this.helper.getSNASession(sessionId,hRequest.getSession());
+			
+			try {
+				HttpServletRequest requestWrapper = this.helper.createRequestWrapper(hRequest, snaSession);
+				// 设置上下文中的环境变量
+				RestContextManager.setContext(requestWrapper, hResponse, params);
+				new RequestProcessor().setUrlPrefix(this.urlPrefix).process(requestWrapper, servletResponse);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			} finally {
+				//从缓存服务器客户删除已空的会话对象
+				if (snaSession.isEmpty() && snaSession.isDuty()) {
+					this.cacheProvider.delete(sessionId);
+				} else if (snaSession.isDuty()) {
+					//将变更后的会话对象缓存回缓存服务器
+					snaSession.setDuty(false);
+					this.cacheProvider.put(sessionId, snaSession);
+				}
+				// 清除上下文中的环境变量
+				RestContextManager.clearContext();
+			}
+		}else{
+			try {
+				// 设置上下文中的环境变量
+				RestContextManager.setContext(hRequest, hResponse, params);
+				new RequestProcessor().setUrlPrefix(this.urlPrefix).process(servletReqest, servletResponse);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}finally{
+				// 清除上下文中的环境变量
+				RestContextManager.clearContext();
+			}
 		}
 	}
 
 	@Override
 	public void destroy() {
+		if (this.cacheProvider != null) {
+			this.cacheProvider.shutDown();
+		}
 	}
 }
