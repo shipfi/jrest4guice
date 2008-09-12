@@ -130,10 +130,6 @@ public class JRest4GuiceRequestFilter implements Filter {
 		HttpServletRequest hRequest = (HttpServletRequest) servletReqest;
 		HttpServletResponse hResponse = (HttpServletResponse) servletResponse;
 		
-//		Principal userPrincipal = hRequest.getUserPrincipal();
-//		if(userPrincipal!=null)
-//			System.out.println("doFilter: "+userPrincipal.getName());
-
 		String uri = hRequest.getRequestURI();
 		uri = uri.replace(hRequest.getContextPath(), "");
 
