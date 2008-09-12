@@ -17,16 +17,17 @@ import com.google.inject.Inject;
 public class SecurityContext {
 	@Inject
 	private CacheProvider cacheProvider;
-	@Inject(optional=true)
+	@Inject(optional = true)
 	protected HttpServletRequest request;
-	@Inject(optional=true)
+	@Inject(optional = true)
 	protected HttpSession session;
 
 	/**
 	 * 用户权限信息字典（仅在用户没有缓存服务器的时候使用）
 	 */
-	private static Map<String, UserRole> userRoleMap = new HashMap<String, UserRole>(0);
-	
+	private static Map<String, UserRole> userRoleMap = new HashMap<String, UserRole>(
+			0);
+
 	public final static String CURRENT_USER_KEY = "_$_current_user_$_";
 
 	/**
@@ -45,21 +46,20 @@ public class SecurityContext {
 				String userName = userPrincipal.getName();
 				String cacheName = CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX
 						+ userName;
-				
-				
-				if(this.cacheProvider.isAvailable()){
+
+				if (this.cacheProvider.isAvailable()) {
 					uRoleObj = this.cacheProvider.get(cacheName);
 					this.clearUserPrincipalCache(userName);
-				}else{//从缓存服务器中获取不到当前用户的权限信息
+				} else {// 从缓存服务器中获取不到当前用户的权限信息
 					uRoleObj = SecurityContext.userRoleMap.get(userName);
 				}
 				this.session
-				.setAttribute(
-						CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX,
-						uRoleObj);
+						.setAttribute(
+								CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX,
+								uRoleObj);
 			}
 		}
-		if (uRoleObj != null && uRoleObj instanceof UserRole){
+		if (uRoleObj != null && uRoleObj instanceof UserRole) {
 			return (UserRole) uRoleObj;
 		}
 		return null;
@@ -91,29 +91,38 @@ public class SecurityContext {
 
 		return result;
 	}
-	
+
 	/**
 	 * 保存用户的权限信息
+	 * 
 	 * @param userName
 	 * @param userRole
 	 */
-	public void storeUserPrincipal(String userName,UserRole userRole){
-		if(this.cacheProvider.isAvailable())
-			this.cacheProvider.put(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX+userName, userRole);
-		else{
+	public void storeUserPrincipal(String userName, UserRole userRole) {
+		if (this.cacheProvider.isAvailable())
+			this.cacheProvider.put(
+					CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX + userName,
+					userRole);
+		else {
 			SecurityContext.userRoleMap.put(userName, userRole);
 		}
 		
-		this.session.setAttribute(CURRENT_USER_KEY, userName);
+		try {
+			this.session.setAttribute(CURRENT_USER_KEY, userName);
+		} catch (Exception e) {
+		}
 	}
 
 	/**
 	 * 清除用户的权限信息
+	 * 
 	 * @param userName
 	 */
-	public void clearUserPrincipalCache(String userName){
-		if(this.cacheProvider.isAvailable())
-			this.cacheProvider.delete(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX+userName);
+	public void clearUserPrincipalCache(String userName) {
+		if (this.cacheProvider.isAvailable())
+			this.cacheProvider
+					.delete(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX
+							+ userName);
 		else
 			SecurityContext.userRoleMap.remove(userName);
 	}
@@ -121,26 +130,26 @@ public class SecurityContext {
 	/**
 	 * 清除当前会话在缓存服务器中的缓存信息
 	 */
-	public void clearUserSessionCache(HttpSession session){
+	public void clearUserSessionCache(HttpSession session) {
 		Object currentUserName = session.getAttribute(CURRENT_USER_KEY);
-		if(currentUserName != null){
+		if (currentUserName != null) {
 			this.clearUserPrincipalCache(currentUserName.toString());
 		}
-		
-		//to-do 是否要清除缓存服务器的当前会话对象，还是由缓存服务器自己超时
-		if(this.cacheProvider.isAvailable()){
+
+		// to-do 是否要清除缓存服务器的当前会话对象，还是由缓存服务器自己超时
+		if (this.cacheProvider.isAvailable()) {
 			Object cookieId = session.getAttribute(CookieUtil.SESSION_NAME);
-			if(cookieId != null)
+			if (cookieId != null)
 				this.cacheProvider.delete(cookieId.toString());
 		}
 	}
-	
-	
+
 	/**
 	 * 返回SecurityContext的实例引用
+	 * 
 	 * @return
 	 */
-	public static SecurityContext getInstance(){
+	public static SecurityContext getInstance() {
 		return GuiceContext.getInstance().getBean(SecurityContext.class);
 	}
 }
