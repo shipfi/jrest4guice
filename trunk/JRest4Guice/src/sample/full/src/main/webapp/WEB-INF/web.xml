@@ -43,12 +43,7 @@
 				同一顶级域名下的应用可以通过cookie的方式来确保会话id的唯一，但解决不了多
 				域名会话id的统一性）
 			-->
-			<param-value>http://localhost:8080/full/snaId</param-value>
-		</init-param>
-		<init-param>
-			<param-name>redirectFilter</param-name>
-			<!-- 不需要被二次重定向的地址，多个之前以逗号隔 -->
-			<param-value>/security/auth</param-value>
+			<param-value>http://192.168.10.8/full/snaId</param-value>
 		</init-param>
 	</filter>
 

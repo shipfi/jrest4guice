@@ -32,6 +32,7 @@ public class JRestClient {
 	
 	public JRestClient(){
 		this.httpClient = new HttpClient();
+		this.httpClient.getParams().setParameter("http.protocol.allow-circular-redirects", true);
 	}
 	
 	public HttpClient getHttpClient() {

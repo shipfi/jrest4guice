@@ -59,7 +59,7 @@ public class ContactResource {
 	 */
 	@Get
 	@Path("/contacts")
-	@PageFlow(success = @PageInfo(value = "/template/contacts.ctl"))
+	@PageFlow(success = @PageInfo(value = "/template/contacts.vm"))
 	public Page<Contact> listContacts(int page, int size) {
 		return this.service.listContacts(page, size);
 	}
@@ -69,7 +69,7 @@ public class ContactResource {
 	 * @param contactId 联系对象ID
 	 */
 	@Get
-	@PageFlow(success = @PageInfo(value = "/template/contactDetail.ctl"))
+	@PageFlow(success = @PageInfo(value = "/template/contactDetail.vm"))
 	public Contact getContact(@Parameter("contactId") String contactId) {
 		if(contactId == null)
 			return new Contact();
