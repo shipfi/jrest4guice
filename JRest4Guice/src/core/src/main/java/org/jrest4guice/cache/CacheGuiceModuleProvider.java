@@ -1,4 +1,4 @@
-package org.jrest4guice.sna;
+package org.jrest4guice.cache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +14,11 @@ import com.google.inject.Module;
  * 
  */
 @SuppressWarnings("unchecked")
-public class SNAGuiceModuleProvider extends ModuleProviderTemplate {
+public class CacheGuiceModuleProvider extends ModuleProviderTemplate {
 	
-	public SNAGuiceModuleProvider(String... packages){
+	public CacheGuiceModuleProvider(String... packages){
 		super(packages);
-		this.addScanPackages("org.jrest4guice.sna");
+		this.addScanPackages("org.jrest4guice.cache");
 	}
 	
 	@Override

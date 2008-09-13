@@ -15,8 +15,9 @@
 		</listener-class>
 	</listener>
 	<!-- ******************************************************* -->
-	
 
+
+	
 	<!-- 会话监听器，用来清除安全上下文 -->
 	<!-- ******************************************************* -->
 	<listener>
@@ -26,6 +27,8 @@
 	</listener>
 	<!-- ******************************************************* -->
 	
+	
+	
 	<!-- 会话超时设置 -->
 	<!-- ******************************************************* -->
 	<session-config>
@@ -34,12 +37,16 @@
 	<!-- ******************************************************* -->
 
 
+	
 	<!-- 过滤所有Restful的请求 -->
 	<!-- ******************************************************* -->
 	<filter>
 		<filter-name>JRest4GuiceRequestFilter</filter-name>
 		<filter-class>org.jrest4guice.rest.JRest4GuiceRequestFilter</filter-class>
-		<!-- 打开缓存服务器支持 -->
+
+		<!-- [可选配置] 打开SNA及缓存服务器支持（开始）
+			可以实现集群环境下脱离应用服务器层的数据共享，为单点登录提供底层支持。
+		-->
 		<!-- *************************************************** -->
 		<init-param>
 			<param-name>cacheServers</param-name>
@@ -51,7 +58,22 @@
 			<!-- 缓存服务器提供者 -->
 			<param-value>memcached</param-value>
 		</init-param>
+		<init-param>
+			<param-name>snaServerUrl</param-name>
+			<!-- sna会话服务器的url
+				保障不同域名下的应用能获得统一的会话id，为单点认证提供保障。（缺省情况下，同一顶级域名下
+				的应用可以通过cookie的方式来确保会话id的唯一，但解决不了多域名会话id的统一性）
+			-->
+			<param-value>http://localhost:8080/full/snaId</param-value>
+		</init-param>
+		<init-param>
+			<param-name>redirectFilter</param-name>
+			<!-- 不需要被二次重定向的地址，多个之前以逗号隔 -->
+			<param-value>/security/auth</param-value>
+		</init-param>
 		<!-- *************************************************** -->
+		<!-- 打开SNA及缓存服务器支持（结束） -->
+
 	</filter>
 	<filter-mapping>
 		<filter-name>JRest4GuiceRequestFilter</filter-name>
@@ -59,6 +81,24 @@
 	</filter-mapping>
 	<!-- ******************************************************* -->
 
+	
+	
+	<!-- [可选配置] 处理snaId请求的servlet，使当前应用充当sna会话服务器的功能 -->
+	<!-- ******************************************************* -->
+	<servlet>
+		<servlet-name>snaId</servlet-name>
+		<servlet-class>
+			org.jrest4guice.rest.sna.SNAIdRequestServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>snaId</servlet-name>
+		<url-pattern>/snaId</url-pattern>
+	</servlet-mapping>
+	<!-- ******************************************************* -->
+
+	
+	
 	<!-- 带监视功能的文件上传组件 -->
 	<!-- ******************************************************* -->
 	<servlet>
@@ -84,12 +124,15 @@
 	<!-- ******************************************************* -->
 	
 
+	
 	<!-- 首页定义 -->
 	<!-- ******************************************************* -->
 	<welcome-file-list>
 		<welcome-file>main.html</welcome-file>
 	</welcome-file-list>
 	<!-- ******************************************************* -->
+	
+	
 	
 	<!-- 权限声明 -->
 	<!-- ******************************************************* -->

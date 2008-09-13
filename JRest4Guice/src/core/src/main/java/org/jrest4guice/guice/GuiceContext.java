@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.jrest4guice.cache.CacheGuiceModuleProvider;
 import org.jrest4guice.commons.lang.Assert;
 import org.jrest4guice.interceptor.InterceptorGuiceModuleProvider;
 import org.jrest4guice.persistence.hibernate.HibernateGuiceModuleProvider;
@@ -12,7 +13,6 @@ import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
 import org.jrest4guice.persistence.jpa.EntityManagerFactoryHolder;
 import org.jrest4guice.persistence.jpa.JpaGuiceModuleProvider;
 import org.jrest4guice.security.SecurityGuiceModuleProvider;
-import org.jrest4guice.sna.SNAGuiceModuleProvider;
 import org.jrest4guice.transaction.HibernateLocalTransactionInterceptor;
 import org.jrest4guice.transaction.JpaLocalTransactionInterceptor;
 import org.jrest4guice.transaction.TransactionGuiceModuleProvider;
@@ -178,8 +178,8 @@ public class GuiceContext {
 	 * @param packages cache提供者的扫描路径
 	 * @return
 	 */
-	public GuiceContext useSNA(String... packages){
-		this.addModuleProvider(new SNAGuiceModuleProvider());
+	public GuiceContext useCache(String... packages){
+		this.addModuleProvider(new CacheGuiceModuleProvider());
 		return this;
 	}
 

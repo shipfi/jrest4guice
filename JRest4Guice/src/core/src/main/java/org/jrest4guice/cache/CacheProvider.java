@@ -1,4 +1,4 @@
-package org.jrest4guice.sna;
+package org.jrest4guice.cache;
 
 /**
  * 
