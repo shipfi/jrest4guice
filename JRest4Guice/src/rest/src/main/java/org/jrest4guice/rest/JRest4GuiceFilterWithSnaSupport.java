@@ -75,6 +75,15 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 	protected void executeFilter(HttpServletRequest hRequest,
 			HttpServletResponse hResponse, FilterChain filterChain, String uri)
 			throws IOException, ServletException {
+
+		//检测当前应用是否充当了sna会话服务器的职能，如果是，则直接进入下一个过滤器
+		boolean snaServerUrl = this.snaServerUrl.replace(
+				hRequest.getRequestURL().toString(), "").trim().equals("");
+		if (snaServerUrl) {
+			filterChain.doFilter(hRequest, hResponse);
+			return;
+		}
+
 		HttpSession session = hRequest.getSession();
 		// REST资源的参数
 		ModelMap<String, String> params = new ModelMap<String, String>();
