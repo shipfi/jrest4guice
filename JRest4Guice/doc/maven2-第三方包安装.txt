@@ -1,0 +1,3 @@
+安装第三方没有maven2资源库的包
+
+mvn install:install-file -DgroupId=x -DartifactId=x -DgeneratePom=true -Dversion=x.x.x -Dpackaging=jar -Dfile=x/x/x
