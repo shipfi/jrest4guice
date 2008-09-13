@@ -9,7 +9,7 @@
 	<br><br>
 	<a href="/full/contact">添加新联系人</a>
 	<br><br>
-	#set($contacts = $context.content ) 
+	#set($contacts = $ctx.content ) 
 	<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
 		<thead style="font-weight: bold;">
 			<tr style="height: 26px;background-image: url('/full/images/head.jpg');color: white;">

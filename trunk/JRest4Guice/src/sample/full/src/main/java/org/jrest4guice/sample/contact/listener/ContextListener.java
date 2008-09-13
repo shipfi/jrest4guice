@@ -4,7 +4,12 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.velocity.app.Velocity;
+import org.commontemplate.engine.Engine;
+import org.commontemplate.standard.ConfigurationSettings;
+import org.commontemplate.standard.loader.FileResourceLoader;
+import org.commontemplate.tools.PropertiesConfigurationLoader;
 import org.jrest4guice.rest.JRest4GuiceHelper;
+import org.jrest4guice.rest.context.RestContextManager;
 
 /**
  * 
@@ -19,7 +24,9 @@ public class ContextListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		// 初始化Velocity引擎
-		initVelocity(event);
+		this.initVelocity(event);
+		// 初始化CTL引擎
+		this.initCTL(event);
 
 		JRest4GuiceHelper.useJRest("org.jrest4guice.sample")// 使用Rest，并指定要动态扫描注册的包路径
 				.useJPA()// 使用JPA
@@ -27,6 +34,14 @@ public class ContextListener implements ServletContextListener {
 				.useSNA()
 //				.enableCustomInterceptor("org.jrest4guice.sample")//打开自定义的拦截器支持，允许通过@Interceptors来支持自定义的拦截器
 				.init();
+	}
+
+	private void initCTL(ServletContextEvent event) {
+		// 配置并建造引擎 (Engine是内同步线程安全的，可单例重用) 
+//		ConfigurationSettings config = PropertiesConfigurationLoader.loadStandardConfiguration(); 
+		ConfigurationSettings config = PropertiesConfigurationLoader.loadConfiguration("ctl.properties"); 
+		Engine engine = new Engine(config);
+		RestContextManager.setCTLEngine(engine);
 	}
 
 	private void initVelocity(ServletContextEvent event) {
