@@ -1,6 +1,6 @@
 package org.jrest4guice.rest.writer;
 
-import org.jrest4guice.rest.JRestResult;
+import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.MimeType;
 
 /**
@@ -11,7 +11,7 @@ import org.jrest4guice.rest.annotations.MimeType;
 public class JsonResponseWriter extends TextResponseWriter {
 	@Override
 	protected String generateTextContent(Object result) {
-		return JRestResult.createHttpResult(result).toJson();
+		return ServiceResult.createHttpResult(result).toJson();
 	}
 
 	@Override
