@@ -6,40 +6,21 @@
 	id="WebApp_JRest4Guice-full-sample" version="2.5">
 	<display-name>JRest4Guice-sample-full</display-name>
 	
+	<!-- ************************************************************************************** -->
+	<!-- JRest4Guice 配置的必须部分                                                                                                                                                                     -->
+	<!-- ************************************************************************************** -->
+	
 	<!-- 通过 JRest4GuiceSampContextListener 来初始化JRest4Guice的上下文 -->
-	<!-- 用户可以根据习惯通过listener或者servlet来初始化JRest4Guice的上下文，初始化详情请看JRest4GuiceSampContextListener的实现类 -->
-	<!-- ******************************************************* -->
+	<!-- 用户可以根据习惯通过listener或者servlet来初始化JRest4Guice的上下文，
+		初始化详情请看JRest4GuiceSampContextListener的实现类
+	-->
 	<listener>
 		<listener-class>
 			org.jrest4guice.sample.contact.listener.ContextListener
 		</listener-class>
 	</listener>
-	<!-- ******************************************************* -->
 
-
-	
-	<!-- 会话监听器，用来清除安全上下文 -->
-	<!-- ******************************************************* -->
-	<listener>
-		<listener-class>
-			org.jrest4guice.sample.contact.listener.HttpSessionListener
-		</listener-class>
-	</listener>
-	<!-- ******************************************************* -->
-	
-	
-	
-	<!-- 会话超时设置 -->
-	<!-- ******************************************************* -->
-	<session-config>
-		<session-timeout>10</session-timeout>
-	</session-config>
-	<!-- ******************************************************* -->
-
-
-	
 	<!-- 过滤所有Restful的请求 -->
-	<!-- ******************************************************* -->
 	<filter>
 		<filter-name>JRest4GuiceRequestFilter</filter-name>
 		<filter-class>org.jrest4guice.rest.JRest4GuiceRequestFilter</filter-class>
@@ -47,7 +28,6 @@
 		<!-- [可选配置] 打开SNA及缓存服务器支持（开始）
 			可以实现集群环境下脱离应用服务器层的数据共享，为单点登录提供底层支持。
 		-->
-		<!-- *************************************************** -->
 		<init-param>
 			<param-name>cacheServers</param-name>
 			<!-- 缓存服务器列表，多个之前以逗号隔开 -->
@@ -61,8 +41,9 @@
 		<init-param>
 			<param-name>snaServerUrl</param-name>
 			<!-- sna会话服务器的url
-				保障不同域名下的应用能获得统一的会话id，为单点认证提供保障。（缺省情况下，同一顶级域名下
-				的应用可以通过cookie的方式来确保会话id的唯一，但解决不了多域名会话id的统一性）
+				保障不同域名下的应用能获得统一的会话id，为单点认证提供保障。（缺省情况下，
+				同一顶级域名下的应用可以通过cookie的方式来确保会话id的唯一，但解决不了多
+				域名会话id的统一性）
 			-->
 			<param-value>http://localhost:8080/full/snaId</param-value>
 		</init-param>
@@ -71,7 +52,6 @@
 			<!-- 不需要被二次重定向的地址，多个之前以逗号隔 -->
 			<param-value>/security/auth</param-value>
 		</init-param>
-		<!-- *************************************************** -->
 		<!-- 打开SNA及缓存服务器支持（结束） -->
 
 	</filter>
@@ -79,12 +59,17 @@
 		<filter-name>JRest4GuiceRequestFilter</filter-name>
 		<url-pattern>*</url-pattern>
 	</filter-mapping>
-	<!-- ******************************************************* -->
+	
 
+
+	<!-- ************************************************************************************** -->
+	<!-- 应用的 配置部分                                                                                                                                                                                                    -->
+	<!-- ************************************************************************************** -->
 	
-	
-	<!-- [可选配置] 处理snaId请求的servlet，使当前应用充当sna会话服务器的功能 -->
-	<!-- ******************************************************* -->
+	<!-- 
+		处理snaId请求的servlet，在这里使当前应用充当sna会话服务器的功能，我们通常需要配置一个单独的
+		应用来充当sna会话服务器
+	-->
 	<servlet>
 		<servlet-name>snaId</servlet-name>
 		<servlet-class>
@@ -95,12 +80,20 @@
 		<servlet-name>snaId</servlet-name>
 		<url-pattern>/snaId</url-pattern>
 	</servlet-mapping>
-	<!-- ******************************************************* -->
 
-	
-	
+	<!-- 会话监听器，用来清除安全上下文 -->
+	<listener>
+		<listener-class>
+			org.jrest4guice.sample.contact.listener.HttpSessionListener
+		</listener-class>
+	</listener>
+
+	<!-- 会话超时设置 -->
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
+
 	<!-- 带监视功能的文件上传组件 -->
-	<!-- ******************************************************* -->
 	<servlet>
 		<servlet-name>MonitoredFileUploadServlet</servlet-name>
 		<servlet-class>
@@ -121,21 +114,13 @@
 		<servlet-name>MonitoredFileUploadServlet</servlet-name>
 		<url-pattern>/uploadFile</url-pattern>
 	</servlet-mapping>
-	<!-- ******************************************************* -->
-	
-
 	
 	<!-- 首页定义 -->
-	<!-- ******************************************************* -->
 	<welcome-file-list>
 		<welcome-file>main.html</welcome-file>
 	</welcome-file-list>
-	<!-- ******************************************************* -->
-	
-	
 	
 	<!-- 权限声明 -->
-	<!-- ******************************************************* -->
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Protected Area</web-resource-name>
@@ -153,5 +138,4 @@
 			<form-error-page>/loginFail.html</form-error-page>
 		</form-login-config>
 	</login-config>
-	<!-- ******************************************************* -->
 </web-app>
