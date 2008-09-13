@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.validator.InvalidValue;
-import org.jrest4guice.rest.JRestResult;
+import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
@@ -45,7 +45,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 
 			PrintWriter out = response.getWriter();
 
-			JRestResult httpResult = JRestResult.createHttpResult(result);
+			ServiceResult httpResult = ServiceResult.createHttpResult(result);
 			//获取模板路径
 			PageFlow annotation = method.getAnnotation(PageFlow.class);
 			if (annotation == null){
@@ -56,17 +56,17 @@ public class HtmlResponseWriter implements ResponseWriter {
 					pageInfo = annotation.error();
 					if(result instanceof ValidatorException){
 						httpResult.setInvalidValues(((ValidatorException)result).getInvalidValues());
-						session.setAttribute(JRestResult.INVALID_VALUE_KEY, httpResult.getInvalidValues());
+						session.setAttribute(ServiceResult.INVALID_VALUE_KEY, httpResult.getInvalidValues());
 					}
 					
 				}else{
 					pageInfo = annotation.success();
-					Object invalidValues = session.getAttribute(JRestResult.INVALID_VALUE_KEY);
+					Object invalidValues = session.getAttribute(ServiceResult.INVALID_VALUE_KEY);
 					if(invalidValues != null){
 						httpResult.setInvalidValues((InvalidValue[])invalidValues);
 						httpResult.setInChain(true);
 					}
-					session.removeAttribute(JRestResult.INVALID_VALUE_KEY);
+					session.removeAttribute(ServiceResult.INVALID_VALUE_KEY);
 				}
 				
 				//模板的渲染器
@@ -84,7 +84,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 		}
 	}
 
-	private void writeTextPlain(PrintWriter out, JRestResult httpResult) {
+	private void writeTextPlain(PrintWriter out, ServiceResult httpResult) {
 		out.println(httpResult.toTextPlain());
 	}
 }
