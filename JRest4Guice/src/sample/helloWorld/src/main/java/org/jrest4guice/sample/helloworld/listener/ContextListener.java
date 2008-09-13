@@ -4,7 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.velocity.app.Velocity;
-import org.jrest4guice.rest.JRest4GuiceHelper;
+import org.jrest4guice.rest.util.JRest4GuiceHelper;
 
 /**
  * 

@@ -7,8 +7,8 @@ import org.apache.velocity.app.Velocity;
 import org.commontemplate.engine.Engine;
 import org.commontemplate.standard.ConfigurationSettings;
 import org.commontemplate.tools.PropertiesConfigurationLoader;
-import org.jrest4guice.rest.JRest4GuiceHelper;
 import org.jrest4guice.rest.context.RestContextManager;
+import org.jrest4guice.rest.util.JRest4GuiceHelper;
 
 /**
  * 
