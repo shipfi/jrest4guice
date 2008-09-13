@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpSession;
 
-import org.jrest4guice.rest.JRestResult;
+import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.PageFlow;
 
 import com.google.inject.Inject;
@@ -21,10 +21,10 @@ public class SpryViewRender implements ViewRender {
 	protected HttpSession session;
 
 	/* (non-Javadoc)
-	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.JRestResult, boolean)
+	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult, boolean)
 	 */
 	@Override
-	public void render(PrintWriter out, PageFlow annotation, JRestResult result,boolean cache)
+	public void render(PrintWriter out, PageFlow annotation, ServiceResult result,boolean cache)
 			throws Exception {
 		BufferedReader brd = new BufferedReader(new InputStreamReader(
 				new FileInputStream(this.session.getServletContext().getRealPath(annotation.success().value())), "utf-8"));

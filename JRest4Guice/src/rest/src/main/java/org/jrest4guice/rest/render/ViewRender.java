@@ -2,7 +2,7 @@ package org.jrest4guice.rest.render;
 
 import java.io.PrintWriter;
 
-import org.jrest4guice.rest.JRestResult;
+import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.PageFlow;
 
 /**
@@ -30,5 +30,5 @@ public interface ViewRender {
 	 * @param cache	是否要缓存
 	 * @throws Exception
 	 */
-	public void render(PrintWriter out,PageFlow annotation,JRestResult result,boolean cache) throws Exception;
+	public void render(PrintWriter out,PageFlow annotation,ServiceResult result,boolean cache) throws Exception;
 }

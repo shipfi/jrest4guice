@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.commontemplate.core.Context;
 import org.commontemplate.core.Template;
 import org.commontemplate.engine.Engine;
-import org.jrest4guice.rest.JRestResult;
+import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
@@ -28,10 +28,10 @@ public class CTLViewRender implements ViewRender {
 	private Context context;
 
 	/* (non-Javadoc)
-	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.JRestResult, boolean)
+	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult, boolean)
 	 */
 	@Override
-	public void render(PrintWriter out, PageFlow annotation, JRestResult result,boolean cache)
+	public void render(PrintWriter out, PageFlow annotation, ServiceResult result,boolean cache)
 			throws Exception {
 		
 		String url = annotation.success().value();
