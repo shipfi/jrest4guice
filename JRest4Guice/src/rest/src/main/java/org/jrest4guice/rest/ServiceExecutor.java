@@ -33,6 +33,7 @@ import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.exception.ValidatorException;
+import org.jrest4guice.rest.util.RequestUtil;
 import org.jrest4guice.rest.writer.ResponseWriter;
 import org.jrest4guice.rest.writer.ResponseWriterRegister;
 
