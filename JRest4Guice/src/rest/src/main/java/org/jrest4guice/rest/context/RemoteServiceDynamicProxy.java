@@ -1,4 +1,4 @@
-package org.jrest4guice.rest;
+package org.jrest4guice.rest.context;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
