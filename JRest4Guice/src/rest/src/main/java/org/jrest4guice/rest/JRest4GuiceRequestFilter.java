@@ -152,10 +152,10 @@ public class JRest4GuiceRequestFilter implements Filter {
 			return;
 		}
 
-		if (this.cacheProvider != null && this.cacheProvider.isAvailable()) {
+		if (this.cacheProvider != null && this.cacheProvider.isAvailable()) {//以SNA方式过滤当前请求
 			this.doFilterWithSnaSupport(servletResponse, hRequest, hResponse,
 					uri);
-		} else {
+		} else {//以正常方式过滤当前请求
 			this.doFilterWithoutSnaSupport(servletReqest, servletResponse,
 					hRequest, hResponse);
 		}
