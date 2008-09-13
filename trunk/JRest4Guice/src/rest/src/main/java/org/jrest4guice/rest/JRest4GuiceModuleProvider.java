@@ -23,6 +23,7 @@ import org.jrest4guice.rest.context.HttpResponseProvider;
 import org.jrest4guice.rest.context.HttpSessionProvider;
 import org.jrest4guice.rest.context.JRestContext;
 import org.jrest4guice.rest.context.ModelMapProvider;
+import org.jrest4guice.rest.context.RemoteServiceProvider;
 import org.jrest4guice.rest.context.VelocityContextProvider;
 import org.jrest4guice.rest.render.ViewRender;
 import org.jrest4guice.rest.render.ViewRenderRegister;
