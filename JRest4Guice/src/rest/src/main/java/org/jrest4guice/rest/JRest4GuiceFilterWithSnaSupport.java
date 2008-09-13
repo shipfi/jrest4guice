@@ -21,6 +21,11 @@ import org.jrest4guice.rest.sna.SNAIdRequestServlet;
 import org.jrest4guice.rest.sna.SNASession;
 import org.jrest4guice.rest.sna.SNASessionHelper;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
+ * 
+ */
 public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 
 	/**

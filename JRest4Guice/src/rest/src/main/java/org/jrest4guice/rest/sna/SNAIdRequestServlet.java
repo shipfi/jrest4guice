@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jrest4guice.commons.lang.MD5Util;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
+ * 
+ */
 public class SNAIdRequestServlet extends HttpServlet {
 	/**
 	 * 

@@ -24,6 +24,11 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
+ * 
+ */
 public abstract class AbstractJRest4GuiceFilter implements Filter {
 	/**
 	 * 
