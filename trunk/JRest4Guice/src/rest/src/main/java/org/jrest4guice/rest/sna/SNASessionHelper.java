@@ -37,32 +37,17 @@ public class SNASessionHelper {
 
 	/**
 	 * 创建HttpServletRequest的包装对象
-	 * @param request
-	 * @param session
+	 * @param hRequest
+	 * @param snaSession
 	 * @return
 	 */
 	public HttpServletRequest createRequestWrapper(
-			final HttpServletRequest request, final SNASession session) {
-		final HttpSession hSession = request.getSession();
+			final HttpServletRequest hRequest, final SNASession snaSession) {
+		final HttpSession hSession = hRequest.getSession();
 		return (HttpServletRequest) Proxy.newProxyInstance(
 				HttpServletRequest.class.getClassLoader(),
 				new Class[] { HttpServletRequest.class },
-				new InvocationHandler() {
-					private HttpSession proxySession = null;
-
-					public Object invoke(Object proxy, Method method,
-							Object[] args) throws Throwable {
-						if (method.getName().equalsIgnoreCase(
-								SNASessionHelper.GET_SESSION)) {
-							if (proxySession == null) {
-								proxySession = SNASessionHelper.this.createSessionWrapper(hSession,
-										session);
-							}
-							return proxySession;
-						}
-						return method.invoke(request, args);
-					}
-				});
+				new RequestInvocationHandler(hRequest,hSession,snaSession));
 	}
 
 	/**
@@ -106,29 +91,64 @@ public class SNASessionHelper {
 			final SNASession snaSession) {
 		return (HttpSession) Proxy.newProxyInstance(HttpSession.class
 				.getClassLoader(), new Class[] { HttpSession.class },
-				new InvocationHandler() {
-					public Object invoke(Object proxy, Method method,
-							Object[] args) throws Throwable {
-						String methodName = method.getName();
-						if (methodName
-								.equalsIgnoreCase(SNASessionHelper.SET_ATTRIBUTE)) {
-							snaSession.put(args[0], args[1]);
-							log.debug(SNASessionHelper.SET_ATTRIBUTE+"＝》"+args[0]+"="+args[1]);
-						} else if (methodName
-								.equalsIgnoreCase(SNASessionHelper.GET_ATTRIBUTE)) {
-							Object value = method.invoke(hSession, args);
-							if(value == null){
-								value = snaSession.get(args[0]);
-							}
-							log.debug(SNASessionHelper.GET_ATTRIBUTE+"＝》"+args[0]+"'s value is "+value);
-							return value;
-						} else if (methodName
-								.equalsIgnoreCase(SNASessionHelper.REMOVE_ATTRIBUTE)) {
-							snaSession.remove(args[0]);
-							log.debug(SNASessionHelper.REMOVE_ATTRIBUTE+"＝》"+args[0]);
-						}
-						return method.invoke(hSession, args);
-					}
-				});
+				new SessionInvocationHandler(hSession,snaSession));
+	}
+	
+	class RequestInvocationHandler implements InvocationHandler{
+		private HttpServletRequest hRequest;
+		private HttpSession hSession;
+		private SNASession snaSession;
+		private HttpSession proxySession = null;
+
+		public RequestInvocationHandler(HttpServletRequest hRequest,HttpSession hSession,SNASession snaSession){
+			this.hRequest = hRequest;
+			this.hSession = hSession;
+			this.snaSession = snaSession;
+		}
+
+		public Object invoke(Object proxy, Method method,
+				Object[] args) throws Throwable {
+			if (method.getName().equalsIgnoreCase(
+					SNASessionHelper.GET_SESSION)) {
+				if (proxySession == null) {
+					proxySession = SNASessionHelper.this.createSessionWrapper(hSession,
+							snaSession);
+				}
+				return proxySession;
+			}
+			return method.invoke(hRequest, args);
+		}
+	}
+	
+	
+	class SessionInvocationHandler implements InvocationHandler{
+		private HttpSession hSession;
+		private SNASession snaSession;
+		public SessionInvocationHandler(HttpSession hSession,SNASession snaSession){
+			this.hSession = hSession;
+			this.snaSession = snaSession;
+		}
+		public Object invoke(Object proxy, Method method,
+				Object[] args) throws Throwable {
+			String methodName = method.getName();
+			if (methodName
+					.equalsIgnoreCase(SNASessionHelper.SET_ATTRIBUTE)) {
+				snaSession.put(args[0], args[1]);
+				log.debug(SNASessionHelper.SET_ATTRIBUTE+"＝》"+args[0]+"="+args[1]);
+			} else if (methodName
+					.equalsIgnoreCase(SNASessionHelper.GET_ATTRIBUTE)) {
+				Object value = method.invoke(hSession, args);
+				if(value == null){
+					value = snaSession.get(args[0]);
+				}
+				log.debug(SNASessionHelper.GET_ATTRIBUTE+"＝》"+args[0]+"'s value is "+value);
+				return value;
+			} else if (methodName
+					.equalsIgnoreCase(SNASessionHelper.REMOVE_ATTRIBUTE)) {
+				snaSession.remove(args[0]);
+				log.debug(SNASessionHelper.REMOVE_ATTRIBUTE+"＝》"+args[0]);
+			}
+			return method.invoke(hSession, args);
+		}
 	}
 }
