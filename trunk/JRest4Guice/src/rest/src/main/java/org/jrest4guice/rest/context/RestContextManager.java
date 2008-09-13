@@ -1,5 +1,6 @@
 package org.jrest4guice.rest.context;
 
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.VelocityContext;
+import org.commontemplate.core.Context;
+import org.commontemplate.engine.Engine;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.guice.GuiceContext;
 
@@ -23,8 +26,29 @@ public class RestContextManager {
 	static final ThreadLocal<String> currentRestUri = new ThreadLocal<String>();
 	static final ThreadLocal<VelocityContext> velocityContext = new ThreadLocal<VelocityContext>();
 	static final ThreadLocal<Map> freemarkderContext = new ThreadLocal<Map>();
+	static final ThreadLocal<Context> ctlContext = new ThreadLocal<Context>();
 	
+	//CTL引擎
+	public static Engine ctlEngine;
 	
+	/**
+	 * 设置CTL引擎
+	 * @param engine
+	 */
+	public static void setCTLEngine(Engine engine){
+		if(ctlEngine == null)
+			ctlEngine = engine;
+	}
+	
+	public static Context getCTLContext(){
+		Context context = ctlContext.get();
+		if(context == null){
+			context = ctlEngine.createContext(new StringWriter());
+			ctlContext.set(context);
+		}
+		return context;
+	}
+
 	public static VelocityContext getVelocityContext(){
 		VelocityContext context = velocityContext.get();
 		if(context == null){
@@ -67,6 +91,7 @@ public class RestContextManager {
 		httpContext.remove();
 		currentRestUri.remove();
 		velocityContext.remove();
+		ctlContext.remove();
 		freemarkderContext.remove();
 		GuiceContext.getInstance().closePersistenceContext();
 	}

@@ -17,7 +17,7 @@ import org.jrest4guice.rest.render.ResultType;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.ANNOTATION_TYPE,ElementType.METHOD})
 public @interface PageInfo {
-	public static String deaultErrorUrl = "/template/error.vm";
+	public static String deaultErrorUrl = "/template/error.ctl";
 
 	String value();
 	String type() default ResultType.PLAINTEXT;

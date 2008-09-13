@@ -9,11 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.velocity.VelocityContext;
+import org.commontemplate.core.Context;
+import org.commontemplate.engine.Engine;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.guice.ModuleProviderTemplate;
 import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.annotations.RemoteReference;
+import org.jrest4guice.rest.context.CTLContextProvider;
+import org.jrest4guice.rest.context.CTLEngineProvider;
 import org.jrest4guice.rest.context.HttpRequestProvider;
 import org.jrest4guice.rest.context.HttpResponseProvider;
 import org.jrest4guice.rest.context.HttpSessionProvider;
@@ -63,6 +67,8 @@ public class JRest4GuiceModuleProvider extends ModuleProviderTemplate {
 						HttpSessionProvider.class);
 				binder.bind(ModelMap.class).toProvider(ModelMapProvider.class);
 				binder.bind(VelocityContext.class).toProvider(VelocityContextProvider.class);
+				binder.bind(Engine.class).toProvider(CTLEngineProvider.class);
+				binder.bind(Context.class).toProvider(CTLContextProvider.class);
 
 				// 注册所有的Restful服务对象
 				JRestContext jRestContext = JRestContext.getInstance();
