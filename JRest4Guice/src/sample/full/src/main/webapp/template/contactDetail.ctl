@@ -22,16 +22,16 @@
 		$end
 		<table>
 			<tr>
-				<td>姓    名</td><td><input name="name" type="text" value="${contact.name}"><span class="error">${context.invalidValueMap.name.message}</span></td>	
+				<td>姓    名</td><td><input name="name" type="text" value="${contact.name}"><span class="error">${ctx.invalidValueMap.name.message}</span></td>	
 			</tr>
 			<tr>
-				<td>手    机</td><td><input name="mobilePhone" type="text" value="${contact.mobilePhone}"><span class="error">${context.invalidValueMap.mobilePhone.message}</span></td>	
+				<td>手    机</td><td><input name="mobilePhone" type="text" value="${contact.mobilePhone}"><span class="error">${ctx.invalidValueMap.mobilePhone.message}</span></td>	
 			</tr>
 			<tr>
-				<td>电子邮箱</td><td><input name="email" type="text" value="${contact.email}"><span class="error">${context.invalidValueMap.email.message}</span></td>	
+				<td>电子邮箱</td><td><input name="email" type="text" value="${contact.email}"><span class="error">${ctx.invalidValueMap.email.message}</span></td>	
 			</tr>
 			<tr>
-				<td>家庭住址</td><td><textarea name="address">${contact.address}</textarea><span class="error">${context.invalidValueMap.address.message}</span></td>
+				<td>家庭住址</td><td><textarea name="address">${contact.address}</textarea><span class="error">${ctx.invalidValueMap.address.message}</span></td>
 			</tr>
 		</table>
 		<br/>
