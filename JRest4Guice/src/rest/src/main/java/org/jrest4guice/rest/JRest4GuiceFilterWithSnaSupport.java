@@ -1,8 +1,6 @@
 package org.jrest4guice.rest;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -27,12 +25,6 @@ import org.jrest4guice.rest.sna.SNASessionHelper;
  * 
  */
 public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
-
-	/**
-	 * 不需要被二次重定向的地址
-	 */
-	private Set<String> redirectFilter = new HashSet<String>(0);
-
 	/**
 	 * 缓存服务器的提供者
 	 */
@@ -61,17 +53,9 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 	 * sna会话服务器的url
 	 */
 	private String snaServerUrl;
-	
+
 	@Override
 	protected void executeInit(FilterConfig config) throws ServletException {
-		// 初始化不需要被二次重定向的地址
-		String _redirectFilter = config.getInitParameter("redirectFilter");
-		if (_redirectFilter != null && !_redirectFilter.trim().equals("")) {
-			String[] urls = _redirectFilter.split(",");
-			for (String url : urls)
-				redirectFilter.add(url);
-		}
-
 		// 初始化缓存提供者
 		this.initCacheProvider(config);
 	}
@@ -81,7 +65,7 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 			HttpServletResponse hResponse, FilterChain filterChain, String uri)
 			throws IOException, ServletException {
 
-		//检测当前应用是否充当了sna会话服务器的职能，如果是，则直接进入下一个过滤器
+		// 检测当前应用是否充当了sna会话服务器的职能，如果是，则直接进入下一个过滤器
 		boolean snaServerUrl = this.snaServerUrl.replace(
 				hRequest.getRequestURL().toString(), "").trim().equals("");
 		if (snaServerUrl) {
@@ -122,18 +106,14 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 		if (session.getAttribute(SNAIdRequestServlet.SNA_ID) == null) {
 			session.setAttribute(SNAIdRequestServlet.SNA_ID, snaId);
 
-			// 如果不需要被二次重定向的地址中没有包含当前url，进行二次重定向，
-			// 主要是为了美化地址栏，去掉因sna会话服务器而添加的地址栏参数
-			if (!this.redirectFilter.contains(uri)) {
-				// 构造查询参数
-				queryString = queryString.replaceAll(SNAIdRequestServlet.SNA_ID
-						+ "=" + snaId, "");
-				if (queryString.startsWith("&"))
-					queryString = queryString.replaceFirst("&", "?");
-				// 重定向回原始页面
-				hResponse.sendRedirect(hRequest.getRequestURL() + queryString);
-				return;
-			}
+			// 构造查询参数
+			queryString = queryString.replaceAll(SNAIdRequestServlet.SNA_ID
+					+ "=" + snaId, "");
+			if (queryString.startsWith("&"))
+				queryString = queryString.replaceFirst("&", "?");
+			// 重定向回原始页面
+			hResponse.sendRedirect(hRequest.getRequestURL() + queryString);
+			return;
 		}
 
 		// 从缓存服务器获取当前的会话对象
@@ -163,9 +143,9 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 		}
 	}
 
-
 	/**
 	 * 初始化缓存提供者
+	 * 
 	 * @param config
 	 * @throws ServletException
 	 */

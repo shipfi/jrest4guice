@@ -68,7 +68,7 @@ public class SecurityLoginModule implements LoginModule {
 			urlParam.put("userName", username);
 			urlParam.put("userPassword", new String(password));
 			Object result = client.callRemote(
-					"http://localhost:8080/full/security/auth", "get", urlParam);
+					"http://localhost/full/security/auth", "get", urlParam);
 			if (result != null) {
 				Boolean value = Boolean.valueOf(result.toString());
 				succeeded = value.booleanValue();
@@ -98,7 +98,7 @@ public class SecurityLoginModule implements LoginModule {
 			// ==================================================================
 			try {
 				List<Role> roles = (List<Role>) client.callRemote(
-						"http://localhost:8080/full/security/" + this.username
+						"http://localhost/full/security/" + this.username
 								+ "/roles", "get", null);
 				if (roles != null) {
 					this.roles = roles;
