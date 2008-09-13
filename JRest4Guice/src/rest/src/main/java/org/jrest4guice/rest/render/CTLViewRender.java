@@ -1,6 +1,5 @@
 package org.jrest4guice.rest.render;
 
-import java.io.File;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,14 +39,12 @@ public class CTLViewRender implements ViewRender {
 			url = annotation.error().value();
 		}
 		
-		url = request.getRealPath("/")+url;
-		
-		File f = new File(url);
+		url = this.request.getSession().getServletContext().getRealPath("/")+url;
 		
 		//获取模板
 		Template template = this.engine.getTemplate(url);
 		//往上下文中填入数据
-		context.put("contextPath", this.request.getContextPath());
+		context.put("ctxPath", this.request.getContextPath());
 		context.put("ctx", result);
 		
 		template.render(context);

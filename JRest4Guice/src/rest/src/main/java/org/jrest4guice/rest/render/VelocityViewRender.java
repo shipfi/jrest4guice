@@ -17,7 +17,7 @@ import org.jrest4guice.rest.context.RestContextManager;
 import com.google.inject.Inject;
 
 /**
- * Veloction的视力渲染器
+ * Velocity的渲染器
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
 public class VelocityViewRender implements ViewRender {
@@ -40,8 +40,8 @@ public class VelocityViewRender implements ViewRender {
 		//获取模板
 		Template template = Velocity.getTemplate(url, "utf-8");
 		//往上下文中填入数据
-		context.put("contextPath", this.request.getContextPath());
-		context.put("context", result);
+		context.put("ctxPath", this.request.getContextPath());
+		context.put("ctx", result);
 		//输出到用户端
 		StringWriter writer = new StringWriter();
 		template.merge(context, writer);

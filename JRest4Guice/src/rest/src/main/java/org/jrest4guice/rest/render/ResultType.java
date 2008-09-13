@@ -12,6 +12,7 @@ public class ResultType {
 	public final static String STREAM = "stream";
 	public final static String SPRY = "spry";
 	public final static String VELOCITY = "velocity";
+	public final static String CTL = "ctl";
 	public final static String FREEMARKER = "freemarker";
 	public static final String JSP = "jsp";
 }

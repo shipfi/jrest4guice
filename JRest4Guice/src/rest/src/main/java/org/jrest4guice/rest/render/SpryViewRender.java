@@ -13,7 +13,7 @@ import org.jrest4guice.rest.annotations.PageFlow;
 import com.google.inject.Inject;
 
 /**
- * Spry的视力渲染器
+ * Spry的渲染器
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
 public class SpryViewRender implements ViewRender {
