@@ -10,7 +10,7 @@
   * 支持对Get操作的缓存机制，实现动态资源静态化（通过@Cache标注声明）
   * 灵活的注入(支持上下文环境request/response/session以及参数的自动注入) 
   * 根据客户端要求返回不同类型的数据（xml/json/html）
-  * 通过@PageFlow实现对MVC module2的支持，输出结果支持Velocity、Freemarker和Spry模板引擎（当返回类型是text/html时才有效）
+  * 通过@PageFlow实现对MVC module2的支持，输出结果支持CTE、Velocity、Freemarker和Spry模板引擎（当返回类型是text/html时才有效）
   * 支持JPA，通过增强的BaseEntityManager实现实体的CRUD 
   * 支持事务，通过@Transactional注解声明事务的类型 
   * 支持JAAS，通过@RolesAllowed注解声明操作所需要的角色
