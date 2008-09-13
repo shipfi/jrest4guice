@@ -5,7 +5,7 @@ import java.util.List;
 import org.jrest4guice.client.JRestClient;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.client.Page;
-import org.jrest4guice.rest.RemoteServiceDynamicProxy;
+import org.jrest4guice.rest.context.RemoteServiceDynamicProxy;
 import org.jrest4guice.sample.contact.entity.Contact;
 import org.jrest4guice.sample.contact.resource.ContactResource;
 import org.jrest4guice.security.Role;

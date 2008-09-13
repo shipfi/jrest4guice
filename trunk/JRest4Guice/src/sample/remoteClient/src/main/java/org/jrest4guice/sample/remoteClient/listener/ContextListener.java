@@ -3,7 +3,7 @@ package org.jrest4guice.sample.remoteClient.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.jrest4guice.rest.JRest4GuiceHelper;
+import org.jrest4guice.rest.util.JRest4GuiceHelper;
 
 /**
  * 

@@ -21,13 +21,11 @@
 	</listener>
 
 	<!-- 过滤所有Restful的请求 -->
+	<!-- JRest4GuiceFilterWithSnaSupport 可以实现集群环境下脱离应用服务器层的数据共享，为单点登录提供底层支持。-->
 	<filter>
-		<filter-name>JRest4GuiceRequestFilter</filter-name>
-		<filter-class>org.jrest4guice.rest.JRest4GuiceRequestFilter</filter-class>
+		<filter-name>rest4gWithSna</filter-name>
+		<filter-class>org.jrest4guice.rest.JRest4GuiceFilterWithSnaSupport</filter-class>
 
-		<!-- [可选配置] 打开SNA及缓存服务器支持（开始）
-			可以实现集群环境下脱离应用服务器层的数据共享，为单点登录提供底层支持。
-		-->
 		<init-param>
 			<param-name>cacheServers</param-name>
 			<!-- 缓存服务器列表，多个之前以逗号隔开 -->
@@ -52,11 +50,10 @@
 			<!-- 不需要被二次重定向的地址，多个之前以逗号隔 -->
 			<param-value>/security/auth</param-value>
 		</init-param>
-		<!-- 打开SNA及缓存服务器支持（结束） -->
-
 	</filter>
+
 	<filter-mapping>
-		<filter-name>JRest4GuiceRequestFilter</filter-name>
+		<filter-name>rest4gWithSna</filter-name>
 		<url-pattern>*</url-pattern>
 	</filter-mapping>
 	

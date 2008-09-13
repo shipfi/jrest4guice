@@ -14,11 +14,11 @@
 
 	<!-- 过滤所有Restful的请求 -->
 	<filter>
-		<filter-name>JRest4GuiceRequestFilter</filter-name>
-		<filter-class>org.jrest4guice.rest.JRest4GuiceRequestFilter</filter-class>
+		<filter-name>JRest4GuiceFilter</filter-name>
+		<filter-class>org.jrest4guice.rest.JRest4GuiceFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>JRest4GuiceRequestFilter</filter-name>
+		<filter-name>JRest4GuiceFilter</filter-name>
 		<url-pattern>*</url-pattern>
 	</filter-mapping>
 
