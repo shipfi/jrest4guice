@@ -1,4 +1,4 @@
-package org.jrest4guice.sna;
+package org.jrest4guice.cache;
 
 import java.util.HashMap;
 import java.util.Map;

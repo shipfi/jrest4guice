@@ -8,9 +8,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.jrest4guice.cache.CacheProvider;
 import org.jrest4guice.commons.http.CookieUtil;
 import org.jrest4guice.guice.GuiceContext;
-import org.jrest4guice.sna.CacheProvider;
 
 import com.google.inject.Inject;
 

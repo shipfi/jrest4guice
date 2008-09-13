@@ -1,6 +1,6 @@
-package org.jrest4guice.sna.memcached;
+package org.jrest4guice.cache.memcached;
 
-import org.jrest4guice.sna.CacheProvider;
+import org.jrest4guice.cache.CacheProvider;
 
 import com.danga.MemCached.MemCachedClient;
 import com.danga.MemCached.SockIOPool;

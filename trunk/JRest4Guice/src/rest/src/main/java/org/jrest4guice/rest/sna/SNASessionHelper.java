@@ -1,4 +1,4 @@
-package org.jrest4guice.sna;
+package org.jrest4guice.rest.sna;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jrest4guice.cache.CacheProvider;
 
 /**
  * 
