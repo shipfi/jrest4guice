@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jrest4guice.rest.JRestResult;
+import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.PageFlow;
 
 import com.google.inject.Inject;
@@ -22,10 +22,10 @@ public class JspViewRender implements ViewRender {
 	protected HttpServletResponse response;
 
 	/* (non-Javadoc)
-	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.JRestResult, boolean)
+	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult, boolean)
 	 */
 	@Override
-	public void render(PrintWriter out, PageFlow annotation, JRestResult result,
+	public void render(PrintWriter out, PageFlow annotation, ServiceResult result,
 			boolean cache) throws Exception {
 		request.setAttribute("context", result);
 		request.getRequestDispatcher(annotation.success().value()).forward(this.request,

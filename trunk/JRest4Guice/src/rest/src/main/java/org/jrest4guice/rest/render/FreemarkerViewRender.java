@@ -9,7 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.jrest4guice.rest.JRestResult;
+import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.PageFlow;
 
 import com.google.inject.Inject;
@@ -45,10 +45,10 @@ public class FreemarkerViewRender implements ViewRender {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.JRestResult, boolean)
+	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult, boolean)
 	 */
 	@Override
-	public void render(PrintWriter out, PageFlow annotation, JRestResult result,boolean cache)
+	public void render(PrintWriter out, PageFlow annotation, ServiceResult result,boolean cache)
 			throws Exception {
 
 		this.initFreemarker();
