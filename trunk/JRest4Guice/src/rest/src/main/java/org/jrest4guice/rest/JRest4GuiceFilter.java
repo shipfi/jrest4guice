@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.rest.context.RestContextManager;
 
+/**
+ * 
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
+ * 
+ */
 public class JRest4GuiceFilter extends AbstractJRest4GuiceFilter {
 
 	@Override
