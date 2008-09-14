@@ -31,13 +31,13 @@ public class SNAHttpServletRequest implements HttpServletRequest {
 	}
 
 	public void clear(){
-		this.snaSession.clear();
-		if(this.request instanceof SNAHttpServletRequest){
-			((SNAHttpServletRequest)this.request).clear();
-		}
-		
-		if(this.snaHsession != null)
-			this.snaHsession.clear();
+//		this.snaSession.clear();
+//		if(this.request instanceof SNAHttpServletRequest){
+//			((SNAHttpServletRequest)this.request).clear();
+//		}
+//		
+//		if(this.snaHsession != null)
+//			this.snaHsession.clear();
 	}
 	
 	@Override
