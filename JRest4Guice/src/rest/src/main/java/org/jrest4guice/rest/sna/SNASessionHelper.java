@@ -11,6 +11,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jrest4guice.cache.CacheProvider;
+import org.jrest4guice.guice.GuiceContext;
+import org.jrest4guice.security.SecurityContext;
+
+import com.google.inject.Inject;
 
 /**
  * 
@@ -124,17 +128,29 @@ public class SNASessionHelper {
 	class SessionInvocationHandler implements InvocationHandler{
 		private HttpSession hSession;
 		private SNASession snaSession;
+		
+		@Inject
+		private CacheProvider cacheProvider;
+		
 		public SessionInvocationHandler(HttpSession hSession,SNASession snaSession){
 			this.hSession = hSession;
 			this.snaSession = snaSession;
 		}
 		public Object invoke(Object proxy, Method method,
 				Object[] args) throws Throwable {
+			
+			GuiceContext.getInstance().injectorMembers(this);
+			
+			boolean cacheAble = false;
+			cacheAble = this.cacheProvider != null && this.cacheProvider.isAvailable();
+			
 			String methodName = method.getName();
 			if (methodName
 					.equalsIgnoreCase(SNASessionHelper.SET_ATTRIBUTE)) {
 				snaSession.put(args[0], args[1]);
 				log.debug(SNASessionHelper.SET_ATTRIBUTE+"＝》"+args[0]+"="+args[1]);
+				if(cacheAble)
+					return null;
 			} else if (methodName
 					.equalsIgnoreCase(SNASessionHelper.GET_ATTRIBUTE)) {
 				Object value = method.invoke(hSession, args);
@@ -147,7 +163,10 @@ public class SNASessionHelper {
 					.equalsIgnoreCase(SNASessionHelper.REMOVE_ATTRIBUTE)) {
 				snaSession.remove(args[0]);
 				log.debug(SNASessionHelper.REMOVE_ATTRIBUTE+"＝》"+args[0]);
+				if(cacheAble)
+					return null;
 			}
+			
 			return method.invoke(hSession, args);
 		}
 	}
