@@ -103,10 +103,10 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 		HttpServletResponse hResponse = (HttpServletResponse) servletResponse;
 
 		if (this.sessionServerUrl != null) {
-			// 检测当前应用是否充当了sna会话服务器的职能，如果是，则直接进入下一个过滤器
-			boolean snaServerUrl = this.sessionServerUrl.replace(
+			// 检测当前应用是否充当了会话服务器的职能，如果是，则直接进入下一个过滤器
+			boolean isSessionServerUrl = this.sessionServerUrl.replace(
 					hRequest.getRequestURL().toString(), "").trim().equals("");
-			if (snaServerUrl) {
+			if (isSessionServerUrl) {
 				filterChain.doFilter(hRequest, hResponse);
 				return;
 			}
