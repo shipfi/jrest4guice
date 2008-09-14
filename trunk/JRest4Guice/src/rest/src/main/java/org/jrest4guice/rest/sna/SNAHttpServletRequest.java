@@ -62,7 +62,7 @@ public class SNAHttpServletRequest implements HttpServletRequest {
 
 	@Override
 	public String getHeader(String name) {
-		return this.request.getAuthType();
+		return this.request.getHeader(name);
 	}
 
 	@Override
