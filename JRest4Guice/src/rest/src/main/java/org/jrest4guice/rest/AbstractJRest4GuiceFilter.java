@@ -17,9 +17,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.jrest4guice.client.ModelMap;
+import org.jrest4guice.rest.sna.SNAIdRequestServlet;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -62,7 +65,14 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 		extNameExcludes.add("htc");
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * 会话服务器的url
+	 */
+	private String sessionServerUrl;
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
 	 */
 	public void init(FilterConfig config) throws ServletException {
@@ -74,9 +84,11 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 				extNameExcludes.add(ext);
 		}
 
+		this.sessionServerUrl = config.getInitParameter("sessionServerUrl");
+		
 		// 初始化rest服务的url前缀
 		this.initUrlPrefix(config);
-		
+
 		this.executeInit(config);
 	}
 
@@ -89,6 +101,57 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 
 		HttpServletRequest hRequest = (HttpServletRequest) servletReqest;
 		HttpServletResponse hResponse = (HttpServletResponse) servletResponse;
+
+		if (this.sessionServerUrl != null) {
+			// 检测当前应用是否充当了sna会话服务器的职能，如果是，则直接进入下一个过滤器
+			boolean snaServerUrl = this.sessionServerUrl.replace(
+					hRequest.getRequestURL().toString(), "").trim().equals("");
+			if (snaServerUrl) {
+				filterChain.doFilter(hRequest, hResponse);
+				return;
+			}
+
+			HttpSession session = hRequest.getSession();
+			// REST资源的参数
+			ModelMap<String, String> params = new ModelMap<String, String>();
+
+			// 从当前会话中获取snaId
+			String snaId = (String) session
+					.getAttribute(SNAIdRequestServlet.SNA_ID);
+			if (snaId == null) {// 如果没有标识，则尝试从参数中获取
+				snaId = hRequest.getParameter(SNAIdRequestServlet.SNA_ID);
+			}
+
+			String queryString = hRequest.getQueryString();
+			// 如果snaId为null，则重定向到sna会话服务器，获取新的snaId
+			if (snaId == null || snaId.trim().equals("")) {
+				if (queryString != null && !queryString.equals(""))
+					queryString = "&" + queryString;
+				else
+					queryString = "";
+
+				// 从SNA会话服务器上获取snaId
+				String redirectUrl = this.sessionServerUrl + "?sourceUrl="
+						+ hRequest.getRequestURL() + ";jsessionid="
+						+ session.getId() + queryString;
+				hResponse.sendRedirect(redirectUrl);
+				return;
+			}
+
+			// 保存snaId到当前会话
+			if (session.getAttribute(SNAIdRequestServlet.SNA_ID) == null) {
+				session.setAttribute(SNAIdRequestServlet.SNA_ID, snaId);
+
+				// 构造查询参数
+				queryString = queryString.replaceAll(SNAIdRequestServlet.SNA_ID
+						+ "=" + snaId, "");
+				if (queryString.startsWith("&"))
+					queryString = queryString.replaceFirst("&", "?");
+				// 重定向回原始页面
+				hResponse.sendRedirect(hRequest.getRequestURL() + queryString);
+				return;
+			}
+		} 
 
 		String uri = hRequest.getRequestURI();
 		uri = uri.replace(hRequest.getContextPath(), "");
@@ -108,18 +171,20 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 			filterChain.doFilter(hRequest, hResponse);
 			return;
 		}
-		
+
 		this.executeFilter(hRequest, hResponse, filterChain, uri);
 	}
 
-	protected abstract void executeInit(FilterConfig config) throws ServletException;
-	protected abstract void executeFilter(HttpServletRequest servletReqest,
-			HttpServletResponse servletResponse, FilterChain filterChain, String uri)
-			throws IOException, ServletException;
+	protected abstract void executeInit(FilterConfig config)
+			throws ServletException;
 
-	
+	protected abstract void executeFilter(HttpServletRequest servletReqest,
+			HttpServletResponse servletResponse, FilterChain filterChain,
+			String uri) throws IOException, ServletException;
+
 	/**
 	 * 实始化rest服务的url前缀
+	 * 
 	 * @param config
 	 */
 	private void initUrlPrefix(FilterConfig config) {
@@ -141,12 +206,14 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see javax.servlet.Filter#destroy()
 	 */
 	public void destroy() {
 	}
-	
+
 	class FilterInfoParser extends DefaultHandler {
 
 		private boolean startParseServletMapping;
@@ -171,11 +238,13 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 				startParseServletMapping = true;
 			}
 
-			if (startParseServletMapping && qName.equalsIgnoreCase("filter-name")) {
+			if (startParseServletMapping
+					&& qName.equalsIgnoreCase("filter-name")) {
 				filterName = null;
 			}
 
-			if (startParseServletMapping && qName.equalsIgnoreCase("url-pattern")) {
+			if (startParseServletMapping
+					&& qName.equalsIgnoreCase("url-pattern")) {
 				urlPattern = null;
 			}
 		}
@@ -195,12 +264,14 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 				startParseServletMapping = false;
 			}
 
-			if (startParseServletMapping && qName.equalsIgnoreCase("filter-name")) {
+			if (startParseServletMapping
+					&& qName.equalsIgnoreCase("filter-name")) {
 				filterName = content.toString();
 				this.clearContent();
 			}
 
-			if (startParseServletMapping && qName.equalsIgnoreCase("url-pattern")) {
+			if (startParseServletMapping
+					&& qName.equalsIgnoreCase("url-pattern")) {
 				urlPattern = content.toString();
 				this.clearContent();
 			}
