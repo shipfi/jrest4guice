@@ -24,6 +24,10 @@ public class SNAHttpServletRequest implements HttpServletRequest {
 	public SNAHttpServletRequest(HttpServletRequest request,SNASession snaSession){
 		this.request = request;
 		this.snaSession = snaSession;
+		
+		if(this.snaSession != null && this.snaSession.isEmpty()){
+			this.clear();
+		}
 	}
 
 	public void clear(){
