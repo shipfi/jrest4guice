@@ -15,6 +15,7 @@ import org.jrest4guice.cache.CacheProviderRegister;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.commons.http.CookieUtil;
 import org.jrest4guice.rest.context.RestContextManager;
+import org.jrest4guice.rest.sna.SNAHttpServletRequest;
 import org.jrest4guice.rest.sna.SNAIdRequestServlet;
 import org.jrest4guice.rest.sna.SNASession;
 import org.jrest4guice.rest.sna.SNASessionHelper;
@@ -121,8 +122,7 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 		session.setAttribute(CookieUtil.SESSION_NAME, snaId);
 
 		try {
-			HttpServletRequest requestWrapper = this.helper
-					.createRequestWrapper(hRequest, snaSession);
+			HttpServletRequest requestWrapper = new SNAHttpServletRequest(hRequest,snaSession);
 			// 设置上下文中的环境变量
 			RestContextManager.setContext(requestWrapper, hResponse, params);
 			new JRest4GuiceProcessor().setUrlPrefix(this.urlPrefix).process(
