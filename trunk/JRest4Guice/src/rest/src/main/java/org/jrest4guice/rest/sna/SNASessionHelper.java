@@ -12,9 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jrest4guice.cache.CacheProvider;
 import org.jrest4guice.guice.GuiceContext;
-import org.jrest4guice.security.SecurityContext;
-
-import com.google.inject.Inject;
 
 /**
  * 
@@ -100,8 +97,6 @@ public class SNASessionHelper {
 	class RequestInvocationHandler implements InvocationHandler{
 		private HttpServletRequest hRequest;
 		private HttpSession hSession;
-		private HttpSession proxySession = null;
-
 		public RequestInvocationHandler(HttpServletRequest hRequest,HttpSession hSession){
 			this.hRequest = hRequest;
 			this.hSession = hSession;
@@ -111,10 +106,7 @@ public class SNASessionHelper {
 				Object[] args) throws Throwable {
 			if (method.getName().equalsIgnoreCase(
 					SNASessionHelper.GET_SESSION)) {
-				if (proxySession == null) {
-					proxySession = SNASessionHelper.this.createSessionWrapper(hSession);
-				}
-				return proxySession;
+				return SNASessionHelper.this.createSessionWrapper(hSession);
 			}
 			return method.invoke(hRequest, args);
 		}
@@ -124,9 +116,6 @@ public class SNASessionHelper {
 	class SessionInvocationHandler implements InvocationHandler{
 		private HttpSession hSession;
 		private SNASession snaSession;
-		
-		@Inject
-		private SecurityContext securityContext;
 		
 		public SessionInvocationHandler(HttpSession hSession){
 			this.hSession = hSession;
