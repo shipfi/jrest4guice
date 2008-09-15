@@ -20,12 +20,7 @@
 		</listener-class>
 	</listener>
 
-	<!-- 过滤所有Restful的请求，我们可能通过JRest4GuiceFilterWithSnaSupport或者JRest4GuiceFilter两种方式来实现 -->
-	<!-- (1) JRest4GuiceFilterWithSnaSupport 可以实现集群环境下脱离应用服务器层的数据共享，为单点登录提供底层支持。-->
-	<!-- (2) JRest4GuiceFilter 实现基本的Rest服务支持，若需要集群，要借助应用服务的配置来实现。-->
-
-
-	<!-- (方式-1) JRest4GuiceFilterWithSnaSupport 实现。-->
+	<!-- 过滤所有Restful的请求，可以实现集群环境下脱离应用服务器层的数据共享，为单点登录提供底层支持。 -->
 	<filter>
 		<filter-name>rest4gWithSna</filter-name>
 		<filter-class>org.jrest4guice.rest.JRest4GuiceFilterWithSnaSupport</filter-class>
@@ -56,24 +51,6 @@
 		<filter-name>rest4gWithSna</filter-name>
 		<url-pattern>*</url-pattern>
 	</filter-mapping>
-
-	<!-- (方式-2) JRest4GuiceFilter 实现。-->
-	<!--
-	<filter>
-		<filter-name>JRest4GuiceFilter</filter-name>
-		<filter-class>org.jrest4guice.rest.JRest4GuiceFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>JRest4GuiceFilter</filter-name>
-		<url-pattern>*</url-pattern>
-	</filter-mapping>
-	-->
-	
-
-
-
-
-
 
 	<!-- ************************************************************************************** -->
 	<!-- 应用的 配置部分                                                                                                                                                                                                    -->
