@@ -15,7 +15,7 @@ import org.jrest4guice.guice.GuiceContext;
 import com.google.inject.Inject;
 
 public class SecurityContext {
-	@Inject
+	@Inject(optional=true)
 	private CacheProvider cacheProvider;
 	@Inject(optional = true)
 	protected HttpServletRequest request;
@@ -36,7 +36,7 @@ public class SecurityContext {
 	 * @return
 	 */
 	public final UserRole getUserPrincipal() {
-		if (this.cacheProvider == null || this.request == null)
+		if (this.request == null)
 			return null;
 		Object uRoleObj = this.session
 				.getAttribute(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX);
@@ -47,7 +47,7 @@ public class SecurityContext {
 				String cacheName = CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX
 						+ userName;
 
-				if (this.cacheProvider.isAvailable()) {
+				if (this.cacheProvider != null && this.cacheProvider.isAvailable()) {
 					uRoleObj = this.cacheProvider.get(cacheName);
 					this.clearUserPrincipalCache(userName);
 				} else {// 从缓存服务器中获取不到当前用户的权限信息
@@ -99,7 +99,7 @@ public class SecurityContext {
 	 * @param userRole
 	 */
 	public void storeUserPrincipal(String userName, UserRole userRole) {
-		if (this.cacheProvider.isAvailable())
+		if (this.cacheProvider != null && this.cacheProvider.isAvailable())
 			this.cacheProvider.put(
 					CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX + userName,
 					userRole);
@@ -119,7 +119,7 @@ public class SecurityContext {
 	 * @param userName
 	 */
 	public void clearUserPrincipalCache(String userName) {
-		if (this.cacheProvider.isAvailable())
+		if (this.cacheProvider != null && this.cacheProvider.isAvailable())
 			this.cacheProvider
 					.delete(CacheProvider.USER_PRINCIPAL_CACHE_KEY_PREFIX
 							+ userName);
@@ -137,7 +137,7 @@ public class SecurityContext {
 		}
 
 		// to-do 是否要清除缓存服务器的当前会话对象，还是由缓存服务器自己超时
-		if (this.cacheProvider.isAvailable()) {
+		if (this.cacheProvider != null && this.cacheProvider.isAvailable()) {
 			Object cookieId = session.getAttribute(CookieUtil.SESSION_NAME);
 			if (cookieId != null)
 				this.cacheProvider.delete(cookieId.toString());
