@@ -3,12 +3,15 @@ package org.jrest4guice.rest.sna;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.inject.ProvidedBy;
+
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * 
  */
 @SuppressWarnings("unchecked")
+@ProvidedBy(SNASessionProvider.class)
 public class SNASession extends HashMap{
 
 	/**
