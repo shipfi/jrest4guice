@@ -37,8 +37,8 @@
 			<param-value>memcached</param-value>
 		</init-param>
 		<init-param>
-			<param-name>snaServerUrl</param-name>
-			<!-- sna会话服务器的url
+			<param-name>sessionServerUrl</param-name>
+			<!-- 会话服务器的url
 				保障不同域名下的应用能获得统一的会话id，为单点认证提供保障。（缺省情况下，
 				同一顶级域名下的应用可以通过cookie的方式来确保会话id的唯一，但解决不了多
 				域名会话id的统一性）
