@@ -14,10 +14,13 @@ import org.jrest4guice.cache.CacheProviderProvider;
 import org.jrest4guice.cache.CacheProviderRegister;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.commons.http.CookieUtil;
+import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.sna.SNAIdRequestServlet;
 import org.jrest4guice.rest.sna.SNASession;
 import org.jrest4guice.rest.sna.SNASessionHelper;
+import org.jrest4guice.rest.sna.SNASessionProvider;
+import org.jrest4guice.security.SecurityContext;
 
 /**
  * 
@@ -73,10 +76,17 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 		session.setAttribute(CookieUtil.SESSION_NAME, snaId);
 
 		try {
-//			HttpServletRequest requestWrapper = new SNAHttpServletRequest(hRequest,snaSession);
-			HttpServletRequest requestWrapper = this.helper.createRequestWrapper(hRequest, snaSession);
+			HttpServletRequest requestWrapper = this.helper.createRequestWrapper(hRequest);
 			// 设置上下文中的环境变量
 			RestContextManager.setContext(requestWrapper, hResponse, params);
+			SNASessionProvider.setCurrentSNASession(snaSession);
+			
+			//检测用户当前的安全状态
+			if(requestWrapper.getUserPrincipal() != null){
+				GuiceContext.getInstance().getBean(SecurityContext.class).getUserPrincipal();
+			}
+			
+			//处理当前请求
 			new JRest4GuiceProcessor().setUrlPrefix(this.urlPrefix).process(
 					requestWrapper, hResponse);
 		} catch (Throwable e) {
@@ -92,6 +102,7 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 			}
 			// 清除上下文中的环境变量
 			RestContextManager.clearContext();
+			SNASessionProvider.clearCurrentSNASession();
 		}
 	}
 
