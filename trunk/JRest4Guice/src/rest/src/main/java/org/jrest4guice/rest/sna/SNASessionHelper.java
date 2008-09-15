@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jrest4guice.cache.CacheProvider;
+import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.security.SecurityContext;
 
 import com.google.inject.Inject;
@@ -45,12 +46,12 @@ public class SNASessionHelper {
 	 * @return
 	 */
 	public HttpServletRequest createRequestWrapper(
-			final HttpServletRequest hRequest, final SNASession snaSession) {
+			final HttpServletRequest hRequest) {
 		final HttpSession hSession = hRequest.getSession();
 		return (HttpServletRequest) Proxy.newProxyInstance(
 				HttpServletRequest.class.getClassLoader(),
 				new Class[] { HttpServletRequest.class },
-				new RequestInvocationHandler(hRequest,hSession,snaSession));
+				new RequestInvocationHandler(hRequest,hSession));
 	}
 
 	/**
@@ -90,23 +91,20 @@ public class SNASessionHelper {
 	 * @param snaSession
 	 * @return
 	 */
-	private HttpSession createSessionWrapper(final HttpSession hSession,
-			final SNASession snaSession) {
+	private HttpSession createSessionWrapper(final HttpSession hSession) {
 		return (HttpSession) Proxy.newProxyInstance(HttpSession.class
 				.getClassLoader(), new Class[] { HttpSession.class },
-				new SessionInvocationHandler(hSession,snaSession));
+				new SessionInvocationHandler(hSession));
 	}
 	
 	class RequestInvocationHandler implements InvocationHandler{
 		private HttpServletRequest hRequest;
 		private HttpSession hSession;
-		private SNASession snaSession;
 		private HttpSession proxySession = null;
 
-		public RequestInvocationHandler(HttpServletRequest hRequest,HttpSession hSession,SNASession snaSession){
+		public RequestInvocationHandler(HttpServletRequest hRequest,HttpSession hSession){
 			this.hRequest = hRequest;
 			this.hSession = hSession;
-			this.snaSession = snaSession;
 		}
 
 		public Object invoke(Object proxy, Method method,
@@ -114,8 +112,7 @@ public class SNASessionHelper {
 			if (method.getName().equalsIgnoreCase(
 					SNASessionHelper.GET_SESSION)) {
 				if (proxySession == null) {
-					proxySession = SNASessionHelper.this.createSessionWrapper(hSession,
-							snaSession);
+					proxySession = SNASessionHelper.this.createSessionWrapper(hSession);
 				}
 				return proxySession;
 			}
@@ -131,12 +128,14 @@ public class SNASessionHelper {
 		@Inject
 		private SecurityContext securityContext;
 		
-		public SessionInvocationHandler(HttpSession hSession,SNASession snaSession){
+		public SessionInvocationHandler(HttpSession hSession){
 			this.hSession = hSession;
-			this.snaSession = snaSession;
 		}
 		public Object invoke(Object proxy, Method method,
 				Object[] args) throws Throwable {
+			
+			this.snaSession = GuiceContext.getInstance().getBean(SNASession.class);
+			
 			String methodName = method.getName();
 			if (methodName
 					.equalsIgnoreCase(SNASessionHelper.SET_ATTRIBUTE)) {
