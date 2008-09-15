@@ -112,9 +112,6 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 			}
 
 			HttpSession session = hRequest.getSession();
-			// REST资源的参数
-			ModelMap<String, String> params = new ModelMap<String, String>();
-
 			// 从当前会话中获取snaId
 			String snaId = (String) session
 					.getAttribute(SNAIdRequestServlet.SNA_ID);
