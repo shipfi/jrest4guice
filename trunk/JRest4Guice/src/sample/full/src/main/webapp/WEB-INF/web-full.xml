@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_JRest4Guice-full-sample" version="2.5">
+	<display-name>JRest4Guice-sample-full</display-name>
+	
+	<!-- ************************************************************************************** -->
+	<!-- JRest4Guice 配置的必须部分                                                                                                                                                                     -->
+	<!-- ************************************************************************************** -->
+	
+	<!-- 通过 JRest4GuiceSampContextListener 来初始化JRest4Guice的上下文 -->
+	<!-- 用户可以根据习惯通过listener或者servlet来初始化JRest4Guice的上下文，
+		初始化详情请看JRest4GuiceSampContextListener的实现类
+	-->
+	<listener>
+		<listener-class>
+			org.jrest4guice.sample.contact.listener.ContextListener
+		</listener-class>
+	</listener>
+
+	<!-- 过滤所有Restful的请求，我们可能通过JRest4GuiceFilterWithSnaSupport或者JRest4GuiceFilter两种方式来实现 -->
+	<!-- (1) JRest4GuiceFilterWithSnaSupport 可以实现集群环境下脱离应用服务器层的数据共享，为单点登录提供底层支持。-->
+	<!-- (2) JRest4GuiceFilter 实现基本的Rest服务支持，若需要集群，要借助应用服务的配置来实现。-->
+
+
+	<!-- (方式-1) JRest4GuiceFilterWithSnaSupport 实现。-->
+	<filter>
+		<filter-name>rest4gWithSna</filter-name>
+		<filter-class>org.jrest4guice.rest.JRest4GuiceFilterWithSnaSupport</filter-class>
+
+		<init-param>
+			<param-name>cacheServers</param-name>
+			<!-- 缓存服务器列表，多个之前以逗号隔开 -->
+			<param-value>192.168.10.8:11211</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cacheProvider</param-name>
+			<!-- 缓存服务器提供者 -->
+			<param-value>memcached</param-value>
+		</init-param>
+		<init-param>
+			<param-name>sessionServerUrl</param-name>
+			<!-- 会话服务器的url
+				保障不同域名下的应用能获得统一的会话id，为单点认证提供保障。
+				（注：系统提供的缺省实现为org.jrest4guice.rest.sna.SNAIdRequestServlet，
+					用户可以将这个servlet部署到一个单独的应用或者与其它服务一起部署，
+					使指定的应用充当会话服务器的功能
+				）
+			-->
+			<param-value>http://192.168.10.8/full/snaId</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>rest4gWithSna</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
+
+	<!-- (方式-2) JRest4GuiceFilter 实现。-->
+	<!--
+	<filter>
+		<filter-name>JRest4GuiceFilter</filter-name>
+		<filter-class>org.jrest4guice.rest.JRest4GuiceFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>JRest4GuiceFilter</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
+	-->
+	
+
+
+
+
+
+
+	<!-- ************************************************************************************** -->
+	<!-- 应用的 配置部分                                                                                                                                                                                                    -->
+	<!-- ************************************************************************************** -->
+	<!-- 
+		处理snaId请求的servlet，在这里使当前应用充当sna会话服务器的功能，我们通常需要配置一个单独的
+		应用来充当sna会话服务器
+	-->
+	<servlet>
+		<servlet-name>snaId</servlet-name>
+		<servlet-class>
+			org.jrest4guice.rest.sna.SNAIdRequestServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>snaId</servlet-name>
+		<url-pattern>/snaId</url-pattern>
+	</servlet-mapping>
+
+	<!-- 会话监听器，用来清除安全上下文 -->
+	<listener>
+		<listener-class>
+			org.jrest4guice.sample.contact.listener.HttpSessionListener
+		</listener-class>
+	</listener>
+
+	<!-- 会话超时设置 -->
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
+
+	<!-- 带监视功能的文件上传组件 -->
+	<servlet>
+		<servlet-name>MonitoredFileUploadServlet</servlet-name>
+		<servlet-class>
+			org.jrest4guice.commons.fileupload.MonitoredFileUploadServlet
+		</servlet-class>
+		<init-param>
+			<param-name>interceptor</param-name>
+			<param-value>
+				org.jrest4guice.sample.contact.fileupload.ImageFileUploadInterceptor
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>fileTypeAllowed</param-name>
+			<param-value>jpg,png,gif,bmp</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MonitoredFileUploadServlet</servlet-name>
+		<url-pattern>/uploadFile</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 首页定义 -->
+	<welcome-file-list>
+		<welcome-file>main.html</welcome-file>
+	</welcome-file-list>
+	
+	<!-- 权限声明 -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Protected Area</web-resource-name>
+			<url-pattern>/login.jsp</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>guest</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>full sample jaas</realm-name>
+		<form-login-config>
+			<form-login-page>/login.jsp</form-login-page>
+			<form-error-page>/loginFail.html</form-error-page>
+		</form-login-config>
+	</login-config>
+</web-app>
