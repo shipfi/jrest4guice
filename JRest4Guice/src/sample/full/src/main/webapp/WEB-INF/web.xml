@@ -29,7 +29,7 @@
 		<init-param>
 			<param-name>cacheServers</param-name>
 			<!-- 缓存服务器列表，多个之前以逗号隔开 -->
-			<param-value>localhost:11211</param-value>
+			<param-value>192.168.10.8:11211</param-value>
 		</init-param>
 		<init-param>
 			<param-name>cacheProvider</param-name>
