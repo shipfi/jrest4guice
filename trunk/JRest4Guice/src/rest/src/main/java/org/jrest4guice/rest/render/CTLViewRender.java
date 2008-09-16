@@ -58,8 +58,6 @@ public class CTLViewRender implements ViewRender {
 			if(cache){//缓存
 				ResourceCacheManager.getInstance().cacheStaticResource(RestContextManager.getCurrentRestUri(), MimeType.MIME_OF_TEXT_HTML, content.getBytes(), request);
 			}
-		} catch (Exception e) {
-			throw e;
 		}finally{
 			this.context.clear();
 		}
