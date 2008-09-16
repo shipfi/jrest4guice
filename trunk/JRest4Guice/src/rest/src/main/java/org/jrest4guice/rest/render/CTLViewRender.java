@@ -34,27 +34,34 @@ public class CTLViewRender implements ViewRender {
 	public void render(PrintWriter out, PageFlow annotation, ServiceResult result,boolean cache)
 			throws Exception {
 		
-		String url = annotation.success().value();
-		if(!result.isInChain() &&(result.getErrorType() != null || result.getInvalidValues() != null)){
-			url = annotation.error().value();
-		}
-		
-		url = this.request.getSession().getServletContext().getRealPath("/")+url;
-		
-		//获取模板
-		Template template = this.engine.getTemplate(url);
-		//往上下文中填入数据
-		context.put("ctxPath", this.request.getContextPath());
-		context.put("ctx", result);
-		
-		template.render(context);
-		
-		String content = context.getOut().toString();
-		
-		out.println(content);
-		
-		if(cache){
-			ResourceCacheManager.getInstance().cacheStaticResource(RestContextManager.getCurrentRestUri(), MimeType.MIME_OF_TEXT_HTML, content.getBytes(), request);
+		try {
+			String url = annotation.success().value();
+			if(!result.isInChain() &&(result.getErrorType() != null || result.getInvalidValues() != null)){
+				url = annotation.error().value();
+			}
+			
+			url = this.request.getSession().getServletContext().getRealPath("/")+url;
+			
+			//获取模板
+			Template template = this.engine.getTemplate(url);
+			//往上下文中填入数据
+			this.context.put("ctxPath", this.request.getContextPath());
+			this.context.put("ctx", result);
+			
+			template.render(this.context);
+			
+			String content = this.context.getOut().toString();
+			
+			//输出到页面
+			out.println(content);
+			
+			if(cache){//缓存
+				ResourceCacheManager.getInstance().cacheStaticResource(RestContextManager.getCurrentRestUri(), MimeType.MIME_OF_TEXT_HTML, content.getBytes(), request);
+			}
+		} catch (Exception e) {
+			throw e;
+		}finally{
+			this.context.clear();
 		}
 	}
 
