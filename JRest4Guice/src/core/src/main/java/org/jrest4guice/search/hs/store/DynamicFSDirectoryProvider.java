@@ -20,6 +20,11 @@ import org.hibernate.search.store.optimization.OptimizerStrategy;
 import org.hibernate.search.util.DirectoryProviderHelper;
 import org.hibernate.util.StringHelper;
 
+/**
+ * 
+ * @author <a href="mailto:zhyhongyuan@gmail.com">jerry</a>
+ *
+ */
 @SuppressWarnings("unused")
 public class DynamicFSDirectoryProvider extends FSDirectoryProvider{
 	private static Log log = LogFactory.getLog( FSDirectoryProvider.class );
