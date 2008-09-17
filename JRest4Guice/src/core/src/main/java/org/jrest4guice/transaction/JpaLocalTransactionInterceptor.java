@@ -47,7 +47,9 @@ public class JpaLocalTransactionInterceptor implements MethodInterceptor {
 		}
 
 		//开始一个新的事务
-		transaction.begin();
+		if(type != TransactionalType.READOLNY){
+			transaction.begin();
+		}
 		
 		Object result = null;
 		try {
