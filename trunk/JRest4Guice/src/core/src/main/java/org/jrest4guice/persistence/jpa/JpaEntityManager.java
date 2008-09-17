@@ -691,4 +691,12 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 		}
 		return entity;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.jrest4guice.persistence.BaseEntityManager#executeUpdate(java.lang.String)
+	 */
+	@Override
+	public int executeUpdate(String sql) {
+		return this.em.createQuery(sql).executeUpdate();
+	}
 }

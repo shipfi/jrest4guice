@@ -206,5 +206,7 @@ public interface BaseEntityManager<PK extends Serializable, E extends EntityAble
 	 * @param entity
 	 */
 	public abstract E update(E entity);
+	
+	public int executeUpdate(String sql);
 
 }

@@ -12,6 +12,7 @@ import org.jrest4guice.persistence.hibernate.HibernateGuiceModuleProvider;
 import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
 import org.jrest4guice.persistence.jpa.EntityManagerFactoryHolder;
 import org.jrest4guice.persistence.jpa.JpaGuiceModuleProvider;
+import org.jrest4guice.search.hs.HibernateSearchGuiceModuleProvider;
 import org.jrest4guice.security.SecurityGuiceModuleProvider;
 import org.jrest4guice.transaction.HibernateLocalTransactionInterceptor;
 import org.jrest4guice.transaction.JpaLocalTransactionInterceptor;
@@ -152,6 +153,16 @@ public class GuiceContext {
 		return this;
 	}
 	
+	/**
+	 * 打开Hibernate search功能
+	 * @return
+	 */
+	public GuiceContext useHibernateSearch(){
+		Assert.isTrue(this.useHibernate || this.useJPA, "Hibernate search 需要hibernate 或者 jpa的支持");
+		this.addModuleProvider(new HibernateSearchGuiceModuleProvider());
+		return this;
+	}
+
 	/**
 	 * 关闭持久化上下文环境
 	 */
