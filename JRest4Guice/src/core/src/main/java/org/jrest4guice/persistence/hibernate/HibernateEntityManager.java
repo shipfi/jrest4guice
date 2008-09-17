@@ -704,4 +704,12 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 		}
 		return entity;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.jrest4guice.persistence.BaseEntityManager#executeUpdate(java.lang.String)
+	 */
+	@Override
+	public int executeUpdate(String sql) {
+		return this.session.createQuery(sql).executeUpdate();
+	}
 }

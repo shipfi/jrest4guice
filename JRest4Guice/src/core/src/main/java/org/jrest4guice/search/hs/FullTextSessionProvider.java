@@ -1,4 +1,4 @@
-package org.jrest4guice.persistence.hibernate;
+package org.jrest4guice.search.hs;
 
 import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
