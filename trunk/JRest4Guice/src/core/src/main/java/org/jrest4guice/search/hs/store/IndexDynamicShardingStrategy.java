@@ -25,6 +25,11 @@ import org.hibernate.search.reader.SharedReaderProvider;
 import org.hibernate.search.store.DirectoryProvider;
 import org.hibernate.search.store.IndexShardingStrategy;
 
+/**
+ * 
+ * @author <a href="mailto:zhyhongyuan@gmail.com">jerry</a>
+ *
+ */
 @SuppressWarnings("unchecked")
 public class IndexDynamicShardingStrategy implements IndexShardingStrategy {
 	private static Log log = LogFactory
