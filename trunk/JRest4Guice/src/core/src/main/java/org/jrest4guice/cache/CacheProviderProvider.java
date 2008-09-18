@@ -10,7 +10,7 @@ public class CacheProviderProvider implements Provider<CacheProvider> {
 		return provider;
 	}
 	
-	public static void setCurrentSecurityContext(CacheProvider _provider){
+	public static void setCurrentCacheProvider(CacheProvider _provider){
 		provider = _provider;
 	}
 }

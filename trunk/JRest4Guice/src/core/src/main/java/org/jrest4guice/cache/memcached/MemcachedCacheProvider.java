@@ -1,5 +1,7 @@
 package org.jrest4guice.cache.memcached;
 
+import java.util.Date;
+
 import org.jrest4guice.cache.CacheProvider;
 
 import com.danga.MemCached.MemCachedClient;
@@ -9,6 +11,12 @@ public class MemcachedCacheProvider implements CacheProvider {
 	
 	private MemCachedClient memCachedClient = null;
 	private SockIOPool sockIOPool = null;
+	
+	/**
+	 * 缺省超时时间为15分钟
+	 */
+	private long expiryTime = 1000*60*15;
+	
 	
 	/* (non-Javadoc)
 	 * @see org.jrest4guice.sna.CacheProvider#setCacheServers(java.lang.String)
@@ -42,7 +50,7 @@ public class MemcachedCacheProvider implements CacheProvider {
 	 * @see org.jrest4guice.sna.CacheManager#put(java.lang.String, java.lang.Object)
 	 */
 	public CacheProvider put(String key, Object value) {
-		this.memCachedClient.set(key, value);
+		this.memCachedClient.set(key, value,new Date(System.currentTimeMillis()+this.expiryTime));
 		return this;
 	}
 
@@ -70,9 +78,18 @@ public class MemcachedCacheProvider implements CacheProvider {
 		return "memcached";
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.jrest4guice.cache.CacheProvider#isAvailable()
+	 */
 	public boolean isAvailable() {
 		this.memCachedClient.set(CACHE_TEST_KEY, "hello");
 		return this.memCachedClient.keyExists(CACHE_TEST_KEY);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jrest4guice.cache.CacheProvider#setExpiryTime(long)
+	 */
+	public void setExpiryTime(long time) {
+		this.expiryTime = time;
 	}
 }

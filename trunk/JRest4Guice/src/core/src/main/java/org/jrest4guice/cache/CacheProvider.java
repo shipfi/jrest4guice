@@ -24,6 +24,12 @@ public interface CacheProvider {
 	public void setCacheServers(String servers);
 	
 	/**
+	 * 设置对象缓存的超时时间（以毫秒为单位）
+	 * @param time
+	 */
+	public void setExpiryTime(long time);
+	
+	/**
 	 * 返回指定key的cache对象
 	 * @param key
 	 * @return
