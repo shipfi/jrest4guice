@@ -16,7 +16,7 @@
 		<h4>错误明细</h4>
 		<div style="text-align: left;width:33.3%;margin-top: -18px;">
 		<hr/>
-		$for(value : ctx.invalidValues)
+		$for{value : ctx.invalidValues}
 			<b><font color=red>${value.propertyName}：&nbsp;&nbsp;</font></b><font color=green>${value.message}</font><br/>
 		$end
 		<hr/>
