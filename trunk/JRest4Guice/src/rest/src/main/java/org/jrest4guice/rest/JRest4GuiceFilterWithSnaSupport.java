@@ -123,7 +123,7 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 			// 获取缓存管理的实现
 			this.cacheProvider = CacheProviderRegister.getInstance()
 					.getCacheProvider(_cacheProvider);
-			CacheProviderProvider.setCurrentSecurityContext(this.cacheProvider);
+			CacheProviderProvider.setCurrentCacheProvider(this.cacheProvider);
 
 			if (this.cacheProvider == null) {
 				throw new ServletException(
@@ -132,6 +132,7 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 								+ "\"来初始化缓存提供者，请确认您有没有通过GuiceContext.useCache()来打开Cache的支持！");
 			}
 			this.cacheProvider.setCacheServers(cacheServers);
+			this.cacheProvider.setExpiryTime(this.sessionTimeOut*1000);
 
 			// 初始化SNA会话助手
 			this.helper = new SNASessionHelper(this.cacheProvider);

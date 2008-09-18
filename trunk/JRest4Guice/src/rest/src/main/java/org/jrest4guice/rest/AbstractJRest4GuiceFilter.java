@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.rest.sna.SNAIdRequestServlet;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -69,6 +68,9 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 	 * 会话服务器的url
 	 */
 	private String sessionServerUrl;
+	
+	protected long sessionTimeOut = 15;
+	
 
 	/*
 	 * (non-Javadoc)
@@ -85,7 +87,7 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 		}
 
 		this.sessionServerUrl = config.getInitParameter("sessionServerUrl");
-		
+
 		// 初始化rest服务的url前缀
 		this.initUrlPrefix(config);
 
@@ -148,7 +150,7 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 				hResponse.sendRedirect(hRequest.getRequestURL() + queryString);
 				return;
 			}
-		} 
+		}
 
 		String uri = hRequest.getRequestURI();
 		uri = uri.replace(hRequest.getContextPath(), "");
@@ -187,8 +189,12 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 	private void initUrlPrefix(FilterConfig config) {
 		try {
 			FilterInfoParser servletInfoParser = new FilterInfoParser();
-			Map<String, String> filterInfos = servletInfoParser.parse(config
-					.getServletContext());
+			servletInfoParser.parse(config.getServletContext());
+			
+			Map<String, String> filterInfos = servletInfoParser.getFilterInfos();
+			
+			this.sessionTimeOut = Integer.parseInt(servletInfoParser.getSessionTimeout());
+			
 			String urlPattern = filterInfos.get(config.getFilterName());
 			this.urlPrefix = urlPattern;
 
@@ -213,17 +219,19 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 
 	class FilterInfoParser extends DefaultHandler {
 
-		private boolean startParseServletMapping;
+		private boolean startParse;
 
-		private String filterName;
+		private String name;
 		private String urlPattern;
-
 		private StringBuffer content;
 
+		private String sessionTimeout = "15";
+		private Map<String, String> filterInfos;
 		private Map<String, String> servletInfos;
 
 		public FilterInfoParser() {
 			this.content = new StringBuffer();
+			this.filterInfos = new HashMap<String, String>(0);
 			this.servletInfos = new HashMap<String, String>(0);
 		}
 
@@ -231,18 +239,23 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 				Attributes attributes) throws SAXException {
 			this.clearContent();
 
-			if (qName.equalsIgnoreCase("filter-mapping")) {
-				startParseServletMapping = true;
+			if (qName.equalsIgnoreCase("filter-mapping")
+					|| qName.equalsIgnoreCase("servlet-mapping")) {
+				startParse = true;
 			}
 
-			if (startParseServletMapping
-					&& qName.equalsIgnoreCase("filter-name")) {
-				filterName = null;
+			if (startParse
+					&& (qName.equalsIgnoreCase("filter-name") || qName
+							.equalsIgnoreCase("servlet-name"))) {
+				name = null;
 			}
 
-			if (startParseServletMapping
-					&& qName.equalsIgnoreCase("url-pattern")) {
+			if (startParse && qName.equalsIgnoreCase("url-pattern")) {
 				urlPattern = null;
+			}
+			
+			if (qName.equalsIgnoreCase("session-timeout")) {
+				this.clearContent();
 			}
 		}
 
@@ -257,28 +270,48 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 
 		public void endElement(String uri, String localName, String qName)
 				throws SAXException {
+
 			if (qName.equalsIgnoreCase("filter-mapping")) {
-				startParseServletMapping = false;
+				startParse = false;
+				this.filterInfos.put(this.name, this.urlPattern);
 			}
 
-			if (startParseServletMapping
-					&& qName.equalsIgnoreCase("filter-name")) {
-				filterName = content.toString();
+			if (qName.equalsIgnoreCase("servlet-mapping")) {
+				startParse = false;
+				this.servletInfos.put(this.name, this.urlPattern);
+			}
+
+			if (startParse
+					&& (qName.equalsIgnoreCase("filter-name") || qName
+							.equalsIgnoreCase("servlet-name"))) {
+				name = content.toString();
 				this.clearContent();
 			}
 
-			if (startParseServletMapping
-					&& qName.equalsIgnoreCase("url-pattern")) {
+			if (startParse && qName.equalsIgnoreCase("url-pattern")) {
 				urlPattern = content.toString();
 				this.clearContent();
 			}
 
-			if (this.filterName != null && this.urlPattern != null) {
-				this.servletInfos.put(this.filterName, this.urlPattern);
+			if (qName.equalsIgnoreCase("session-timeout")) {
+				this.sessionTimeout = content.toString();
+				this.clearContent();
 			}
 		}
+		
+		public final Map<String, String> getFilterInfos() {
+			return filterInfos;
+		}
 
-		public Map<String, String> parse(ServletContext servletContext)
+		public final Map<String, String> getServletInfos() {
+			return servletInfos;
+		}
+
+		public String getSessionTimeout() {
+			return sessionTimeout;
+		}
+
+		public void parse(ServletContext servletContext)
 				throws Exception {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			factory.setNamespaceAware(false);
@@ -289,7 +322,6 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 					.getRealPath("WEB-INF/web.xml"));
 			parser.parse(resourceAsStream, this);
 			resourceAsStream.close();
-			return this.servletInfos;
 		}
 	}
 }
