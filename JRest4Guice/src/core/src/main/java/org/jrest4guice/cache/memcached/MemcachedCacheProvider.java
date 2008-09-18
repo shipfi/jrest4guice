@@ -13,9 +13,9 @@ public class MemcachedCacheProvider implements CacheProvider {
 	private SockIOPool sockIOPool = null;
 	
 	/**
-	 * 缺省超时时间为15分钟
+	 * 缺省超时时间为2小时
 	 */
-	private long expiryTime = 1000*60*15;
+	private long expiryTime = 1000*60*60*2;
 	
 	
 	/* (non-Javadoc)
