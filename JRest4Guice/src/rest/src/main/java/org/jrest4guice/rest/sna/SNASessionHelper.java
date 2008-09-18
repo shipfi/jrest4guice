@@ -132,7 +132,7 @@ public class SNASessionHelper {
 				log.debug(SNASessionHelper.SET_ATTRIBUTE+"＝》"+args[0]+"="+args[1]);
 			} else if (methodName
 					.equalsIgnoreCase(SNASessionHelper.GET_ATTRIBUTE)) {
-				Object value = method.invoke(hSession, args);
+				Object value = invoke(method, args);
 				if(value == null){
 					value = snaSession.get(args[0]);
 				}
@@ -143,7 +143,14 @@ public class SNASessionHelper {
 				snaSession.remove(args[0]);
 				log.debug(SNASessionHelper.REMOVE_ATTRIBUTE+"＝》"+args[0]);
 			}
-			return method.invoke(hSession, args);
+			return invoke(method, args);
+		}
+		private Object invoke(Method method, Object[] args){
+			try {
+				return method.invoke(hSession, args);
+			} catch (Exception e) {
+				return null;
+			}
 		}
 	}
 }
