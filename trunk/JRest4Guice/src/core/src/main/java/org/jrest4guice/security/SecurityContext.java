@@ -29,6 +29,8 @@ public class SecurityContext {
 			0);
 
 	public final static String CURRENT_USER_KEY = "_$_current_user_$_";
+	public final static String CURRENT_USER_ROlE = "_current_user_role_";
+	public final static String USER_IS_LOGIN = "_user_is_login_";
 
 	/**
 	 * 获取当前用户的权限信息
