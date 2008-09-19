@@ -14,6 +14,13 @@
 				window.location = window.location; 
 			});
 		}
+		
+		function deleteContact(cName){
+			if(!window.confirm("您确定要删除联系人\""+cName+"\" 吗?")){
+				return false;
+			}
+			return true;
+		}
 	</script>
 
 
@@ -48,7 +55,7 @@
 				<td>&nbsp;${contact.mobilePhone}</td>
 				<td>&nbsp;${contact.email}</td>
 				<td>&nbsp;${contact.address}</td>
-				<td ct:role="'admin','manager'">&nbsp;<a href="contacts/${contact.id}!delete">删除</a></td>
+				<td ct:role="'admin','manager'">&nbsp;<a href="contacts/${contact.id}!delete" onclick="return deleteContact('${contact.name}');">删除</a></td>
 			</tr>
 		</tbody>
 	</table>
