@@ -6,7 +6,7 @@
 		<title>JRest4Guice安全测试</title>
 		<!-- 系统缺省的CSS -->
 		<link href="css/default.css" rel="stylesheet" type="text/css" />
-		<script language="JavaScript" type="text/javascript" src="javascript/lib/user-ext.js"></script>
+		<script language="JavaScript" type="text/javascript" src="/full/javascript/lib/user-ext.js"></script>
 		<%
 			if(request.getUserPrincipal()!=null){
 				out.println("<script type=\"text/javascript\">");
