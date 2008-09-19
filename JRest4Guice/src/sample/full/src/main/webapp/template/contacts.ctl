@@ -2,14 +2,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>联系人管理(CTL template)</title>
-<!-- 系统缺省的CSS -->
 <link href="/full/css/default.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<br><br>
 	<a href="/full/contact">添加新联系人</a>
 	<br><br>
-	$set{contacts=ctx.content} 
+	$set{contacts=ctx.content}
 	<table id="contactTable" cellpadding="0" background="#ffffff" cellspacing="0" width="100%">
 		<thead style="font-weight: bold;">
 			<tr style="height: 26px;background-image: url('/full/images/head.jpg');color: white;">
@@ -21,15 +20,13 @@
 			</tr>
 		</thead>
 		<tbody>
-		$for{contact : contacts}
-			<tr style="cursor: pointer;height: 22px;">
+			<tr style="cursor: pointer;height: 22px;" ct:for="contact : contacts">
 				<td>&nbsp;<a href="contacts/${contact.id}">${contact.name}</a></td>
 				<td>&nbsp;${contact.mobilePhone}</td>
 				<td>&nbsp;${contact.email}</td>
 				<td>&nbsp;${contact.address}</td>
-				<td>&nbsp;<a href="contacts/${contact.id}!delete">删除</a></td>
+				<td>&nbsp;<a href="contacts/${contact.id}!delete" ct:role="'admin','manager'"}>删除</a></td>
 			</tr>
-		$end
 		</tbody>
 	</table>
 	<br/>
