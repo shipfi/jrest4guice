@@ -40,7 +40,7 @@ public class SecurityInterceptor implements MethodInterceptor {
 			if (method.isAnnotationPresent(RolesAllowed.class)) {
 				UserRole userPrincipal = securityContext.getUserPrincipal();
 				if (userPrincipal == null && request.getUserPrincipal() == null)
-					throw new UserNotLoginException("没有登录");
+					throw new UserNotLoginException("没有登录或者已经超时");
 				
 				RolesAllowed annotation = method
 						.getAnnotation(RolesAllowed.class);
