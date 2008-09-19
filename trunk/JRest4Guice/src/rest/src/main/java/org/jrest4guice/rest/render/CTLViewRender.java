@@ -12,6 +12,8 @@ import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
 import org.jrest4guice.rest.context.RestContextManager;
+import org.jrest4guice.security.SecurityContext;
+import org.jrest4guice.security.UserRole;
 
 import com.google.inject.Inject;
 
@@ -26,6 +28,9 @@ public class CTLViewRender implements ViewRender {
 	private Engine engine;
 	@Inject
 	private Context context;
+	
+	@Inject
+	private SecurityContext securityContext;
 
 	/* (non-Javadoc)
 	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult, boolean)
@@ -46,6 +51,9 @@ public class CTLViewRender implements ViewRender {
 			Template template = this.engine.getTemplate(url);
 			//往上下文中填入数据
 			this.context.put("ctxPath", this.request.getContextPath());
+			UserRole userPrincipal = this.securityContext.getUserPrincipal();
+			this.context.put(SecurityContext.CURRENT_USER_ROlE, userPrincipal);
+			this.context.put(SecurityContext.USER_IS_LOGIN, userPrincipal!=null);
 			this.context.put("ctx", result);
 			
 			template.render(this.context);

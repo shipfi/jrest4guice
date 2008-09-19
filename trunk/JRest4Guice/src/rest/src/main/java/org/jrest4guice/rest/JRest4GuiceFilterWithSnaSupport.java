@@ -76,17 +76,21 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 		session.setAttribute(CookieUtil.SESSION_NAME, snaId);
 
 		try {
-			HttpServletRequest requestWrapper = this.helper.createRequestWrapper(hRequest);
+			HttpServletRequest requestWrapper = this.helper
+					.createRequestWrapper(hRequest);
 			// 设置上下文中的环境变量
 			RestContextManager.setContext(requestWrapper, hResponse, params);
 			SNASessionProvider.setCurrentSNASession(snaSession);
-			
-			//检测用户当前的安全状态
-			if(requestWrapper.getUserPrincipal() != null){
-				GuiceContext.getInstance().getBean(SecurityContext.class).getUserPrincipal();
+
+			// 检测用户当前的安全状态
+			if (requestWrapper.getUserPrincipal() != null) {
+				SecurityContext securityContext = GuiceContext.getInstance()
+						.getBean(SecurityContext.class);
+				GuiceContext.getInstance().injectorMembers(securityContext);
+				securityContext.getUserPrincipal();
 			}
-			
-			//处理当前请求
+
+			// 处理当前请求
 			new JRest4GuiceProcessor().setUrlPrefix(this.urlPrefix).process(
 					requestWrapper, hResponse);
 		} catch (Throwable e) {
@@ -132,7 +136,7 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 								+ "\"来初始化缓存提供者，请确认您有没有通过GuiceContext.useCache()来打开Cache的支持！");
 			}
 			this.cacheProvider.setCacheServers(cacheServers);
-//			this.cacheProvider.setExpiryTime(this.sessionTimeOut*1000);
+			// this.cacheProvider.setExpiryTime(this.sessionTimeOut*1000);
 
 			// 初始化SNA会话助手
 			this.helper = new SNASessionHelper(this.cacheProvider);
