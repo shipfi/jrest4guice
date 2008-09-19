@@ -10,17 +10,17 @@
 	$set{msg = ctx.errorMessage}
 	<img src="/full/images/error.png" style="margin-top:40px;">
 	<h2>操作错误：${msg}</h2>
-	$if{ctx.invalidValues}
+	<div ct:if="ctx.invalidValues!=null">
 		<hr/>
 		<h4>错误明细</h4>
 		<div style="text-align: left;width:33.3%;margin-top: -18px;">
-		<hr/>
-		$for{value : ctx.invalidValues}
-			<b><font color=red>${value.propertyName}：&nbsp;&nbsp;</font></b><font color=green>${value.message}</font><br/>
-		$end
-		<hr/>
+			<hr/>
+			<div ct:if="value : ctx.invalidValues">
+				<b><font color=red>${value.propertyName}：&nbsp;&nbsp;</font></b><font color=green>${value.message}</font>
+			</div>
+			<hr/>
 		</div>
-	$end
+	</div>
 	<br><br>
 	<img src="/full/images/go.gif" style="margin-bottom: -22px;"><a href="javascript:history.go(-1);" style="font-weight: bold;font-size: 18px;">返回</a>
 	</br>
