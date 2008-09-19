@@ -15,9 +15,7 @@
 	$end
 	
 	<form action="${action}" method="post">
-		$if{contact.id}
-			<input name="id" type="hidden" value="${contact.id}">
-		$end
+		<input name="id" type="hidden" value="${contact.id}" ct:if="contact.id!=null">
 		<table>
 			<tr>
 				<td>姓    名</td><td><input name="name" type="text" value="${contact.name}"><span class="error">${ctx.invalidValueMap.name.message}</span></td>	
