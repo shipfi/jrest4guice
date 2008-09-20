@@ -22,14 +22,14 @@ import com.google.inject.Inject;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
 public class CTLViewRender implements ViewRender {
-	@Inject
+	@Inject(optional=true)
 	private HttpServletRequest request;
-	@Inject
+	@Inject(optional=true)
 	private Engine engine;
-	@Inject
+	@Inject(optional=true)
 	private Context context;
 	
-	@Inject
+	@Inject(optional=true)
 	private SecurityContext securityContext;
 
 	/* (non-Javadoc)

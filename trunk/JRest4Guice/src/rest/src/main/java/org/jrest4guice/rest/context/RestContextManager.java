@@ -41,6 +41,8 @@ public class RestContextManager {
 	}
 	
 	public static Context getCTLContext(){
+		if(ctlEngine == null)
+			return null;
 		Context context = ctlContext.get();
 		if(context == null){
 			context = ctlEngine.createContext(new StringWriter());

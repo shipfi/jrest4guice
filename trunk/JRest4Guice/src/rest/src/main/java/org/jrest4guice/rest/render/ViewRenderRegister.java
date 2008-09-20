@@ -31,9 +31,12 @@ public class ViewRenderRegister {
 		String shortName;
 		shortNameRenders = new HashMap<String, Class<ViewRender>>();
 		for(Class<ViewRender> r:values){
-			shortName = GuiceContext.getInstance().getBean(r).getRenderTypeShortName();
-			if(shortName != null){
-				shortNameRenders.put(shortName, r);
+			try {
+				shortName = ((ViewRender)r.newInstance()).getRenderTypeShortName();
+				if(shortName != null){
+					shortNameRenders.put(shortName, r);
+				}
+			} catch (Exception e) {
 			}
 		}
 		isInit = true;
