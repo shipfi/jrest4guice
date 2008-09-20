@@ -11,11 +11,11 @@ import org.jrest4guice.rest.render.ResultType;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * 
  */
-@Path("/HelloWorld/velocity")
-public class HelloWorldWithVelocity {
+@Path("/HelloWorld/jsp")
+public class HelloWorldWithJsp {
 
 	@Get
-	@PageFlow(success = @PageInfo(value = "/template/HelloWorld.vm"),type=ResultType.VELOCITY)
+	@PageFlow(success = @PageInfo(value = "/template/HelloWorld.jsp"),type=ResultType.JSP)
 	public String sayHello() {
 		return "hello JRest4Guice world";
 	}
