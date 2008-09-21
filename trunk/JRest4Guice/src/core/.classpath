@@ -8,5 +8,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="lib" path="/JRest4Guice/lib/commontemplate-0.8.6.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice/lib/jericho-html-2.5.jar"/>
+	<classpathentry kind="lib" path="/JRest4Guice/lib/MemCached-2.0.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
