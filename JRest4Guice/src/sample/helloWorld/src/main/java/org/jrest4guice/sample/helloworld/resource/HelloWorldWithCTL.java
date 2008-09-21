@@ -10,11 +10,11 @@ import org.jrest4guice.rest.annotations.Path;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * 
  */
-@Path("/HelloWorld/velocity")
-public class HelloWorldWithVelocity {
+@Path("/HelloWorld/ctl")
+public class HelloWorldWithCTL {
 
 	@Get
-	@PageFlow(success = @PageInfo(value = "/template/HelloWorld.vm"))
+	@PageFlow(success = @PageInfo(value = "/template/HelloWorld.ctl"))
 	public String sayHello() {
 		return "hello JRest4Guice world";
 	}
