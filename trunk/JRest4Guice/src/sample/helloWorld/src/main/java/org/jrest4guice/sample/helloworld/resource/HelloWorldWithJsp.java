@@ -4,7 +4,6 @@ import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.annotations.PageInfo;
 import org.jrest4guice.rest.annotations.Path;
-import org.jrest4guice.rest.render.ResultType;
 
 /**
  * 
@@ -15,7 +14,7 @@ import org.jrest4guice.rest.render.ResultType;
 public class HelloWorldWithJsp {
 
 	@Get
-	@PageFlow(success = @PageInfo(value = "/template/HelloWorld.jsp"),type=ResultType.JSP)
+	@PageFlow(success = @PageInfo(value = "/template/HelloWorld.jsp"))
 	public String sayHello() {
 		return "hello JRest4Guice world";
 	}
