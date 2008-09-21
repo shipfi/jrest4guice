@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
@@ -48,8 +47,6 @@ import com.google.inject.Inject;
 public class ServiceExecutor {
 	@Inject
 	private HttpServletRequest request;
-	@Inject
-	private HttpServletResponse response;
 
 	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
@@ -142,11 +139,15 @@ public class ServiceExecutor {
 	private List constructParams(Method method, ModelMap modelMap)
 			throws InstantiationException, IllegalAccessException,
 			InvocationTargetException {
+		List params = new ArrayList(0);
 		Annotation[][] annotationArray = method.getParameterAnnotations();
+		
+		if(annotationArray.length<=0)
+			return params;
+		
 		Class[] parameterTypes = method.getParameterTypes();
 
 		String pName;
-		List params = new ArrayList(0);
 		Object value;
 		int index = 0;
 
