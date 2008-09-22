@@ -1,5 +1,5 @@
 	<div style="margin-top:24px;">
-		$init{max=8}
+		$init{max=12}
 		$set{num=max/2}
 		$set{hasPre=true}
 		$set{hasNext=true}

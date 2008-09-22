@@ -1,6 +1,7 @@
 package org.jrest4guice.sample.contact.resource;
 
 import org.jrest4guice.client.Page;
+import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.annotations.Delete;
 import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.ModelBean;
