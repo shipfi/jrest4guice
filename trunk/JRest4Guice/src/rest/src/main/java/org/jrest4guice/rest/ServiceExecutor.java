@@ -50,6 +50,8 @@ public class ServiceExecutor {
 
 	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
+	
+	private static ResponseWriterRegister responseWriterRegister;
 
 	/**
 	 * 身份验证的URL
@@ -59,6 +61,11 @@ public class ServiceExecutor {
 	 * 身份验证的URL
 	 */
 	private String loginErrorUrl;
+	
+	public ServiceExecutor(){
+		if(responseWriterRegister == null)
+			responseWriterRegister = ResponseWriterRegister.getInstance();
+	}
 
 	/**
 	 * 根据Rest服务的方法类型，执行相应的业务方法
@@ -276,8 +283,7 @@ public class ServiceExecutor {
 		}
 
 		// 向客户端写回结果数据
-		ResponseWriter responseWriter = ResponseWriterRegister.getInstance()
-				.getResponseWriter(mimeType);
+		ResponseWriter responseWriter = responseWriterRegister.getResponseWriter(mimeType);
 		if (responseWriter != null)
 			responseWriter.writeResult(method, result, charset);
 	}
