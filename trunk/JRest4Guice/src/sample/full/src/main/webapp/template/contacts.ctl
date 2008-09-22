@@ -30,6 +30,9 @@
 			</tr>
 		</tbody>
 	</table>
+	
+	$include{"pageNavigation.ctl",(pageUrl:"/full/contacts?page=",ctx:ctx)}
+	
 	<div id="securityDiv" style="display: none;">
 		<div style="width: 100%;height: 26px;background-image: url('images/head.jpg');"><img src="images/close.gif" style="cursor: pointer;margin-top: 4px;" onclick="closeLoginWindow();"></div>
 		<iframe id="securityIframe" frameborder="0" width="280" height="200" scrolling="no"></iframe>
