@@ -2,12 +2,15 @@ package org.jrest4guice.rest.writer;
 
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.validator.InvalidValue;
+import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.annotations.MimeType;
@@ -31,12 +34,14 @@ public class HtmlResponseWriter implements ResponseWriter {
 	protected HttpServletResponse response;
 	@Inject
 	protected HttpSession session;
+	
+	private static Map<Method, ViewRender> renders = new HashMap<Method, ViewRender>(0);
 
 	@Override
 	public String getMimeType() {
 		return MimeType.MIME_OF_TEXT_HTML;
 	}
-
+	
 	@Override
 	public void writeResult(Method method, Object result, String charset) {
 		try {
@@ -69,8 +74,13 @@ public class HtmlResponseWriter implements ResponseWriter {
 					session.removeAttribute(ServiceResult.INVALID_VALUE_KEY);
 				}
 				
+				ViewRender viewRender = renders.get(method);
 				//模板的渲染器
-				ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(pageInfo);
+				if(viewRender == null)
+					viewRender = ViewRenderRegister.getInstance().getViewRender(pageInfo);
+				else{
+					GuiceContext.getInstance().injectorMembers(viewRender);
+				}
 				//如果模板文件存在，则调用相应的渲染器进行结果的渲染
 				if(viewRender != null)
 					viewRender.render(out, annotation, httpResult,method.isAnnotationPresent(Cache.class));
