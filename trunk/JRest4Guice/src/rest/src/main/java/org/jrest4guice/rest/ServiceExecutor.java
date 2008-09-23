@@ -221,7 +221,7 @@ public class ServiceExecutor {
 		
 		//提供对分页查询处理的参数缓存功能
 		if(isPageResult){
-			String cahced_key = PARAMETER_CACHED_KEY+method.getName();
+			String cahced_key = PARAMETER_CACHED_KEY+method.getDeclaringClass().getName()+"_"+method.getName();
 			HttpSession session = this.request.getSession();
 			if(nullParamCount == parameterNames.length){
 				Object cachedParam = session.getAttribute(cahced_key);
