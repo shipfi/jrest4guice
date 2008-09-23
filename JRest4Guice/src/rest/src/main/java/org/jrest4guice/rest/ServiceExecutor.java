@@ -54,10 +54,11 @@ public class ServiceExecutor {
 	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
 
-	private static Map<Method, String[]> paramNameMap = new HashMap<Method, String[]>(0);
-	
+	private static Map<Method, String[]> paramNameMap = new HashMap<Method, String[]>(
+			0);
+
 	private static ResponseWriterRegister responseWriterRegister;
-	
+
 	public static final String PARAMETER_CACHED_KEY = "_$_param_cached_key_$_";
 
 	/**
@@ -68,9 +69,9 @@ public class ServiceExecutor {
 	 * 身份验证的URL
 	 */
 	private String loginErrorUrl;
-	
-	public ServiceExecutor(){
-		if(responseWriterRegister == null)
+
+	public ServiceExecutor() {
+		if (responseWriterRegister == null)
 			responseWriterRegister = ResponseWriterRegister.getInstance();
 	}
 
@@ -117,14 +118,16 @@ public class ServiceExecutor {
 
 				// 执行业务方法
 				result = method.invoke(instance, args);
-				
-				//清除分页查询处理的参数缓存
-				if(methodType == HttpMethodType.POST && method.isAnnotationPresent(PageFlow.class)){
-					String cahced_key = PARAMETER_CACHED_KEY+method.getDeclaringClass().getName();
+
+				// 清除分页查询处理的参数缓存
+				if (methodType == HttpMethodType.POST
+						&& method.isAnnotationPresent(PageFlow.class)) {
+					String cahced_key = PARAMETER_CACHED_KEY
+							+ method.getDeclaringClass().getName();
 					HttpSession session = this.request.getSession();
 					session.removeAttribute(cahced_key);
 				}
-				
+
 				// 向客户端写回结果
 				writeResult(charset, result, method);
 			} catch (RuntimeException e) {
@@ -163,10 +166,10 @@ public class ServiceExecutor {
 			InvocationTargetException {
 		List params = new ArrayList(0);
 		Annotation[][] annotationArray = method.getParameterAnnotations();
-		
-		if(annotationArray.length<=0)
+
+		if (annotationArray.length <= 0)
 			return params;
-		
+
 		Class[] parameterTypes = method.getParameterTypes();
 		Class<?> returnType = method.getReturnType();
 		boolean isPageResult = Page.class.isAssignableFrom(returnType);
@@ -178,7 +181,7 @@ public class ServiceExecutor {
 
 		String[] parameterNames = null;
 		parameterNames = paramNameMap.get(method);
-		if(parameterNames == null){
+		if (parameterNames == null) {
 			ParameterNameDiscoverer pnDiscoverer = new ParameterNameDiscoverer();
 			parameterNames = pnDiscoverer.getParameterNames(method);
 			paramNameMap.put(method, parameterNames);
@@ -200,46 +203,49 @@ public class ServiceExecutor {
 			}
 
 			// 转换参数值
-			if (value == null){
+			if (value == null) {
 				String pValue = (String) modelMap.get(pName);
 				value = BeanUtilsBean.getInstance().getConvertUtils().convert(
 						pValue, parameterTypes[index]);
-				if(pValue == null)
-					nullParamCount ++;
+				if (pValue == null)
+					nullParamCount++;
 			}
-			
-			if(isModelBean){
-				//启用验证
+
+			if (isModelBean) {
+				// 启用验证
 				Class<?> modelClass = value.getClass();
 				java.util.ResourceBundle rb = null;
-				if(modelClass.isAnnotationPresent(ResourceBundle.class))
-					rb = java.util.ResourceBundle.getBundle(modelClass.getAnnotation(ResourceBundle.class).value());
-				ClassValidator validator = new ClassValidator(modelClass,rb);
-				InvalidValue[] invalidValues = validator.getInvalidValues(value);
-				if(invalidValues != null && invalidValues.length>0){
+				if (modelClass.isAnnotationPresent(ResourceBundle.class))
+					rb = java.util.ResourceBundle.getBundle(modelClass
+							.getAnnotation(ResourceBundle.class).value());
+				ClassValidator validator = new ClassValidator(modelClass, rb);
+				InvalidValue[] invalidValues = validator
+						.getInvalidValues(value);
+				if (invalidValues != null && invalidValues.length > 0) {
 					throw new ValidatorException(invalidValues);
 				}
 			}
-			
+
 			// 添加当前参数
 			params.add(value);
 
 			index++;
 		}
-		
-		//提供对分页查询处理的参数缓存功能
-		if(isPageResult && method.isAnnotationPresent(PageFlow.class)){
-			String cahced_key = PARAMETER_CACHED_KEY+method.getDeclaringClass().getName();
+
+		// 提供对分页查询处理的参数缓存功能
+		if (isPageResult && method.isAnnotationPresent(PageFlow.class)) {
+			String cahced_key = PARAMETER_CACHED_KEY
+					+ method.getDeclaringClass().getName();
 			HttpSession session = this.request.getSession();
-			if(nullParamCount == parameterNames.length){
+			if (nullParamCount == parameterNames.length) {
 				Object cachedParam = session.getAttribute(cahced_key);
-				if(cachedParam != null){
-					params = (List)cachedParam;
+				if (cachedParam != null) {
+					params = (List) cachedParam;
 				}
 			}
 			session.setAttribute(cahced_key, params);
 		}
-		
+
 		return params;
 	}
 
@@ -324,7 +330,8 @@ public class ServiceExecutor {
 		}
 
 		// 向客户端写回结果数据
-		ResponseWriter responseWriter = responseWriterRegister.getResponseWriter(mimeType);
+		ResponseWriter responseWriter = responseWriterRegister
+				.getResponseWriter(mimeType);
 		if (responseWriter != null)
 			responseWriter.writeResult(method, result, charset);
 	}
