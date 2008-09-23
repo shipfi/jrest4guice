@@ -1,4 +1,4 @@
-	<div style="margin-top:24px;">
+	<div style="margin-top:24px;" ct:if="ctx.resultCount>0">
 		$init{max=12}
 		$set{num=max/2}
 		$set{hasPre=true}
