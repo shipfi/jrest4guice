@@ -26,6 +26,7 @@ import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.HttpMethodType;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.ModelBean;
+import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.annotations.Parameter;
 import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.rest.annotations.Post;
@@ -220,7 +221,7 @@ public class ServiceExecutor {
 		}
 		
 		//提供对分页查询处理的参数缓存功能
-		if(isPageResult){
+		if(isPageResult && method.isAnnotationPresent(PageFlow.class)){
 			String cahced_key = PARAMETER_CACHED_KEY+method.getDeclaringClass().getName()+"_"+method.getName();
 			HttpSession session = this.request.getSession();
 			if(nullParamCount == parameterNames.length){
