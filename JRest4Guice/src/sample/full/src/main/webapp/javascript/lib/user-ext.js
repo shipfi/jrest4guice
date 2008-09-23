@@ -999,7 +999,7 @@ if(Spry){
 	SpryExt.PageInfoBar = function(){}
 	
 	SpryExt.PageInfoBar.maxPageCount = 3;
-	SpryExt.PageInfoBar.pageSize = 14;
+	SpryExt.PageInfoBar.pageSize = 12;
 	/**
 	 * 构造分页信息条
 	 * pageInfo 分页信息 {resultCount:总数,pageSize:每页条数,index:当前页码}
