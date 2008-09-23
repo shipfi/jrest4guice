@@ -11,12 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jrest4guice.client.ModelMap;
+import org.jrest4guice.client.Page;
 import org.jrest4guice.commons.i18n.annotations.ResourceBundle;
 import org.jrest4guice.commons.lang.ParameterNameDiscoverer;
 import org.jrest4guice.rest.annotations.Delete;
@@ -50,8 +52,12 @@ public class ServiceExecutor {
 
 	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
+
+	private static Map<Method, String[]> paramNameMap = new HashMap<Method, String[]>(0);
 	
 	private static ResponseWriterRegister responseWriterRegister;
+	
+	public static final String PARAMETER_CACHED_KEY = "_$_param_cached_key_$_";
 
 	/**
 	 * 身份验证的URL
@@ -153,13 +159,22 @@ public class ServiceExecutor {
 			return params;
 		
 		Class[] parameterTypes = method.getParameterTypes();
+		Class<?> returnType = method.getReturnType();
+		boolean isPageResult = Page.class.isAssignableFrom(returnType);
+		boolean initParamFromCache = false;
+		int nullParamCount = 0;
 
 		String pName;
 		Object value;
 		int index = 0;
 
-		ParameterNameDiscoverer pnDiscoverer = new ParameterNameDiscoverer();
-		String[] parameterNames = pnDiscoverer.getParameterNames(method);
+		String[] parameterNames = null;
+		parameterNames = paramNameMap.get(method);
+		if(parameterNames == null){
+			ParameterNameDiscoverer pnDiscoverer = new ParameterNameDiscoverer();
+			parameterNames = pnDiscoverer.getParameterNames(method);
+			paramNameMap.put(method, parameterNames);
+		}
 
 		boolean isModelBean = false;
 		for (Annotation[] annotations : annotationArray) {
@@ -177,9 +192,13 @@ public class ServiceExecutor {
 			}
 
 			// 转换参数值
-			if (value == null)
+			if (value == null){
+				String pValue = (String) modelMap.get(pName);
 				value = BeanUtilsBean.getInstance().getConvertUtils().convert(
-						(String) modelMap.get(pName), parameterTypes[index]);
+						pValue, parameterTypes[index]);
+				if(pValue == null)
+					nullParamCount ++;
+			}
 			
 			if(isModelBean){
 				//启用验证
@@ -199,6 +218,20 @@ public class ServiceExecutor {
 
 			index++;
 		}
+		
+		//提供对分页查询处理的参数缓存功能
+		if(isPageResult){
+			String cahced_key = PARAMETER_CACHED_KEY+method.getName();
+			HttpSession session = this.request.getSession();
+			if(nullParamCount == parameterNames.length){
+				Object cachedParam = session.getAttribute(cahced_key);
+				if(cachedParam != null){
+					params = (List)cachedParam;
+				}
+			}
+			session.setAttribute(cahced_key, params);
+		}
+		
 		return params;
 	}
 
