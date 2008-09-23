@@ -117,6 +117,14 @@ public class ServiceExecutor {
 
 				// 执行业务方法
 				result = method.invoke(instance, args);
+				
+				//清除分页查询处理的参数缓存
+				if(methodType == HttpMethodType.POST && method.isAnnotationPresent(PageFlow.class)){
+					String cahced_key = PARAMETER_CACHED_KEY+method.getDeclaringClass().getName();
+					HttpSession session = this.request.getSession();
+					session.removeAttribute(cahced_key);
+				}
+				
 				// 向客户端写回结果
 				writeResult(charset, result, method);
 			} catch (RuntimeException e) {
@@ -162,7 +170,6 @@ public class ServiceExecutor {
 		Class[] parameterTypes = method.getParameterTypes();
 		Class<?> returnType = method.getReturnType();
 		boolean isPageResult = Page.class.isAssignableFrom(returnType);
-		boolean initParamFromCache = false;
 		int nullParamCount = 0;
 
 		String pName;
@@ -222,7 +229,7 @@ public class ServiceExecutor {
 		
 		//提供对分页查询处理的参数缓存功能
 		if(isPageResult && method.isAnnotationPresent(PageFlow.class)){
-			String cahced_key = PARAMETER_CACHED_KEY+method.getDeclaringClass().getName()+"_"+method.getName();
+			String cahced_key = PARAMETER_CACHED_KEY+method.getDeclaringClass().getName();
 			HttpSession session = this.request.getSession();
 			if(nullParamCount == parameterNames.length){
 				Object cachedParam = session.getAttribute(cahced_key);
