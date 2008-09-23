@@ -1,7 +1,6 @@
 package org.jrest4guice.sample.contact.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +29,7 @@ import org.jrest4guice.persistence.EntityAble;
 @Entity()
 @Table(name = "Contact_tb")
 @NamedQueries( {
-		@NamedQuery(name = "Contact.list[find]", query = "select e from Contact e order by e.changeDate desc"),
+		@NamedQuery(name = "Contact.list[find]", query = "select e from Contact e order by e.name"),
 		@NamedQuery(name = "Contact.list[count]", query = "select count(*) from Contact"),
 		@NamedQuery(name = "Contact.byName[load]", query = "select e from Contact e where e.name=?") })
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "contactCache")
@@ -66,17 +65,6 @@ public class Contact implements EntityAble<String>, Serializable {
 	@Lob
 	@Column(name = "address", nullable = true, length = 2000)
 	private String address;
-
-	@Column(name = "changeDate", nullable = true)
-	private Timestamp changeDate = new Timestamp(System.currentTimeMillis());
-
-	public Timestamp getChangeDate() {
-		return changeDate;
-	}
-
-	public void setChangeDate(Timestamp changeDate) {
-		this.changeDate = changeDate;
-	}
 
 	public String getId() {
 		return id;
