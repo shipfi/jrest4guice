@@ -22,7 +22,10 @@
 	</script>
 </head>
 <body>
-	<br>
+	<div style="background-image: url('images/body_head.gif');height: 84px;position: absolute;top:0px; width: 100%;left: 0px;">&nbsp;</div>
+	<img src="images/mouse.png" class="png" style="position: absolute;top:-25px;left: 12px;width: 94px;height: 94px;">
+	<div id="logoDiv" style="position: absolute;left:110px;top:28px;"><h3><span style="font-size:24px;color: green;font-weight: bold;">J</span>Rest4Guice</h3></div>
+	<div style="margin: 30px 0 8px 1px;height: 55px;width:60%;"></div>
 	<div style="position: absolute;top:4px;right: 8px;border-bottom: solid 1px silver;">
 		<div style="margin-bottom: 4px;">
 		<a id="logoutButton" href="#" onclick="doLogout();void(0);return false;" ct:isLogin="true">注销</a>

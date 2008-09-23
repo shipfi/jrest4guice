@@ -12,7 +12,7 @@
 	<a href="/full/contact">添加新联系人</a>
 	<br><br>
 	
-	<table id="contactTable" cellpadding="0" cellspacing="0" width="100%">
+	<table cellpadding="0" cellspacing="0" width="100%">
 		<thead style="font-weight: bold;">
 			<tr style="height: 26px;background-image: url('/full/images/head.jpg');color: white;">
 				<td style="width: 110px;">&nbsp;姓 名</td>
@@ -33,7 +33,10 @@
 		</tbody>
 	</table>
 	
-	$include{"pageNavigation.ctl",(pageUrl:"/full/contacts?page=",ctx:ctx)}
+	<br/>
+	<center>	
+		$include{"pageNavigation.ctl",(pageUrl:"/full/contacts?page=",ctx:ctx)}
+	</center>
 	
 	<div id="securityDiv" style="display: none;">
 		<div style="width: 100%;height: 26px;background-image: url('images/head.jpg');"><img src="images/close.gif" style="cursor: pointer;margin-top: 4px;" onclick="closeLoginWindow();"></div>
