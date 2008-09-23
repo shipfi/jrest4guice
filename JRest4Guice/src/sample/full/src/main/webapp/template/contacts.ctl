@@ -5,11 +5,13 @@
 <link href="/full/css/default.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+	$cycle{rowstyle:("odd","even")}
 
 	$embed{"head.ctl"}
 
 	<a href="/full/contact">添加新联系人</a>
 	<br><br>
+	
 	<table id="contactTable" cellpadding="0" cellspacing="0" width="100%">
 		<thead style="font-weight: bold;">
 			<tr style="height: 26px;background-image: url('/full/images/head.jpg');color: white;">
@@ -21,7 +23,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr style="cursor: pointer;height: 22px;" ct:for="contact : ctx.content">
+			<tr style="cursor: default;height: 22px;" class="${rowstyle.next}" ct:for="contact : ctx.content">
 				<td>&nbsp;<a href="contacts/${contact.id}">${contact.name}</a></td>
 				<td>&nbsp;${contact.mobilePhone}</td>
 				<td>&nbsp;${contact.email}</td>
