@@ -317,6 +317,12 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 		}
 		final List<E> result = this.listByNamedQuery(qname, pagination,
 				parameters);
+		
+		if(result.size()==0 && pagination.getPageIndex()>1){
+			pagination.setPageIndex(pagination.getPageIndex()-1);
+			return this.pageByNamedQuery(qname, pagination, parameters);
+		}
+		
 		return new Page<E>(Page.getStartOfPage(pagination.getPageIndex(),
 				pagination.getPageSize()), count, pagination.getPageSize(),
 				result);
@@ -341,6 +347,12 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 		}
 		final List<E> result = this.listByNamedQuery(qname, pagination,
 				parameters);
+
+		if(result.size()==0 && pagination.getPageIndex()>1){
+			pagination.setPageIndex(pagination.getPageIndex()-1);
+			return this.pageByNamedQuery(qname, pagination, parameters);
+		}
+
 		return new Page<E>(Page.getStartOfPage(pagination.getPageIndex(),
 				pagination.getPageSize()), count, pagination.getPageSize(),
 				result);
