@@ -75,6 +75,12 @@ Spry.Utils.createXMLHttpRequest = function()
 
 Spry.Utils.loadURL = function(method, url, async, callback, opts)
 {
+	if(url.indexOf("?") != -1){
+		url = url + "&r="+Math.round(Math.random()*10000);
+	}else{
+		url = url + "?r="+Math.round(Math.random()*10000);
+	}
+		
 	var req = new Spry.Utils.loadURL.Request();
 	req.method = method;
 	req.url = url;
@@ -908,6 +914,7 @@ Spry.Debug.createDebugWindow = function()
 
 Spry.Debug.debugOut = function(str, bgColor)
 {
+	return;
 	if (!Spry.Debug.debugWindow)
 	{
 		Spry.Debug.createDebugWindow();
