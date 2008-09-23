@@ -28,6 +28,6 @@
 		$end
 		
 		<span><a style="margin:0px 4px 0px 4px;" href="${pageUrl+pre}" ct:if="hasPre==true">上一页</a></span>
-		<span ct:for="i:(start..end)"><a style="margin:0px 4px 0px 4px;color=red;" href="${pageUrl+i}" ct:if="ctx.pageIndex==i">${i}</a><a style="margin:0px 4px 0px 4px;" href="${pageUrl+i}" ct:if="ctx.pageIndex!=i">${i}</a></span>
+		<span ct:for="i:(start..end)"><a style="margin:0px 4px 0px 4px;color:red;" href="${pageUrl+i}" ct:if="ctx.pageIndex==i">${i}</a><a style="margin:0px 4px 0px 4px;" href="${pageUrl+i}" ct:if="ctx.pageIndex!=i">${i}</a></span>
 		<span><a style="margin:0px 4px 0px 4px;" href="${pageUrl+next}" ct:if="hasNext==true">下一页</a></span>
 	</div>
