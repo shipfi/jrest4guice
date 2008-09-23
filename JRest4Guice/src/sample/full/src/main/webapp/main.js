@@ -106,7 +106,7 @@ function init(){
 		},
 		recordTypeName:"个联系人",
 		onPaged:function(index){
-			contacts_ds.loadPageData({pageIndex:index,pageSize:SpryExt.PageInfoBar.pageSize});
+			contacts_ds.loadPageData({page:index,size:SpryExt.PageInfoBar.pageSize});
 		},
 		onPostUpdate:function(){
 			//构建拖放操作
