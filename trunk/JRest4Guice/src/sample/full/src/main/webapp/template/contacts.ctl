@@ -24,7 +24,7 @@
 					<td style="width: 110px;">&nbsp;移动电话</td>
 					<td style="width: 130px;">&nbsp;电子邮件</td>
 					<td>&nbsp;住址</td>
-					<td style="width: 80px;" ct:role="'admin','manager'">&nbsp;操作</td>
+					<td style="width: 60px;" ct:role="'admin','manager'">&nbsp;操作</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -48,25 +48,15 @@
 		<ul style="margin-left: 2px;margin-top: -18px;">
 			<li style="margin-top: 16px;">
 				<h5>快速开始</h5>
-				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里快速<a href="#" title="为你添加新的联系人" onclick="createContact();void(0);return false;">增加</a>新的联系人。
-			</li>
-			<li style="margin-top: 16px;">
-				<h5>操作小窍门</h5>
-				<div>
-					<div style="margin-left: 24px;">通过屏幕右上方的搜索栏快速检索你的联系人。</div>
-					<div style="margin-left: 24px;">通过点击标题栏对你的查询结果进行排序。</div>
-					<div style="margin-left: 24px;">按住Ctrl键可以多选。</div>
-					<div style="margin-left: 24px;">通过拖拽的方式将选中的联系人，可以轻松的放入回收站。</div>
-				</div>
+				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="/full/contact"  title="为你添加新的联系人">增加</a>新的联系人。
 			</li>
 			<li style="margin-top: 16px;">
 				<h5>友情链接</h5>
 				<div>
-					<div style="margin-left: 24px;"><a href="http://jrest4guice.googlecode.com">JRest4Guice - restful web service api for google guice</a></div>
+					<div style="margin-left: 24px;"><a href="http://jrest4guice.googlecode.com">JRest4Guice - restful web service framework for google guice</a></div>
 					<div style="margin-left: 24px;"><a href="http://code.google.com/p/google-guice/">Google Guice - Google IOC framework</a></div>
 					<div style="margin-left: 24px;"><a href="http://www.hibernate.org/410.html">Hibernate Search - Lucene for hibernate</a></div>
-					<div style="margin-left: 24px;"><a href="http://labs.adobe.com/technologies/spry/home.html">Adobe Spry</a></div>
-					<div style="margin-left: 24px;"><a href="http://jquery.com/">JQuery</a></div>
+					<div style="margin-left: 24px;"><a href="http://www.commontemplate.org/zh/index.html">CommonTemplate(CTL)</a></div>
 				</div>
 			</li>
 		</ul>
