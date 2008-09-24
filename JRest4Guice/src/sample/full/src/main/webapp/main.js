@@ -44,6 +44,7 @@ function doSecurityCheck(){
 	$("#securityDiv").hide();
 	$("#logoutButton").show();
 	$("#loginButton").hide();
+	$("#registButton").hide();
 	$("#welcomeDiv").show();
 	$("#userInfoSpan").html(SpryExt.security.currentUserName);
 }
