@@ -75,18 +75,18 @@ Spry.Utils.createXMLHttpRequest = function()
 
 Spry.Utils.loadURL = function(method, url, async, callback, opts)
 {
-	if(url.indexOf("?") != -1){
-		url = url + "&r="+Math.round(Math.random()*10000);
-	}else{
-		url = url + "?r="+Math.round(Math.random()*10000);
-	}
-		
 	var req = new Spry.Utils.loadURL.Request();
 	req.method = method;
 	req.url = url;
 	req.async = async;
 	req.successCallback = callback;
 	Spry.Utils.setOptions(req, opts);
+
+	if(req.url.indexOf("?") != -1){
+		req.url = req.url + "&r="+Math.round(Math.random()*10000);
+	}else{
+		req.url = req.url + "?r="+Math.round(Math.random()*10000);
+	}
 
 	try
 	{
@@ -2154,6 +2154,7 @@ Spry.Data.HTTPSourceDataSet.prototype.loadData = function()
 	this.cancelLoadData();
 
 	var url = this.url;
+
 	var postData = this.requestInfo.postData;
 
 	if (this.hasDataRefStrings)
