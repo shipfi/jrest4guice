@@ -3,37 +3,60 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JRest4Guice 0.9.0 preview demo</title>
-
-<!-- Spry 验证的CSS -->
-<link href="javascript/spry/widgets/textfieldvalidation/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
-<link href="javascript/spry/widgets/textareavalidation/SpryValidationTextarea.css" rel="stylesheet" type="text/css" />
-
-<!-- 应用验证的CSS -->
-<link href="css/validation.css" rel="stylesheet" type="text/css" />
-
-<!-- 系统缺省的CSS -->
-<link href="css/default.css" rel="stylesheet" type="text/css" />
-
-<style>
-	.button {
-		margin-right: 20px;
-	}
-	input{
-		width: 132px;
-	}
-	.loadingBar {
-		background-color: red;
-		color: yellow;
-		font-size: 10px;
-		padding: 1px;
-		border: solid 1px olive;
-		top: 33px;
-		left: 234px;
-		clear: both;
-		width:70px;
-		position: absolute;
-	}
-</style>
+	<!--
+	============================================================================================= 
+	// 装载所有的javascript文件
+	============================================================================================= 
+	-->
+	<!-- JQuery 核心 -->
+	<script type="text/javascript" src="javascript/lib/jquery-1.2.5.js"></script>
+	<script type="text/javascript" src="javascript/lib/jquery-ui-1.5.js"></script>
+	<script type="text/javascript" src="javascript/lib/jquery.blockUI.js"></script>
+	
+	<!-- Spry 核心 -->
+	<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryData.js"></script>
+	<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryJSONDataSet.js"></script>
+	<!-- Spry 验证 -->
+	<script type="text/javascript" src="javascript/spry/widgets/textfieldvalidation/SpryValidationTextField.js"></script>
+	<script type="text/javascript" src="javascript/spry/widgets/textareavalidation/SpryValidationTextarea.js"></script>
+	
+	<!-- 用户扩展的JS -->
+	<script language="JavaScript" type="text/javascript" src="javascript/lib/user-ext.js"></script>
+	
+	<!-- 应用自己的JS -->
+	<script type="text/javascript" src="main.js"></script>
+	<script type="text/javascript" src="security.js"></script>
+	
+	<!-- Spry 验证的CSS -->
+	<link href="javascript/spry/widgets/textfieldvalidation/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
+	<link href="javascript/spry/widgets/textareavalidation/SpryValidationTextarea.css" rel="stylesheet" type="text/css" />
+	
+	<!-- 应用验证的CSS -->
+	<link href="css/validation.css" rel="stylesheet" type="text/css" />
+	
+	<!-- 系统缺省的CSS -->
+	<link href="css/default.css" rel="stylesheet" type="text/css" />
+	
+	<style>
+		.button {
+			margin-right: 20px;
+		}
+		input{
+			width: 132px;
+		}
+		.loadingBar {
+			background-color: red;
+			color: yellow;
+			font-size: 10px;
+			padding: 1px;
+			border: solid 1px olive;
+			top: 33px;
+			left: 234px;
+			clear: both;
+			width:70px;
+			position: absolute;
+		}
+	</style>
 </head>
 <body>
 	<div style="background-image: url('images/body_head.gif');height: 84px;position: absolute;top:0px; width: 100%;left: 0px;">&nbsp;</div>
@@ -187,28 +210,6 @@
 		<img class="png" id="recyle" src="images/recycle_empty.png" style="width: 48px;height: 48px;cursor: pointer;margin-top: 4px;"><span>回收站</span>
 		<img src="/full/images/go.gif" style="margin-bottom: -22px;margin-left: 80px;"><a href="/full/contacts" style="font-weight: bold;font-size: 20px;">返回体验普通版</a><a href="/full" style="font-weight: bold;font-size: 12px;margin-left:40px;">首  页</a>
 	<div>
-	<!--
-	============================================================================================= 
-	// 装载所有的javascript文件
-	============================================================================================= 
-	-->
-	<!-- JQuery 核心 -->
-	<script type="text/javascript" src="javascript/lib/jquery-1.2.5.js"></script>
-	<script type="text/javascript" src="javascript/lib/jquery-ui-1.5.js"></script>
-	<script type="text/javascript" src="javascript/lib/jquery.blockUI.js"></script>
-	
-	<!-- Spry 核心 -->
-	<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryData.js"></script>
-	<script language="JavaScript" type="text/javascript" src="javascript/spry/SpryJSONDataSet.js"></script>
-	<!-- Spry 验证 -->
-	<script type="text/javascript" src="javascript/spry/widgets/textfieldvalidation/SpryValidationTextField.js"></script>
-	<script type="text/javascript" src="javascript/spry/widgets/textareavalidation/SpryValidationTextarea.js"></script>
-	
-	<!-- 用户扩展的JS -->
-	<script language="JavaScript" type="text/javascript" src="javascript/lib/user-ext.js"></script>
-	
-	<!-- 应用自己的JS -->
-	<script type="text/javascript" src="main.js"></script>
-	<script type="text/javascript" src="security.js"></script>
+
 </body>
 </html>
