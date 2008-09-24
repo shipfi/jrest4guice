@@ -26,6 +26,11 @@
 	<img src="images/mouse.png" class="png" style="position: absolute;top:-25px;left: 12px;width: 94px;height: 94px;">
 	<div id="logoDiv" style="position: absolute;left:110px;top:28px;"><h3><span style="font-size:24px;color: green;font-weight: bold;">J</span>Rest4Guice</h3></div>
 	<div style="margin: 30px 0 8px 1px;height: 55px;width:60%;"></div>
+	<div id="welcomeDiv" style="position: absolute;top:42px;right: 8px;text-align: left;color: green;" ct:isLogin="true">
+		<img class="png" src="images/people.png" style="margin-bottom: -3px;width: 24px;height: 24px;margin-right: 4px;">欢迎您回来，<a id="userInfoSpan" href="#" onclick="alert('查看个人资料！');void(0);return false;">cnoss</a><br/>
+		<div style="margin-top: 8px;"><img src="images/warning.gif" style="margin-bottom: -3px;">你有&nbsp;<a id="todoSpan" href="#" onclick="alert('查看待办事项！');void(0);return false;">[4]</a>&nbsp;个待办事项要处理。</div>
+		<div><img src="images/warning.gif" style="margin-bottom: -3px;">&nbsp;<a id="todoSpan" href="#" onclick="alert('查看待办事项！');void(0);return false;">[12]</a>&nbsp;个好友请求未处理。</div>
+	</div>
 	<div style="position: absolute;top:4px;right: 8px;border-bottom: solid 1px silver;">
 		<div style="margin-bottom: 4px;">
 		<a id="logoutButton" href="#" onclick="doLogout();void(0);return false;" ct:isLogin="true">注销</a>
