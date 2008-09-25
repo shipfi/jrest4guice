@@ -1,13 +1,13 @@
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>联系人管理(CTL template)</title>
-<link href="/full/css/default.css" rel="stylesheet" type="text/css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>联系人管理(CTL template)</title>
+	<link href="/full/css/default.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	$cycle{rowstyle:("odd","even")}
+	@cycle{rowstyle:("odd","even")}
 
-	$embed{"head.ctl"}
+	@embed{"head.ctl"}
 
 	<div style="float: left;width: 65%;height: 55px;">
 		<div style="width: 100%;">
@@ -28,19 +28,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr style="cursor: default;height: 22px;" class="${rowstyle.next}" ct:for="contact : ctx.content">
-					<td>&nbsp;<a href="contacts/${contact.id}">${contact.name}</a></td>
-					<td>&nbsp;${contact.mobilePhone}</td>
-					<td>&nbsp;${contact.email}</td>
-					<td>&nbsp;${contact.address}</td>
-					<td ct:role="'admin','manager'">&nbsp;<a href="contacts/${contact.id}!delete" onclick="return deleteContact('${contact.name}');">删除</a></td>
+				<tr style="cursor: default;height: 22px;" class="@{rowstyle.next}" ct:for="contact : ctx.content" onmouseover="$(this).addClass('mouseoverClass');"  onmouseout="$(this).removeClass('mouseoverClass');">
+					<td>&nbsp;<a href="contacts/@{contact.id}">@{contact.name}</a></td>
+					<td>&nbsp;@{contact.mobilePhone}</td>
+					<td>&nbsp;@{contact.email}</td>
+					<td>&nbsp;@{contact.address}</td>
+					<td ct:role="'admin','manager'">&nbsp;<a href="contacts/@{contact.id}!delete" onclick="return deleteContact('@{contact.name}');">删除</a></td>
 				</tr>
 			</tbody>
 		</table>
 		
 		<br/>
 		<center>	
-			$include{"pageNavigation.ctl",(pageUrl:"/full/contacts?page=",ctx:ctx)}
+			@include{"pageNavigation.ctl",(pageUrl:"/full/contacts?page=",ctx:ctx)}
 		</center>
 	</div>
 
@@ -68,6 +68,6 @@
 		<iframe id="securityIframe" frameborder="0" width="280" height="200" scrolling="no"></iframe>
 	</div>
 	
-	$embed{"foot.ctl"}
+	@embed{"foot.ctl"}
 </body>
 </html>

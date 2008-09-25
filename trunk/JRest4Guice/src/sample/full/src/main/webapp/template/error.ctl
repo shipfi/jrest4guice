@@ -7,16 +7,16 @@
 <body>
 	<center>
 	<br>
-	$set{msg = ctx.errorMessage}
+	@set{msg = ctx.errorMessage}
 	<img src="/full/images/error.png" style="margin-top:40px;">
-	<h2>操作错误：${msg}</h2>
+	<h2>操作错误：@{msg}</h2>
 	<div ct:if="ctx.invalidValues!=null">
 		<hr/>
 		<h4>错误明细</h4>
 		<div style="text-align: left;width:33.3%;margin-top: -18px;">
 			<hr/>
 			<div ct:if="value : ctx.invalidValues">
-				<b><font color=red>${value.propertyName}：&nbsp;&nbsp;</font></b><font color=green>${value.message}</font>
+				<b><font color=red>@{value.propertyName}：&nbsp;&nbsp;</font></b><font color=green>@{value.message}</font>
 			</div>
 			<hr/>
 		</div>
