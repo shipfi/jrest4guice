@@ -75,7 +75,7 @@ public class SecurityResource {
 	}
 
 	@Get
-	@Path("{userName}/roles")
+	@Path("roles/{userName}")
 	public List<Role> listUserRoles(String userName) {
 		List<org.jrest4guice.sample.contact.entity.Role> userRoles = this.domain
 				.getUserRoles(userName);
