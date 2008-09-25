@@ -37,15 +37,29 @@ public class SecurityLoginModule implements LoginModule {
 	private List<Role> roles;
 
 	JRestClient client;
+	
+	private String authUrl;
+	private String roleListUrl;
+	
 
 	public void initialize(Subject subject, CallbackHandler callbackHandler,
 			Map sharedState, Map options) {
 		this.subject = subject;
 		this.callbackHandler = callbackHandler;
-		this.client = new JRestClient();
+		
+		this.authUrl = (String)options.get("authUrl");
+		this.roleListUrl = (String)options.get("roleListUrl");
+		
+		if((this.authUrl == null || this.authUrl.trim().equals("")) || (this.roleListUrl == null || this.roleListUrl.trim().equals(""))){
+			throw new RuntimeException("没有为登录模板指定 authUrl 和 roleListUrl 属性");
+		}
+		
+		if(!this.roleListUrl.endsWith("/"))
+			this.roleListUrl += "/";
 	}
 
 	public boolean login() throws LoginException {
+		this.client = new JRestClient();
 		// 提示输入用户名和密码;
 		if (callbackHandler == null) {
 			throw new LoginException("没有指明 CallBackHandler!");
@@ -68,7 +82,7 @@ public class SecurityLoginModule implements LoginModule {
 			urlParam.put("userName", username);
 			urlParam.put("userPassword", new String(password));
 			Object result = client.callRemote(
-					"http://localhost/full/security/auth", "get", urlParam);
+					this.authUrl, "get", urlParam);
 			if (result != null) {
 				Boolean value = Boolean.valueOf(result.toString());
 				succeeded = value.booleanValue();
@@ -98,8 +112,7 @@ public class SecurityLoginModule implements LoginModule {
 			// ==================================================================
 			try {
 				List<Role> roles = (List<Role>) client.callRemote(
-						"http://localhost/full/security/" + this.username
-								+ "/roles", "get", null);
+						this.roleListUrl + this.username,"get", null);
 				if (roles != null) {
 					this.roles = roles;
 					for (Role role : this.roles) {
