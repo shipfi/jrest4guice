@@ -3,6 +3,36 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>联系人管理(CTL template)</title>
 	<link href="/full/css/default.css" rel="stylesheet" type="text/css" />
+	<script>
+		window.onload = function(){
+			IFrameUtil.subscribeEvent("onLogin",window,function(param){
+				window.location = window.location; 
+			});
+			var _table = new TableDecorator(null,"contactTable");
+			_table.onChecked=_table.onCheckedAll=_table.onUnCheckedAll=function(){
+				var ids = contactTable_decorator.getCheckedIds();
+				if(ids.length>0){
+					$("#delSpan").show();
+					$("#delLink").attr("href","contacts/"+ids.join(",")+"!delete");
+				}else{
+					$("#delSpan").hide();
+				}
+			};
+
+			var showCkb = true;
+			@isLogin{false}
+				showCkb = false;
+			@end
+			_table.decorateRow({showCheckBox:showCkb});
+		}
+		
+		function deleteContact(){
+			if(!window.confirm("您确定要删除当前已选择的联系人吗?")){
+				return false;
+			}
+			return true;
+		}
+	</script>
 </head>
 <body>
 	@cycle{rowstyle:("odd","even")}
@@ -11,29 +41,32 @@
 
 	<div style="float: left;width: 65%;height: 55px;">
 		<div style="width: 100%;">
-			<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="/full/contact"  title="为你添加新的联系人">增加</a>新的联系人。
+			<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="/full/contact"  title="为你添加新的联系人">增加</a>
+			新的联系人<span ct:role="'admin','manager'"><span id="delSpan" style="display:none;">，或者<a id="delLink" href="contacts/!delete" onclick="return deleteContact();">删除</a>当前已选择的联系人</span></span>。
 		</div>
 	</div>
 	<br><br>
 	
 	<div style="float: left;width:60%;margin-right: 0px;clear: both;">
-		<table cellpadding="0" cellspacing="0" width="100%">
+		<table id="contactTable" cellpadding="0" cellspacing="0" width="100%">
 			<thead style="font-weight: bold;">
 				<tr style="height: 26px;background-image: url('/full/images/head.jpg');color: white;">
 					<td style="width: 110px;">&nbsp;姓 名</td>
 					<td style="width: 110px;">&nbsp;移动电话</td>
 					<td style="width: 130px;">&nbsp;电子邮件</td>
 					<td>&nbsp;住址</td>
-					<td style="width: 60px;" ct:role="'admin','manager'">&nbsp;操作</td>
 				</tr>
 			</thead>
 			<tbody>
-				<tr style="cursor: default;height: 22px;" class="@{rowstyle.next}" ct:for="contact : ctx.content" onmouseover="$(this).addClass('over');"  onmouseout="$(this).removeClass('over');">
+				<tr ct:for="contact : ctx.content"
+					rowId="@{contact.id}" 
+					class="@{rowstyle.next}" style="cursor: default;height: 22px;" 
+					onmouseover="$(this).addClass('over');"  
+					onmouseout="$(this).removeClass('over');">
 					<td>&nbsp;<a href="contacts/@{contact.id}">@{contact.name}</a></td>
 					<td>&nbsp;@{contact.mobilePhone}</td>
 					<td>&nbsp;@{contact.email}</td>
 					<td>&nbsp;@{contact.address}</td>
-					<td ct:role="'admin','manager'">&nbsp;<a href="contacts/@{contact.id}!delete" onclick="return deleteContact('@{contact.name}');">删除</a></td>
 				</tr>
 			</tbody>
 		</table>
@@ -61,7 +94,6 @@
 			</li>
 		</ul>
 	</div>
-
 	
 	<div id="securityDiv" style="display: none;">
 		<div style="width: 100%;height: 26px;background-image: url('images/head.jpg');"><img src="images/close.gif" style="cursor: pointer;margin-top: 4px;" onclick="closeLoginWindow();"></div>

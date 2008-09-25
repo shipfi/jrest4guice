@@ -593,6 +593,7 @@ if(Spry){
 		 * checkedIds : 初始要被选中的ID数组
 		 */
 		decorateRow : function(option){
+			option = option || {};
 			this.checkAbleOption = option;
 			this.showCheckBox = option.showCheckBox==null?true:option.showCheckBox;
 			this._initTable();
