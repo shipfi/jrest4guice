@@ -60,9 +60,7 @@
 			<tbody>
 				<tr ct:for="contact : ctx.content"
 					rowId="@{contact.id}" 
-					class="@{rowstyle.next}" style="cursor: default;height: 22px;" 
-					onmouseover="$(this).addClass('over');"  
-					onmouseout="$(this).removeClass('over');">
+					class="@{rowstyle.next}" style="cursor: default;height: 22px;">
 					<td>&nbsp;<a href="contacts/@{contact.id}">@{contact.name}</a></td>
 					<td>&nbsp;@{contact.mobilePhone}</td>
 					<td>&nbsp;@{contact.email}</td>
