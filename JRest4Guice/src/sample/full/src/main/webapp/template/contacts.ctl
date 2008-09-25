@@ -28,7 +28,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr style="cursor: default;height: 22px;" class="@{rowstyle.next}" ct:for="contact : ctx.content" onmouseover="$(this).addClass('mouseoverClass');"  onmouseout="$(this).removeClass('mouseoverClass');">
+				<tr style="cursor: default;height: 22px;" class="@{rowstyle.next}" ct:for="contact : ctx.content" onmouseover="$(this).addClass('over');"  onmouseout="$(this).removeClass('over');">
 					<td>&nbsp;<a href="contacts/@{contact.id}">@{contact.name}</a></td>
 					<td>&nbsp;@{contact.mobilePhone}</td>
 					<td>&nbsp;@{contact.email}</td>
