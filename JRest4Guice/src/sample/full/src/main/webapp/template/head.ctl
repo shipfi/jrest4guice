@@ -5,21 +5,9 @@
 	<script type="text/javascript" src="/full/javascript/lib/jquery-1.2.5.js"></script>
 	<script type="text/javascript" src="/full/javascript/lib/jquery-ui-1.5.js"></script>
 	<script type="text/javascript" src="/full/javascript/lib/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="/full/javascript/spry/SpryData.js"></script>
 	<script type="text/javascript" src="/full/javascript/lib/user-ext.js"></script>
 	<script type="text/javascript" src="/full/security.js"></script>
-	<script>
-		window.onload = function(){
-			IFrameUtil.subscribeEvent("onLogin",window,function(param){
-				window.location = window.location; 
-			});
-		}
-		function deleteContact(cName){
-			if(!window.confirm("您确定要删除联系人\""+cName+"\" 吗?")){
-				return false;
-			}
-			return true;
-		}
-	</script>
 </head>
 <body>
 	<div style="background-image: url('images/body_head.gif');height: 84px;position: absolute;top:0px; width: 100%;left: 0px;">&nbsp;</div>
