@@ -71,6 +71,10 @@ a:hover {
 	width: 200%;
 }
 
+tr.over td {
+	background-color:#EAF6FD;
+}
+
 .mouseoverClass {
 	background-color: #EAF6FD;
 }
