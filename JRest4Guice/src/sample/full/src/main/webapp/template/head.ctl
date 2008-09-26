@@ -12,7 +12,7 @@
 <body>
 	<div style="background-image: url('images/body_head.gif');height: 84px;position: absolute;top:0px; width: 100%;left: 0px;">&nbsp;</div>
 	<img src="images/mouse.png" class="png" style="position: absolute;top:-25px;left: 12px;width: 94px;height: 94px;">
-	<div id="logoDiv" style="position: absolute;left:110px;top:28px;"><h3><span style="font-size:24px;color: green;font-weight: bold;">J</span>Rest4Guice</h3></div>
+	<div id="logoDiv" style="position: absolute;left:110px;top:28px;"><h3><span style="font-size:24px;color: green;font-weight: bold;">J</span>Rest4Guice</h3><h4 style="margin: -8px 0 0 48px;font-style: italic;">Simple demo</h4></div>
 	<div style="margin: 30px 0 8px 1px;height: 55px;width:60%;"></div>
 	<div id="welcomeDiv" style="position: absolute;top:42px;right: 8px;text-align: left;color: green;" ct:isLogin="true">
 		<img class="png" src="images/people.png" style="margin-bottom: -3px;width: 24px;height: 24px;margin-right: 4px;">欢迎您回来，<a id="userInfoSpan" href="#" onclick="alert('查看个人资料！');void(0);return false;">cnoss</a><br/>

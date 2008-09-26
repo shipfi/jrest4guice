@@ -41,8 +41,7 @@
 
 	<div style="float: left;width: 65%;height: 55px;">
 		<div style="width: 100%;">
-			<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="/full/contact"  title="为你添加新的联系人">增加</a>
-			新的联系人<span ct:role="'admin','manager'"><span id="delSpan" style="display:none;">，或者<a id="delLink" href="contacts/!delete" onclick="return deleteContact();">删除</a>当前已选择的联系人</span></span>。
+			<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="/full/contact"  title="为你添加新的联系人">增加</a>新的联系人<span ct:role="'admin','manager'"><span id="delSpan" style="display:none;">，或者<a id="delLink" href="contacts/!delete" onclick="return deleteContact();">删除</a>当前已选择的联系人</span></span>。
 		</div>
 	</div>
 	<br><br>
