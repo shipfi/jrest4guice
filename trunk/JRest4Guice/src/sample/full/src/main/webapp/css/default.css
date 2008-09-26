@@ -11,6 +11,12 @@ table {
 
 table thead tr td {
 	cursor: default;
+	height: 26px;
+}
+
+table tbody tr td {
+	cursor: default;
+	height: 21px;
 }
 
 .linkButton {
@@ -69,10 +75,6 @@ a:hover {
 	position: absolute;
 	right: 0pt;
 	width: 200%;
-}
-
-tr.over td {
-	background-color:#EAF6FD;
 }
 
 .mouseoverClass {
