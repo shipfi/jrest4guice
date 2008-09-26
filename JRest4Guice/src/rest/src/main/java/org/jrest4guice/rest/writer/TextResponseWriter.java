@@ -8,7 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jrest4guice.rest.annotations.Cached;
+import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
 import org.jrest4guice.rest.context.RestContextManager;
 
@@ -38,7 +38,7 @@ public abstract class TextResponseWriter implements ResponseWriter {
 
 		String textContent = this.generateTextContent(result);
 
-		if (method != null && method.isAnnotationPresent(Cached.class))
+		if (method != null && method.isAnnotationPresent(Cache.class))
 			ResourceCacheManager.getInstance().cacheStaticResource(
 					RestContextManager.getCurrentRestUri(), this.getMimeType(),
 					textContent.getBytes(), request);

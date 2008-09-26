@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.validator.InvalidValue;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.ServiceResult;
-import org.jrest4guice.rest.annotations.Cached;
+import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.annotations.PageInfo;
@@ -91,7 +91,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 				}
 				//如果模板文件存在，则调用相应的渲染器进行结果的渲染
 				if(viewRender != null)
-					viewRender.render(out, annotation, httpResult,method.isAnnotationPresent(Cached.class));
+					viewRender.render(out, annotation, httpResult,method.isAnnotationPresent(Cache.class));
 				else{
 					writeTextPlain(out, httpResult);
 				}

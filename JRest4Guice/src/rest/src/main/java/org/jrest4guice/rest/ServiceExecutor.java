@@ -21,7 +21,7 @@ import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.client.Page;
 import org.jrest4guice.commons.i18n.annotations.ResourceBundle;
 import org.jrest4guice.commons.lang.ParameterNameDiscoverer;
-import org.jrest4guice.rest.annotations.Cached;
+import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.annotations.Delete;
 import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.HttpMethodType;
@@ -208,7 +208,7 @@ public class ServiceExecutor {
 					value = parameterTypes[index].newInstance();
 					BeanUtils.populate(value, modelMap);
 					isModelBean = true;
-				} else if (annotation instanceof Cached) {
+				} else if (annotation instanceof Cache) {
 					cached = true;
 				}
 			}
