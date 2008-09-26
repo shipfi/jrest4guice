@@ -88,7 +88,7 @@ public class SecurityLoginModule implements LoginModule {
 				succeeded = value.booleanValue();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		// ==================================================================
 
@@ -123,7 +123,7 @@ public class SecurityLoginModule implements LoginModule {
 					}
 				}
 			} catch (Exception e) {
-				 e.printStackTrace();
+//				 e.printStackTrace();
 			}
 			// ==================================================================
 
