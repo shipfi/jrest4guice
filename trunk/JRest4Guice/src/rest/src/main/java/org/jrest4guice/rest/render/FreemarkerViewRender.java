@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.PageFlow;
+import org.jrest4guice.rest.writer.HtmlResponseWriter;
 
 import com.google.inject.Inject;
 
@@ -57,7 +58,8 @@ public class FreemarkerViewRender implements ViewRender {
 		StringWriter writer = new StringWriter();
 		//往上下文中填入数据
 		Map context = new HashMap();
-		context.put("context", result);
+		context.put("ctx", result);
+		context.put("xctx",session.getAttribute(HtmlResponseWriter.OPTION_KEY));
 		template.process(context, writer);
 
 		//输出到用户端

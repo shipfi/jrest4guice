@@ -3,6 +3,7 @@ package org.jrest4guice.rest.render;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.commontemplate.core.Context;
 import org.commontemplate.core.Template;
@@ -12,6 +13,7 @@ import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
 import org.jrest4guice.rest.context.RestContextManager;
+import org.jrest4guice.rest.writer.HtmlResponseWriter;
 import org.jrest4guice.security.SecurityContext;
 import org.jrest4guice.security.UserRole;
 
@@ -45,7 +47,8 @@ public class CTLViewRender implements ViewRender {
 				url = annotation.error().value();
 			}
 			
-			url = this.request.getSession().getServletContext().getRealPath("/")+url;
+			HttpSession session = this.request.getSession();
+			url = session.getServletContext().getRealPath("/")+url;
 			
 			//获取模板
 			Template template = this.engine.getTemplate(url);
@@ -55,6 +58,7 @@ public class CTLViewRender implements ViewRender {
 			this.context.put(SecurityContext.CURRENT_USER_ROlE, userPrincipal);
 			this.context.put(SecurityContext.USER_IS_LOGIN, userPrincipal!=null);
 			this.context.put("ctx", result);
+			this.context.put("xctx",session.getAttribute(HtmlResponseWriter.OPTION_KEY));
 			
 			template.render(this.context);
 			

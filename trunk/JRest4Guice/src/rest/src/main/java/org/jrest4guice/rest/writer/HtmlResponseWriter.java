@@ -36,6 +36,8 @@ public class HtmlResponseWriter implements ResponseWriter {
 	protected HttpSession session;
 	
 	private static Map<Method, ViewRender> renders = new HashMap<Method, ViewRender>(0);
+	
+	public static final String OPTION_KEY = "_$_options_$_";
 
 	@Override
 	public String getMimeType() {
@@ -43,7 +45,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 	}
 	
 	@Override
-	public void writeResult(Method method, Object result, String charset) {
+	public void writeResult(Method method, Object result, Map options, String charset) {
 		try {
 			response.setCharacterEncoding(charset);
 			response.setContentType(this.getMimeType());
@@ -74,11 +76,16 @@ public class HtmlResponseWriter implements ResponseWriter {
 					session.removeAttribute(ServiceResult.INVALID_VALUE_KEY);
 				}
 				
+				if(options != null && options.size()>0){
+					session.setAttribute(HtmlResponseWriter.OPTION_KEY, options);
+				}
+				
 				ViewRender viewRender = renders.get(method);
 				//模板的渲染器
-				if(viewRender == null)
+				if(viewRender == null){
 					viewRender = ViewRenderRegister.getInstance().getViewRender(pageInfo);
-				else{
+					renders.put(method, viewRender);
+				}else{
 					GuiceContext.getInstance().injectorMembers(viewRender);
 				}
 				//如果模板文件存在，则调用相应的渲染器进行结果的渲染

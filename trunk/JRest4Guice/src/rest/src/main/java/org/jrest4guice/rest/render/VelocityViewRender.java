@@ -13,6 +13,7 @@ import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
 import org.jrest4guice.rest.context.RestContextManager;
+import org.jrest4guice.rest.writer.HtmlResponseWriter;
 
 import com.google.inject.Inject;
 
@@ -42,6 +43,7 @@ public class VelocityViewRender implements ViewRender {
 		//往上下文中填入数据
 		context.put("ctxPath", this.request.getContextPath());
 		context.put("ctx", result);
+		context.put("xctx",request.getSession().getAttribute(HtmlResponseWriter.OPTION_KEY));
 		//输出到用户端
 		StringWriter writer = new StringWriter();
 		template.merge(context, writer);
