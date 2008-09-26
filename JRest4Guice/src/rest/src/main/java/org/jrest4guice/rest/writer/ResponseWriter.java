@@ -1,6 +1,7 @@
 package org.jrest4guice.rest.writer;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 
 /**
@@ -15,7 +16,7 @@ public interface ResponseWriter {
 	 * @param response
 	 * @param result
 	 */
-	public abstract void writeResult(Method method,Object result, String charset);
+	public abstract void writeResult(Method method,Object result, Map options, String charset);
 	
 	/**
 	 * 返回当前Writer所对应的Mime类型
