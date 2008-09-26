@@ -168,7 +168,7 @@ public class JRest4GuiceProcessor {
 
 	private void writeErrorMessage(Exception e) {
 		GuiceContext.getInstance().getBean(JsonResponseWriter.class)
-				.writeResult(null, e, charset);
+				.writeResult(null, e, null, charset);
 	}
 
 	private HttpMethodType getHttpMethodType(String method) {
