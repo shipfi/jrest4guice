@@ -52,9 +52,6 @@ public class ServiceExecutor {
 	@Inject
 	private HttpServletRequest request;
 
-	@Inject
-	private HttpSession session;
-
 	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
 
