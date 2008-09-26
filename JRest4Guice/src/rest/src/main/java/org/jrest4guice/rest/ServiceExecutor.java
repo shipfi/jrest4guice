@@ -222,7 +222,7 @@ public class ServiceExecutor {
 					nullParamCount++;
 			}
 			
-			if(cached){
+			if(cached && value != null){
 				this.options.put(pName, value);
 			}
 			
