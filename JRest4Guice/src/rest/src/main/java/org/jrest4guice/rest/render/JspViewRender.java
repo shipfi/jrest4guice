@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.PageFlow;
+import org.jrest4guice.rest.writer.HtmlResponseWriter;
 
 import com.google.inject.Inject;
 
@@ -27,7 +28,8 @@ public class JspViewRender implements ViewRender {
 	@Override
 	public void render(PrintWriter out, PageFlow annotation, ServiceResult result,
 			boolean cache) throws Exception {
-		request.setAttribute("context", result);
+		request.setAttribute("ctx", result);
+		request.setAttribute("xctx", request.getSession().getAttribute(HtmlResponseWriter.OPTION_KEY));
 		request.getRequestDispatcher(annotation.success().value()).forward(this.request,
 				this.response);
 	}
