@@ -21,6 +21,7 @@ import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.client.Page;
 import org.jrest4guice.commons.i18n.annotations.ResourceBundle;
 import org.jrest4guice.commons.lang.ParameterNameDiscoverer;
+import org.jrest4guice.rest.annotations.Cached;
 import org.jrest4guice.rest.annotations.Delete;
 import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.HttpMethodType;
@@ -51,6 +52,9 @@ public class ServiceExecutor {
 	@Inject
 	private HttpServletRequest request;
 
+	@Inject
+	private HttpSession session;
+
 	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
 
@@ -69,10 +73,14 @@ public class ServiceExecutor {
 	 * 身份验证的URL
 	 */
 	private String loginErrorUrl;
+	
+	private Map options;
 
 	public ServiceExecutor() {
 		if (responseWriterRegister == null)
 			responseWriterRegister = ResponseWriterRegister.getInstance();
+		
+		this.options = new HashMap(0);
 	}
 
 	/**
@@ -188,10 +196,11 @@ public class ServiceExecutor {
 		}
 
 		boolean isModelBean = false;
+		boolean cached = false;
 		for (Annotation[] annotations : annotationArray) {
 			value = null;
 			pName = parameterNames[index];
-			isModelBean = false;
+			isModelBean = cached = false;
 			for (Annotation annotation : annotations) {
 				if (annotation instanceof Parameter) {
 					pName = ((Parameter) annotation).value();
@@ -199,6 +208,8 @@ public class ServiceExecutor {
 					value = parameterTypes[index].newInstance();
 					BeanUtils.populate(value, modelMap);
 					isModelBean = true;
+				} else if (annotation instanceof Cached) {
+					cached = true;
 				}
 			}
 
@@ -210,6 +221,11 @@ public class ServiceExecutor {
 				if (pValue == null)
 					nullParamCount++;
 			}
+			
+			if(cached){
+				this.options.put(pName, value);
+			}
+			
 
 			if (isModelBean) {
 				// 启用验证
@@ -332,7 +348,8 @@ public class ServiceExecutor {
 		// 向客户端写回结果数据
 		ResponseWriter responseWriter = responseWriterRegister
 				.getResponseWriter(mimeType);
-		if (responseWriter != null)
-			responseWriter.writeResult(method, result, charset);
+		if (responseWriter != null){
+			responseWriter.writeResult(method, result, this.options, charset);
+		}
 	}
 }
