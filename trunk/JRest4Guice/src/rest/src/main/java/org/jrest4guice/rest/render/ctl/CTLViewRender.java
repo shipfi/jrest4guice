@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.render;
+package org.jrest4guice.rest.render.ctl;
 
 import java.io.PrintWriter;
 
@@ -13,6 +13,8 @@ import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
 import org.jrest4guice.rest.context.RestContextManager;
+import org.jrest4guice.rest.render.ResultType;
+import org.jrest4guice.rest.render.ViewRender;
 import org.jrest4guice.rest.writer.HtmlResponseWriter;
 import org.jrest4guice.security.SecurityContext;
 import org.jrest4guice.security.UserRole;
