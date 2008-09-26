@@ -23,7 +23,13 @@
 			@isLogin{false}
 				showCkb = false;
 			@end
-			_table.decorateRow({showCheckBox:showCkb});
+			
+			var checkedIds = [];
+			@if{xctx.contactId != null}
+				checkedIds.push('@{xctx.contactId}');
+			@end
+			
+			_table.decorateRow({showCheckBox:showCkb,checkedIds:checkedIds});
 		}
 		
 		function deleteContact(){
