@@ -12,6 +12,7 @@ import org.commontemplate.core.Context;
 import org.commontemplate.engine.Engine;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.guice.GuiceContext;
+import org.jrest4guice.security.SecurityContextProvoider;
 
 
 /**
@@ -95,6 +96,7 @@ public class RestContextManager {
 		velocityContext.remove();
 		ctlContext.remove();
 		freemarkderContext.remove();
+		SecurityContextProvoider.clearCurrentSecurityContext();
 		GuiceContext.getInstance().closePersistenceContext();
 	}
 
