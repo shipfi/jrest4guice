@@ -71,7 +71,7 @@ public class ContactResource {
 	 */
 	@Get
 	@PageFlow(success = @PageInfo(value = "/template/contactDetail.ctl"))
-	public Contact getContact(@Parameter("contactId") String contactId) {
+	public Contact getContact(@Cache @Parameter("contactId") String contactId) {
 		if(contactId == null)
 			return new Contact();
 		return this.service.findContactById(contactId);
