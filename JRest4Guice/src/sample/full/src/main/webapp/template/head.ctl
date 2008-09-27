@@ -3,7 +3,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="/full/css/default.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="/full/javascript/lib/jquery-1.2.5.js"></script>
-	<script type="text/javascript" src="/full/javascript/lib/jquery-ui-1.5.js"></script>
 	<script type="text/javascript" src="/full/javascript/lib/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="/full/javascript/spry/SpryData.js"></script>
 	<script type="text/javascript" src="/full/javascript/lib/user-ext.js"></script>
