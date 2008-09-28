@@ -41,8 +41,10 @@
 	</script>
 </head>
 <body>
+	<!-- 定义奇偶行样式 -->
 	@cycle{rowstyle:("odd","even")}
 
+	<!-- 嵌入页头 -->
 	@embed{"head.ctl"}
 
 	<div style="float: left;width: 65%;height: 55px;">
@@ -76,6 +78,7 @@
 		
 		<br/>
 		<center>	
+			<!-- 插入分页处理 -->
 			@include{"pageNavigation.ctl",(pageUrl:"/full/contacts?page=",ctx:ctx)}
 		</center>
 	</div>
@@ -103,6 +106,7 @@
 		<iframe id="securityIframe" frameborder="0" width="280" height="200" scrolling="no"></iframe>
 	</div>
 	
+	<!-- 嵌入页脚 -->
 	@embed{"foot.ctl"}
 </body>
 </html>
