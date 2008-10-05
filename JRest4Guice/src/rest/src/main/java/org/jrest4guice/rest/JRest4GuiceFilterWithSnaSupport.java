@@ -16,6 +16,7 @@ import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.commons.http.CookieUtil;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.context.RestContextManager;
+import org.jrest4guice.rest.exception.ServiceNotFoundException;
 import org.jrest4guice.rest.sna.SNAIdRequestServlet;
 import org.jrest4guice.rest.sna.SNASession;
 import org.jrest4guice.rest.sna.SNASessionHelper;
@@ -62,6 +63,8 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 	protected void executeFilter(HttpServletRequest hRequest,
 			HttpServletResponse hResponse, FilterChain filterChain, String uri)
 			throws IOException, ServletException {
+		
+		Throwable error = null;
 
 		HttpSession session = hRequest.getSession();
 		// REST资源的参数
@@ -94,7 +97,7 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 			new JRest4GuiceProcessor().setUrlPrefix(this.urlPrefix).process(
 					requestWrapper, hResponse);
 		} catch (Throwable e) {
-			e.printStackTrace();
+			error = e;
 		} finally {
 			// 从缓存服务器客户删除已空的会话对象
 			if (snaSession.isEmpty() && snaSession.isDuty()) {
@@ -107,6 +110,13 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 			// 清除上下文中的环境变量
 			RestContextManager.clearContext();
 			SNASessionProvider.clearCurrentSNASession();
+		}
+		
+		if(error != null){
+			if(error instanceof ServiceNotFoundException){
+				filterChain.doFilter(hRequest, hResponse);
+			}else
+				throw new ServletException("JRest4GuiceFilterWithSnaSupport 拦截异常",error);
 		}
 	}
 

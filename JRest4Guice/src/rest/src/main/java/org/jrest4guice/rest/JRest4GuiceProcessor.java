@@ -17,11 +17,13 @@ import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.commons.lang.ClassUtils;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.annotations.HttpMethodType;
+import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
 import org.jrest4guice.rest.context.JRestContext;
 import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.exception.RestMethodNotFoundException;
+import org.jrest4guice.rest.exception.ServiceNotFoundException;
 import org.jrest4guice.rest.util.JRest4GuiceHelper;
 import org.jrest4guice.rest.util.RequestUtil;
 import org.jrest4guice.rest.writer.JsonResponseWriter;
@@ -72,7 +74,7 @@ public class JRest4GuiceProcessor {
 		}
 
 		String uri = request.getRequestURI();
-		String uri_bak = uri;
+		String original_url = uri;
 		String contextPath = request.getContextPath();
 		if (!contextPath.trim().equals("/") && uri.startsWith(contextPath)) {
 			uri = uri.substring(contextPath.length());
@@ -138,7 +140,7 @@ public class JRest4GuiceProcessor {
 							.getHttpMethodType(RESTful.METHOD_OF_POST),
 							charset, true);
 				} else {
-					this.writeRestServiceNotFoundMessage(uri_bak);
+					this.writeRestServiceNotFoundMessage(request,original_url);
 				}
 			} else {// 以普通Web方式调用的处理
 				// 从REST资源注册表中查找此URI对应的资源
@@ -154,19 +156,24 @@ public class JRest4GuiceProcessor {
 					exec.execute(service, method_type==null?this.getHttpMethodType(method):method_type,
 							charset, false);
 				} else {
-					this.writeRestServiceNotFoundMessage(uri_bak);
+					this.writeRestServiceNotFoundMessage(request,original_url);
 				}
 			}
 		} catch (RestMethodNotFoundException e) {
-			this.writeRestServiceNotFoundMessage(uri_bak);
+			this.writeRestServiceNotFoundMessage(request,original_url);
 		}
 	}
 
-	private void writeRestServiceNotFoundMessage(String uri) {
-		this.writeErrorMessage(new Exception("没有提供指定的Rest服务 (" + uri + ") ！"));
+	private void writeRestServiceNotFoundMessage(HttpServletRequest request,String uri) {
+		String mimeType = RequestUtil.getMimeType(request);
+		String msg = "没有提供指定的Rest服务 (" + uri + ") ！";
+		if(MimeType.MIME_OF_TEXT_HTML.equals(mimeType)){
+			throw new ServiceNotFoundException(msg);
+		}else
+			this.writeErrorMessage(new Exception(msg));
 	}
 
-	private void writeErrorMessage(Exception e) {
+	public void writeErrorMessage(Exception e){
 		GuiceContext.getInstance().getBean(JsonResponseWriter.class)
 				.writeResult(null, e, null, charset);
 	}
