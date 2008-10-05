@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.rest.context.RestContextManager;
+import org.jrest4guice.rest.exception.ServiceNotFoundException;
 
 /**
  * 
@@ -26,6 +27,7 @@ public class JRest4GuiceFilter extends AbstractJRest4GuiceFilter {
 	protected void executeFilter(HttpServletRequest hRequest,
 			HttpServletResponse hResponse, FilterChain filterChain, String uri)
 			throws IOException, ServletException {
+		Throwable error = null;
 		// REST资源的参数
 		ModelMap<String, String> params = new ModelMap<String, String>();
 		try {
@@ -34,10 +36,17 @@ public class JRest4GuiceFilter extends AbstractJRest4GuiceFilter {
 			new JRest4GuiceProcessor().setUrlPrefix(this.urlPrefix).process(
 					hRequest, hResponse);
 		} catch (Throwable e) {
-			e.printStackTrace();
+			error = e;
 		} finally {
 			// 清除上下文中的环境变量
 			RestContextManager.clearContext();
+		}
+
+		if(error != null){
+			if(error instanceof ServiceNotFoundException){
+				filterChain.doFilter(hRequest, hResponse);
+			}else
+				throw new ServletException("JRest4GuiceFilterWithSnaSupport 拦截异常",error);
 		}
 	}
 }
