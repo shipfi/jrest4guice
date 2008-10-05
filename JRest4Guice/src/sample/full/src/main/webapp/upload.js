@@ -24,7 +24,7 @@ window.onload = function(){
 }
 
 function refreshProgress(){
-	SpryExt.rest.doGet("resource/monitor/",function(result){
+	SpryExt.rest.doGet("monitor/",function(result){
 		if(!result.errorMessage){
 			updateProgress(result.content);
 		}
