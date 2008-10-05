@@ -1,6 +1,6 @@
-====一个轻量级的基于Google Guice的Restful服务框架，支持JPA、JAAS、分布式资源对象,对OSGI的支持也在计划中.====
+====一个轻量级的基于Google Guice的Restful服务框架，支持JPA、JAAS、分布式资源对象.====
 *Demo演示:*
-[http://cnoss.vicp.net/]
+[http://www.rest4g.org/full]
 ----
 *特点:*
   * 基于Google guice 
