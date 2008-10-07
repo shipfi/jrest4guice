@@ -3,7 +3,7 @@ package org.jrest4guice.rest.render;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.OutputStream;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,25 +21,25 @@ public class SpryViewRender implements ViewRender {
 	protected HttpSession session;
 
 	/* (non-Javadoc)
-	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult, boolean)
+	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.OutputStream, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult)
 	 */
 	@Override
-	public void render(PrintWriter out, PageFlow annotation, ServiceResult result,boolean cache)
+	public void render(OutputStream out, PageFlow annotation, ServiceResult result)
 			throws Exception {
 		BufferedReader brd = new BufferedReader(new InputStreamReader(
 				new FileInputStream(this.session.getServletContext().getRealPath(annotation.success().value())), "utf-8"));
 		try {
 			String line;
 			while ((line = brd.readLine()) != null) {
-				out.println(line);
+				out.write((line+"\n").getBytes());
 			}
 			// 输出模块中的数据源
-			out.println("<script type=\"text/javascript\">");
-			out.println("  context = new Spry.Data.JSONDataSet();");
-			out.println("  context.setPath(\"content\")");
-			out.println("  context.setDataFromDoc('" + result.toJson()
-					+ "');");
-			out.println("</script>");
+			out.write(("<script type=\"text/javascript\">"+"\n").getBytes());
+			out.write(("  context = new Spry.Data.JSONDataSet();"+"\n").getBytes());
+			out.write(("  context.setPath(\"content\")"+"\n").getBytes());
+			out.write(("  context.setDataFromDoc('" + result.toJson()
+					+ "');"+"\n").getBytes());
+			out.write(("</script>"+"\n").getBytes());
 		} finally {
 			if (brd != null)
 				brd.close();

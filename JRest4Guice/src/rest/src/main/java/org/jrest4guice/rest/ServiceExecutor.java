@@ -1,6 +1,7 @@
 package org.jrest4guice.rest;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -34,9 +36,10 @@ import org.jrest4guice.rest.annotations.Post;
 import org.jrest4guice.rest.annotations.ProduceMime;
 import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.RESTful;
+import org.jrest4guice.rest.cache.ResourceCacheManager;
 import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.exception.ValidatorException;
-import org.jrest4guice.rest.util.RequestUtil;
+import org.jrest4guice.rest.helper.RequestHelper;
 import org.jrest4guice.rest.writer.ResponseWriter;
 import org.jrest4guice.rest.writer.ResponseWriterRegister;
 
@@ -51,6 +54,8 @@ import com.google.inject.Inject;
 public class ServiceExecutor {
 	@Inject
 	private HttpServletRequest request;
+	@Inject
+	protected HttpServletResponse response;
 
 	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
 			0);
@@ -62,21 +67,12 @@ public class ServiceExecutor {
 
 	public static final String PARAMETER_CACHED_KEY = "_$_param_cached_key_$_";
 
-	/**
-	 * 身份验证的URL
-	 */
-	private String loginUrl;
-	/**
-	 * 身份验证的URL
-	 */
-	private String loginErrorUrl;
-	
 	private Map options;
 
 	public ServiceExecutor() {
 		if (responseWriterRegister == null)
 			responseWriterRegister = ResponseWriterRegister.getInstance();
-		
+
 		this.options = new HashMap(0);
 	}
 
@@ -218,11 +214,10 @@ public class ServiceExecutor {
 				if (pValue == null)
 					nullParamCount++;
 			}
-			
-			if(cached && value != null){
+
+			if (cached && value != null) {
 				this.options.put(pName, value);
 			}
-			
 
 			if (isModelBean) {
 				// 启用验证
@@ -320,8 +315,8 @@ public class ServiceExecutor {
 	 *            当前调用的服务方法
 	 */
 	private void writeResult(String charset, Object result, Method method) {
-		String accept = RequestUtil.getAccepte(this.request);
-		String mimeType = RequestUtil.getMimeType(this.request);
+		String accept = RequestHelper.getAccepte(this.request);
+		String mimeType = RequestHelper.getMimeType(this.request);
 
 		// 获取服务方法上的数据返回类型
 		if (method.isAnnotationPresent(ProduceMime.class)) {
@@ -335,8 +330,6 @@ public class ServiceExecutor {
 			}
 		}
 
-		method.getDeclaringClass().getName();
-
 		if (mimeType == null) {// 如果不存在指定的返回类型数据，系统向客户端写回异常
 			result = new Exception("服务端没有提供{" + accept + "}类型的数据返回");
 			mimeType = MimeType.MIME_OF_ALL;
@@ -345,8 +338,29 @@ public class ServiceExecutor {
 		// 向客户端写回结果数据
 		ResponseWriter responseWriter = responseWriterRegister
 				.getResponseWriter(mimeType);
-		if (responseWriter != null){
-			responseWriter.writeResult(method, result, this.options, charset);
+		if (responseWriter != null) {
+			try {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				//将结果写入缓冲区
+				responseWriter.writeResult(method, out, result, this.options);
+				
+				final byte[] bytes = out.toByteArray();
+				if (bytes.length > 0) {
+					//将结果写回客户端
+					response.setCharacterEncoding(charset);
+					response.setContentType(responseWriter.getMimeType());
+					response.getOutputStream().write(bytes);
+					
+					//如果方法打开了缓存声明，则将结果缓存到服务器
+					if (method.isAnnotationPresent(Cache.class)) {
+						ResourceCacheManager.getInstance().cacheStaticResource(
+								RestContextManager.getCurrentRestUri(),
+								responseWriter.getMimeType(), bytes, request);
+					}
+				}
+			} catch (Exception e) {
+				throw new RuntimeException("向客户端写回信息错误"+e);
+			}
 		}
 	}
 }

@@ -1,16 +1,15 @@
 package org.jrest4guice.rest.writer;
 
-import java.io.PrintWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.validator.InvalidValue;
 import org.jrest4guice.rest.ServiceResult;
-import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.annotations.PageInfo;
@@ -30,59 +29,61 @@ public class HtmlResponseWriter implements ResponseWriter {
 	@Inject
 	protected HttpServletRequest request;
 	@Inject
-	protected HttpServletResponse response;
-	@Inject
 	protected HttpSession session;
-	
+
 	public static final String OPTION_KEY = "_$_options_$_";
 
 	@Override
 	public String getMimeType() {
 		return MimeType.MIME_OF_TEXT_HTML;
 	}
-	
+
 	@Override
-	public void writeResult(Method method, Object result, Map options, String charset) {
+	public void writeResult(Method method, ByteArrayOutputStream out,
+			Object result, Map options) {
 		try {
-			response.setCharacterEncoding(charset);
-			response.setContentType(this.getMimeType());
-
-			PrintWriter out = response.getWriter();
-
 			ServiceResult httpResult = ServiceResult.createHttpResult(result);
-			//获取模板路径
+			// 获取模板路径
 			PageFlow annotation = method.getAnnotation(PageFlow.class);
-			if (annotation == null){
+			if (annotation == null) {
 				writeTextPlain(out, httpResult);
-			}else {
+			} else {
 				PageInfo pageInfo = null;
-				if(result instanceof Exception){
+				if (result instanceof Exception) {
 					pageInfo = annotation.error();
-					if(result instanceof ValidatorException){
-						httpResult.setInvalidValues(((ValidatorException)result).getInvalidValues());
-						session.setAttribute(ServiceResult.INVALID_VALUE_KEY, httpResult.getInvalidValues());
+					if (result instanceof ValidatorException) {
+						httpResult
+								.setInvalidValues(((ValidatorException) result)
+										.getInvalidValues());
+						session.setAttribute(ServiceResult.INVALID_VALUE_KEY,
+								httpResult.getInvalidValues());
 					}
-					
-				}else{
+
+				} else {
 					pageInfo = annotation.success();
-					Object invalidValues = session.getAttribute(ServiceResult.INVALID_VALUE_KEY);
-					if(invalidValues != null){
-						httpResult.setInvalidValues((InvalidValue[])invalidValues);
+					Object invalidValues = session
+							.getAttribute(ServiceResult.INVALID_VALUE_KEY);
+					if (invalidValues != null) {
+						httpResult
+								.setInvalidValues((InvalidValue[]) invalidValues);
 						httpResult.setInChain(true);
 					}
 					session.removeAttribute(ServiceResult.INVALID_VALUE_KEY);
 				}
-				
-				if(options != null && options.size()>0){
-					session.setAttribute(HtmlResponseWriter.OPTION_KEY, options);
-				}
-				
-				ViewRender viewRender = ViewRenderRegister.getInstance().getViewRender(pageInfo);
 
-				//如果模板文件存在，则调用相应的渲染器进行结果的渲染
-				if(viewRender != null)
-					viewRender.render(out, annotation, httpResult,method.isAnnotationPresent(Cache.class));
-				else{
+				if (options != null && options.size() > 0) {
+					session
+							.setAttribute(HtmlResponseWriter.OPTION_KEY,
+									options);
+				}
+
+				ViewRender viewRender = ViewRenderRegister.getInstance()
+						.getViewRender(pageInfo);
+
+				// 如果模板文件存在，则调用相应的渲染器进行结果的渲染
+				if (viewRender != null) {
+					viewRender.render(out, annotation, httpResult);
+				} else {
 					writeTextPlain(out, httpResult);
 				}
 			}
@@ -92,7 +93,12 @@ public class HtmlResponseWriter implements ResponseWriter {
 		}
 	}
 
-	private void writeTextPlain(PrintWriter out, ServiceResult httpResult) {
-		out.println(httpResult.toTextPlain());
+	private void writeTextPlain(ByteArrayOutputStream out,
+			ServiceResult httpResult) {
+		try {
+			out.write(httpResult.toTextPlain().getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.util;
+package org.jrest4guice.rest.helper;
 
 public class NavigationHelper {
 	public void navigate2Url(String url){

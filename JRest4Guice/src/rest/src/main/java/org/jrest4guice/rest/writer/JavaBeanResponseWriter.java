@@ -1,17 +1,12 @@
 package org.jrest4guice.rest.writer;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.jrest4guice.rest.annotations.MimeType;
-
-import com.google.inject.Inject;
 
 /**
  * 
@@ -20,15 +15,12 @@ import com.google.inject.Inject;
  */
 public class JavaBeanResponseWriter implements ResponseWriter {
 	
-	@Inject
-	private HttpServletResponse response;
-	
 	/* (non-Javadoc)
 	 * @see org.jrest4guice.ResponseWriter#writeResult(javax.servlet.http.HttpServletResponse, java.lang.Object, java.lang.String)
 	 */
-	public void writeResult(Method method,Object result, Map options,String charset) {
+	public void writeResult(Method method,ByteArrayOutputStream out, Object result,Map options) {
 		try {
-			ObjectOutputStream obj_out = new ObjectOutputStream(response.getOutputStream());
+			ObjectOutputStream obj_out = new ObjectOutputStream(out);
 			obj_out.writeObject(result);
 			obj_out.flush();
 		} catch (IOException e) {

@@ -2,7 +2,7 @@ package org.jrest4guice.rest.render;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,12 +44,12 @@ public class FreemarkerViewRender implements ViewRender {
 			}
 		}
 	}
-
+	
 	/* (non-Javadoc)
-	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult, boolean)
+	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.OutputStream, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult)
 	 */
 	@Override
-	public void render(PrintWriter out, PageFlow annotation, ServiceResult result,boolean cache)
+	public void render(OutputStream out, PageFlow annotation, ServiceResult result)
 			throws Exception {
 
 		this.initFreemarker();
@@ -64,7 +64,7 @@ public class FreemarkerViewRender implements ViewRender {
 
 		//输出到用户端
 		writer.toString();
-		out.println(writer.toString());
+		out.write(writer.toString().getBytes());
 	}
 
 	/* (non-Javadoc)

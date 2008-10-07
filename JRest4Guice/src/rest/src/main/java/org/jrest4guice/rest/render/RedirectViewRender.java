@@ -1,6 +1,7 @@
 package org.jrest4guice.rest.render;
 
-import java.io.PrintWriter;
+
+import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,11 +26,11 @@ public class RedirectViewRender implements ViewRender {
 	protected HttpServletResponse response;
 
 	/* (non-Javadoc)
-	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult, boolean)
+	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.OutputStream, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult)
 	 */
 	@Override
-	public void render(PrintWriter out, PageFlow annotation, ServiceResult result,
-			boolean cache) throws Exception {
+	public void render(OutputStream out, PageFlow annotation, ServiceResult result)
+			throws Exception {
 		String path = annotation.success().value();
 		if(result.getErrorMessage() != null || result.getInvalidValues() != null){
 			path = annotation.error().value();

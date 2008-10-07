@@ -1,6 +1,7 @@
 package org.jrest4guice.rest.render;
 
-import java.io.PrintWriter;
+
+import java.io.OutputStream;
 
 import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.PageFlow;
@@ -27,8 +28,7 @@ public interface ViewRender {
 	 * @param out	输出流
 	 * @param annotation	页面流程定义的注解
 	 * @param result	业务数据
-	 * @param cache	是否要缓存
 	 * @throws Exception
 	 */
-	public void render(PrintWriter out,PageFlow annotation,ServiceResult result,boolean cache) throws Exception;
+	public void render(OutputStream out,PageFlow annotation,ServiceResult result) throws Exception;
 }
