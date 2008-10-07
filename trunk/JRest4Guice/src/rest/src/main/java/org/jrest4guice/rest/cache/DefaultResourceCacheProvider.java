@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -106,17 +107,23 @@ public class DefaultResourceCacheProvider implements ResourceCacheProvider {
 	 */
 	public void clearStaticResouceCache(String resourceId,
 			HttpServletRequest request) {
+		final HttpSession session = request.getSession();
 		try {
-			File cacheDirectory = new File(request.getSession().getServletContext()
+			File cacheDirectory = new File(session.getServletContext()
 					.getRealPath(
 							ResourceCacheManager.getInstance().getCacheStorePath()));
 			File[] files = cacheDirectory.listFiles();
 			if(files == null)
 				return;
 			
+			String key,fName;
 			for(File file :files){
-				if(file.getName().indexOf(resourceId) != -1)
+				fName = file.getName();
+				if(fName.indexOf(resourceId) != -1){
+					key = ResourceCacheProvider.ETAGS_SESSION_KEY+fName;
+					session.removeAttribute(key);
 					file.delete();
+				}
 			}
 		} catch (Exception e) {
 			log.error("clearStaticResouceCache 失败：",e);

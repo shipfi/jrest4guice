@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.Converter;
-import org.jrest4guice.rest.util.JRest4GuiceHelper;
+import org.jrest4guice.rest.helper.JRest4GuiceHelper;
 
 /**
  * 

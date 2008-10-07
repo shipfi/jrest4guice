@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.util;
+package org.jrest4guice.rest.helper;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.Converter;

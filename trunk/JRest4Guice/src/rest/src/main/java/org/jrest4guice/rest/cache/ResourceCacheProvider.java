@@ -3,6 +3,9 @@ package org.jrest4guice.rest.cache;
 import javax.servlet.http.HttpServletRequest;
 
 public interface ResourceCacheProvider {
+	
+	public final static String ETAGS_SESSION_KEY = "_$etags_session_key$_";
+	
 	/**
 	 * 缓存静态资源
 	 * @param uri		资源的标识

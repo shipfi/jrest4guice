@@ -1,6 +1,7 @@
 package org.jrest4guice.rest.render.ctl;
 
-import java.io.PrintWriter;
+
+import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,10 +10,7 @@ import org.commontemplate.core.Context;
 import org.commontemplate.core.Template;
 import org.commontemplate.engine.Engine;
 import org.jrest4guice.rest.ServiceResult;
-import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
-import org.jrest4guice.rest.cache.ResourceCacheManager;
-import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.render.ResultType;
 import org.jrest4guice.rest.render.ViewRender;
 import org.jrest4guice.rest.writer.HtmlResponseWriter;
@@ -37,12 +35,11 @@ public class CTLViewRender implements ViewRender {
 	private SecurityContext securityContext;
 
 	/* (non-Javadoc)
-	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.PrintWriter, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult, boolean)
+	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.OutputStream, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult)
 	 */
 	@Override
-	public void render(PrintWriter out, PageFlow annotation, ServiceResult result,boolean cache)
+	public void render(OutputStream out, PageFlow annotation, ServiceResult result)
 			throws Exception {
-		
 		try {
 			String url = annotation.success().value();
 			if(!result.isInChain() &&(result.getErrorType() != null || result.getInvalidValues() != null)){
@@ -67,11 +64,7 @@ public class CTLViewRender implements ViewRender {
 			String content = this.context.getOut().toString();
 			
 			//输出到页面
-			out.println(content);
-			
-			if(cache){//缓存
-				ResourceCacheManager.getInstance().cacheStaticResource(RestContextManager.getCurrentRestUri(), MimeType.MIME_OF_TEXT_HTML, content.getBytes(), request);
-			}
+			out.write(content.getBytes());
 		}finally{
 			this.context.clear();
 		}
