@@ -11,11 +11,13 @@ import org.jrest4guice.interceptor.InterceptorGuiceModuleProvider;
 import org.jrest4guice.persistence.hibernate.HibernateGuiceModuleProvider;
 import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
 import org.jrest4guice.persistence.ibatis.IbatisGuiceModuleProvider;
+import org.jrest4guice.persistence.ibatis.SqlMapClientHolder;
 import org.jrest4guice.persistence.jpa.EntityManagerFactoryHolder;
 import org.jrest4guice.persistence.jpa.JpaGuiceModuleProvider;
 import org.jrest4guice.search.hs.HibernateSearchGuiceModuleProvider;
 import org.jrest4guice.security.SecurityGuiceModuleProvider;
 import org.jrest4guice.transaction.HibernateLocalTransactionInterceptor;
+import org.jrest4guice.transaction.IbatisLocalTransactionInterceptor;
 import org.jrest4guice.transaction.JpaLocalTransactionInterceptor;
 import org.jrest4guice.transaction.TransactionGuiceModuleProvider;
 
@@ -34,6 +36,7 @@ public class GuiceContext {
 	private volatile boolean initialized = false;
 	
 	private boolean useJPA;
+	private boolean useIbatis;
 	private boolean useHibernate;
 	private boolean useSecurity;
 
@@ -159,7 +162,8 @@ public class GuiceContext {
 	 * @return
 	 */
 	public GuiceContext useIbatis(String... packages){
-		this.addModuleProvider(new IbatisGuiceModuleProvider(packages));
+		this.useIbatis = true;
+		this.addModuleProvider(new IbatisGuiceModuleProvider(packages),new TransactionGuiceModuleProvider(new IbatisLocalTransactionInterceptor()));
 		return this;
 	}
 	
@@ -179,6 +183,8 @@ public class GuiceContext {
 	public void closePersistenceContext(){
 		if(this.isUseJPA()){
 			this.getBean(EntityManagerFactoryHolder.class).closeEntityManager();
+		}else if(this.isUseIbatis()){
+			this.getBean(SqlMapClientHolder.class).closeSqlMapClient();
 		}else if(this.isUseHibernate()){
 			this.getBean(SessionFactoryHolder.class).closeSession();
 		}
@@ -239,6 +245,10 @@ public class GuiceContext {
 
 			return this;
 		}
+	}
+
+	public boolean isUseIbatis() {
+		return useIbatis;
 	}
 
 	public boolean isUseJPA() {

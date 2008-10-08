@@ -8,38 +8,40 @@ import org.jrest4guice.persistence.ibatis.annotations.IbatisDao;
 import org.jrest4guice.persistence.ibatis.annotations.Insert;
 import org.jrest4guice.persistence.ibatis.annotations.Select;
 import org.jrest4guice.persistence.ibatis.annotations.Update;
+import org.jrest4guice.transaction.annotations.Transactional;
 
 import com.google.inject.Inject;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
 @IbatisDao
 @SuppressWarnings("unchecked")
+@Transactional
 public class AccountService {
 
 	@Inject
 	private SqlMapClient sqlMapper;
 
 	@Select(id = "selectAllAccounts", sql = "select * from ACCOUNT")
-	public List<Account> selectAllAccounts() throws SQLException {
+	public List<Account> findAll() throws SQLException {
 		return sqlMapper.queryForList("selectAllAccounts");
 	}
 
-	@Select(id = "selectAccountById", sql = "select ACC_ID as id,ACC_FIRST_NAME as firstName,ACC_LAST_NAME as lastName,ACC_EMAIL as emailAddress from ACCOUNT where ACC_ID = #id#")
-	public Account selectAccountById(int id) throws SQLException {
-		return (Account) sqlMapper.queryForObject("selectAccountById", id);
+	@Select(sql = "select id as id,firstName,lastName,emailAddress from ACCOUNT where id = #id#")
+	public Account getAccountById(int id) throws SQLException {
+		return (Account) sqlMapper.queryForObject("getAccountById", id);
 	}
 
-	@Insert(id = "insertAccount", sql = "insert into ACCOUNT (ACC_ID,ACC_FIRST_NAME,ACC_LAST_NAME,ACC_EMAIL) values (#id#, #firstName#, #lastName#, #emailAddress#)")
-	public void insertAccount(Account account) throws SQLException {
+	@Insert(id = "insertAccount", sql = "insert into ACCOUNT (id,firstName,lastName,emailAddress) values (#id#, #firstName#, #lastName#, #emailAddress#)")
+	public void createAccount(Account account) throws SQLException {
 		sqlMapper.insert("insertAccount", account);
 	}
 
-	@Update(id = "updateAccount", sql = "update ACCOUNT set ACC_FIRST_NAME = #firstName#,ACC_LAST_NAME = #lastName#,ACC_EMAIL = #emailAddress# where ACC_ID = #id#")
+	@Update(sql = "update ACCOUNT set firstName = #firstName#,lastName = #lastName#,emailAddress = #emailAddress# where id = #id#")
 	public void updateAccount(Account account) throws SQLException {
 		sqlMapper.update("updateAccount", account);
 	}
 
-	@Delete(id = "deleteAccount", sql = "delete from ACCOUNT where ACC_ID = #id#")
+	@Delete(id = "deleteAccount", sql = "delete from ACCOUNT where id = #id#")
 	public void deleteAccount(int id) throws SQLException {
 		sqlMapper.delete("deleteAccount", id);
 	}
