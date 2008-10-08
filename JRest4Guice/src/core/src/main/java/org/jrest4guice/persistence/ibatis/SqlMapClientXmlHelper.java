@@ -11,6 +11,11 @@ import org.jrest4guice.persistence.ibatis.annotations.Update;
 
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
+/**
+ * 负责从类中提取SqlMap的配置信息，以xml字符串的形式返回
+ * @author cnoss
+ *
+ */
 public class SqlMapClientXmlHelper {
 	public static String generateXmlConfig(Class clazz) {
 		StringBuffer sb = new StringBuffer();
