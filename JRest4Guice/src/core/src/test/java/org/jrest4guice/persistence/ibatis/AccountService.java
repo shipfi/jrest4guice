@@ -27,20 +27,22 @@ public class AccountService {
 		return sqlMapper.queryForList("selectAllAccounts");
 	}
 
-	@Select(sql = "select id as id,firstName,lastName,emailAddress from ACCOUNT where id = #id#")
+	@Select(sql = "select id as id,firstName,lastName,emailAddress from " +
+			"ACCOUNT where id = #id#")
 	@Transactional(type=TransactionalType.READOLNY)
 	public Account getAccountById(int id) throws SQLException {
 		return (Account) sqlMapper.queryForObject("getAccountById", id);
 	}
 
-	@Insert(id = "insertAccount", sql = "insert into ACCOUNT (id,firstName,lastName,emailAddress) " +
-			"values (#id#, #firstName#, #lastName#, #emailAddress#)")
+	@Insert(id = "insertAccount", sql = "insert into ACCOUNT (id,firstName," +
+			"lastName,emailAddress) values (#id#, #firstName#, #lastName#, " +
+			"#emailAddress#)")
 	public void createAccount(Account account) throws SQLException {
 		sqlMapper.insert("insertAccount", account);
 	}
 
-	@Update(sql = "update ACCOUNT set firstName = #firstName#,lastName = #lastName#," +
-			"emailAddress = #emailAddress# where id = #id#")
+	@Update(sql = "update ACCOUNT set firstName = #firstName#,lastName = " +
+			"#lastName#,emailAddress = #emailAddress# where id = #id#")
 	public void updateAccount(Account account) throws SQLException {
 		sqlMapper.update("updateAccount", account);
 	}
