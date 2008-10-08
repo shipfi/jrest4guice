@@ -39,8 +39,15 @@ public class SqlMapClientHolder {
 		daos.add(clazz);
 	}
 
+	/**
+	 * 初始化sqlMapClient
+	 */
 	public static void initSqlMapClient() {
 		try {
+			//本地的配置文件路径
+			File sqlMapConfigFile = Resources.getResourceAsFile("SqlMapConfig.xml");
+
+			//生成sqmMapping的临时xml文件
 			StringBuffer sb = new StringBuffer();
 			sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 			sb.append("<!DOCTYPE sqlMap      ");
@@ -48,19 +55,20 @@ public class SqlMapClientHolder {
 			sb.append("\"http://ibatis.apache.org/dtd/sql-map-2.dtd\">");
 			sb.append("<sqlMap>");
 
+			//从IbatisDao类中读取sqlMap的配置信息
 			for (Class clazz : daos) {
 				sb.append(SqlMapClientXmlHelper.generateXmlConfig(clazz));
 			}
 			sb.append("</sqlMap>");
-
-			File sqlMapConfigFile = Resources.getResourceAsFile("SqlMapConfig.xml");
 			
+			//输出sqmMapping文件
 			FileOutputStream fout = new FileOutputStream(sqlMapConfigFile.getParent()+File.separator+"sqlMap.xml");
 			final String sqlMapping = sb.toString();
 			fout.write(sqlMapping.getBytes());
 			fout.flush();
 			fout.close();
 			
+			//修改配置的配置文件，在其中增加sqlMap元素
 			DocumentBuilderFactory factory = DocumentBuilderFactory
 			.newInstance();
 			DocumentBuilder ibatisConfigBuilder = factory.newDocumentBuilder();
@@ -77,10 +85,10 @@ public class SqlMapClientHolder {
 			File tempFile = File.createTempFile("sqlMapConfig", ".xml");
 			tempFile.deleteOnExit();
 			trans.transform(new DOMSource(doc),new StreamResult(tempFile));
-
+			
+			//从临时的配置文件中初始化sqlMapClient
 			SqlMapClientHolder.sqlMapClient = SqlMapClientBuilder
 					.buildSqlMapClient(new FileInputStream(tempFile));
-			
 		} catch (Exception e) {
 			throw new RuntimeException("初始化Ibatis上下文失败！", e);
 		}
