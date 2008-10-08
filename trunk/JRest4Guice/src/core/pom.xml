@@ -165,16 +165,17 @@
 			<version>3.3.1.ga</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.ibatis</groupId>
+			<artifactId>ibatis</artifactId>
+			<version>2.3.4</version>
+		</dependency>
+
 		<!-- optional jdbc driver -->
 		<dependency>
 			<groupId>hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>1.8.0.7</version>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.6</version>
 		</dependency>
 		<!-- orm end -->
 
@@ -246,122 +247,6 @@
 			<version>1.0.3</version>
 		</dependency>
 	</dependencies>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<artifactId>
-					maven-project-info-reports-plugin
-				</artifactId>
-			</plugin>
-			<plugin>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<aggregate>true</aggregate>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<configuration>
-					<configLocation>
-						http://svn.apache.org/repos/asf/struts/maven/trunk/build/struts_checks.xml
-					</configLocation>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jxr-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<artifactId>maven-pmd-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<artifactId>maven-changes-plugin</artifactId>
-				<configuration>
-					<webPassword>password</webPassword>
-					<webUser>user</webUser>
-				</configuration>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>jira-report</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-			<plugin>
-				<artifactId>maven-site-plugin</artifactId>
-				<configuration>
-					<inputEncoding>UTF-8</inputEncoding>
-					<outputEncoding>UTF-8</outputEncoding>
-					<encoding>UTF-8</encoding>
-					<charset>UTF-8</charset>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-changes-plugin</artifactId>
-				<configuration>
-					<outputEncoding>UTF-8</outputEncoding>
-					<encoding>UTF-8</encoding>
-					<charset>UTF-8</charset>
-					<outputEncoding>UTF-8</outputEncoding>
-					<dateFormat>yyyy-MM-dd</dateFormat>
-					<scmUrl>${project.scm.url}</scmUrl>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-docck-plugin</artifactId>
-				<configuration>
-					<outputEncoding>UTF-8</outputEncoding>
-					<encoding>UTF-8</encoding>
-					<charset>UTF-8</charset>
-					<outputEncoding>UTF-8</outputEncoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<configuration>
-					<outputEncoding>UTF-8</outputEncoding>
-					<encoding>UTF-8</encoding>
-					<charset>UTF-8</charset>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-					<docencoding>UTF-8</docencoding>
-					<encoding>UTF-8</encoding>
-					<charset>UTF-8</charset>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-doap-plugin</artifactId>
-				<configuration>
-					<outputEncoding>UTF-8</outputEncoding>
-					<docencoding>UTF-8</docencoding>
-					<encoding>UTF-8</encoding>
-					<charset>UTF-8</charset>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<configuration>
-					<outputEncoding>UTF-8</outputEncoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<configuration>
-					<linkXref>true</linkXref>
-					<targetJdk>1.5</targetJdk>
-					<docencoding>UTF-8</docencoding>
-					<encoding>UTF-8</encoding>
-					<charset>UTF-8</charset>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
 
 	<properties>
 		<maven.test.skip>true</maven.test.skip>
