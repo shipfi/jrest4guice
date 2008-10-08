@@ -55,6 +55,10 @@ public class SqlMapClientXmlHelper {
 		Class[] parameterTypes;
 		Class returnType;
 
+		if (id.trim().equals("")) {
+			id = method.getName();
+		}
+
 		if (parameterClazz == Null.class) {
 			parameterTypes = method.getParameterTypes();
 			if (parameterTypes != null && parameterTypes.length > 0) {

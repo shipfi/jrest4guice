@@ -17,7 +17,7 @@ import org.apache.commons.lang.ObjectUtils.Null;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Update {
-	String id();
+	String id() default "";
 	Class parameterClass() default Null.class;
 	String sql();
 }

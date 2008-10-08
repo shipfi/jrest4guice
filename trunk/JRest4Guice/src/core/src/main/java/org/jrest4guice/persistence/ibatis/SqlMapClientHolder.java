@@ -14,10 +14,12 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.jrest4guice.transaction.IbatisTransaction;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.google.inject.Singleton;
 import com.ibatis.common.resources.Resources;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
@@ -26,10 +28,12 @@ import com.ibatis.sqlmap.client.SqlMapClient;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * 
  */
+@Singleton
 public class SqlMapClientHolder {
 	private static SqlMapClient sqlMapClient;
-
 	private static List<Class<?>> daos = new ArrayList<Class<?>>(0);
+	
+	private final ThreadLocal<IbatisTransaction> transaction = new ThreadLocal<IbatisTransaction>();
 
 	public static void addIbatisDao(Class<?> clazz) {
 		daos.add(clazz);
@@ -82,7 +86,23 @@ public class SqlMapClientHolder {
 		}
 	}
 
-	public static SqlMapClient getInstance() {
+	public SqlMapClient getSqlMapClient() {
+		transaction.set(new IbatisTransaction(SqlMapClientHolder.sqlMapClient));
 		return SqlMapClientHolder.sqlMapClient;
+	}
+	
+	public IbatisTransaction getIbatisTransaction(){
+		return this.transaction.get();
+	}
+	
+	public void closeSqlMapClient(){
+		IbatisTransaction ibatisTransaction = this.getIbatisTransaction();
+		if(ibatisTransaction != null){
+			try {
+				ibatisTransaction.end();
+			} catch (Exception e) {
+			}
+			this.transaction.remove();
+		}
 	}
 }

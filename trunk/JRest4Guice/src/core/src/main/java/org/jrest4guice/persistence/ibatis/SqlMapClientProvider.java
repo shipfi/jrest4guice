@@ -1,5 +1,6 @@
 package org.jrest4guice.persistence.ibatis;
 
+import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.ibatis.sqlmap.client.SqlMapClient;
 
@@ -10,7 +11,10 @@ import com.ibatis.sqlmap.client.SqlMapClient;
  *
  */
 public class SqlMapClientProvider implements Provider<SqlMapClient> {
-    public SqlMapClient get() {
-        return SqlMapClientHolder.getInstance();
+	@Inject
+	private SqlMapClientHolder sqlMapClientHolder;
+    
+	public SqlMapClient get() {
+        return sqlMapClientHolder.getSqlMapClient();
     }
 }
