@@ -10,6 +10,7 @@ import org.jrest4guice.commons.lang.Assert;
 import org.jrest4guice.interceptor.InterceptorGuiceModuleProvider;
 import org.jrest4guice.persistence.hibernate.HibernateGuiceModuleProvider;
 import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
+import org.jrest4guice.persistence.ibatis.IbatisGuiceModuleProvider;
 import org.jrest4guice.persistence.jpa.EntityManagerFactoryHolder;
 import org.jrest4guice.persistence.jpa.JpaGuiceModuleProvider;
 import org.jrest4guice.search.hs.HibernateSearchGuiceModuleProvider;
@@ -150,6 +151,15 @@ public class GuiceContext {
 			hibernateGuiceModuleProvider.addScanPackages(packages);
 		
 		this.addModuleProvider(hibernateGuiceModuleProvider,new TransactionGuiceModuleProvider(new HibernateLocalTransactionInterceptor()));
+		return this;
+	}
+
+	/**
+	 * 打开IBatis支持
+	 * @return
+	 */
+	public GuiceContext useIbatis(String... packages){
+		this.addModuleProvider(new IbatisGuiceModuleProvider(packages));
 		return this;
 	}
 	

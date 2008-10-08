@@ -82,8 +82,13 @@ public class MemcachedCacheProvider implements CacheProvider {
 	 * @see org.jrest4guice.cache.CacheProvider#isAvailable()
 	 */
 	public boolean isAvailable() {
-		this.memCachedClient.set(CACHE_TEST_KEY, "hello");
-		return this.memCachedClient.keyExists(CACHE_TEST_KEY);
+		try {
+			this.memCachedClient.set(CACHE_TEST_KEY, "hello");
+			return this.memCachedClient.keyExists(CACHE_TEST_KEY);
+			
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/* (non-Javadoc)
