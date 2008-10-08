@@ -9,6 +9,7 @@ import org.jrest4guice.persistence.ibatis.annotations.Insert;
 import org.jrest4guice.persistence.ibatis.annotations.Select;
 import org.jrest4guice.persistence.ibatis.annotations.Update;
 import org.jrest4guice.transaction.annotations.Transactional;
+import org.jrest4guice.transaction.annotations.TransactionalType;
 
 import com.google.inject.Inject;
 import com.ibatis.sqlmap.client.SqlMapClient;
@@ -22,11 +23,13 @@ public class AccountService {
 	private SqlMapClient sqlMapper;
 
 	@Select(id = "selectAllAccounts", sql = "select * from ACCOUNT")
+	@Transactional(type=TransactionalType.READOLNY)
 	public List<Account> findAll() throws SQLException {
 		return sqlMapper.queryForList("selectAllAccounts");
 	}
 
 	@Select(sql = "select id as id,firstName,lastName,emailAddress from ACCOUNT where id = #id#")
+	@Transactional(type=TransactionalType.READOLNY)
 	public Account getAccountById(int id) throws SQLException {
 		return (Account) sqlMapper.queryForObject("getAccountById", id);
 	}
