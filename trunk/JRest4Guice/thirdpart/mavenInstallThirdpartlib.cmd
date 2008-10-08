@@ -1,0 +1,3 @@
+mvn install:install-file -DgroupId=org.commontemplate -DartifactId=commontemplate -DgeneratePom=true -Dversion=0.8.7 -Dpackaging=jar -Dfile=commontemplate-0.8.7.jar
+mvn install:install-file -DgroupId=com.ibatis -DartifactId=ibatis -DgeneratePom=true -Dversion=2.3.4 -Dpackaging=jar -Dfile=ibatis-2.3.4.jar
+mvn install:install-file -DgroupId=com.danga -DartifactId=MemCached -DgeneratePom=true -Dversion=2.0.1 -Dpackaging=jar -Dfile=MemCached-2.0.1.jar
