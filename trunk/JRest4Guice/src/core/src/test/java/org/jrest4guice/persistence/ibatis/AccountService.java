@@ -18,7 +18,6 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 @SuppressWarnings("unchecked")
 @Transactional
 public class AccountService {
-
 	@Inject
 	private SqlMapClient sqlMapper;
 
@@ -34,12 +33,14 @@ public class AccountService {
 		return (Account) sqlMapper.queryForObject("getAccountById", id);
 	}
 
-	@Insert(id = "insertAccount", sql = "insert into ACCOUNT (id,firstName,lastName,emailAddress) values (#id#, #firstName#, #lastName#, #emailAddress#)")
+	@Insert(id = "insertAccount", sql = "insert into ACCOUNT (id,firstName,lastName,emailAddress) " +
+			"values (#id#, #firstName#, #lastName#, #emailAddress#)")
 	public void createAccount(Account account) throws SQLException {
 		sqlMapper.insert("insertAccount", account);
 	}
 
-	@Update(sql = "update ACCOUNT set firstName = #firstName#,lastName = #lastName#,emailAddress = #emailAddress# where id = #id#")
+	@Update(sql = "update ACCOUNT set firstName = #firstName#,lastName = #lastName#," +
+			"emailAddress = #emailAddress# where id = #id#")
 	public void updateAccount(Account account) throws SQLException {
 		sqlMapper.update("updateAccount", account);
 	}
@@ -48,5 +49,4 @@ public class AccountService {
 	public void deleteAccount(int id) throws SQLException {
 		sqlMapper.delete("deleteAccount", id);
 	}
-
 }
