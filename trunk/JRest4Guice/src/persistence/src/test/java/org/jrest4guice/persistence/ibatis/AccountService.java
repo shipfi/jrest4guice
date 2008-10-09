@@ -3,9 +3,11 @@ package org.jrest4guice.persistence.ibatis;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.jrest4guice.persistence.ibatis.annotations.Cachemodel;
 import org.jrest4guice.persistence.ibatis.annotations.Delete;
 import org.jrest4guice.persistence.ibatis.annotations.IbatisDao;
 import org.jrest4guice.persistence.ibatis.annotations.Insert;
+import org.jrest4guice.persistence.ibatis.annotations.Property;
 import org.jrest4guice.persistence.ibatis.annotations.Result;
 import org.jrest4guice.persistence.ibatis.annotations.ResultMap;
 import org.jrest4guice.persistence.ibatis.annotations.Select;
@@ -24,6 +26,8 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 		@Result(property = "firstName", column = "firstName"),
 		@Result(property = "lastName", column = "lastName"),
 		@Result(property = "emailAddress", column = "emailAddress") }, resultClass = Account.class)
+@Cachemodel(id = "account-cache", flushInterval = "24", flushOnExecute = {
+		"insertAccount", "updateAccount", "deleteAccount" }, imlementation = "LRU", property = { @Property(name = "size", value = "100") })
 public class AccountService {
 	@Inject
 	private SqlMapClient sqlMapper;

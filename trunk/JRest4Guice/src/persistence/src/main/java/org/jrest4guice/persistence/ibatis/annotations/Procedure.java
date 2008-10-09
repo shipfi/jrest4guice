@@ -16,12 +16,12 @@ import org.apache.commons.lang.ObjectUtils.Null;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Select {
+public @interface Procedure {
 	String id() default "";
 	Class<?> parameterClass() default Null.class;
 	String parameterMap() default "";
 	Class<?> resltClass() default Null.class;
 	String resltMap() default "";
 	String sql();
-	String cacheModel() default "";
+	String xmlResultName() default "";
 }

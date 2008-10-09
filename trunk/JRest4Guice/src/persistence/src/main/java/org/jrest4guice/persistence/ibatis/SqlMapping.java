@@ -1,9 +1,17 @@
 package org.jrest4guice.persistence.ibatis;
 
 public class SqlMapping {
+	private String cacheModel;
 	private String parameterMap;
 	private String resultMap;
 	private String statement;
+	
+	public String getCacheModel() {
+		return cacheModel;
+	}
+	public void setCacheModel(String cacheModel) {
+		this.cacheModel = cacheModel;
+	}
 	public String getParameterMap() {
 		return parameterMap;
 	}
