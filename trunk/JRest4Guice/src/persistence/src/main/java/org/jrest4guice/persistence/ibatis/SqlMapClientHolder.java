@@ -50,21 +50,26 @@ public class SqlMapClientHolder {
 			//生成sqmMapping的临时xml文件
 			StringBuffer sb = new StringBuffer();
 			sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
-			sb.append("<!DOCTYPE sqlMap      ");
-			sb.append("    PUBLIC \"-//ibatis.apache.org//DTD SQL Map 2.0//EN\" ");     
-			sb.append("\"http://ibatis.apache.org/dtd/sql-map-2.dtd\">");
-			sb.append("<sqlMap>");
+			sb.append("\n<!DOCTYPE sqlMap      ");
+			sb.append("\n    PUBLIC \"-//ibatis.apache.org//DTD SQL Map 2.0//EN\" ");     
+			sb.append("\n\"http://ibatis.apache.org/dtd/sql-map-2.dtd\">");
+			sb.append("\n<sqlMap>");
 
 			//从IbatisDao类中读取sqlMap的配置信息
-			for (Class clazz : daos) {
-				sb.append(SqlMapClientXmlHelper.generateXmlConfig(clazz));
+			SqlMapping sqlMapping;
+			for (Class<?> clazz : daos) {
+				sqlMapping = SqlMapClientXmlHelper.generateXmlConfig(clazz);
+				sb.append("\n"+sqlMapping.getParameterMap());
+				sb.append("\n"+sqlMapping.getResultMap());
+				sb.append("\n"+sqlMapping.getStatement());
 			}
-			sb.append("</sqlMap>");
+			sb.append("\n</sqlMap>");
 			
 			//输出sqmMapping文件
 			FileOutputStream fout = new FileOutputStream(sqlMapConfigFile.getParent()+File.separator+"sqlMap.xml");
-			final String sqlMapping = sb.toString();
-			fout.write(sqlMapping.getBytes());
+			String sqlMappingStr = sb.toString();
+			System.out.println(sqlMappingStr);
+			fout.write(sqlMappingStr.getBytes());
 			fout.flush();
 			fout.close();
 			

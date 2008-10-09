@@ -6,6 +6,8 @@ import java.util.List;
 import org.jrest4guice.persistence.ibatis.annotations.Delete;
 import org.jrest4guice.persistence.ibatis.annotations.IbatisDao;
 import org.jrest4guice.persistence.ibatis.annotations.Insert;
+import org.jrest4guice.persistence.ibatis.annotations.Result;
+import org.jrest4guice.persistence.ibatis.annotations.ResultMap;
 import org.jrest4guice.persistence.ibatis.annotations.Select;
 import org.jrest4guice.persistence.ibatis.annotations.Update;
 import org.jrest4guice.transaction.annotations.Transactional;
@@ -17,32 +19,37 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 @IbatisDao
 @SuppressWarnings("unchecked")
 @Transactional
+@ResultMap(id = "accountResultMap", result = {
+		@Result(property = "id", column = "id"),
+		@Result(property = "firstName", column = "firstName"),
+		@Result(property = "lastName", column = "lastName"),
+		@Result(property = "emailAddress", column = "emailAddress") }, resultClass = Account.class)
 public class AccountService {
 	@Inject
 	private SqlMapClient sqlMapper;
 
-	@Select(id = "selectAllAccounts", sql = "select * from ACCOUNT")
-	@Transactional(type=TransactionalType.READOLNY)
+	@Select(id = "selectAllAccounts", sql = "select * from ACCOUNT", resltMap = "accountResultMap")
+	@Transactional(type = TransactionalType.READOLNY)
 	public List<Account> findAll() throws SQLException {
 		return sqlMapper.queryForList("selectAllAccounts");
 	}
 
-	@Select(sql = "select id as id,firstName,lastName,emailAddress from " +
-			"ACCOUNT where id = #id#")
-	@Transactional(type=TransactionalType.READOLNY)
+	@Select(sql = "select id ,firstName,lastName,emailAddress from "
+			+ "ACCOUNT where id = #id#")
+	@Transactional(type = TransactionalType.READOLNY)
 	public Account getAccountById(int id) throws SQLException {
 		return (Account) sqlMapper.queryForObject("getAccountById", id);
 	}
 
-	@Insert(id = "insertAccount", sql = "insert into ACCOUNT (id,firstName," +
-			"lastName,emailAddress) values (#id#, #firstName#, #lastName#, " +
-			"#emailAddress#)")
+	@Insert(id = "insertAccount", sql = "insert into ACCOUNT (id,firstName,"
+			+ "lastName,emailAddress) values (#id#, #firstName#, #lastName#, "
+			+ "#emailAddress#)")
 	public void createAccount(Account account) throws SQLException {
 		sqlMapper.insert("insertAccount", account);
 	}
 
-	@Update(sql = "update ACCOUNT set firstName = #firstName#,lastName = " +
-			"#lastName#,emailAddress = #emailAddress# where id = #id#")
+	@Update(sql = "update ACCOUNT set firstName = #firstName#,lastName = "
+			+ "#lastName#,emailAddress = #emailAddress# where id = #id#")
 	public void updateAccount(Account account) throws SQLException {
 		sqlMapper.update("updateAccount", account);
 	}
