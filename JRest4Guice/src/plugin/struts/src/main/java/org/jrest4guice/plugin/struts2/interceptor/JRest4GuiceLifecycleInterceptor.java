@@ -8,6 +8,7 @@ import org.apache.struts2.ServletActionContext;
 import org.hibernate.Transaction;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.guice.GuiceContext;
+import org.jrest4guice.guice.PersistenceGuiceContext;
 import org.jrest4guice.guice.WebContextManager;
 import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
 import org.jrest4guice.persistence.hibernate.SessionInfo;
@@ -54,12 +55,12 @@ public class JRest4GuiceLifecycleInterceptor extends AbstractInterceptor {
 		try {
 			result = invocation.invoke();
 
-			if(GuiceContext.getInstance().isUseJPA()){
+			if(PersistenceGuiceContext.getInstance().isUseJPA()){
 				EntityManagerFactoryHolder emfH = GuiceContext.getInstance().getBean(EntityManagerFactoryHolder.class);
 				EntityManagerInfo entityManager = emfH.getEntityManagerInfo();
 				jpaTS = entityManager.getEntityManager().getTransaction();
 				need2ProcessTransaction = entityManager.isNeed2ProcessTransaction();
-			}else if(GuiceContext.getInstance().isUseHibernate()){
+			}else if(PersistenceGuiceContext.getInstance().isUseHibernate()){
 				SessionFactoryHolder sessionFH = GuiceContext.getInstance().getBean(SessionFactoryHolder.class);
 				SessionInfo session = sessionFH.getSessionInfo();
 				hbTS = session.getSession().getTransaction();

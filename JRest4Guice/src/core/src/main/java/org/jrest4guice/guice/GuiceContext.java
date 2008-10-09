@@ -8,18 +8,7 @@ import java.util.Set;
 import org.jrest4guice.cache.CacheGuiceModuleProvider;
 import org.jrest4guice.commons.lang.Assert;
 import org.jrest4guice.interceptor.InterceptorGuiceModuleProvider;
-import org.jrest4guice.persistence.hibernate.HibernateGuiceModuleProvider;
-import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
-import org.jrest4guice.persistence.ibatis.IbatisGuiceModuleProvider;
-import org.jrest4guice.persistence.ibatis.SqlMapClientHolder;
-import org.jrest4guice.persistence.jpa.EntityManagerFactoryHolder;
-import org.jrest4guice.persistence.jpa.JpaGuiceModuleProvider;
-import org.jrest4guice.search.hs.HibernateSearchGuiceModuleProvider;
 import org.jrest4guice.security.SecurityGuiceModuleProvider;
-import org.jrest4guice.transaction.HibernateLocalTransactionInterceptor;
-import org.jrest4guice.transaction.IbatisLocalTransactionInterceptor;
-import org.jrest4guice.transaction.JpaLocalTransactionInterceptor;
-import org.jrest4guice.transaction.TransactionGuiceModuleProvider;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -35,9 +24,6 @@ public class GuiceContext {
 
 	private volatile boolean initialized = false;
 	
-	private boolean useJPA;
-	private boolean useIbatis;
-	private boolean useHibernate;
 	private boolean useSecurity;
 
 	/**
@@ -52,7 +38,7 @@ public class GuiceContext {
 
 	private Injector injector;
 
-	private GuiceContext() {
+	protected GuiceContext() {
 		providers = new HashSet<ModuleProvider>();
 		userModules = new HashSet<Module>();
 	}
@@ -124,73 +110,6 @@ public class GuiceContext {
 	}
 
 	/**
-	 * 打开JPA支持
-	 * @return
-	 */
-	public GuiceContext useJPA(String... packages){
-		Assert.isFalse(this.useJPA, "已经打开了JPA支持");
-		Assert.isFalse(this.useHibernate, "已经打开了Hibernate支持，不能再使用JPA");
-		this.useJPA = true;
-		
-		JpaGuiceModuleProvider jpaGuiceModuleProvider = new JpaGuiceModuleProvider();
-		if(packages != null)
-			jpaGuiceModuleProvider.addScanPackages(packages);
-		
-		this.addModuleProvider(jpaGuiceModuleProvider,new TransactionGuiceModuleProvider(new JpaLocalTransactionInterceptor()));
-		return this;
-	}
-
-	/**
-	 * 打开Hibernate支持
-	 * @return
-	 */
-	public GuiceContext useHibernate(String... packages){
-		Assert.isFalse(this.useHibernate, "已经打开了Hibernate支持");
-		Assert.isFalse(this.useJPA, "已经打开了JPA支持，不能再使用Hibernate");
-		this.useHibernate = true;
-		
-		HibernateGuiceModuleProvider hibernateGuiceModuleProvider = new HibernateGuiceModuleProvider();
-		if(packages != null)
-			hibernateGuiceModuleProvider.addScanPackages(packages);
-		
-		this.addModuleProvider(hibernateGuiceModuleProvider,new TransactionGuiceModuleProvider(new HibernateLocalTransactionInterceptor()));
-		return this;
-	}
-
-	/**
-	 * 打开IBatis支持
-	 * @return
-	 */
-	public GuiceContext useIbatis(String... packages){
-		this.useIbatis = true;
-		this.addModuleProvider(new IbatisGuiceModuleProvider(packages),new TransactionGuiceModuleProvider(new IbatisLocalTransactionInterceptor()));
-		return this;
-	}
-	
-	/**
-	 * 打开Hibernate search功能
-	 * @return
-	 */
-	public GuiceContext useHibernateSearch(){
-		Assert.isTrue(this.useHibernate || this.useJPA, "Hibernate search 需要hibernate 或者 jpa的支持");
-		this.addModuleProvider(new HibernateSearchGuiceModuleProvider());
-		return this;
-	}
-
-	/**
-	 * 关闭持久化上下文环境
-	 */
-	public void closePersistenceContext(){
-		if(this.isUseJPA()){
-			this.getBean(EntityManagerFactoryHolder.class).closeEntityManager();
-		}else if(this.isUseIbatis()){
-			this.getBean(SqlMapClientHolder.class).closeSqlMapClient();
-		}else if(this.isUseHibernate()){
-			this.getBean(SessionFactoryHolder.class).closeSession();
-		}
-	}
-
-	/**
 	 * 打开JAAS支持
 	 * @return
 	 */
@@ -238,25 +157,8 @@ public class GuiceContext {
 			
 			initialized = true;
 
-//			if(this.isUseJPA()){
-//				//立即初始化JPA上下文环境
-//				this.getBean(SessionFactoryHolder.class);
-//			}
-
 			return this;
 		}
-	}
-
-	public boolean isUseIbatis() {
-		return useIbatis;
-	}
-
-	public boolean isUseJPA() {
-		return useJPA;
-	}
-
-	public boolean isUseHibernate() {
-		return useHibernate;
 	}
 
 	public boolean isUseSecurity() {

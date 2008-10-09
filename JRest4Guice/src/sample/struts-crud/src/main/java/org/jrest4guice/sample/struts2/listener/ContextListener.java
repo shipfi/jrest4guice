@@ -3,7 +3,7 @@ package org.jrest4guice.sample.struts2.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.jrest4guice.guice.GuiceContext;
+import org.jrest4guice.guice.PersistenceGuiceContext;
 
 /**
  * 
@@ -17,7 +17,6 @@ public class ContextListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
-//		GuiceContext.getInstance().useHibernate().init();
-		GuiceContext.getInstance().useJPA().init();
+		PersistenceGuiceContext.getInstance().useJPA().init();
 	}
 }

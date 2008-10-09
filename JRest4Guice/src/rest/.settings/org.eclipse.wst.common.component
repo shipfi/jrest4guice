@@ -8,5 +8,8 @@
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/JRest4Guice-core/JRest4Guice-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/JRest4Guice-persistence/JRest4Guice-persistence">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>

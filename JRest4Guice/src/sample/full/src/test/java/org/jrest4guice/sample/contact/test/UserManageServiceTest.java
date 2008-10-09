@@ -6,6 +6,7 @@ import junit.framework.Assert;
 
 import org.jrest4guice.client.Page;
 import org.jrest4guice.guice.GuiceContext;
+import org.jrest4guice.guice.PersistenceGuiceContext;
 import org.jrest4guice.sample.contact.entity.Role;
 import org.jrest4guice.sample.contact.entity.User;
 import org.jrest4guice.sample.contact.service.UserManageService;
@@ -24,7 +25,7 @@ public class UserManageServiceTest {
 	@BeforeClass
 	public static void setUp() throws Exception {
 		//初始化JRest4Guice
-		GuiceContext.getInstance().useJPA().init();
+		PersistenceGuiceContext.getInstance().useJPA().init();
 		//获取服务
 		service = GuiceContext.getInstance().getBean(UserManageService.class);
 	}
