@@ -6,7 +6,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.jrest4guice.guice.GuiceContext;
-import org.jrest4guice.persistence.PersistenceGuiceContext;
+import org.jrest4guice.guice.PersistenceGuiceContext;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

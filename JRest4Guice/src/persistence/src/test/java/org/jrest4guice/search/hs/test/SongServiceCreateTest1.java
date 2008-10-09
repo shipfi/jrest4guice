@@ -3,7 +3,7 @@ package org.jrest4guice.search.hs.test;
 import java.util.Date;
 
 import org.jrest4guice.guice.GuiceContext;
-import org.jrest4guice.persistence.PersistenceGuiceContext;
+import org.jrest4guice.guice.PersistenceGuiceContext;
 import org.jrest4guice.search.hs.entity.Song;
 import org.jrest4guice.search.hs.service.SongService;
 

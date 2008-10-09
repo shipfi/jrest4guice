@@ -1,7 +1,6 @@
-package org.jrest4guice.persistence;
+package org.jrest4guice.guice;
 
 import org.jrest4guice.commons.lang.Assert;
-import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.persistence.hibernate.HibernateGuiceModuleProvider;
 import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
 import org.jrest4guice.persistence.ibatis.IbatisGuiceModuleProvider;
@@ -14,20 +13,24 @@ import org.jrest4guice.transaction.IbatisLocalTransactionInterceptor;
 import org.jrest4guice.transaction.JpaLocalTransactionInterceptor;
 import org.jrest4guice.transaction.TransactionGuiceModuleProvider;
 
+import com.google.inject.Module;
+
 /**
  * 全局上下文对象实体
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-public class PersistenceGuiceContext extends GuiceContext {
+public class PersistenceGuiceContext{
 
 	private static volatile PersistenceGuiceContext me;
 
 	private boolean useJPA;
 	private boolean useIbatis;
 	private boolean useHibernate;
+	
+	private GuiceContext guiceContext;
 
-	protected PersistenceGuiceContext() {
-		super();
+	private PersistenceGuiceContext() {
+		this.guiceContext = GuiceContext.getInstance();
 	}
 
 	/**
@@ -121,4 +124,84 @@ public class PersistenceGuiceContext extends GuiceContext {
 	public boolean isUseHibernate() {
 		return useHibernate;
 	}
+
+
+
+
+
+
+	/**
+	 * 从当前上下文中获取对象
+	 * @param <T> 对象类型
+	 * @param clazz 要获取对象的 class
+	 * @return 对象实例
+	 */
+	public <T> T getBean(Class<T> clazz) {
+		return this.guiceContext.getBean(clazz);
+	}
+
+	/**
+	 * 使用当前上下文为对象注入依赖的成员对象
+	 * @param o 要注入成员的对象
+	 */
+	public void injectorMembers(Object o) {
+		this.guiceContext.injectorMembers(o);
+	}
+
+	/**
+	 * 添加 模块提供者
+	 * @param providers 模块提供者实例
+	 * @return 全局上下文对象自身
+	 */
+	public GuiceContext addModuleProvider(ModuleProvider... providers) {
+		return this.guiceContext.addModuleProvider(providers);
+	}
+
+	public GuiceContext addUserModule(Module... modules) {
+		return this.guiceContext.addUserModule(modules);
+	}
+	
+	public boolean isInitialized() {
+		return this.guiceContext.isInitialized();
+	}
+
+
+	/**
+	 * 打开自定义的拦截器支持，允许通过@Interceptors来支持自定义的拦截器
+	 * @param packages
+	 * @return
+	 */
+	public GuiceContext enableCustomInterceptor(String... packages){
+		return this.guiceContext.enableCustomInterceptor(packages);
+	}
+
+	/**
+	 * 打开JAAS支持
+	 * @return
+	 */
+	public GuiceContext useSecurity(){
+		return this.guiceContext.useSecurity();
+	}
+	
+	/**
+	 * 打开SNA支持
+	 * @param packages cache提供者的扫描路径
+	 * @return
+	 */
+	public GuiceContext useCache(String... packages){
+		return this.guiceContext.useCache(packages);
+	}
+
+	/**
+	 * 初始化方法,该对象只会被初始化一次
+	 * @return 全局上下文对象自身
+	 */
+	public GuiceContext init() {
+		return this.guiceContext.init();
+	}
+
+	public boolean isUseSecurity() {
+		return this.guiceContext.isUseSecurity();
+	}
+
 }
