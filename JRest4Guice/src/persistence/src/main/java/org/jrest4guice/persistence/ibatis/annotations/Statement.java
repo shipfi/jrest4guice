@@ -16,7 +16,7 @@ import org.apache.commons.lang.ObjectUtils.Null;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Select {
+public @interface Statement {
 	String id() default "";
 	Class<?> parameterClass() default Null.class;
 	String parameterMap() default "";
@@ -24,4 +24,5 @@ public @interface Select {
 	String resltMap() default "";
 	String sql();
 	String cacheModel() default "";
+	String xmlResultName() default "";
 }

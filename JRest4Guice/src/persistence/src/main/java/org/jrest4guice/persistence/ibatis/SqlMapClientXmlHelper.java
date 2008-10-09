@@ -2,14 +2,20 @@ package org.jrest4guice.persistence.ibatis;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang.ObjectUtils.Null;
+import org.jrest4guice.persistence.ibatis.annotations.Cachemodel;
 import org.jrest4guice.persistence.ibatis.annotations.Delete;
 import org.jrest4guice.persistence.ibatis.annotations.Insert;
 import org.jrest4guice.persistence.ibatis.annotations.ParameterMap;
+import org.jrest4guice.persistence.ibatis.annotations.Procedure;
+import org.jrest4guice.persistence.ibatis.annotations.Property;
 import org.jrest4guice.persistence.ibatis.annotations.Result;
 import org.jrest4guice.persistence.ibatis.annotations.ResultMap;
 import org.jrest4guice.persistence.ibatis.annotations.Select;
+import org.jrest4guice.persistence.ibatis.annotations.Statement;
 import org.jrest4guice.persistence.ibatis.annotations.Update;
 
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
@@ -21,9 +27,17 @@ import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
  * 
  */
 public class SqlMapClientXmlHelper {
+	private static Set<String> parameterMapIds = new HashSet<String>(0);
+	private static Set<String> resultMapIds = new HashSet<String>(0);
+	private static Set<String> cacheModelIds = new HashSet<String>(0);
+
 	public static SqlMapping generateXmlConfig(Class<?> clazz) {
 
 		SqlMapping mapping = new SqlMapping();
+
+		// 处理cacheModel
+		StringBuffer cacheModelSb = new StringBuffer();
+		processCacheModel(clazz, cacheModelSb);
 
 		// 处理参数映射字典
 		StringBuffer parameterMapSb = new StringBuffer();
@@ -46,31 +60,48 @@ public class SqlMapClientXmlHelper {
 	private static void processStatement(Class<?> clazz,
 			StringBuffer statementSb) {
 		Method[] methods = clazz.getDeclaredMethods();
+		Statement statement;
+		Procedure procedure;
 		Select select;
 		Update update;
 		Insert insert;
 		Delete delete;
 		for (Method method : methods) {
-			if (method.isAnnotationPresent(Select.class)) {
+			if (method.isAnnotationPresent(Statement.class)) {
+				statement = method.getAnnotation(Statement.class);
+				generateMethodSqlMapping(statementSb, "statement", method,
+						statement.id(), statement.parameterMap(), statement
+								.parameterClass(), statement.resltMap(),
+						statement.resltClass(), statement.sql(), statement
+								.cacheModel(), statement.xmlResultName());
+			} else if (method.isAnnotationPresent(Procedure.class)) {
+				procedure = method.getAnnotation(Procedure.class);
+				generateMethodSqlMapping(statementSb, "procedure", method,
+						procedure.id(), procedure.parameterMap(), procedure
+								.parameterClass(), procedure.resltMap(),
+						procedure.resltClass(), procedure.sql(), null,
+						procedure.xmlResultName());
+			} else if (method.isAnnotationPresent(Select.class)) {
 				select = method.getAnnotation(Select.class);
 				generateMethodSqlMapping(statementSb, "select", method, select
 						.id(), select.parameterMap(), select.parameterClass(),
-						select.resltMap(), select.resltClass(), select.sql());
+						select.resltMap(), select.resltClass(), select.sql(),
+						select.cacheModel(), null);
 			} else if (method.isAnnotationPresent(Update.class)) {
 				update = method.getAnnotation(Update.class);
 				generateMethodSqlMapping(statementSb, "update", method, update
 						.id(), null, update.parameterClass(), null, Null.class,
-						update.sql());
+						update.sql(), null, null);
 			} else if (method.isAnnotationPresent(Insert.class)) {
 				insert = method.getAnnotation(Insert.class);
 				generateMethodSqlMapping(statementSb, "insert", method, insert
 						.id(), null, insert.parameterClass(), null, Null.class,
-						insert.sql());
+						insert.sql(), null, null);
 			} else if (method.isAnnotationPresent(Delete.class)) {
 				delete = method.getAnnotation(Delete.class);
 				generateMethodSqlMapping(statementSb, "delete", method, delete
 						.id(), null, delete.parameterClass(), null, Null.class,
-						delete.sql());
+						delete.sql(), null, null);
 			}
 		}
 	}
@@ -80,6 +111,12 @@ public class SqlMapClientXmlHelper {
 		if (clazz.isAnnotationPresent(ResultMap.class)) {
 			ResultMap annotation = clazz.getAnnotation(ResultMap.class);
 			String id = annotation.id();
+
+			// 检查当前resultMap是否已经在其它dao中声明并解析过了
+			if (resultMapIds.contains(id))
+				return;
+			resultMapIds.add(id);
+
 			Class<?> resultClass = annotation.resultClass();
 			Result[] results = annotation.result();
 
@@ -109,11 +146,51 @@ public class SqlMapClientXmlHelper {
 		}
 	}
 
+	private static void processCacheModel(Class<?> clazz,
+			StringBuffer cacheModelSb) {
+		if (clazz.isAnnotationPresent(Cachemodel.class)) {
+			Cachemodel annotation = clazz.getAnnotation(Cachemodel.class);
+			String id = annotation.id();
+			// 检查当前parameterMap是否已经在其它dao中声明并解析过了
+			if (cacheModelIds.contains(id))
+				return;
+			cacheModelIds.add(id);
+
+			String[] flushOnExecute = annotation.flushOnExecute();
+
+			cacheModelSb.append("  <cacheModel id=\"" + id
+					+ "\" imlementation=\"" + annotation.imlementation()
+					+ "\">");
+
+			cacheModelSb.append("\n    <flushInterval hours=\""
+					+ annotation.flushInterval() + "\"/>");
+			for (String statement : flushOnExecute) {
+				cacheModelSb.append("\n    <flushOnExecute statement=\""
+						+ statement + "\"/>");
+			}
+			
+			Property[] properties = annotation.property();
+			for(Property property :properties){
+				cacheModelSb.append("\n    <property"+
+						" name=\""+ property.name() + "\""+
+						" value=\""+ property.value() + "\""+
+						"/>");
+			}
+			
+			cacheModelSb.append("\n  </cacheModel>");
+		}
+	}
+
 	private static void processPrameterMap(Class<?> clazz,
 			StringBuffer parameterMapSb) {
 		if (clazz.isAnnotationPresent(ParameterMap.class)) {
 			ParameterMap annotation = clazz.getAnnotation(ParameterMap.class);
 			String id = annotation.id();
+			// 检查当前parameterMap是否已经在其它dao中声明并解析过了
+			if (parameterMapIds.contains(id))
+				return;
+			parameterMapIds.add(id);
+
 			Class<?> parameterClass = annotation.parameterClass();
 			String[] parameters = annotation.parameters();
 
@@ -130,7 +207,7 @@ public class SqlMapClientXmlHelper {
 	private static void generateMethodSqlMapping(StringBuffer sb,
 			String prefix, Method method, String id, String parameterMap,
 			Class<?> parameterClazz, String resultMap, Class<?> resultClazz,
-			String sql) {
+			String sql, String cacheModel, String xmlResultName) {
 		sb.append("\n");
 
 		String param = "", result = "";
@@ -174,8 +251,12 @@ public class SqlMapClientXmlHelper {
 				result = "";
 		}
 
-		sb.append("  <" + prefix + " id=\"" + id + "\"" + param + result
-				+ ">\n");
+		sb.append("  <" + prefix + " id=\"" + id + "\"" + param + result);
+		if (cacheModel != null && !cacheModel.trim().equals(""))
+			sb.append(" cacheModel=\"" + cacheModel + "\"");
+		if (xmlResultName != null && !xmlResultName.trim().equals(""))
+			sb.append(" xmlResultName=\"" + xmlResultName + "\"");
+		sb.append(">\n");
 		sb.append("    " + sql.trim());
 		sb.append("\n  </" + prefix + ">");
 	}
