@@ -30,32 +30,45 @@ public class AccountServiceTest {
 			account.setFirstName("张");
 			account.setLastName("学友");
 			account.setEmailAddress("jackey@rest4g.org");
+			// 添加
+			service.createAccount(account);
 
+			account = new Account();
+			account.setFirstName("刘");
+			account.setLastName("学友");
+			account.setEmailAddress("test@rest4g.org");
 			// 添加
 			service.createAccount(account);
 			
-			//查询
-			accounts = service.findAll();
+			//查询（按lastName）
+			Account queryCondition = new Account();
+			queryCondition.setLastName("学友");
+			accounts = service.queryAccounts(queryCondition);
+			Assert.assertEquals(2, accounts.size());
+			
+			//查询（按firstName和lastName）
+			queryCondition.setFirstName("张");
+			accounts = service.queryAccounts(queryCondition);
 			Assert.assertEquals(1, accounts.size());
-
-			for (Account ac : accounts)
-				System.out.println(ac.getFirstName() + ac.getLastName()
-						+ "的邮件地址是：" + ac.getEmailAddress());
 
 			// 修改
 			account = accounts.get(0);
-			account.setFirstName("刘");
+			account.setFirstName("何");
 			service.updateAccount(account);
-
 			account = service.getAccountById(account.getId());
-
 			Assert.assertNotNull(account);
+			Assert.assertEquals("何", account.getFirstName());
 
-			Assert.assertEquals("刘", account.getFirstName());
+			//查询所有
+			accounts = service.findAll();
+			Assert.assertEquals(2, accounts.size());
 
 			// 删除
-			service.deleteAccount(account.getId());
-
+			for (Account ac : accounts){
+				service.deleteAccount(ac.getId());
+			}
+			
+			//断言删除的结果
 			accounts = service.findAll();
 			Assert.assertEquals(0, accounts.size());
 		} catch (SQLException e) {
