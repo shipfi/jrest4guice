@@ -2,7 +2,7 @@ package org.jrest4guice.rest.helper;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.Converter;
-import org.jrest4guice.guice.GuiceContext;
+import org.jrest4guice.guice.PersistenceGuiceContext;
 import org.jrest4guice.jndi.JndiGuiceModuleProvider;
 import org.jrest4guice.rest.JRest4GuiceModuleProvider;
 import org.jrest4guice.rest.converter.DatePatternConverter;
@@ -21,13 +21,14 @@ public class JRest4GuiceHelper {
 	 *            需要动态扫瞄的资源路径
 	 * @return
 	 */
-	public static GuiceContext useJRest(String... scanPaths) {
+	public static PersistenceGuiceContext useJRest(String... scanPaths) {
 		//注册缺省的日期转换器（用于BeanUtilsBean）
 		new DatePatternConverter().addDefaultDateConverter();
 		//打开JRest的支持
-		return GuiceContext.getInstance().addModuleProvider(
+		PersistenceGuiceContext.getInstance().addModuleProvider(
 				new JRest4GuiceModuleProvider(scanPaths)).addModuleProvider(
 				new JndiGuiceModuleProvider(scanPaths));
+		return PersistenceGuiceContext.getInstance();
 	}
 
 	/**
