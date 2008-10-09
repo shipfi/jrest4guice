@@ -6,8 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.apache.commons.lang.ObjectUtils.Null;
-
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
@@ -15,12 +13,9 @@ import org.apache.commons.lang.ObjectUtils.Null;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Select {
-	String id() default "";
-	Class<?> parameterClass() default Null.class;
-	String parameterMap() default "";
-	Class<?> resltClass() default Null.class;
-	String resltMap() default "";
-	String sql();
+@Target(ElementType.TYPE)
+public @interface ParameterMap {
+	String id();
+	String[] parameters();
+	Class<?> parameterClass();
 }
