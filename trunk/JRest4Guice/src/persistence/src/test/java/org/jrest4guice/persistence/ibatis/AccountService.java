@@ -68,18 +68,22 @@ public class AccountService {
 	@Select(id = "queryAccounts", 
 		sql = "select * from ACCOUNT "
 			+ "<dynamic prepend=\"where\">"
-			+ "   <isNotNull prepend=\"and\" property=\"firstName\">"
-			+ "      firstName = #firstName#" 
-			+ "   </isNotNull>"
-			+ "   <isNotNull prepend=\"and\" property=\"lastName\">"
-			+ "      lastName = #lastName#" 
-			+ "   </isNotNull>"
-			+ "   <isNotNull prepend=\"and\" property=\"emailAddress\">"
-			+ "      emailAddress = #emailAddress#" 
-			+ "   </isNotNull>"
+			+ " <isNotNull prepend=\"and\" property=\"firstName\">"
+			+ "    firstName = #firstName#" 
+			+ " </isNotNull>"
+			+ " <isNotNull prepend=\"and\" property=\"lastName\">"
+			+ "    lastName = #lastName#" 
+			+ " </isNotNull>"
+			+ " <isNotNull prepend=\"and\" property=\"emailAddress\">"
+			+ "    emailAddress = #emailAddress#" 
+			+ " </isNotNull>"
 			+ "</dynamic> " 
-			+ "order by lastName", resltMap = "accountResultMap", cacheModel = "account-cache")
+			+ "order by lastName", resltMap = "accountResultMap", 
+			cacheModel = "account-cache")
 	@Transactional(type = TransactionalType.READOLNY)
+	/**
+	 * 动态SQL查询
+	 */
 	public List<Account> queryAccounts(Account account) throws SQLException {
 		return sqlMapper.queryForList("queryAccounts",account);
 	}
