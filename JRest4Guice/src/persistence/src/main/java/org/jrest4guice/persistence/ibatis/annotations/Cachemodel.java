@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Cachemodel {
 	String id();
-	String imlementation();
+	String type();
 	String flushInterval();
 	String[] flushOnExecute();
 	Property[] property() default{};
