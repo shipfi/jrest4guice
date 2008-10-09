@@ -27,12 +27,14 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 		@Result(property = "lastName", column = "lastName"),
 		@Result(property = "emailAddress", column = "emailAddress") }, resultClass = Account.class)
 @Cachemodel(id = "account-cache", flushInterval = "24", flushOnExecute = {
-		"insertAccount", "updateAccount", "deleteAccount" }, type = "LRU", property = { @Property(name = "size", value = "100") })
+		"insertAccount", "updateAccount", "deleteAccount" }, type = "LRU", 
+		property = { @Property(name = "size", value = "100") })
 public class AccountService {
 	@Inject
 	private SqlMapClient sqlMapper;
 
-	@Select(id = "selectAllAccounts", sql = "select * from ACCOUNT", resltMap = "accountResultMap")
+	@Select(id = "selectAllAccounts", sql = "select * from ACCOUNT", 
+			resltMap = "accountResultMap", cacheModel = "account-cache")
 	@Transactional(type = TransactionalType.READOLNY)
 	public List<Account> findAll() throws SQLException {
 		return sqlMapper.queryForList("selectAllAccounts");
