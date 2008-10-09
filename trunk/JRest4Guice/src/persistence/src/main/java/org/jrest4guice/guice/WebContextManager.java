@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.VelocityContext;
 import org.jrest4guice.client.ModelMap;
-import org.jrest4guice.persistence.PersistenceGuiceContext;
 
 
 /**

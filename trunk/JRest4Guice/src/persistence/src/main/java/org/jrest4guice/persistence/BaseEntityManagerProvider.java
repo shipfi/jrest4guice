@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.guice.InjectorContext;
+import org.jrest4guice.guice.PersistenceGuiceContext;
 import org.jrest4guice.persistence.hibernate.HibernateEntityManager;
 import org.jrest4guice.persistence.hibernate.SessionProvider;
 import org.jrest4guice.persistence.jpa.EntityManagerProvider;
