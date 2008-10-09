@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>JRest4Guice</artifactId>
+		<groupId>org.cnoss</groupId>
+		<version>0.0.9</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.cnoss</groupId>
+	<artifactId>JRest4Guice-persistence</artifactId>
+	<name>JRest4Guice-persistence</name>
+	<version>0.0.9</version>
+	<description />
+
+	<dependencies>
+		<dependency>
+			<groupId>org.cnoss</groupId>
+			<artifactId>JRest4Guice-core</artifactId>
+			<version>0.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.commontemplate</groupId>
+			<artifactId>commontemplate</artifactId>
+			<version>0.8.7</version>
+		</dependency>
+		<dependency>
+			<groupId>xom</groupId>
+			<artifactId>xom</artifactId>
+			<version>1.1</version>
+		</dependency>
+	</dependencies>
+	<properties>
+		<maven.test.skip>true</maven.test.skip>
+	</properties>
+
+</project>
