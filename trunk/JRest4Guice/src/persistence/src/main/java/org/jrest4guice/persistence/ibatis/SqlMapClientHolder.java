@@ -68,7 +68,7 @@ public class SqlMapClientHolder {
 			//输出sqmMapping文件
 			FileOutputStream fout = new FileOutputStream(sqlMapConfigFile.getParent()+File.separator+"sqlMap.xml");
 			String sqlMappingStr = sb.toString();
-			System.out.println(sqlMappingStr);
+//			System.out.println(sqlMappingStr);
 			fout.write(sqlMappingStr.getBytes());
 			fout.flush();
 			fout.close();

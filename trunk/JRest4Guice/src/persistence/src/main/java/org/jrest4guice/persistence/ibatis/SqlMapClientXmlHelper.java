@@ -27,40 +27,24 @@ public class SqlMapClientXmlHelper {
 
 		// 处理参数映射字典
 		StringBuffer parameterMapSb = new StringBuffer();
-		if (clazz.isAnnotationPresent(ParameterMap.class)) {
-			ParameterMap annotation = clazz.getAnnotation(ParameterMap.class);
-			String id = annotation.id();
-			Class<?> parameterClass = annotation.parameterClass();
-			String[] parameters = annotation.parameters();
-
-			parameterMapSb.append("  <parameterMap id=\"" + id + "\" class=\""
-					+ parameterClass.getName() + "\">");
-			for (String parameter : parameters) {
-				parameterMapSb.append("\n    <parameter property=\"" + parameter
-						+ "\"/>");
-			}
-			parameterMapSb.append("\n  </parameterMap>");
-		}
+		processPrameterMap(clazz, parameterMapSb);
 
 		// 处理结果映射字典
 		StringBuffer resultMapSb = new StringBuffer();
-		if (clazz.isAnnotationPresent(ResultMap.class)) {
-			ResultMap annotation = clazz.getAnnotation(ResultMap.class);
-			String id = annotation.id();
-			Class<?> resultClass = annotation.resultClass();
-			Result[] results = annotation.result();
-
-			resultMapSb.append("  <resultMap id=\"" + id + "\" class=\""
-					+ resultClass.getName() + "\">");
-			for (Result result : results) {
-				resultMapSb.append("\n    <result property=\"" + result.property()
-						+ "\"  column=\"" + result.column() + "\"/>");
-			}
-			resultMapSb.append("\n  </resultMap>");
-		}
+		processResultMap(clazz, resultMapSb);
 
 		// 处理Sql语句
 		StringBuffer statementSb = new StringBuffer();
+		processStatement(clazz, statementSb);
+
+		mapping.setParameterMap(parameterMapSb.toString());
+		mapping.setResultMap(resultMapSb.toString());
+		mapping.setStatement(statementSb.toString());
+		return mapping;
+	}
+
+	private static void processStatement(Class<?> clazz,
+			StringBuffer statementSb) {
 		Method[] methods = clazz.getDeclaredMethods();
 		Select select;
 		Update update;
@@ -89,11 +73,58 @@ public class SqlMapClientXmlHelper {
 						delete.sql());
 			}
 		}
+	}
 
-		mapping.setParameterMap(parameterMapSb.toString());
-		mapping.setResultMap(resultMapSb.toString());
-		mapping.setStatement(statementSb.toString());
-		return mapping;
+	private static void processResultMap(Class<?> clazz,
+			StringBuffer resultMapSb) {
+		if (clazz.isAnnotationPresent(ResultMap.class)) {
+			ResultMap annotation = clazz.getAnnotation(ResultMap.class);
+			String id = annotation.id();
+			Class<?> resultClass = annotation.resultClass();
+			Result[] results = annotation.result();
+
+			resultMapSb.append("  <resultMap id=\"" + id + "\" class=\""
+					+ resultClass.getName() + "\">");
+			for (Result result : results) {
+				resultMapSb.append("\n    <result property=\""
+						+ result.property() + "\"");
+				resultMapSb.append("  column=\"" + result.column() + "\"");
+				if (!result.columnIndex().trim().equals(""))
+					resultMapSb.append("  columnIndex=\""
+							+ result.columnIndex() + "\"");
+				if (!result.javaType().trim().equals(""))
+					resultMapSb.append("  javaType=\"" + result.javaType()
+							+ "\"");
+				if (!result.jdbcType().trim().equals(""))
+					resultMapSb.append("  jdbcType=\"" + result.jdbcType()
+							+ "\"");
+				if (!result.nullValue().trim().equals(""))
+					resultMapSb.append("  nullValue=\"" + result.nullValue()
+							+ "\"");
+				if (!result.select().trim().equals(""))
+					resultMapSb.append("  select=\"" + result.select() + "\"");
+				resultMapSb.append("/>");
+			}
+			resultMapSb.append("\n  </resultMap>");
+		}
+	}
+
+	private static void processPrameterMap(Class<?> clazz,
+			StringBuffer parameterMapSb) {
+		if (clazz.isAnnotationPresent(ParameterMap.class)) {
+			ParameterMap annotation = clazz.getAnnotation(ParameterMap.class);
+			String id = annotation.id();
+			Class<?> parameterClass = annotation.parameterClass();
+			String[] parameters = annotation.parameters();
+
+			parameterMapSb.append("  <parameterMap id=\"" + id + "\" class=\""
+					+ parameterClass.getName() + "\">");
+			for (String parameter : parameters) {
+				parameterMapSb.append("\n    <parameter property=\""
+						+ parameter + "\"/>");
+			}
+			parameterMapSb.append("\n  </parameterMap>");
+		}
 	}
 
 	private static void generateMethodSqlMapping(StringBuffer sb,
@@ -143,8 +174,9 @@ public class SqlMapClientXmlHelper {
 				result = "";
 		}
 
-		sb.append("  <" + prefix + " id=\"" + id + "\"" + param + result + ">\n");
-		sb.append("    "+sql.trim());
+		sb.append("  <" + prefix + " id=\"" + id + "\"" + param + result
+				+ ">\n");
+		sb.append("    " + sql.trim());
 		sb.append("\n  </" + prefix + ">");
 	}
 }
