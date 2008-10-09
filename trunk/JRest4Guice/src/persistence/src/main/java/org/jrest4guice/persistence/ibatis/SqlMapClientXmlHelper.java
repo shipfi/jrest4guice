@@ -51,6 +51,7 @@ public class SqlMapClientXmlHelper {
 		StringBuffer statementSb = new StringBuffer();
 		processStatement(clazz, statementSb);
 
+		mapping.setCacheModel(cacheModelSb.toString());
 		mapping.setParameterMap(parameterMapSb.toString());
 		mapping.setResultMap(resultMapSb.toString());
 		mapping.setStatement(statementSb.toString());
@@ -159,7 +160,7 @@ public class SqlMapClientXmlHelper {
 			String[] flushOnExecute = annotation.flushOnExecute();
 
 			cacheModelSb.append("  <cacheModel id=\"" + id
-					+ "\" imlementation=\"" + annotation.imlementation()
+					+ "\" type=\"" + annotation.type()
 					+ "\">");
 
 			cacheModelSb.append("\n    <flushInterval hours=\""

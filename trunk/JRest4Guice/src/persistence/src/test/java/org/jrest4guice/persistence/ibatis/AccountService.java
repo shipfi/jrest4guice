@@ -27,7 +27,7 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 		@Result(property = "lastName", column = "lastName"),
 		@Result(property = "emailAddress", column = "emailAddress") }, resultClass = Account.class)
 @Cachemodel(id = "account-cache", flushInterval = "24", flushOnExecute = {
-		"insertAccount", "updateAccount", "deleteAccount" }, imlementation = "LRU", property = { @Property(name = "size", value = "100") })
+		"insertAccount", "updateAccount", "deleteAccount" }, type = "LRU", property = { @Property(name = "size", value = "100") })
 public class AccountService {
 	@Inject
 	private SqlMapClient sqlMapper;
