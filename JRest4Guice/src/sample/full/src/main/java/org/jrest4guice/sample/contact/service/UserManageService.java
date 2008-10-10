@@ -3,13 +3,11 @@ package org.jrest4guice.sample.contact.service;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
-import javax.persistence.EntityManager;
 
 import org.jrest4guice.client.Page;
 import org.jrest4guice.client.Pagination;
 import org.jrest4guice.commons.lang.MD5Util;
 import org.jrest4guice.persistence.BaseEntityManager;
-import org.jrest4guice.persistence.jpa.JpaEntityManager;
 import org.jrest4guice.sample.contact.entity.Role;
 import org.jrest4guice.sample.contact.entity.User;
 import org.jrest4guice.transaction.annotations.Transactional;
@@ -43,7 +41,6 @@ public class UserManageService{
 	}
 
 	@Transactional(type = TransactionalType.READOLNY)
-	@RolesAllowed("admin")
 	public User findUser(String name) {
 		return this.userEntityManager.loadByNamedQuery("byName", name);
 	}
