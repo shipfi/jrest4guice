@@ -5,7 +5,7 @@ import com.google.inject.Provider;
 
 /**
  * DAO接口实例化的提供者
- * @author <a href="mailto:gzyangfan@gmail.com">gzYangfan</a>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * @param <T> DAO接口
  */
 public class IbatisDaoProvider<T> implements Provider<T> {
@@ -19,7 +19,6 @@ public class IbatisDaoProvider<T> implements Provider<T> {
 		this.clazz = clazz;
 	}
 
-	@SuppressWarnings("unchecked")
 	public T get() {
 		return (T) proxy.createDao(this.clazz);
 	}
