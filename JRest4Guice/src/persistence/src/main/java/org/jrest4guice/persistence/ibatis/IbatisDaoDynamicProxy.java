@@ -11,6 +11,7 @@ import com.google.inject.Singleton;
 
 /**
  * Ibatis DAO 动态代理类<br>
+ * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
 @Singleton
 @SuppressWarnings("unchecked")
