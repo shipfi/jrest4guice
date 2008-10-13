@@ -18,6 +18,7 @@ import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
 import org.jrest4guice.rest.exception.ServiceNotFoundException;
+import org.jrest4guice.rest.exception.Need2RedirectException;
 import org.jrest4guice.rest.writer.JsonResponseWriter;
 
 /**
@@ -92,8 +93,11 @@ public class JRestGuiceProcessorHelper {
 	}
 
 	public void writeErrorMessage(Exception e) {
-		GuiceContext.getInstance().getBean(JsonResponseWriter.class)
-				.writeResult(null, null, e, null);
+		try {
+			GuiceContext.getInstance().getBean(JsonResponseWriter.class)
+					.writeResult(null, null, e, null);
+		} catch (Need2RedirectException e1) {
+		}
 	}
 
 	public HttpMethodType getHttpMethodType(String method) {

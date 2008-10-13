@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jrest4guice.rest.exception.Need2RedirectException;
+
 import com.google.inject.Inject;
 
 /**
@@ -28,7 +30,7 @@ public abstract class TextResponseWriter implements ResponseWriter {
 	 * @seeorg.jrest4guice.ResponseWriter#writeResult(javax.servlet.http.
 	 * HttpServletResponse, java.lang.Object, java.lang.String)
 	 */
-	public void writeResult(Method method, ByteArrayOutputStream out, Object result, Map options) {
+	public void writeResult(Method method, ByteArrayOutputStream out, Object result, Map options) throws Need2RedirectException {
 		if (result == null)
 			result = "";
 

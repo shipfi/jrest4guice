@@ -2,6 +2,7 @@ package org.jrest4guice.rest;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -38,6 +39,7 @@ import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
 import org.jrest4guice.rest.context.RestContextManager;
+import org.jrest4guice.rest.exception.Need2RedirectException;
 import org.jrest4guice.rest.exception.ValidatorException;
 import org.jrest4guice.rest.helper.RequestHelper;
 import org.jrest4guice.rest.writer.ResponseWriter;
@@ -358,8 +360,14 @@ public class ServiceExecutor {
 								responseWriter.getMimeType(), bytes, request);
 					}
 				}
+			} catch (Need2RedirectException e) {
+				try {
+					response.sendRedirect(e.getRedirectUrl());
+				} catch (IOException ioE) {
+					throw new RuntimeException("重定向到\""+e.getRedirectUrl()+"\"错误",ioE);
+				}
 			} catch (Exception e) {
-				throw new RuntimeException("向客户端写回信息错误"+e);
+				throw new RuntimeException("向客户端写回信息错误"+e,e);
 			}
 		}
 	}
