@@ -1,5 +1,6 @@
 INSERT INTO User_tb (id, name, password) VALUES ('602881e417bb78010117bba509130001', 'cnoss','202CB962AC59075B964B07152D234B70')
 INSERT INTO User_tb (id, name, password) VALUES ('602881e417bb78010117bba509130002', 'jerry','202CB962AC59075B964B07152D234B70')
+INSERT INTO User_tb (id, name, password) VALUES ('602881e417bb78010117bba509130003', 'admin','5D41402ABC4B2A76B9719D911017C592')
 
 INSERT INTO Role_tb (id, name, description) VALUES ('702881e417bb78010117bba509130001','admin', '管理员')
 INSERT INTO Role_tb (id, name, description) VALUES ('702881e417bb78010117bba509130002','editor', '编辑员')
@@ -8,6 +9,7 @@ INSERT INTO Role_tb (id, name, description) VALUES ('702881e417bb78010117bba5091
 INSERT INTO UserRole_rl_tb (user_id,role_id) VALUES ('602881e417bb78010117bba509130001','702881e417bb78010117bba509130001')
 INSERT INTO UserRole_rl_tb (user_id,role_id) VALUES ('602881e417bb78010117bba509130001','702881e417bb78010117bba509130002')
 INSERT INTO UserRole_rl_tb (user_id,role_id) VALUES ('602881e417bb78010117bba509130002','702881e417bb78010117bba509130003')
+INSERT INTO UserRole_rl_tb (user_id,role_id) VALUES ('602881e417bb78010117bba509130003','702881e417bb78010117bba509130001')
 
 INSERT INTO Contact_tb (id, name,homePhone, mobilePhone, eMail, address) VALUES ('602881e417bb78010117bba509130001', '黄俊', '021-877878788', '12902056707','we@cnoss.org','广州市')
 INSERT INTO Contact_tb (id, name,homePhone, mobilePhone, eMail, address) VALUES ('602881e417bb78010117bba509130002', '唐映', '021-877878788', '12902056708','we@cnoss.org','南宁')
