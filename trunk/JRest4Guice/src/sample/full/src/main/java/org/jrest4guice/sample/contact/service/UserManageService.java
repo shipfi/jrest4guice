@@ -20,7 +20,6 @@ import com.google.inject.Inject;
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * 
  */
-@SuppressWarnings( { "unused" })
 @Transactional
 public class UserManageService{
 	@Inject
