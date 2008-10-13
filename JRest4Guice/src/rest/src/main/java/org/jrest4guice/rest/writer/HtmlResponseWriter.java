@@ -13,6 +13,7 @@ import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.annotations.PageInfo;
+import org.jrest4guice.rest.exception.Need2RedirectException;
 import org.jrest4guice.rest.exception.ValidatorException;
 import org.jrest4guice.rest.render.ViewRender;
 import org.jrest4guice.rest.render.ViewRenderRegister;
@@ -32,6 +33,8 @@ public class HtmlResponseWriter implements ResponseWriter {
 	protected HttpSession session;
 
 	public static final String OPTION_KEY = "_$_options_$_";
+	
+	private static ThreadLocal<String> currentRedirectUrl = new ThreadLocal<String>();
 
 	@Override
 	public String getMimeType() {
@@ -40,8 +43,15 @@ public class HtmlResponseWriter implements ResponseWriter {
 
 	@Override
 	public void writeResult(Method method, ByteArrayOutputStream out,
-			Object result, Map options) {
+			Object result, Map options) throws Need2RedirectException{
 		try {
+
+			String redirectUrl = HtmlResponseWriter.getCurrentRedirectUrl();
+			if(redirectUrl != null){
+				HtmlResponseWriter.clearCurrentRedirectUrl();
+				throw new Need2RedirectException(redirectUrl);
+			}
+			
 			ServiceResult httpResult = ServiceResult.createHttpResult(result);
 			// 获取模板路径
 			PageFlow annotation = method.getAnnotation(PageFlow.class);
@@ -76,7 +86,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 							.setAttribute(HtmlResponseWriter.OPTION_KEY,
 									options);
 				}
-
+				
 				ViewRender viewRender = ViewRenderRegister.getInstance()
 						.getViewRender(pageInfo);
 
@@ -100,5 +110,17 @@ public class HtmlResponseWriter implements ResponseWriter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static String getCurrentRedirectUrl(){
+		return currentRedirectUrl.get();
+	}
+
+	public static void setCurrentRedirectUrl(String url){
+		currentRedirectUrl.set(url);
+	}
+	
+	public static void clearCurrentRedirectUrl(){
+		currentRedirectUrl.remove();
 	}
 }
