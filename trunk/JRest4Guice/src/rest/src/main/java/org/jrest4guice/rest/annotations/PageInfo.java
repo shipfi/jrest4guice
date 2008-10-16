@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.jrest4guice.rest.render.ResultType;
+import org.jrest4guice.rest.writer.renderer.ResultType;
 
 /**
  * 

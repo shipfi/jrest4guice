@@ -1,23 +1,25 @@
-package org.jrest4guice.rest.render;
+package org.jrest4guice.rest.writer.renderer;
 
 
 import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.PageFlow;
-import org.jrest4guice.rest.writer.HtmlResponseWriter;
 
 import com.google.inject.Inject;
 
 /**
- * JSP的渲染器
+ * 重定向的渲染器
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-public class JspViewRender implements ViewRender {
+class RedirectViewRender implements ViewRender {
+	@Inject
+	private HttpSession session;
 	@Inject
 	private HttpServletRequest request;
 	@Inject
@@ -29,10 +31,18 @@ public class JspViewRender implements ViewRender {
 	@Override
 	public void render(OutputStream out, PageFlow annotation, ServiceResult result)
 			throws Exception {
-		request.setAttribute("ctx", result);
-		request.setAttribute("xctx", request.getSession().getAttribute(HtmlResponseWriter.OPTION_KEY));
-		request.getRequestDispatcher(annotation.success().value()).forward(this.request,
-				this.response);
+		String path = annotation.success().value();
+		if(result.getErrorMessage() != null || result.getInvalidValues() != null){
+			path = annotation.error().value();
+		}
+
+		String contextPath = request.getContextPath();
+		if(!contextPath.endsWith("/"))
+			contextPath += "/";
+		if(path.startsWith("/"))
+			path = path.substring(1);
+		
+		response.sendRedirect(contextPath+ path);
 	}
 
 	/*
@@ -42,11 +52,11 @@ public class JspViewRender implements ViewRender {
 	 */
 	@Override
 	public String getRenderType() {
-		return ResultType.JSP;
+		return ResultType.REDIRECT;
 	}
-	
+
 	@Override
 	public String getRenderTypeShortName() {
-		return ".jsp";
+		return null;
 	}
 }

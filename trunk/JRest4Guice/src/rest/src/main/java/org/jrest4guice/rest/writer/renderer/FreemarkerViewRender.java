@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.render;
+package org.jrest4guice.rest.writer.renderer;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import freemarker.template.Template;
  * Freemarker的渲染器
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-public class FreemarkerViewRender implements ViewRender {
+class FreemarkerViewRender implements ViewRender {
 	private static Configuration cfg;
 
 	@Inject

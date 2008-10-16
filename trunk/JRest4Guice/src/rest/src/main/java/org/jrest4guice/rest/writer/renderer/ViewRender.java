@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.render;
+package org.jrest4guice.rest.writer.renderer;
 
 
 import java.io.OutputStream;

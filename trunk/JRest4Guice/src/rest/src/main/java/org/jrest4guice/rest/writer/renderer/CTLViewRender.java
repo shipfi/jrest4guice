@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.render.ctl;
+package org.jrest4guice.rest.writer.renderer;
 
 
 import java.io.OutputStream;
@@ -11,8 +11,6 @@ import org.commontemplate.core.Template;
 import org.commontemplate.engine.Engine;
 import org.jrest4guice.rest.ServiceResult;
 import org.jrest4guice.rest.annotations.PageFlow;
-import org.jrest4guice.rest.render.ResultType;
-import org.jrest4guice.rest.render.ViewRender;
 import org.jrest4guice.rest.writer.HtmlResponseWriter;
 import org.jrest4guice.security.SecurityContext;
 import org.jrest4guice.security.UserRole;
@@ -23,7 +21,7 @@ import com.google.inject.Inject;
  * CTL（commontemplate）的渲染器
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-public class CTLViewRender implements ViewRender {
+class CTLViewRender implements ViewRender {
 	@Inject(optional=true)
 	private HttpServletRequest request;
 	@Inject(optional=true)
