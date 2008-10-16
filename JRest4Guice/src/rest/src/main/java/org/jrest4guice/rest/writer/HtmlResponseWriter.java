@@ -15,8 +15,8 @@ import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.annotations.PageInfo;
 import org.jrest4guice.rest.exception.Need2RedirectException;
 import org.jrest4guice.rest.exception.ValidatorException;
-import org.jrest4guice.rest.render.ViewRender;
-import org.jrest4guice.rest.render.ViewRenderRegister;
+import org.jrest4guice.rest.writer.renderer.ViewRender;
+import org.jrest4guice.rest.writer.renderer.ViewRenderRegister;
 
 import com.google.inject.Inject;
 

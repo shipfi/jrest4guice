@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.render;
+package org.jrest4guice.rest.writer.renderer;
 
 import java.io.OutputStream;
 import java.io.StringWriter;
@@ -18,7 +18,7 @@ import com.google.inject.Inject;
  * Velocity的渲染器
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-public class VelocityViewRender implements ViewRender {
+class VelocityViewRender implements ViewRender {
 	@Inject
 	private HttpServletRequest request;
 	@Inject

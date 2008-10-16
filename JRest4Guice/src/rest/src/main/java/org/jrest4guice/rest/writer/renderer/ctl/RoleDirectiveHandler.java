@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.render.ctl;
+package org.jrest4guice.rest.writer.renderer.ctl;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.render;
+package org.jrest4guice.rest.writer.renderer;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -16,7 +16,7 @@ import com.google.inject.Inject;
  * Spry的渲染器
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-public class SpryViewRender implements ViewRender {
+class SpryViewRender implements ViewRender {
 	@Inject
 	protected HttpSession session;
 

@@ -26,10 +26,10 @@ import org.jrest4guice.rest.provider.ModelMapProvider;
 import org.jrest4guice.rest.provider.VelocityContextProvider;
 import org.jrest4guice.rest.reader.RequestContentReader;
 import org.jrest4guice.rest.reader.RequestContentReaderRegister;
-import org.jrest4guice.rest.render.ViewRender;
-import org.jrest4guice.rest.render.ViewRenderRegister;
 import org.jrest4guice.rest.writer.ResponseWriter;
 import org.jrest4guice.rest.writer.ResponseWriterRegister;
+import org.jrest4guice.rest.writer.renderer.ViewRender;
+import org.jrest4guice.rest.writer.renderer.ViewRenderRegister;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
