@@ -31,7 +31,6 @@ public class PersistenceGuiceContext implements ContextCleaner{
 
 	private PersistenceGuiceContext() {
 		this.guiceContext = GuiceContext.getInstance();
-		WebContextManager.addContextCleaner(this);
 	}
 
 	/**
