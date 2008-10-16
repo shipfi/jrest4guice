@@ -1,6 +1,7 @@
-package org.jrest4guice.rest.context;
+package org.jrest4guice.rest.provider;
 
 import org.apache.velocity.VelocityContext;
+import org.jrest4guice.rest.RestContextManager;
 
 import com.google.inject.Provider;
 

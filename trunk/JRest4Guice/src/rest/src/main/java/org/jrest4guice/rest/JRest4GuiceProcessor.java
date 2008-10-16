@@ -13,7 +13,6 @@ import org.jrest4guice.commons.lang.ClassUtils;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.annotations.HttpMethodType;
 import org.jrest4guice.rest.annotations.RESTful;
-import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.exception.RestMethodNotFoundException;
 import org.jrest4guice.rest.helper.JRest4GuiceHelper;
 import org.jrest4guice.rest.helper.JRestGuiceProcessorHelper;

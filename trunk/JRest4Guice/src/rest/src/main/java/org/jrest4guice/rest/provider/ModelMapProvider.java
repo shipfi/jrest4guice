@@ -1,7 +1,8 @@
-package org.jrest4guice.rest.context;
+package org.jrest4guice.rest.provider;
 
 
 import org.jrest4guice.client.ModelMap;
+import org.jrest4guice.rest.RestContextManager;
 
 import com.google.inject.Provider;
 

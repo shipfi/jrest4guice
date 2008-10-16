@@ -38,7 +38,6 @@ import org.jrest4guice.rest.annotations.ProduceMime;
 import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.commons.cache.ResourceCacheManager;
-import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.exception.Need2RedirectException;
 import org.jrest4guice.rest.exception.ValidatorException;
 import org.jrest4guice.rest.helper.RequestHelper;

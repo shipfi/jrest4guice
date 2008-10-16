@@ -1,6 +1,7 @@
-package org.jrest4guice.rest.context;
+package org.jrest4guice.rest.provider;
 
 import org.commontemplate.core.Context;
+import org.jrest4guice.rest.RestContextManager;
 
 import com.google.inject.Provider;
 

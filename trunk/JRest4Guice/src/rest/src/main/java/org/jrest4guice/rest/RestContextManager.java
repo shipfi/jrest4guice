@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.context;
+package org.jrest4guice.rest;
 
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -21,7 +21,6 @@ import org.jrest4guice.security.SecurityContextProvoider;
  *
  */
 @SuppressWarnings("unchecked")
-// TODO 将不同的上下文提供一个统一的接口获取与释放
 public class RestContextManager {
 	static final ThreadLocal<HttpContext> httpContext = new ThreadLocal<HttpContext>();
 	static final ThreadLocal<String> currentRestUri = new ThreadLocal<String>();
