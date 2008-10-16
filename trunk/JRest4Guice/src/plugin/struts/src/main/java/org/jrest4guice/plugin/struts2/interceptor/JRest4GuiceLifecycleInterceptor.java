@@ -1,21 +1,15 @@
 package org.jrest4guice.plugin.struts2.interceptor;
 
 import javax.persistence.EntityTransaction;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts2.ServletActionContext;
 import org.hibernate.Transaction;
-import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.guice.PersistenceGuiceContext;
-import org.jrest4guice.guice.WebContextManager;
 import org.jrest4guice.persistence.hibernate.SessionFactoryHolder;
 import org.jrest4guice.persistence.hibernate.SessionInfo;
 import org.jrest4guice.persistence.jpa.EntityManagerFactoryHolder;
 import org.jrest4guice.persistence.jpa.EntityManagerInfo;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
@@ -34,18 +28,6 @@ public class JRest4GuiceLifecycleInterceptor extends AbstractInterceptor {
 
 	@Override
 	public String intercept(ActionInvocation invocation) throws Exception {
-
-		ActionContext ctx = ActionContext.getContext();
-		if(ctx != null){
-			//注入Web上下文
-			HttpServletRequest request = (HttpServletRequest) ctx
-					.get(ServletActionContext.HTTP_REQUEST);
-			
-			HttpServletResponse response = (HttpServletResponse) ctx
-					.get(ServletActionContext.HTTP_RESPONSE);  		
-			WebContextManager.setContext(request, response, new ModelMap<String, String>());
-		}
-		
 		boolean need2ProcessTransaction = false;
 		
 		String result = null;
@@ -79,9 +61,6 @@ public class JRest4GuiceLifecycleInterceptor extends AbstractInterceptor {
 			if(jpaTS != null)
 				jpaTS.rollback();
 			throw e;
-		} finally {
-			//清除上下文对象
-			WebContextManager.clearContext();
 		}
 		return result;
 	}
