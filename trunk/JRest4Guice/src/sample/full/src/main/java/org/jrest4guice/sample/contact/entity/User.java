@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.jrest4guice.persistence.EntityAble;
-import org.jrest4guice.rest.json.annotations.JsonExclude;
+import org.jrest4guice.rest.commons.json.annotations.JsonExclude;
 
 /**
  * 
