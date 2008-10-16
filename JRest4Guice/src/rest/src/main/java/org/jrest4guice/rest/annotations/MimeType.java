@@ -12,4 +12,7 @@ public final class MimeType {
 	public static final String MIME_OF_TEXT_PLAIN = "text/plain";
 	public static final String MIME_OF_TEXT_HTML = "text/html";
 	public static final String MIME_OF_JAVABEAN = "application/javabean";
+
+
+	public static final String CONTENT_OF_APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
 }

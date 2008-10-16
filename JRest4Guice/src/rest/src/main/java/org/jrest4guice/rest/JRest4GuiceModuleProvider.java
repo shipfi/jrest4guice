@@ -21,10 +21,11 @@ import org.jrest4guice.rest.context.CTLEngineProvider;
 import org.jrest4guice.rest.context.HttpRequestProvider;
 import org.jrest4guice.rest.context.HttpResponseProvider;
 import org.jrest4guice.rest.context.HttpSessionProvider;
-import org.jrest4guice.rest.context.JRestContext;
 import org.jrest4guice.rest.context.ModelMapProvider;
-import org.jrest4guice.rest.context.RemoteServiceProvider;
 import org.jrest4guice.rest.context.VelocityContextProvider;
+import org.jrest4guice.rest.helper.ServiceHelper;
+import org.jrest4guice.rest.reader.RequestContentReader;
+import org.jrest4guice.rest.reader.RequestContentReaderRegister;
 import org.jrest4guice.rest.render.ViewRender;
 import org.jrest4guice.rest.render.ViewRenderRegister;
 import org.jrest4guice.rest.writer.ResponseWriter;
@@ -42,6 +43,7 @@ import com.google.inject.Module;
 public class JRest4GuiceModuleProvider extends ModuleProviderTemplate {
 	public JRest4GuiceModuleProvider(String... packages) {
 		super(packages);
+		this.addScanPackages("org.jrest4guice.rest.reader");
 		this.addScanPackages("org.jrest4guice.rest.writer");
 		this.addScanPackages("org.jrest4guice.rest.render");
 	}
@@ -57,6 +59,7 @@ public class JRest4GuiceModuleProvider extends ModuleProviderTemplate {
 				// 初始化ResponseWriter
 				// ===================================================
 				ResponseWriterRegister writerRegister = new ResponseWriterRegister();
+				RequestContentReaderRegister readerRegister = new RequestContentReaderRegister();
 				ViewRenderRegister renderRegister = new ViewRenderRegister();
 
 				// 绑定固定的上下文对象
@@ -72,7 +75,7 @@ public class JRest4GuiceModuleProvider extends ModuleProviderTemplate {
 				binder.bind(Context.class).toProvider(CTLContextProvider.class);
 
 				// 注册所有的Restful服务对象
-				JRestContext jRestContext = JRestContext.getInstance();
+				ServiceHelper jRestContext = ServiceHelper.getInstance();
 				Path annotation;
 				String[] uris;
 				String mimiType, name;
@@ -117,6 +120,14 @@ public class JRest4GuiceModuleProvider extends ModuleProviderTemplate {
 							jRestContext.addResource(uri, clazz, index++ == 0);
 					}else if (clazz.isAnnotationPresent(RESTful.class)) { 
 						jRestContext.addResourceByClassMethodInfo(clazz);
+					}else if (RequestContentReader.class.isAssignableFrom(clazz)) {
+						// 注册RequestContentReader
+						try {
+							RequestContentReader reader = (RequestContentReader) clazz
+									.newInstance();
+							readerRegister.registResponseWriter(reader.getContentType(),clazz);
+						} catch (Exception e) {
+						}
 					}else if (ResponseWriter.class.isAssignableFrom(clazz)) {
 						// 注册ResponseWriter
 						try {

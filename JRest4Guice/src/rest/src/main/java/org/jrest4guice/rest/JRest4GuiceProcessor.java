@@ -13,11 +13,11 @@ import org.jrest4guice.commons.lang.ClassUtils;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.annotations.HttpMethodType;
 import org.jrest4guice.rest.annotations.RESTful;
-import org.jrest4guice.rest.context.JRestContext;
 import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.exception.RestMethodNotFoundException;
 import org.jrest4guice.rest.helper.JRest4GuiceHelper;
 import org.jrest4guice.rest.helper.JRestGuiceProcessorHelper;
+import org.jrest4guice.rest.helper.ServiceHelper;
 
 /**
  * 
@@ -137,14 +137,14 @@ public class JRest4GuiceProcessor {
 			String original_url, HttpMethodType method_type, String method,
 			ModelMap<String, String> params) throws Throwable {
 		// 从REST资源注册表中查找此URI对应的资源
-		Service service = JRestContext.getInstance().lookupResource(uri);
+		Service service = ServiceHelper.getInstance().lookupResource(uri);
 		if (service != null) {
 			RestContextManager.setCurrentRestUri(uri);
 			
 			ServiceExecutor exec = GuiceContext.getInstance().getBean(
 					ServiceExecutor.class);
 			// 填充参数
-			this.helper.fillParameters(request, params, false);
+			this.helper.fillParameters(request, params);
 			// 根据不同的请求方法调用REST对象的不同方法
 			exec.execute(service, method_type == null ? this.helper
 					.getHttpMethodType(method) : method_type, charset, false);
@@ -169,7 +169,7 @@ public class JRest4GuiceProcessor {
 				.getParameter(RESTful.REMOTE_SERVICE_NAME_KEY);
 		String methodIndex = request
 				.getParameter(RESTful.REMOTE_SERVICE_METHOD_INDEX_KEY);
-		Class<?> clazz = JRestContext.getInstance().getRemoteService(
+		Class<?> clazz = ServiceHelper.getInstance().getRemoteService(
 				serviceName);
 		if (clazz != null) {
 			index = Integer.parseInt(methodIndex);
@@ -180,7 +180,7 @@ public class JRest4GuiceProcessor {
 			ServiceExecutor exec = GuiceContext.getInstance().getBean(
 					ServiceExecutor.class);
 			// 填充参数
-			this.helper.fillParameters(request, params, true);
+			this.helper.fillParameters(request, params);
 			// 根据不同的请求方法调用REST对象的不同方法
 			exec.execute(service, this.helper
 					.getHttpMethodType(RESTful.METHOD_OF_POST), charset, true);

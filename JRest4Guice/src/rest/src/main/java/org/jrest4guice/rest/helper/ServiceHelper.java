@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.context;
+package org.jrest4guice.rest.helper;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -11,6 +11,7 @@ import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.Service;
 import org.jrest4guice.rest.ServiceRoute;
 import org.jrest4guice.rest.annotations.Path;
+import org.jrest4guice.rest.context.RestContextManager;
 
 /**
  * 
@@ -18,26 +19,26 @@ import org.jrest4guice.rest.annotations.Path;
  * 
  */
 @SuppressWarnings("unchecked")
-public class JRestContext {
+public class ServiceHelper {
 	private ServiceRoute root = new ServiceRoute();
 	private Pattern paramPattern = Pattern.compile("\\{([a-zA-Z_]+[0-9]*)\\}");
 	private static final String PARAM_KEY = "_$__PARAM_$__";
 
 	private Map<String, Class<?>> remoteService;
 
-	private JRestContext() {
+	private ServiceHelper() {
 		remoteService = new HashMap<String, Class<?>>();
 	}
 
 	private static class SingletonHolder {
-		static JRestContext instance = new JRestContext();
+		static ServiceHelper instance = new ServiceHelper();
 	}
 
-	public static JRestContext getInstance() {
+	public static ServiceHelper getInstance() {
 		return SingletonHolder.instance;
 	}
 
-	public JRestContext addRemoteService(String name, Class<?> service) {
+	public ServiceHelper addRemoteService(String name, Class<?> service) {
 		this.remoteService.put(name, service);
 		return this;
 	}

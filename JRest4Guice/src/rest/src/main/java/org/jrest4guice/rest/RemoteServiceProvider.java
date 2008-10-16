@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.context;
+package org.jrest4guice.rest;
 
 
 import com.google.inject.Inject;
@@ -20,7 +20,6 @@ public class RemoteServiceProvider<T> implements Provider<T> {
 		this.clazz = clazz;
 	}
 
-	@SuppressWarnings("unchecked")
 	public T get() {
 		return (T) proxy.createRemoteService(this.clazz);
 	}

@@ -1,13 +1,9 @@
 package org.jrest4guice.rest.helper;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.util.Enumeration;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,8 +13,10 @@ import org.jrest4guice.rest.annotations.HttpMethodType;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.cache.ResourceCacheManager;
-import org.jrest4guice.rest.exception.ServiceNotFoundException;
 import org.jrest4guice.rest.exception.Need2RedirectException;
+import org.jrest4guice.rest.exception.ServiceNotFoundException;
+import org.jrest4guice.rest.reader.RequestContentReader;
+import org.jrest4guice.rest.reader.RequestContentReaderRegister;
 import org.jrest4guice.rest.writer.JsonResponseWriter;
 
 /**
@@ -118,51 +116,9 @@ public class JRestGuiceProcessorHelper {
 	 * @modelMap request
 	 * @modelMap params
 	 */
-	public void fillParameters(HttpServletRequest request, ModelMap params,
-			boolean isRpc) {
-		Enumeration names = request.getAttributeNames();
-		String name;
-		while (names.hasMoreElements()) {
-			name = names.nextElement().toString();
-			params.put(name, request.getAttribute(name));
-		}
-
-		// url中的参数
-		names = request.getParameterNames();
-		while (names.hasMoreElements()) {
-			name = names.nextElement().toString();
-			params.put(name, request.getParameter(name));
-		}
-
-		// 以http body方式提交的参数
-		try {
-			ServletInputStream inputStream = request.getInputStream();
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			byte[] b = new byte[4096];
-			for (int n; (n = inputStream.read(b)) != -1;) {
-				baos.write(b);
-			}
-
-			if (!isRpc) {
-				// URL解码
-				String content = URLDecoder.decode(new String(baos
-						.toByteArray()).trim(), charset);
-				// 组装参数
-				if (content != "") {
-					String[] param_pairs = content.split("&");
-					String[] kv;
-					for (String p : param_pairs) {
-						kv = p.split("=");
-						if (kv.length > 1)
-							params.put(kv[0], kv[1]);
-					}
-				}
-			} else {
-				params.put(ModelMap.RPC_ARGS_KEY, baos.toByteArray());
-			}
-			baos.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void fillParameters(HttpServletRequest request, ModelMap params) {
+		RequestContentReader reader = RequestContentReaderRegister.getInstance().getRequestReader(RequestHelper.getContentType(request));
+		if(reader != null)
+			reader.readData(request, params, charset);
 	}
 }
