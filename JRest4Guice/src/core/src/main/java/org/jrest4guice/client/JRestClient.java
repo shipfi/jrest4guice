@@ -84,7 +84,7 @@ public class JRestClient {
 		HttpMethod method = null;
 
 		Object args = parameters!=null?parameters.get(ModelMap.RPC_ARGS_KEY):null;
-
+		
 		if (methodType.equalsIgnoreCase("get")) {
 			method = new GetMethod(url);
 		} else if (methodType.equalsIgnoreCase("post")) {
@@ -118,6 +118,9 @@ public class JRestClient {
 			if(methodType.equalsIgnoreCase("get"))
 				method.setQueryString(StringUtils.join(queryStringList,"&"));
 		}
+
+		if(args != null)
+			method.addRequestHeader("content-type","application/javabean");
 
 		return method;
 	}
