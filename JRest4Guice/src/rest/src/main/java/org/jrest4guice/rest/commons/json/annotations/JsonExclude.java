@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.json.annotations;
+package org.jrest4guice.rest.commons.json.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.json;
+package org.jrest4guice.rest.commons.json;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 
 import net.sf.json.JsonConfig;
 
-import org.jrest4guice.rest.json.annotations.JsonExclude;
+import org.jrest4guice.rest.commons.json.annotations.JsonExclude;
 
 public class JsonConfigFactory {
 	private static Map<String, List<String>> excudeMap = new HashMap<String, List<String>>(0);

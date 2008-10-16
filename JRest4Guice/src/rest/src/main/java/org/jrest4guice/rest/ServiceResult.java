@@ -8,7 +8,7 @@ import net.sf.json.xml.XMLSerializer;
 
 import org.hibernate.validator.InvalidValue;
 import org.jrest4guice.client.Page;
-import org.jrest4guice.rest.json.JsonConfigFactory;
+import org.jrest4guice.rest.commons.json.JsonConfigFactory;
 
 /**
  * 
