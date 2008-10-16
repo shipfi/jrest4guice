@@ -12,7 +12,7 @@ import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.annotations.HttpMethodType;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.RESTful;
-import org.jrest4guice.rest.cache.ResourceCacheManager;
+import org.jrest4guice.rest.commons.cache.ResourceCacheManager;
 import org.jrest4guice.rest.exception.Need2RedirectException;
 import org.jrest4guice.rest.exception.ServiceNotFoundException;
 import org.jrest4guice.rest.reader.RequestContentReader;

@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.sna;
+package org.jrest4guice.rest.commons.sna;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

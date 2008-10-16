@@ -15,12 +15,12 @@ import org.jrest4guice.cache.CacheProviderRegister;
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.commons.http.CookieUtil;
 import org.jrest4guice.guice.GuiceContext;
+import org.jrest4guice.rest.commons.sna.SNAIdRequestServlet;
+import org.jrest4guice.rest.commons.sna.SNASession;
+import org.jrest4guice.rest.commons.sna.SNASessionHelper;
+import org.jrest4guice.rest.commons.sna.SNASessionProvider;
 import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.exception.ServiceNotFoundException;
-import org.jrest4guice.rest.sna.SNAIdRequestServlet;
-import org.jrest4guice.rest.sna.SNASession;
-import org.jrest4guice.rest.sna.SNASessionHelper;
-import org.jrest4guice.rest.sna.SNASessionProvider;
 import org.jrest4guice.security.SecurityContext;
 
 /**

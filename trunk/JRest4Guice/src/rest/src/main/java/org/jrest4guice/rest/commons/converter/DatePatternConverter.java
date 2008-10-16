@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.converter;
+package org.jrest4guice.rest.commons.converter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

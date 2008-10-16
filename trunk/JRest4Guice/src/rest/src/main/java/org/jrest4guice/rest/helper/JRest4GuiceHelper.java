@@ -5,7 +5,7 @@ import org.apache.commons.beanutils.Converter;
 import org.jrest4guice.guice.PersistenceGuiceContext;
 import org.jrest4guice.jndi.JndiGuiceModuleProvider;
 import org.jrest4guice.rest.JRest4GuiceModuleProvider;
-import org.jrest4guice.rest.converter.DatePatternConverter;
+import org.jrest4guice.rest.commons.converter.DatePatternConverter;
 
 /**
  * 

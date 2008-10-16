@@ -1,4 +1,4 @@
-package org.jrest4guice.rest.cache;
+package org.jrest4guice.rest.commons.cache;
 
 import javax.servlet.http.HttpServletRequest;
 
