@@ -14,7 +14,7 @@ import org.hibernate.event.PostDeleteEventListener;
 import org.hibernate.event.PostUpdateEvent;
 import org.hibernate.event.PostUpdateEventListener;
 import org.jrest4guice.persistence.hibernate.HibernateEventListener;
-import org.jrest4guice.rest.context.RestContextManager;
+import org.jrest4guice.rest.RestContextManager;
 
 @SuppressWarnings("serial")
 public class DefaultResourceCacheProvider implements ResourceCacheProvider {

@@ -19,7 +19,6 @@ import org.jrest4guice.rest.commons.sna.SNAIdRequestServlet;
 import org.jrest4guice.rest.commons.sna.SNASession;
 import org.jrest4guice.rest.commons.sna.SNASessionHelper;
 import org.jrest4guice.rest.commons.sna.SNASessionProvider;
-import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.exception.ServiceNotFoundException;
 import org.jrest4guice.security.SecurityContext;
 

@@ -1,6 +1,8 @@
-package org.jrest4guice.rest.context;
+package org.jrest4guice.rest.provider;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.jrest4guice.rest.RestContextManager;
 
 import com.google.inject.Provider;
 

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jrest4guice.client.ModelMap;
-import org.jrest4guice.rest.context.RestContextManager;
 import org.jrest4guice.rest.exception.ServiceNotFoundException;
 
 /**

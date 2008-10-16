@@ -8,10 +8,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jrest4guice.guice.GuiceContext;
+import org.jrest4guice.rest.RestContextManager;
 import org.jrest4guice.rest.Service;
 import org.jrest4guice.rest.ServiceRoute;
 import org.jrest4guice.rest.annotations.Path;
-import org.jrest4guice.rest.context.RestContextManager;
 
 /**
  * 
