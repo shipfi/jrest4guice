@@ -12,7 +12,7 @@ import org.jrest4guice.rest.annotations.Path;
 import org.jrest4guice.rest.annotations.Post;
 import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.RESTful;
-import org.jrest4guice.rest.render.ResultType;
+import org.jrest4guice.rest.writer.renderer.ResultType;
 import org.jrest4guice.sample.contact.entity.Contact;
 import org.jrest4guice.sample.contact.service.ContactService;
 
