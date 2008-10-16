@@ -18,7 +18,7 @@ import com.google.inject.Module;
  * 全局上下文对象实体
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-public class GuiceContext {
+public class GuiceContext implements ContextCleaner{
 
 	private static volatile GuiceContext me;
 
@@ -163,5 +163,9 @@ public class GuiceContext {
 
 	public boolean isUseSecurity() {
 		return useSecurity;
+	}
+
+	@Override
+	public void clearContext() {
 	}
 }
