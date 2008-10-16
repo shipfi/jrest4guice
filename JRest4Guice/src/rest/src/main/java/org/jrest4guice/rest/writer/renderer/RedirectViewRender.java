@@ -17,7 +17,7 @@ import com.google.inject.Inject;
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-class RedirectViewRender implements ViewRender {
+public class RedirectViewRender implements ViewRender {
 	@Inject
 	private HttpSession session;
 	@Inject

@@ -18,7 +18,7 @@ import com.google.inject.Inject;
  * Velocity的渲染器
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-class VelocityViewRender implements ViewRender {
+public class VelocityViewRender implements ViewRender {
 	@Inject
 	private HttpServletRequest request;
 	@Inject

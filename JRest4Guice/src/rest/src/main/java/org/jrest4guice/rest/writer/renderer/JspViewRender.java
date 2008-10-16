@@ -17,7 +17,7 @@ import com.google.inject.Inject;
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-class JspViewRender implements ViewRender {
+public class JspViewRender implements ViewRender {
 	@Inject
 	private HttpServletRequest request;
 	@Inject
