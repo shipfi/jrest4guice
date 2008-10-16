@@ -23,7 +23,7 @@ import freemarker.template.Template;
  * Freemarker的渲染器
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-class FreemarkerViewRender implements ViewRender {
+public class FreemarkerViewRender implements ViewRender {
 	private static Configuration cfg;
 
 	@Inject

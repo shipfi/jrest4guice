@@ -16,7 +16,7 @@ import com.google.inject.Inject;
  * Spry的渲染器
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-class SpryViewRender implements ViewRender {
+public class SpryViewRender implements ViewRender {
 	@Inject
 	protected HttpSession session;
 

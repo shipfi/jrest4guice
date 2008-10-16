@@ -21,7 +21,7 @@ import com.google.inject.Inject;
  * CTL（commontemplate）的渲染器
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-class CTLViewRender implements ViewRender {
+public class CTLViewRender implements ViewRender {
 	@Inject(optional=true)
 	private HttpServletRequest request;
 	@Inject(optional=true)
