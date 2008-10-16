@@ -45,7 +45,6 @@ public class JRest4GuiceModuleProvider extends ModuleProviderTemplate {
 		super(packages);
 		this.addScanPackages("org.jrest4guice.rest.reader");
 		this.addScanPackages("org.jrest4guice.rest.writer");
-		this.addScanPackages("org.jrest4guice.rest.render");
 	}
 
 	@Override
