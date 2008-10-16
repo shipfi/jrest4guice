@@ -6,6 +6,14 @@ import org.jrest4guice.rest.annotations.MimeType;
 
 public class RequestHelper {
 
+	public synchronized static String getContentType(HttpServletRequest request) {
+		// 获取客户端中的请求数据类型
+		String contentType = request.getContentType();
+		if (contentType == null || contentType.trim().equals(""))
+			contentType = MimeType.CONTENT_OF_APPLICATION_X_WWW_FORM_URLENCODED;
+		return contentType;
+	}
+
 	public synchronized static String getAccepte(HttpServletRequest request) {
 		// 获取客户端中的请求数据类型
 		String accept = request.getHeader("accept");
