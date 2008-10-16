@@ -19,7 +19,7 @@ import com.google.inject.Module;
  * 全局上下文对象实体
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  */
-public class PersistenceGuiceContext{
+public class PersistenceGuiceContext implements ContextCleaner{
 
 	private static volatile PersistenceGuiceContext me;
 
@@ -31,6 +31,7 @@ public class PersistenceGuiceContext{
 
 	private PersistenceGuiceContext() {
 		this.guiceContext = GuiceContext.getInstance();
+		WebContextManager.addContextCleaner(this);
 	}
 
 	/**
@@ -204,4 +205,8 @@ public class PersistenceGuiceContext{
 		return this.guiceContext.isUseSecurity();
 	}
 
+	@Override
+	public void clearContext() {
+		this.closePersistenceContext();
+	}
 }
