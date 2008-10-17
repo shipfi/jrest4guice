@@ -26,7 +26,7 @@ public @interface RESTful {
 	public static final String METHOD_OF_DELETE = "delete";
 	
 	
-	String name();
+	String name() default "";
 	Scope scope() default Scope.Session;
 	boolean remoteable() default false;
 }

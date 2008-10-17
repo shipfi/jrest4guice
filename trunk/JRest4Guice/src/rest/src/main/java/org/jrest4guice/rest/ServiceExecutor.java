@@ -24,8 +24,10 @@ import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.client.Page;
 import org.jrest4guice.commons.i18n.annotations.ResourceBundle;
 import org.jrest4guice.commons.lang.ParameterNameDiscoverer;
+import org.jrest4guice.rest.annotations.BodyBytes;
 import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.annotations.Delete;
+import org.jrest4guice.rest.annotations.FileItems;
 import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.HttpMethodType;
 import org.jrest4guice.rest.annotations.MimeType;
@@ -202,6 +204,12 @@ public class ServiceExecutor {
 					value = parameterTypes[index].newInstance();
 					BeanUtils.populate(value, modelMap);
 					isModelBean = true;
+				} else if (annotation instanceof FileItems) {
+					pName = ModelMap.FILE_ITEM_ARGS_KEY;
+					value = modelMap.get(pName);
+				} else if (annotation instanceof BodyBytes) {
+					pName = ModelMap.BYTE_ARRAY_ARGS_KEY;
+					value = modelMap.get(pName);
 				} else if (annotation instanceof Cache) {
 					cached = true;
 				}
