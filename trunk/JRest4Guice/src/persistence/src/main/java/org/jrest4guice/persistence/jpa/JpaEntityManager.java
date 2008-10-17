@@ -419,7 +419,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 		if (entity != null && !entity.isDeleted()) {
 
 			E orginalObj = this.checkEnhanced((E) entity);
-			boolean equals = orginalObj.equals(entity);
+			boolean equals = orginalObj.equals((E)entity);
 
 			((DeletedFlag) orginalObj).setDeleted(true);
 			this.em.merge(orginalObj);
@@ -591,14 +591,10 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 		if (parameters == null) {
 			return;
 		}
+		Object parameter;
 		for (final String key : parameters.keySet()) {
-			final Object parameter = parameters.get(key);
-			// if (parameter instanceof TemporalValue) {
-			// final TemporalValue time = (TemporalValue) parameter;
-			// query.setParameter(key, time.getValue(), time.getType());
-			// } else {
+			parameter = parameters.get(key);
 			query.setParameter(key, parameter);
-			// }
 		}
 	}
 

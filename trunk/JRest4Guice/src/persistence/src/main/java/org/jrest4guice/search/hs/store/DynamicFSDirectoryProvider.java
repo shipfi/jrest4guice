@@ -40,7 +40,6 @@ public class DynamicFSDirectoryProvider extends FSDirectoryProvider{
 	
 	private FSDirectory directory;
 	private String indexName;
-	private String directoryProviderName;
 	private Properties indexProps; 
 	private SearchFactoryImplementor searchFactoryImplementor;
 	
@@ -68,13 +67,16 @@ public class DynamicFSDirectoryProvider extends FSDirectoryProvider{
 			SearchFactoryImplementor searchFactoryImplementor) {
 		this.indexProps=properties;
 		this.searchFactoryImplementor=searchFactoryImplementor;
-		this.directoryProviderName=directoryProviderName;
 		File indexDir = DirectoryProviderHelper.determineIndexDir( directoryProviderName, properties );
 		try {
 			boolean create = !indexDir.exists();
 			if (create) {
 				log.debug( "index directory not found, creating: '" + indexDir.getAbsolutePath() + "'" );
-				indexDir.mkdirs();
+				try {
+					indexDir.mkdirs();
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
 			}
 			indexName = indexDir.getCanonicalPath();
 			directory = FSDirectory.getDirectory( indexName );
