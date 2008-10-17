@@ -45,17 +45,21 @@ public class JRestClient {
 		return httpClient;
 	}
 
-	/**
-	 * 将HttpClient与当前会员进行绑定，可以共享JAAS状态
-	 * 
-	 * @param jsessionId
-	 */
-	public void registJSessionId(String jsessionId) {
+	public Object uploadFiles(String url, ModelMap<String, Object> parameters,
+			File... files) throws Exception {
+		HttpMethod method = initMethod(url, "post", parameters);
+		// 处理多文件上传
+		this.processMultipartRequest(parameters, (PostMethod) method);
+		return doCall(method);
 	}
 
 	public Object callRemote(String url, String methodType,
 			ModelMap<String, Object> parameters) throws Exception {
 		HttpMethod method = initMethod(url, methodType, parameters);
+		return doCall(method);
+	}
+
+	private Object doCall(HttpMethod method) throws Exception {
 		// 设置连接超时
 		httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(
 				3000);
@@ -67,7 +71,6 @@ public class JRestClient {
 			if (statusCode != HttpStatus.SC_OK) {
 				log.error("调用Http方法出错: " + method.getStatusLine());
 			}
-
 			try {
 				ObjectInputStream obj_in = new ObjectInputStream(method
 						.getResponseBodyAsStream());
@@ -92,6 +95,7 @@ public class JRestClient {
 
 	/**
 	 * 构造http方法
+	 * 
 	 * @param url
 	 * @param methodType
 	 * @param parameters
@@ -104,7 +108,7 @@ public class JRestClient {
 
 		Object args = parameters != null ? parameters
 				.get(ModelMap.RPC_ARGS_KEY) : null;
-		
+
 		if (methodType.equalsIgnoreCase("get")) {
 			method = new GetMethod(url);
 		} else if (methodType.equalsIgnoreCase("post")) {
@@ -113,10 +117,6 @@ public class JRestClient {
 				byte[] output = constructArgs(method, args);
 				postMethod.setRequestEntity(new ByteArrayRequestEntity(output));
 			}
-			
-			//处理多文件上传
-			this.processMultipartRequest(parameters, postMethod);
-
 			method = postMethod;
 		} else if (methodType.equalsIgnoreCase("put")) {
 			method = new PutMethod(url);
@@ -137,7 +137,9 @@ public class JRestClient {
 			List<String> queryStringList = new ArrayList<String>();
 			Set<String> keySet = parameters.keySet();
 			for (String key : keySet) {
-				if (!key.toString().equalsIgnoreCase(ModelMap.RPC_ARGS_KEY) && !key.toString().equalsIgnoreCase(ModelMap.FILE_ITEM_ARGS_KEY)) {
+				if (!key.toString().equalsIgnoreCase(ModelMap.RPC_ARGS_KEY)
+						&& !key.toString().equalsIgnoreCase(
+								ModelMap.FILE_ITEM_ARGS_KEY)) {
 					value = parameters.get(key);
 					method.getParams().setParameter(key, value);
 					queryStringList.add(key + "=" + value);
@@ -151,25 +153,26 @@ public class JRestClient {
 	}
 
 	@SuppressWarnings("unchecked")
-	/**
+	/*
 	 * 处理多文件上传
 	 */
 	private void processMultipartRequest(ModelMap<String, Object> parameters,
 			PostMethod postMethod) throws FileNotFoundException {
 		Object _files = parameters.get(ModelMap.FILE_ITEM_ARGS_KEY);
 		if (_files != null) {
-			File[] fileArray = null; 
-			if(_files.getClass().isArray()){
-				fileArray = (File[])_files;
-			}else if (_files instanceof List){
-				fileArray = ((List<File>)_files).toArray(new File[]{});
+			File[] fileArray = null;
+			if (_files.getClass().isArray()) {
+				fileArray = (File[]) _files;
+			} else if (_files instanceof List) {
+				fileArray = ((List<File>) _files).toArray(new File[] {});
 			}
 			List<Part> parts = new ArrayList<Part>();
 			int index = 0;
 			for (File f : fileArray) {
-				parts.add( new FilePart("file_"+index++,f.getName(), f));
+				parts.add(new FilePart("file_" + index++, f.getName(), f));
 			}
-			postMethod.setRequestEntity(new MultipartRequestEntity(parts.toArray(new Part[]{}),postMethod.getParams()));
+			postMethod.setRequestEntity(new MultipartRequestEntity(parts
+					.toArray(new Part[] {}), postMethod.getParams()));
 		}
 	}
 
