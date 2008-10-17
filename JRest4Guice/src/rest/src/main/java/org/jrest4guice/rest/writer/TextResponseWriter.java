@@ -35,7 +35,8 @@ public abstract class TextResponseWriter implements ResponseWriter {
 			result = "";
 
 		String textContent = this.generateTextContent(result);
-
+		if(textContent == null)
+			textContent = "";
 		try {
 			response.setHeader("Pragma", "No-cache");
 			response.setHeader("Cache-Control", "no-cache");

@@ -15,4 +15,6 @@ public final class MimeType {
 
 
 	public static final String CONTENT_OF_APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
+	public static final String CONTENT_OF_MULTIPART_FORM_DATA = "multipart/form-data";
+	
 }

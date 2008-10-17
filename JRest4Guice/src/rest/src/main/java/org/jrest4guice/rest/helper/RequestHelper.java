@@ -9,6 +9,11 @@ public class RequestHelper {
 	public synchronized static String getContentType(HttpServletRequest request) {
 		// 获取客户端中的请求数据类型
 		String contentType = request.getContentType();
+		if(contentType != null){
+			String[] cTypes = contentType.split(";");
+			contentType = cTypes[0];
+		}
+		
 		if (contentType == null || contentType.trim().equals(""))
 			contentType = MimeType.CONTENT_OF_APPLICATION_X_WWW_FORM_URLENCODED;
 		return contentType;
