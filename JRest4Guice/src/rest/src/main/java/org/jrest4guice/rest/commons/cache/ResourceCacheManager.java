@@ -26,7 +26,7 @@ public class ResourceCacheManager {
 	 * 设置资源存放的上下文路径
 	 * @param cacheStorePath
 	 */
-	public void setCacheStorePath(String cacheStorePath) {
+	public static void setCacheStorePath(String cacheStorePath) {
 		ResourceCacheManager.cacheStorePath = cacheStorePath;
 	}
 	
