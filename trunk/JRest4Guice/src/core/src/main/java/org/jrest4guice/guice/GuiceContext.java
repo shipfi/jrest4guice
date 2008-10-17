@@ -146,7 +146,7 @@ public class GuiceContext implements ContextCleaner{
 			}
 			
 			for (Module module : this.userModules)
-				this.userModules.add(module);
+				modules.add(module);
 			
 			injector = Guice.createInjector(new Iterable<Module>() {
 				@Override
