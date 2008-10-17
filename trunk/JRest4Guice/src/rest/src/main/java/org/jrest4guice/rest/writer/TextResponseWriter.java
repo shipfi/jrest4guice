@@ -31,9 +31,6 @@ public abstract class TextResponseWriter implements ResponseWriter {
 	 * HttpServletResponse, java.lang.Object, java.lang.String)
 	 */
 	public void writeResult(Method method, ByteArrayOutputStream out, Object result, Map options) throws Need2RedirectException {
-		if (result == null)
-			result = "";
-
 		String textContent = this.generateTextContent(result);
 		if(textContent == null)
 			textContent = "";
@@ -41,7 +38,10 @@ public abstract class TextResponseWriter implements ResponseWriter {
 			response.setHeader("Pragma", "No-cache");
 			response.setHeader("Cache-Control", "no-cache");
 			response.setDateHeader("Expires", 0);
-			out.write(textContent.getBytes());
+			if(out != null)
+				out.write(textContent.getBytes());
+			else
+				response.getOutputStream().println(textContent);
 		} catch (IOException e) {
 			System.out.println("向客户端写回数据错误:\n" + e.getMessage());
 			e.printStackTrace();
