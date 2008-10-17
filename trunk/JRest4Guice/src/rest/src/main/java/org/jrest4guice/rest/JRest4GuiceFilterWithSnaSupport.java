@@ -41,7 +41,7 @@ public class JRest4GuiceFilterWithSnaSupport extends AbstractJRest4GuiceFilter {
 	/**
 	 * 缺省的缓存服务提供者
 	 */
-	private final String cacheProviderName = "memcached";
+	private static final String cacheProviderName = "memcached";
 
 	/**
 	 * 缓存提供者

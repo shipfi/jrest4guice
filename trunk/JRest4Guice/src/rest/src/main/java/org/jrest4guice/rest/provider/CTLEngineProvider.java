@@ -13,6 +13,6 @@ import com.google.inject.Provider;
 public class CTLEngineProvider implements Provider<Engine> {
 
 	public Engine get() {
-		return RestContextManager.ctlEngine;
+		return RestContextManager.getCTLEngine();
 	}
 }
