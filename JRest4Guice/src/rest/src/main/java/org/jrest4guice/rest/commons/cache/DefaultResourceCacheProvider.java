@@ -54,8 +54,13 @@ public class DefaultResourceCacheProvider implements ResourceCacheProvider {
 		File file = new File(request.getSession().getServletContext()
 				.getRealPath(resourceUrl));
 		File parentFile = file.getParentFile();
-		if(parentFile != null && !parentFile.exists())
-			parentFile.mkdirs();
+		if(parentFile != null && !parentFile.exists()){
+			try {
+				parentFile.mkdirs();
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
 		FileOutputStream fout = null;
 		try {
 			fout = new FileOutputStream(file);
@@ -122,7 +127,10 @@ public class DefaultResourceCacheProvider implements ResourceCacheProvider {
 				if(fName.indexOf(resourceId) != -1){
 					key = ResourceCacheProvider.ETAGS_SESSION_KEY+fName;
 					session.removeAttribute(key);
-					file.delete();
+					try {
+						file.delete();
+					} catch (Exception e) {
+					}
 				}
 			}
 		} catch (Exception e) {

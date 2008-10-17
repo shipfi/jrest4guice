@@ -26,9 +26,12 @@ public class SpryViewRender implements ViewRender {
 	@Override
 	public void render(OutputStream out, PageFlow annotation, ServiceResult result)
 			throws Exception {
-		BufferedReader brd = new BufferedReader(new InputStreamReader(
-				new FileInputStream(this.session.getServletContext().getRealPath(annotation.success().value())), "utf-8"));
+		FileInputStream input = null;
+		BufferedReader brd = null;
 		try {
+			input = new FileInputStream(this.session.getServletContext().getRealPath(annotation.success().value()));
+			brd = new BufferedReader(new InputStreamReader(
+					input, "utf-8"));
 			String line;
 			while ((line = brd.readLine()) != null) {
 				out.write((line+"\n").getBytes());
@@ -41,8 +44,11 @@ public class SpryViewRender implements ViewRender {
 					+ "');"+"\n").getBytes());
 			out.write(("</script>"+"\n").getBytes());
 		} finally {
+			if(input != null)
+				input.close();
 			if (brd != null)
 				brd.close();
+			
 		}
 	}
 

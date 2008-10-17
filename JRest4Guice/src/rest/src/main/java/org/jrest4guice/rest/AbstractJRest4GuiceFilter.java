@@ -45,9 +45,8 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 	/**
 	 * 忽略处理的资源扩展名
 	 */
-	protected static Set<String> extNameExcludes;
+	protected static final Set<String> extNameExcludes = new HashSet<String>();
 	static {
-		extNameExcludes = new HashSet<String>(11);
 		extNameExcludes.add("js");
 		extNameExcludes.add("jsp");
 		extNameExcludes.add("jspa");
@@ -318,10 +317,16 @@ public abstract class AbstractJRest4GuiceFilter implements Filter {
 			factory.setValidating(false);
 			SAXParser parser = factory.newSAXParser();
 			servletContext.getContextPath();
-			InputStream resourceAsStream = new FileInputStream(servletContext
-					.getRealPath("WEB-INF/web.xml"));
-			parser.parse(resourceAsStream, this);
-			resourceAsStream.close();
+			InputStream resourceAsStream = null;
+			try {
+				resourceAsStream = new FileInputStream(servletContext
+						.getRealPath("WEB-INF/web.xml"));
+				parser.parse(resourceAsStream, this);
+			}finally{
+				if(resourceAsStream != null)
+					resourceAsStream.close();
+			}
+			
 		}
 	}
 }

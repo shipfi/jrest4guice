@@ -32,7 +32,7 @@ public class JsonConfigFactory {
 		if(bean == null)
 			return jsConfig;
 
-		List<String> excludes = new ArrayList<String>();
+		List<String> excludes = null;
 		String name = bean.getClass().getName();
 		if(excudeMap.containsKey(name)){
 			excludes = excudeMap.get(name);

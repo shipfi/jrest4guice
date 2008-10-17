@@ -29,8 +29,11 @@ public class RestContextManager {
 	static final ThreadLocal<Context> ctlContext = new ThreadLocal<Context>();
 	
 	//CTL引擎
-	public static Engine ctlEngine;
+	private static Engine ctlEngine;
 	
+	public static Engine getCTLEngine(){
+		return ctlEngine;
+	}
 	/**
 	 * 设置CTL引擎
 	 * @param engine
