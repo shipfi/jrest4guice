@@ -49,7 +49,7 @@ public class JRestClient {
 			File... files) throws Exception {
 		HttpMethod method = initMethod(url, "post", parameters);
 		// 处理多文件上传
-		this.processMultipartRequest(parameters, (PostMethod) method);
+		this.processMultipartRequest(parameters, (PostMethod) method, files);
 		return doCall(method);
 	}
 
@@ -105,6 +105,9 @@ public class JRestClient {
 	private HttpMethod initMethod(String url, String methodType,
 			ModelMap<String, Object> parameters) throws Exception {
 		HttpMethod method = null;
+		
+		if(parameters == null)
+			parameters = new ModelMap<String, Object>();
 
 		Object args = parameters != null ? parameters
 				.get(ModelMap.RPC_ARGS_KEY) : null;
@@ -157,23 +160,14 @@ public class JRestClient {
 	 * 处理多文件上传
 	 */
 	private void processMultipartRequest(ModelMap<String, Object> parameters,
-			PostMethod postMethod) throws FileNotFoundException {
-		Object _files = parameters.get(ModelMap.FILE_ITEM_ARGS_KEY);
-		if (_files != null) {
-			File[] fileArray = null;
-			if (_files.getClass().isArray()) {
-				fileArray = (File[]) _files;
-			} else if (_files instanceof List) {
-				fileArray = ((List<File>) _files).toArray(new File[] {});
-			}
-			List<Part> parts = new ArrayList<Part>();
-			int index = 0;
-			for (File f : fileArray) {
-				parts.add(new FilePart("file_" + index++, f.getName(), f));
-			}
-			postMethod.setRequestEntity(new MultipartRequestEntity(parts
-					.toArray(new Part[] {}), postMethod.getParams()));
+			PostMethod postMethod, File[] files) throws FileNotFoundException {
+		List<Part> parts = new ArrayList<Part>();
+		int index = 0;
+		for (File f : files) {
+			parts.add(new FilePart("file_" + index++, f.getName(), f));
 		}
+		postMethod.setRequestEntity(new MultipartRequestEntity(parts
+				.toArray(new Part[] {}), postMethod.getParams()));
 	}
 
 	private byte[] constructArgs(HttpMethod method, Object args)
