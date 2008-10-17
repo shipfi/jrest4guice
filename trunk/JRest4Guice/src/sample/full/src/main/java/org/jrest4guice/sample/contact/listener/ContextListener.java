@@ -9,6 +9,11 @@ import org.commontemplate.standard.ConfigurationSettings;
 import org.commontemplate.tools.PropertiesConfigurationLoader;
 import org.jrest4guice.rest.RestContextManager;
 import org.jrest4guice.rest.helper.JRest4GuiceHelper;
+import org.jrest4guice.rest.reader.MultipartFormDataContentRader;
+
+import com.google.inject.Binder;
+import com.google.inject.Module;
+import com.google.inject.name.Names;
 
 /**
  * 
@@ -32,6 +37,13 @@ public class ContextListener implements ServletContextListener {
 				.useSecurity()// 使用JAAS
 				.useCache()//打开缓存客户端的功能
 //				.enableCustomInterceptor("org.jrest4guice.sample")//打开自定义的拦截器支持，允许通过@Interceptors来支持自定义的拦截器
+				.addUserModule(new Module(){
+					@Override
+					public void configure(Binder binder) {
+						binder.bindConstant().annotatedWith(Names.named(MultipartFormDataContentRader.FILE_SIZE_MAX)).to(1024 * 1024*10);
+						binder.bindConstant().annotatedWith(Names.named(MultipartFormDataContentRader.SIZE_MAX)).to(1024 * 1024*100);
+					}
+				})
 				.init();
 	}
 
