@@ -414,7 +414,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 		if (entity != null && !entity.isDeleted()) {
 
 			E orginalObj = this.checkEnhanced((E) entity);
-			boolean equals = orginalObj.equals(entity);
+			boolean equals = orginalObj.equals((E)entity);
 
 			((DeletedFlag) orginalObj).setDeleted(true);
 			this.session.merge(orginalObj);

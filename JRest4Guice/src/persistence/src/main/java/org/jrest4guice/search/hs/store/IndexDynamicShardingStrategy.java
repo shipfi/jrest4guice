@@ -116,6 +116,10 @@ public class IndexDynamicShardingStrategy implements IndexShardingStrategy {
 		if (providers[0] instanceof DynamicFSDirectoryProvider) {
 			localdp = (DynamicFSDirectoryProvider) providers[0];
 		}
+		
+		if(localdp == null)
+			return null;
+		
 		FSDirectory dir = localdp.getDirectory();
 		File indexRoot = dir.getFile();
 		if (key == null) {

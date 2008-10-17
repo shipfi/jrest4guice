@@ -3,6 +3,7 @@ package org.jrest4guice.persistence.ibatis;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,8 @@ public class SqlMapClientHolder {
 	/**
 	 * 初始化sqlMapClient
 	 */
-	public static void initSqlMapClient() {
+	public static void initSqlMapClient(){
+		FileInputStream input = null;
 		try {
 			//本地的配置文件路径
 			File sqlMapConfigFile = Resources.getResourceAsFile("SqlMapConfig.xml");
@@ -93,10 +95,18 @@ public class SqlMapClientHolder {
 			trans.transform(new DOMSource(doc),new StreamResult(tempFile));
 			
 			//从临时的配置文件中初始化sqlMapClient
+			input = new FileInputStream(tempFile);
 			SqlMapClientHolder.sqlMapClient = SqlMapClientBuilder
-					.buildSqlMapClient(new FileInputStream(tempFile));
-		} catch (Exception e) {
+					.buildSqlMapClient(input);
+		} catch (Throwable e) {
 			throw new RuntimeException("初始化Ibatis上下文失败！", e);
+		}finally{
+			if(input != null)
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 		}
 	}
 
