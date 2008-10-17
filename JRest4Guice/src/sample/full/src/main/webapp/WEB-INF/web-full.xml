@@ -62,7 +62,7 @@
 	<servlet>
 		<servlet-name>snaId</servlet-name>
 		<servlet-class>
-			org.jrest4guice.rest.sna.SNAIdRequestServlet
+			org.jrest4guice.rest.commons.sna.SNAIdRequestServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
@@ -73,7 +73,7 @@
 	<!-- 会话监听器，用来清除安全上下文 -->
 	<listener>
 		<listener-class>
-			org.jrest4guice.sample.contact.listener.HttpSessionListener
+			org.jrest4guice.sample.contact.listener.SampleHttpSessionListener
 		</listener-class>
 	</listener>
 
