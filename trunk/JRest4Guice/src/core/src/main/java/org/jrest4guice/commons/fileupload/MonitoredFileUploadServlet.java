@@ -2,7 +2,6 @@ package org.jrest4guice.commons.fileupload;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +21,7 @@ import org.apache.commons.fileupload.FileUploadBase.IOFileUploadException;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang.StringUtils;
+import org.jrest4guice.guice.ContextCleaner;
 
 /**
  * 
@@ -115,8 +115,13 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 			// 上传的路径
 			File target = new File(this.isAbsolute ? this.uploadPath : hRequest
 					.getSession().getServletContext().getRealPath(this.uploadPath));
-			if (!target.exists())
-				target.mkdirs();
+			if (!target.exists()){
+				try {
+					target.mkdirs();
+				} catch (Exception e) {
+					throw new ServletException(e);
+				}
+			}
 
 			Map<String, String> parameters = new HashMap<String, String>();
 			for (MonitoredDiskFileItem fileItem : items) {
@@ -127,6 +132,8 @@ public class MonitoredFileUploadServlet extends HttpServlet {
 
 			// 处理上传的文件
 			for (MonitoredDiskFileItem fileItem : items) {
+				if(fileItem == null)
+					continue;
 				fileName = fileItem.getName();
 				if (fileName==null || fileName.trim().equals(""))// 如果没有指定上传的文件
 					continue;

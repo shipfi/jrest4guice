@@ -1,11 +1,17 @@
 package org.jrest4guice.commons.fileupload;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  *
  */
-public class UploadInfo {
+public class UploadInfo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6011415224140105023L;
 	private long totalSize = 0;
 	private long bytesRead = 0;
 	private long elapsedTime = 0;
