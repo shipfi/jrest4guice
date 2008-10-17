@@ -12,10 +12,12 @@ import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.commons.lang.ClassUtils;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.annotations.HttpMethodType;
+import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.exception.RestMethodNotFoundException;
 import org.jrest4guice.rest.helper.JRest4GuiceHelper;
 import org.jrest4guice.rest.helper.JRestGuiceProcessorHelper;
+import org.jrest4guice.rest.helper.RequestHelper;
 import org.jrest4guice.rest.helper.ServiceHelper;
 
 /**
@@ -61,8 +63,10 @@ public class JRest4GuiceProcessor {
 		}
 
 		this.helper.setCharset(this.charset);
-		
-		if (request.getContentLength() > JRest4GuiceHelper
+
+		String contentType = RequestHelper.getContentType(request);		
+
+		if (!contentType.equals(MimeType.CONTENT_OF_MULTIPART_FORM_DATA) && request.getContentLength() > JRest4GuiceHelper
 				.getMaxBodyPayloadSize()) {
 			this.helper.writeErrorMessage(new Exception("body的大小超过最大许可范围: "
 					+ JRest4GuiceHelper.getMaxBodyPayloadSize()));
