@@ -4,7 +4,7 @@ import javax.servlet.http.HttpSessionEvent;
 
 import org.jrest4guice.security.SecurityContext;
 
-public class HttpSessionListener implements
+public class SampleHttpSessionListener implements
 		javax.servlet.http.HttpSessionListener {
 	@Override
 	public void sessionCreated(HttpSessionEvent event) {
