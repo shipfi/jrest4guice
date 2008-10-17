@@ -1,4 +1,4 @@
-package org.jrest4guice.sample.contact.test;
+package org.jrest4guice.sample.contact.resource;
 
 import java.io.File;
 import java.util.List;
