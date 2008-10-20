@@ -5,6 +5,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_JRest4Guice-full-sample" version="2.5">
 	<display-name>JRest4Guice-sample-full</display-name>
+	<distributable/>
 	
 	<!-- ************************************************************************************** -->
 	<!-- JRest4Guice 配置的必须部分                                                                                                                                                                     -->
