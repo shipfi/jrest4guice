@@ -30,7 +30,7 @@ public abstract class TextResponseWriter implements ResponseWriter {
 	 * @seeorg.jrest4guice.ResponseWriter#writeResult(javax.servlet.http.
 	 * HttpServletResponse, java.lang.Object, java.lang.String)
 	 */
-	public void writeResult(Method method, ByteArrayOutputStream out, Object result, Map options) throws Need2RedirectException {
+	public void writeResult(Method method, ByteArrayOutputStream out, Object result,String charset , Map options) throws Need2RedirectException {
 		String textContent = this.generateTextContent(result);
 		if(textContent == null)
 			textContent = "";
@@ -39,7 +39,7 @@ public abstract class TextResponseWriter implements ResponseWriter {
 			response.setHeader("Cache-Control", "no-cache");
 			response.setDateHeader("Expires", 0);
 			if(out != null)
-				out.write(textContent.getBytes());
+				out.write(textContent.getBytes(charset));
 			else
 				response.getOutputStream().println(textContent);
 		} catch (IOException e) {

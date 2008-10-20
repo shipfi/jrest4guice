@@ -93,7 +93,7 @@ public class JRestGuiceProcessorHelper {
 	public void writeErrorMessage(Exception e) {
 		try {
 			GuiceContext.getInstance().getBean(JsonResponseWriter.class)
-					.writeResult(null, null, e, null);
+					.writeResult(null, null, e,charset, null);
 		} catch (Need2RedirectException e1) {
 		}
 	}

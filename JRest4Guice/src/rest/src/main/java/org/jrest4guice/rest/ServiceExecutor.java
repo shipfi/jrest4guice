@@ -351,13 +351,13 @@ public class ServiceExecutor {
 			try {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				//将结果写入缓冲区
-				responseWriter.writeResult(method, out, result, this.options);
+				responseWriter.writeResult(method, out, result, charset, this.options);
 				
 				final byte[] bytes = out.toByteArray();
 				if (bytes.length > 0) {
 					//将结果写回客户端
 					response.setCharacterEncoding(charset);
-					response.setContentType(responseWriter.getMimeType());
+					response.setContentType(responseWriter.getMimeType()+";charset="+charset);
 					response.getOutputStream().write(bytes);
 					
 					//如果方法打开了缓存声明，则将结果缓存到服务器

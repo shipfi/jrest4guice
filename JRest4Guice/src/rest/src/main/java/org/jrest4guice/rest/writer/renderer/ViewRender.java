@@ -30,5 +30,5 @@ public interface ViewRender {
 	 * @param result	业务数据
 	 * @throws Exception
 	 */
-	public void render(OutputStream out,PageFlow annotation,ServiceResult result) throws Exception;
+	public void render(OutputStream out,PageFlow annotation,ServiceResult result,String charset) throws Exception;
 }

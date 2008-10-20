@@ -27,7 +27,7 @@ public class JspViewRender implements ViewRender {
 	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.OutputStream, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult)
 	 */
 	@Override
-	public void render(OutputStream out, PageFlow annotation, ServiceResult result)
+	public void render(OutputStream out, PageFlow annotation, ServiceResult result,String charset)
 			throws Exception {
 		request.setAttribute("ctx", result);
 		request.setAttribute("xctx", request.getSession().getAttribute(HtmlResponseWriter.OPTION_KEY));

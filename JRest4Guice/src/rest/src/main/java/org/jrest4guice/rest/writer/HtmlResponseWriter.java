@@ -43,7 +43,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 
 	@Override
 	public void writeResult(Method method, ByteArrayOutputStream out,
-			Object result, Map options) throws Need2RedirectException{
+			Object result,String charset , Map options) throws Need2RedirectException{
 		try {
 
 			String redirectUrl = HtmlResponseWriter.getCurrentRedirectUrl();
@@ -92,7 +92,7 @@ public class HtmlResponseWriter implements ResponseWriter {
 
 				// 如果模板文件存在，则调用相应的渲染器进行结果的渲染
 				if (viewRender != null) {
-					viewRender.render(out, annotation, httpResult);
+					viewRender.render(out, annotation, httpResult,charset);
 				} else {
 					writeTextPlain(out, httpResult);
 				}
