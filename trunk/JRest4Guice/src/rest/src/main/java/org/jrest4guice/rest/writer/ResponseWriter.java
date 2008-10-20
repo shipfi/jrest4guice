@@ -20,7 +20,7 @@ public interface ResponseWriter {
 	 * @param result
 	 * @param response
 	 */
-	public void writeResult(Method method,ByteArrayOutputStream out, Object result, Map options) throws Need2RedirectException;
+	public void writeResult(Method method,ByteArrayOutputStream out, Object result, String charset ,Map options) throws Need2RedirectException;
 	
 	/**
 	 * 返回当前Writer所对应的Mime类型

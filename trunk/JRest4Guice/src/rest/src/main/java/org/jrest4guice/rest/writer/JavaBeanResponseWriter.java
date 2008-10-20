@@ -19,7 +19,7 @@ public class JavaBeanResponseWriter implements ResponseWriter {
 	/* (non-Javadoc)
 	 * @see org.jrest4guice.ResponseWriter#writeResult(javax.servlet.http.HttpServletResponse, java.lang.Object, java.lang.String)
 	 */
-	public void writeResult(Method method,ByteArrayOutputStream out, Object result,Map options) throws Need2RedirectException {
+	public void writeResult(Method method,ByteArrayOutputStream out, Object result,String charset ,Map options) throws Need2RedirectException {
 		try {
 			ObjectOutputStream obj_out = new ObjectOutputStream(out);
 			obj_out.writeObject(result);

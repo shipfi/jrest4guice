@@ -36,7 +36,7 @@ public class CTLViewRender implements ViewRender {
 	 * @see org.jrest4guice.rest.render.ViewRender#render(java.io.OutputStream, org.jrest4guice.rest.annotations.PageFlow, org.jrest4guice.rest.ServiceResult)
 	 */
 	@Override
-	public void render(OutputStream out, PageFlow annotation, ServiceResult result)
+	public void render(OutputStream out, PageFlow annotation, ServiceResult result,String charset)
 			throws Exception {
 		try {
 			String url = annotation.success().value();
@@ -62,7 +62,7 @@ public class CTLViewRender implements ViewRender {
 			String content = this.context.getOut().toString();
 			
 			//输出到页面
-			out.write(content.getBytes());
+			out.write(content.getBytes("utf-8"));
 		}finally{
 			this.context.clear();
 		}
