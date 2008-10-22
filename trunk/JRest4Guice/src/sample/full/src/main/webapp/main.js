@@ -26,7 +26,7 @@ window.onload = function(){
 function onTimeout(){
 	new Thread(function(){
 		SpryExt.rest.doGet("security/userRoles",function(json){
-			if(json.content != ""){
+			if(json.content != null && json.content != ""){
 				SpryExt.security.currentUserName = json.content.userName;
 				SpryExt.security.currentUserRoles = json.content.userRoles;
 				doSecurityCheck();
