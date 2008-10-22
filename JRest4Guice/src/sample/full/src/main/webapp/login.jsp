@@ -21,7 +21,7 @@
 			<table cellpadding="0" cellspacing="0">
 				<tr>
 					<td valign="top" style="text-align: center;">
-						<img src="images/mouse.png" style="margin-top: -54px;margin-left: -42px;">
+						<img src="images/mouse.png" style="margin-top: -54px;margin-left: -42px;" class="png">
 						<div style="margin-left: 24px;">
 						<div style="clear: both;height: 25px;"><div style="float: left;line-height: 25px">用户名：</div><div style="float: left;"><input name="j_username" type="text" class="hr" size="15" value="cnoss" /></div></div>
 						<div style="clear: both;height: 25px;"><div style="float: left;line-height: 25px">密　码：</div><div style="float: left;"><input name="j_password" type="password" class="hr" size="15" value="123" /></div></div>
