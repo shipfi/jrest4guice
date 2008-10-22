@@ -1,12 +1,12 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link href="/full/css/default.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="/full/javascript/lib/jquery-1.2.5.js"></script>
-	<script type="text/javascript" src="/full/javascript/lib/jquery.blockUI.js"></script>
-	<script type="text/javascript" src="/full/javascript/spry/SpryData.js"></script>
-	<script type="text/javascript" src="/full/javascript/lib/user-ext.js"></script>
-	<script type="text/javascript" src="/full/security.js"></script>
+	<link href="@{ctxPath}/css/default.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="@{ctxPath}/javascript/lib/jquery-1.2.5.js"></script>
+	<script type="text/javascript" src="@{ctxPath}/javascript/lib/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="@{ctxPath}/javascript/spry/SpryData.js"></script>
+	<script type="text/javascript" src="@{ctxPath}/javascript/lib/user-ext.js"></script>
+	<script type="text/javascript" src="@{ctxPath}/security.js"></script>
 </head>
 <body>
 	<div style="background-image: url('images/body_head.gif');height: 84px;position: absolute;top:0px; width: 100%;left: 0px;">&nbsp;</div>

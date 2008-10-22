@@ -2,7 +2,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>联系人管理(CTL template)</title>
-	<link href="/full/css/default.css" rel="stylesheet" type="text/css" />
+	<link href="@{ctxPath}/css/default.css" rel="stylesheet" type="text/css" />
 	<script>
 		window.onload = function(){
 			IFrameUtil.subscribeEvent("onLogin",window,function(param){
@@ -49,7 +49,7 @@
 
 	<div style="float: left;width: 65%;height: 55px;">
 		<div style="width: 100%;">
-			<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="/full/contact"  title="为你添加新的联系人">增加</a>新的联系人<span ct:role="'admin','manager'"><span id="delSpan" style="display:none;">，或者<a id="delLink" href="contacts/!delete" onclick="return deleteContact();">删除</a>当前已选择的联系人</span></span>。
+			<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="@{ctxPath}/contact"  title="为你添加新的联系人">增加</a>新的联系人<span ct:role="'admin','manager'"><span id="delSpan" style="display:none;">，或者<a id="delLink" href="contacts/!delete" onclick="return deleteContact();">删除</a>当前已选择的联系人</span></span>。
 		</div>
 	</div>
 	<br><br>
@@ -57,7 +57,7 @@
 	<div style="float: left;width:60%;margin-right: 0px;clear: both;">
 		<table id="contactTable" cellpadding="0" cellspacing="0" width="100%">
 			<thead style="font-weight: bold;">
-				<tr style="height: 26px;background-image: url('/full/images/head.jpg');color: white;">
+				<tr style="height: 26px;background-image: url('@{ctxPath}/images/head.jpg');color: white;">
 					<td style="width: 110px;">&nbsp;姓 名</td>
 					<td style="width: 110px;">&nbsp;移动电话</td>
 					<td style="width: 130px;">&nbsp;电子邮件</td>
@@ -79,15 +79,16 @@
 		<br/>
 		<center>	
 			<!-- 插入分页处理 -->
-			@include{"pageNavigation.ctl",(pageUrl:"/full/contacts?page=",ctx:ctx)}
+			@include{"pageNavigation.ctl",(pageUrl:"/contacts?page=",ctx:ctx,ctxPath:ctxPath)}
 		</center>
 	</div>
+	
 
 	<div style="width: 36%;float: right;">
 		<ul style="margin-left: 2px;margin-top: -18px;">
 			<li style="margin-top: 16px;">
 				<h5>快速开始</h5>
-				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="/full/contact"  title="为你添加新的联系人">增加</a>新的联系人。
+				<img src="images/user.gif"/><span style="font-size:24px;">你</span>可以从这里<a href="@{ctxPath}/contact"  title="为你添加新的联系人">增加</a>新的联系人。
 			</li>
 			<li style="margin-top: 16px;">
 				<h5>友情链接</h5>

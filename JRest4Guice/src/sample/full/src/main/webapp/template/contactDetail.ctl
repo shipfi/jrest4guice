@@ -2,7 +2,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>联系人详细信息(CTL template)</title>
-<link href="/full/css/default.css" rel="stylesheet" type="text/css" />
+<link href="@{ctxPath}/css/default.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	@set{contact=ctx.content}
