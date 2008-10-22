@@ -2,13 +2,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>系统错误信息(CTL template)</title>
-<link href="/full/css/default.css" rel="stylesheet" type="text/css" />
+<link href="@{ctxPath}/css/default.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 	<center>
 	<br>
 	@set{msg = ctx.errorMessage}
-	<img src="/full/images/error.png" style="margin-top:40px;">
+	<img src="@{ctxPath}/images/error.png" style="margin-top:40px;">
 	<h2>操作错误：@{msg}</h2>
 	<div ct:if="ctx.invalidValues!=null">
 		<hr/>
@@ -22,7 +22,7 @@
 		</div>
 	</div>
 	<br><br>
-	<img src="/full/images/go.gif" style="margin-bottom: -22px;"><a href="javascript:history.go(-1);" style="font-weight: bold;font-size: 18px;">返回</a>
+	<img src="@{ctxPath}/images/go.gif" style="margin-bottom: -22px;"><a href="javascript:history.go(-1);" style="font-weight: bold;font-size: 18px;">返回</a>
 	</br>
 	</center>
 </body>
