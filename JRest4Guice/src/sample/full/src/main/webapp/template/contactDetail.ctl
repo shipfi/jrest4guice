@@ -36,7 +36,7 @@
 	</form>
 	
 	<br>
-	<img src="/full/images/go.gif" style="margin-bottom: -22px;"><a href="/full/contacts">返回联系人列表</a>
+	<img src="@{ctxPath}/images/go.gif" style="margin-bottom: -22px;"><a href="@{ctxPath}/contacts">返回联系人列表</a>
 	</br>
 </body>
 </html>
