@@ -6,12 +6,12 @@
 </head>
 <body>
 	@set{contact=ctx.content}
-	@set{action="/full/contact"}
+	@set{action=ctxPath+"/contact"}
 	@if{contact.id==null}
 		<h4>请输入联系人的相关信息</h4>
 	@else
 		<h4>修改联系人<font color=green>"@{contact.name}"</font>的信息</h4>
-		@set{action="/full/contacts/"+contact.id+"!update"}
+		@set{action=ctxPath+"/contacts/"+contact.id+"!update"}
 	@end
 	
 	<form action="@{action}" method="post">
