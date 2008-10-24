@@ -1,3 +1,6 @@
+	<div style="margin-top:24px;" ct:if="ctx.resultCount<1">
+		<div style="text-align:left;margin:8px 0 16px 8px;"><image src="@{ctxPath}/images/search_result.gif">&nbsp;&nbsp;&nbsp;<b>搜索结果：</b>很抱谦！暂无符合您条件的搜索结果。</div>
+	</div>
 	<div style="margin-top:24px;" ct:if="ctx.resultCount>0">
 		@init{max=12}
 		@set{num=max/2}
@@ -27,8 +30,10 @@
 			@set{end=ctx.pageCount}
 		@end
 		
-		<div style="text-align:left;margin:8px 0 16px 8px;"><image src="@{ctxPath}/images/search_result.gif">&nbsp;&nbsp;&nbsp;<b>搜索结果：</b>为您搜索到 <b><font color="red">@{ctx.resultCount}</font></b> 个结果，共 <b><font color="red">@{ctx.pageCount}</font></b> 页。</div>		
-		<span><a style="margin:0px 4px 0px 4px;font-weight: bold;" href="@{ctxPath+pageUrl+pre}" ct:if="hasPre==true">上一页</a></span>
-		<span ct:for="i:(start..end)"><a style="margin:0px 4px 0px 4px;color:red;" href="@{ctxPath+pageUrl+i}" ct:if="ctx.pageIndex==i"><b>@{i}</b></a><a style="margin:0px 4px 0px 4px;" href="@{ctxPath+pageUrl+i}" ct:if="ctx.pageIndex!=i">@{i}</a></span>
-		<span><a style="margin:0px 4px 0px 4px;font-weight: bold;" href="@{ctxPath+pageUrl+next}" ct:if="hasNext==true">下一页</a></span>
+		<div style="text-align:left;margin:8px 0 16px 8px;"><image src="@{ctxPath}/images/search_result.gif">&nbsp;&nbsp;&nbsp;<b>搜索结果：</b>为您搜索到 <b><font color="red">@{ctx.resultCount}</font></b> 个结果，共 <b><font color="red">@{ctx.pageCount}</font></b> 页。</div>
+		<span ct:if="ctx.pageCount>1">		
+			<span><a style="margin:0px 4px 0px 4px;font-weight: bold;" href="@{ctxPath+pageUrl+pre}" ct:if="hasPre==true">上一页</a></span>
+			<span ct:for="i:(start..end)"><a style="margin:0px 4px 0px 4px;color:red;" href="@{ctxPath+pageUrl+i}" ct:if="ctx.pageIndex==i"><b>@{i}</b></a><a style="margin:0px 4px 0px 4px;" href="@{ctxPath+pageUrl+i}" ct:if="ctx.pageIndex!=i">@{i}</a></span>
+			<span><a style="margin:0px 4px 0px 4px;font-weight: bold;" href="@{ctxPath+pageUrl+next}" ct:if="hasNext==true">下一页</a></span>
+		</span>		
 	</div>
