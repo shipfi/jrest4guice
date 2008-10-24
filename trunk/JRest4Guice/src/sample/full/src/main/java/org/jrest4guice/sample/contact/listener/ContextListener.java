@@ -27,24 +27,29 @@ public class ContextListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
-		// 初始化Velocity引擎
-		this.initVelocity(event);
-		// 初始化CTL引擎
-		this.initCTL(event);
+		try {
+			// 初始化Velocity引擎
+			this.initVelocity(event);
+			// 初始化CTL引擎
+			this.initCTL(event);
 
-		JRest4GuiceHelper.useJRest("org.jrest4guice.sample")// 使用Rest，并指定要动态扫描注册的包路径
-				.useJPA()// 使用JPA
-				.useSecurity()// 使用JAAS
-				.useCache()//打开缓存客户端的功能
-//				.enableCustomInterceptor("org.jrest4guice.sample")//打开自定义的拦截器支持，允许通过@Interceptors来支持自定义的拦截器
-				.addUserModule(new Module(){
-					@Override
-					public void configure(Binder binder) {
-						binder.bindConstant().annotatedWith(Names.named(MultipartFormDataContentRader.FILE_SIZE_MAX)).to(1024 * 1024*10);
-						binder.bindConstant().annotatedWith(Names.named(MultipartFormDataContentRader.SIZE_MAX)).to(1024 * 1024*100);
-					}
-				})
-				.init();
+			JRest4GuiceHelper.useJRest("org.jrest4guice.sample")// 使用Rest，并指定要动态扫描注册的包路径
+					.useJPA()// 使用JPA
+					.useSecurity()// 使用JAAS
+					.useCache()//打开缓存客户端的功能
+//					.enableCustomInterceptor("org.jrest4guice.sample")//打开自定义的拦截器支持，允许通过@Interceptors来支持自定义的拦截器
+					.addUserModule(new Module(){
+						@Override
+						public void configure(Binder binder) {
+							binder.bindConstant().annotatedWith(Names.named(MultipartFormDataContentRader.FILE_SIZE_MAX)).to(1024 * 1024*10);
+							binder.bindConstant().annotatedWith(Names.named(MultipartFormDataContentRader.SIZE_MAX)).to(1024 * 1024*100);
+						}
+					})
+					.init();
+		} catch (Exception e) {
+			System.out.println("初始化ContextListener错误");
+			e.printStackTrace();
+		}
 	}
 
 	private void initCTL(ServletContextEvent event) {
