@@ -134,6 +134,17 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jrest4guice.persistence.BaseEntityManager#dynamicLoad(java.util.Map)
+	 */
+	public E dynamicLoad(final Map<String, Object> parameters){
+		List result = this.doDynamicQuery(null, parameters, EntityAble.SCOPE_VALID);
+		if(result.size()>0)
+			return (E)result.get(0);
+		else
+			return null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -141,7 +152,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#dynamicList(java.util
 	 * .Map)
 	 */
-	public List<E> dynamicList(final Map parameters) {
+	public List<E> dynamicList(final Map<String, Object> parameters) {
 		return this.doDynamicQuery(null, parameters, EntityAble.SCOPE_VALID);
 	}
 
@@ -152,7 +163,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#dynamicPage(org.jrest4guice
 	 * .client.Pagination, java.util.Map)
 	 */
-	public Page<E> dynamicPage(final Pagination pagination, final Map parameters) {
+	public Page<E> dynamicPage(final Pagination pagination, final Map<String, Object> parameters) {
 		return (Page<E>) this.doDynamicQuery(pagination, parameters,
 				EntityAble.SCOPE_VALID).get(0);
 	}

@@ -65,7 +65,18 @@ public interface BaseEntityManager<PK extends Serializable, E extends EntityAble
 	 *            参数MAP
 	 * @return
 	 */
-	public abstract List<E> dynamicList(final Map parameters);
+	public abstract E dynamicLoad(final Map<String, Object> parameters);
+	
+	/**
+	 * 动态查询符合条件的实体对象集合
+	 * 
+	 * @param type
+	 *            实体对象的类型
+	 * @param parameters
+	 *            参数MAP
+	 * @return
+	 */
+	public abstract List<E> dynamicList(final Map<String, Object> parameters);
 
 	/**
 	 * 查询符合条件的实体对象，并分页的形式返回
@@ -81,7 +92,7 @@ public interface BaseEntityManager<PK extends Serializable, E extends EntityAble
 	 * @return
 	 */
 	public abstract Page<E> dynamicPage(final Pagination pagination,
-			final Map parameters);
+			final Map<String, Object> parameters);
 
 	/**
 	 * 返回所有的实体对象集合，不包括已经做上删除标记的
