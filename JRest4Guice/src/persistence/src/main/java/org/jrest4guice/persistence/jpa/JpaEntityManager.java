@@ -707,4 +707,8 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	public int executeUpdate(String sql) {
 		return this.em.createQuery(sql).executeUpdate();
 	}
+
+	public EntityManager getEntityManager() {
+		return em;
+	}
 }
