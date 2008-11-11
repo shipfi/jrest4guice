@@ -61,7 +61,7 @@ public class HibernateLocalTransactionInterceptor implements MethodInterceptor {
 			}
 		} catch (Exception e) {
 			//回滚当前事务
-			if(type != TransactionalType.READOLNY){
+			if(type != TransactionalType.READOLNY && transaction.isActive()){
 				transaction.rollback();
 			}
 			throw e;

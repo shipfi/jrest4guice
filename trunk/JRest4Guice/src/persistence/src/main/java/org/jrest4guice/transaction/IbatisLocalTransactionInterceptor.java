@@ -48,7 +48,7 @@ public class IbatisLocalTransactionInterceptor implements MethodInterceptor {
 			//执行被拦截的业务方法
 			result = methodInvocation.proceed();
 			//提交事务
-			if(type != TransactionalType.READOLNY){
+			if(type != TransactionalType.READOLNY && transaction.isActive()){
 				transaction.commit();
 			}
 		} catch (Exception e) {
