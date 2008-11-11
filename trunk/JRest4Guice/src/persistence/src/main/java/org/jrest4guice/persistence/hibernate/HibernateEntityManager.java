@@ -706,4 +706,8 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	public int executeUpdate(String sql) {
 		return this.session.createQuery(sql).executeUpdate();
 	}
+
+	public Session getSession() {
+		return session;
+	}
 }
