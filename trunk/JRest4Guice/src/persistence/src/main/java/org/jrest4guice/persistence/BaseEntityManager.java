@@ -26,10 +26,10 @@ public interface BaseEntityManager<PK extends Serializable, E extends EntityAble
 	public static final String NAMED_PREVIX = "named:";
 
 
-	public abstract long countByNamedQuery(final String qname,
+	public abstract long count(final String qname,
 			final HashMap<String, Object> parameters);
 
-	public abstract long countByNamedQuery(final String qname,
+	public abstract long count(final String qname,
 			final Object... parameters);
 
 	/**
@@ -93,17 +93,17 @@ public interface BaseEntityManager<PK extends Serializable, E extends EntityAble
 	 */
 	public abstract List<E> listAll();
 
-	public abstract List<E> listByNamedQuery(final String qname,
+	public abstract List<E> list(final String qname,
 			final HashMap<String, Object> parameters);
 
-	public abstract List<E> listByNamedQuery(final String qname,
+	public abstract List<E> list(final String qname,
 			final Object... parameters);
 
-	public abstract List<E> listByNamedQuery(final String qname,
+	public abstract List<E> list(final String qname,
 			final Pagination pagination,
 			final HashMap<String, Object> parameters);
 
-	public abstract List<E> listByNamedQuery(final String qname,
+	public abstract List<E> list(final String qname,
 			final Pagination pagination, final Object... parameters);
 
 	/**
@@ -124,10 +124,10 @@ public interface BaseEntityManager<PK extends Serializable, E extends EntityAble
 	 */
 	public abstract E load(final PK pk);
 
-	public abstract E loadByNamedQuery(final String qname,
+	public abstract E load(final String qname,
 			final HashMap<String, Object> parameters);
 
-	public abstract E loadByNamedQuery(final String qname,
+	public abstract E load(final String qname,
 			final Object... parameters);
 
 	/**
@@ -143,11 +143,11 @@ public interface BaseEntityManager<PK extends Serializable, E extends EntityAble
 	 */
 	public abstract Page<E> pageAll(final Pagination pagination);
 
-	public abstract Page<E> pageByNamedQuery(final String qname,
+	public abstract Page<E> page(final String qname,
 			final Pagination pagination,
 			final HashMap<String, Object> parameters);
 
-	public abstract Page<E> pageByNamedQuery(final String qname,
+	public abstract Page<E> page(final String qname,
 			final Pagination pagination, final Object... parameters);
 
 	/**

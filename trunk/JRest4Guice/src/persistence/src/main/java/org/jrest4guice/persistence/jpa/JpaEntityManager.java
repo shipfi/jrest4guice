@@ -53,7 +53,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#countByNamedQuery(java
 	 * .lang.String, java.util.HashMap)
 	 */
-	public long countByNamedQuery(final String qname,
+	public long count(final String qname,
 			final HashMap<String, Object> parameters) {
 		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.COUNT_SUFFIX));
@@ -73,7 +73,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#countByNamedQuery(java
 	 * .lang.String, java.lang.Object)
 	 */
-	public long countByNamedQuery(final String qname,
+	public long count(final String qname,
 			final Object... parameters) {
 		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.COUNT_SUFFIX));
@@ -174,7 +174,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#listByNamedQuery(java
 	 * .lang.String, java.util.HashMap)
 	 */
-	public List<E> listByNamedQuery(final String qname,
+	public List<E> list(final String qname,
 			final HashMap<String, Object> parameters) {
 		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.FIND_SUFFIX));
@@ -189,7 +189,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#listByNamedQuery(java
 	 * .lang.String, java.lang.Object)
 	 */
-	public List<E> listByNamedQuery(final String qname,
+	public List<E> list(final String qname,
 			final Object... parameters) {
 		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.FIND_SUFFIX));
@@ -204,7 +204,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#listByNamedQuery(java
 	 * .lang.String, org.jrest4guice.client.Pagination, java.util.HashMap)
 	 */
-	public List<E> listByNamedQuery(final String qname,
+	public List<E> list(final String qname,
 			final Pagination pagination,
 			final HashMap<String, Object> parameters) {
 		final Query query = this.createQuery(this.getFullQueryName(qname,
@@ -221,7 +221,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#listByNamedQuery(java
 	 * .lang.String, org.jrest4guice.client.Pagination, java.lang.Object)
 	 */
-	public List<E> listByNamedQuery(final String qname,
+	public List<E> list(final String qname,
 			final Pagination pagination, final Object... parameters) {
 		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.FIND_SUFFIX));
@@ -255,7 +255,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#loadByNamedQuery(java
 	 * .lang.String, java.util.HashMap)
 	 */
-	public E loadByNamedQuery(final String qname,
+	public E load(final String qname,
 			final HashMap<String, Object> parameters) {
 		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.LOAD_SUFFIX));
@@ -274,7 +274,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#loadByNamedQuery(java
 	 * .lang.String, java.lang.Object)
 	 */
-	public E loadByNamedQuery(final String qname, final Object... parameters) {
+	public E load(final String qname, final Object... parameters) {
 		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.LOAD_SUFFIX));
 		this.fittingQuery(query, parameters);
@@ -304,23 +304,23 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#pageByNamedQuery(java
 	 * .lang.String, org.jrest4guice.client.Pagination, java.util.HashMap)
 	 */
-	public Page<E> pageByNamedQuery(final String qname,
+	public Page<E> page(final String qname,
 			final Pagination pagination,
 			final HashMap<String, Object> parameters) {
 		if (pagination == null) {
 			throw new IllegalArgumentException("缺少分页参数设置");
 		}
-		final long count = this.countByNamedQuery(qname, parameters);
+		final long count = this.count(qname, parameters);
 		if (count == 0) {
 			return new Page<E>(pagination.getFirstResult(), count, pagination
 					.getPageSize(), new ArrayList<E>());
 		}
-		final List<E> result = this.listByNamedQuery(qname, pagination,
+		final List<E> result = this.list(qname, pagination,
 				parameters);
 		
 		if(result.size()==0 && pagination.getPageIndex()>1){
 			pagination.setPageIndex(pagination.getPageIndex()-1);
-			return this.pageByNamedQuery(qname, pagination, parameters);
+			return this.page(qname, pagination, parameters);
 		}
 		
 		return new Page<E>(Page.getStartOfPage(pagination.getPageIndex(),
@@ -335,22 +335,22 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#pageByNamedQuery(java
 	 * .lang.String, org.jrest4guice.client.Pagination, java.lang.Object)
 	 */
-	public Page<E> pageByNamedQuery(final String qname,
+	public Page<E> page(final String qname,
 			final Pagination pagination, final Object... parameters) {
 		if (pagination == null) {
 			throw new IllegalArgumentException("缺少分页参数设置");
 		}
-		final long count = this.countByNamedQuery(qname, parameters);
+		final long count = this.count(qname, parameters);
 		if (count == 0) {
 			return new Page<E>(pagination.getFirstResult(), count, pagination
 					.getPageSize(), new ArrayList<E>());
 		}
-		final List<E> result = this.listByNamedQuery(qname, pagination,
+		final List<E> result = this.list(qname, pagination,
 				parameters);
 
 		if(result.size()==0 && pagination.getPageIndex()>1){
 			pagination.setPageIndex(pagination.getPageIndex()-1);
-			return this.pageByNamedQuery(qname, pagination, parameters);
+			return this.page(qname, pagination, parameters);
 		}
 
 		return new Page<E>(Page.getStartOfPage(pagination.getPageIndex(),
