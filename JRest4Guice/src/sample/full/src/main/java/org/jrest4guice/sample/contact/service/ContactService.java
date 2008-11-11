@@ -36,7 +36,7 @@ public class ContactService{
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");
 
-		if (this.entityManager.loadByNamedQuery("named:byName", contact.getName()) != null) {
+		if (this.entityManager.load("named:byName", contact.getName()) != null) {
 			throw new RuntimeException("联系人的姓名相同，请重新输入");
 		}
 
@@ -65,7 +65,7 @@ public class ContactService{
 	@Interceptor(ListContactsInterceptor.class)//覆盖类级别的拦截器
 	public Page<Contact> listContacts(int pageIndex, int pageSize)
 			throws RuntimeException {
-		return this.entityManager.pageByNamedQuery("named:list",
+		return this.entityManager.page("named:list",
 				new Pagination(pageIndex, pageSize));
 	}
 
@@ -73,7 +73,7 @@ public class ContactService{
 		if (contact == null)
 			throw new RuntimeException("联系人的内容不能为空");
 		
-		Contact tmpContact = this.entityManager.loadByNamedQuery("named:byName", contact.getName());
+		Contact tmpContact = this.entityManager.load("named:byName", contact.getName());
 		if(tmpContact != null && !contact.getId().equals(tmpContact.getId()))
 			throw new RuntimeException("联系人的姓名相同，请重新输入");
 

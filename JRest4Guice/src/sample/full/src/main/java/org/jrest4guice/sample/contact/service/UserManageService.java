@@ -29,32 +29,32 @@ public class UserManageService{
 
 	@Transactional(type = TransactionalType.READOLNY)
 	public boolean authUser(String name, String password) {
-		User user = this.userEntityManager.loadByNamedQuery(
+		User user = this.userEntityManager.load(
 				"named:byNameAndPassword", name, MD5Util.toMD5(password));
 		return user != null;
 	}
 
 	@Transactional(type = TransactionalType.READOLNY)
 	public List<Role> getUserRoles(String name) {
-		return this.roleEntityManager.listByNamedQuery("named:listByUserName", name);
+		return this.roleEntityManager.list("named:listByUserName", name);
 	}
 
 	@Transactional(type = TransactionalType.READOLNY)
 	public User findUser(String name) {
-		return this.userEntityManager.loadByNamedQuery("named:byName", name);
+		return this.userEntityManager.load("named:byName", name);
 	}
 
 	@Transactional(type = TransactionalType.READOLNY)
 	@RolesAllowed("admin")
 	public Page<Role> getAllRoles(int pageIndex, int pageSize) {
-		return this.roleEntityManager.pageByNamedQuery("named:list", new Pagination(
+		return this.roleEntityManager.page("named:list", new Pagination(
 				pageIndex, pageSize));
 	}
 
 	@Transactional(type = TransactionalType.READOLNY)
 	@RolesAllowed("admin")
 	public Page<User> getAllUsers(int pageIndex, int pageSize) {
-		return this.userEntityManager.pageByNamedQuery("named:list", new Pagination(
+		return this.userEntityManager.page("named:list", new Pagination(
 				pageIndex, pageSize));
 	}
 
