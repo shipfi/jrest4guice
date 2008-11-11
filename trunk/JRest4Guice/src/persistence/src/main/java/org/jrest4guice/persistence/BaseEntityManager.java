@@ -22,6 +22,9 @@ public interface BaseEntityManager<PK extends Serializable, E extends EntityAble
 	public static final String COUNT_SUFFIX = "[count]";
 	public static final String FIND_SUFFIX = "[find]";
 	public static final String LOAD_SUFFIX = "[load]";
+	
+	public static final String NAMED_PREVIX = "named:";
+
 
 	public abstract long countByNamedQuery(final String qname,
 			final HashMap<String, Object> parameters);

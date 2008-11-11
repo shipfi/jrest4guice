@@ -54,7 +54,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	 */
 	public long countByNamedQuery(final String qname,
 			final HashMap<String, Object> parameters) {
-		final Query query = this.getNamedQuery(this.getFullQueryName(qname,
+		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.COUNT_SUFFIX));
 		this.fittingQuery(query, parameters);
 		final Object result = query.uniqueResult();
@@ -74,7 +74,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	 */
 	public long countByNamedQuery(final String qname,
 			final Object... parameters) {
-		final Query query = this.getNamedQuery(this.getFullQueryName(qname,
+		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.COUNT_SUFFIX));
 		this.fittingQuery(query, parameters);
 		final Object result = query.uniqueResult();
@@ -175,7 +175,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	 */
 	public List<E> listByNamedQuery(final String qname,
 			final HashMap<String, Object> parameters) {
-		final Query query = this.getNamedQuery(this.getFullQueryName(qname,
+		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.FIND_SUFFIX));
 		this.fittingQuery(query, parameters);
 		return query.list();
@@ -190,7 +190,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	 */
 	public List<E> listByNamedQuery(final String qname,
 			final Object... parameters) {
-		final Query query = this.getNamedQuery(this.getFullQueryName(qname,
+		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.FIND_SUFFIX));
 		this.fittingQuery(query, parameters);
 		return query.list();
@@ -206,7 +206,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	public List<E> listByNamedQuery(final String qname,
 			final Pagination pagination,
 			final HashMap<String, Object> parameters) {
-		final Query query = this.getNamedQuery(this.getFullQueryName(qname,
+		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.FIND_SUFFIX));
 		this.fittingQuery(query, parameters);
 		this.pagingQuery(query, pagination);
@@ -222,7 +222,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	 */
 	public List<E> listByNamedQuery(final String qname,
 			final Pagination pagination, final Object... parameters) {
-		final Query query = this.getNamedQuery(this.getFullQueryName(qname,
+		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.FIND_SUFFIX));
 		this.fittingQuery(query, parameters);
 		this.pagingQuery(query, pagination);
@@ -256,7 +256,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	 */
 	public E loadByNamedQuery(final String qname,
 			final HashMap<String, Object> parameters) {
-		final Query query = this.getNamedQuery(this.getFullQueryName(qname,
+		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.LOAD_SUFFIX));
 		this.fittingQuery(query, parameters);
 		try {
@@ -274,7 +274,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	 * .lang.String, java.lang.Object)
 	 */
 	public E loadByNamedQuery(final String qname, final Object... parameters) {
-		final Query query = this.getNamedQuery(this.getFullQueryName(qname,
+		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.LOAD_SUFFIX));
 		this.fittingQuery(query, parameters);
 		try {
@@ -629,8 +629,11 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	 *            命名查询的后缀
 	 * @return
 	 */
-	private String getFullQueryName(final String name, final String suffix) {
-		return this.type.getSimpleName() + "." + name + suffix;
+	private String getFullQueryName(final String sql, final String suffix) {
+		if(sql.startsWith(NAMED_PREVIX))
+			return NAMED_PREVIX+this.type.getSimpleName() + "." + sql.substring(NAMED_PREVIX.length()) + suffix;
+		else
+			return sql;
 	}
 
 	/**
@@ -640,8 +643,11 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	 *            命名查询的名称
 	 * @return
 	 */
-	private Query getNamedQuery(final String qname) {
-		return this.session.getNamedQuery(qname);
+	private Query createQuery(final String qname) {
+		if(qname.startsWith(NAMED_PREVIX))
+			return this.session.getNamedQuery(qname.substring(NAMED_PREVIX.length()));
+		else
+			return this.session.createQuery(qname);
 	}
 
 	/**
