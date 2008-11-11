@@ -36,6 +36,15 @@ public class Pagination implements Serializable {
 		this.setPageIndex(pageIndex);
 		this.setPageSize(pageSize);
 	}
+	
+	public static Pagination createPaginationWithStartAndLimit(int start,int limit){
+		if(limit == 0)
+			limit = DEFAULT_PAGE_SIZE;
+		int pageIndex = start / limit;
+		if(start%limit != 0)
+			pageIndex ++;
+		return new Pagination(pageIndex,limit);
+	}
 
 	/**
 	 * 获取 起始记录位置
