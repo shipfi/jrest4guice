@@ -115,10 +115,15 @@ public class ServiceResult {
 	}
 
 	public String toTextPlain() {
+		String result = null;
 		if (this.content != null)
-			return this.content.toString();
+			result = this.content.toString();
 		else
-			return this.errorMessage;
+			result = this.errorMessage;
+		
+		if(result == null)
+			result = "";
+		return result;
 	}
 
 	public String toXML() {

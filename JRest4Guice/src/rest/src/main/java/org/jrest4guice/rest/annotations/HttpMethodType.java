@@ -6,5 +6,5 @@ package org.jrest4guice.rest.annotations;
  *
  */
 public enum HttpMethodType {
-	GET, POST, PUT, DELETE
+	GET, POST, PUT, DELETE,ACTION
 }
