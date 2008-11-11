@@ -1,7 +1,6 @@
 package org.jrest4guice.persistence;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,7 @@ public interface BaseEntityManager<PK extends Serializable, E extends EntityAble
 
 
 	public abstract long count(final String qname,
-			final HashMap<String, Object> parameters);
+			final Map<String, Object> parameters);
 
 	public abstract long count(final String qname,
 			final Object... parameters);
@@ -94,14 +93,14 @@ public interface BaseEntityManager<PK extends Serializable, E extends EntityAble
 	public abstract List<E> listAll();
 
 	public abstract List<E> list(final String qname,
-			final HashMap<String, Object> parameters);
+			final Map<String, Object> parameters);
 
 	public abstract List<E> list(final String qname,
 			final Object... parameters);
 
 	public abstract List<E> list(final String qname,
 			final Pagination pagination,
-			final HashMap<String, Object> parameters);
+			final Map<String, Object> parameters);
 
 	public abstract List<E> list(final String qname,
 			final Pagination pagination, final Object... parameters);
@@ -125,7 +124,7 @@ public interface BaseEntityManager<PK extends Serializable, E extends EntityAble
 	public abstract E load(final PK pk);
 
 	public abstract E load(final String qname,
-			final HashMap<String, Object> parameters);
+			final Map<String, Object> parameters);
 
 	public abstract E load(final String qname,
 			final Object... parameters);
@@ -145,7 +144,7 @@ public interface BaseEntityManager<PK extends Serializable, E extends EntityAble
 
 	public abstract Page<E> page(final String qname,
 			final Pagination pagination,
-			final HashMap<String, Object> parameters);
+			final Map<String, Object> parameters);
 
 	public abstract Page<E> page(final String qname,
 			final Pagination pagination, final Object... parameters);
