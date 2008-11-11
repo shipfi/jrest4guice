@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,10 +50,10 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * 
 	 * @see
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#countByNamedQuery(java
-	 * .lang.String, java.util.HashMap)
+	 * .lang.String, java.util.Map)
 	 */
 	public long count(final String qname,
-			final HashMap<String, Object> parameters) {
+			final Map<String, Object> parameters) {
 		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.COUNT_SUFFIX));
 		this.fittingQuery(query, parameters);
@@ -172,10 +171,10 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * 
 	 * @see
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#listByNamedQuery(java
-	 * .lang.String, java.util.HashMap)
+	 * .lang.String, java.util.Map)
 	 */
 	public List<E> list(final String qname,
-			final HashMap<String, Object> parameters) {
+			final Map<String, Object> parameters) {
 		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.FIND_SUFFIX));
 		this.fittingQuery(query, parameters);
@@ -202,11 +201,11 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * 
 	 * @see
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#listByNamedQuery(java
-	 * .lang.String, org.jrest4guice.client.Pagination, java.util.HashMap)
+	 * .lang.String, org.jrest4guice.client.Pagination, java.util.Map)
 	 */
 	public List<E> list(final String qname,
 			final Pagination pagination,
-			final HashMap<String, Object> parameters) {
+			final Map<String, Object> parameters) {
 		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.FIND_SUFFIX));
 		this.fittingQuery(query, parameters);
@@ -253,10 +252,10 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * 
 	 * @see
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#loadByNamedQuery(java
-	 * .lang.String, java.util.HashMap)
+	 * .lang.String, java.util.Map)
 	 */
 	public E load(final String qname,
-			final HashMap<String, Object> parameters) {
+			final Map<String, Object> parameters) {
 		final Query query = this.createQuery(this.getFullQueryName(qname,
 				BaseEntityManager.LOAD_SUFFIX));
 		this.fittingQuery(query, parameters);
@@ -302,11 +301,11 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 * 
 	 * @see
 	 * org.jrest4guice.persistence.jpa.BaseEntityManager#pageByNamedQuery(java
-	 * .lang.String, org.jrest4guice.client.Pagination, java.util.HashMap)
+	 * .lang.String, org.jrest4guice.client.Pagination, java.util.Map)
 	 */
 	public Page<E> page(final String qname,
 			final Pagination pagination,
-			final HashMap<String, Object> parameters) {
+			final Map<String, Object> parameters) {
 		if (pagination == null) {
 			throw new IllegalArgumentException("缺少分页参数设置");
 		}
