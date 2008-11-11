@@ -43,7 +43,7 @@ public class Pagination implements Serializable {
 		int pageIndex = start / limit;
 		if(start%limit != 0)
 			pageIndex ++;
-		return new Pagination(pageIndex,limit);
+		return new Pagination(pageIndex++,limit);
 	}
 
 	/**
