@@ -24,6 +24,7 @@ import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.client.Page;
 import org.jrest4guice.commons.i18n.annotations.ResourceBundle;
 import org.jrest4guice.commons.lang.ParameterNameDiscoverer;
+import org.jrest4guice.rest.annotations.Action;
 import org.jrest4guice.rest.annotations.BodyBytes;
 import org.jrest4guice.rest.annotations.Cache;
 import org.jrest4guice.rest.annotations.Delete;
@@ -60,7 +61,7 @@ public class ServiceExecutor {
 	@Inject
 	protected HttpServletResponse response;
 
-	private static Map<String, Map<HttpMethodType, Method>> restServiceMethodMap = new HashMap<String, Map<HttpMethodType, Method>>(
+	private static Map<String, Map<String, Method>> restServiceMethodMap = new HashMap<String, Map<String, Method>>(
 			0);
 
 	private static Map<Method, String[]> paramNameMap = new HashMap<Method, String[]>(
@@ -98,10 +99,11 @@ public class ServiceExecutor {
 
 		Method method = service.getMethod();
 		if (method == null)
-			method = restServiceMethodMap.get(name).get(methodType);
+			method = this.try2GetMethod(name, methodType);
 
-		if (method == null)
+		if (method == null){
 			return;
+		}
 
 		Exception exception = null;
 
@@ -153,6 +155,16 @@ public class ServiceExecutor {
 				writeResult(charset, throwable, method);
 			}
 		}
+	}
+	
+	private Method try2GetMethod(String name,HttpMethodType methodType){
+		String methodTypeName = methodType.name();
+		if(methodType == HttpMethodType.ACTION){
+			String uri = this.request.getRequestURI();
+			String action = uri.substring(uri.lastIndexOf("!")+1).trim();
+			methodTypeName = methodType.name()+":"+action;
+		}
+		return restServiceMethodMap.get(name).get(methodTypeName);
 	}
 
 	/**
@@ -275,7 +287,7 @@ public class ServiceExecutor {
 	private void initCurrentServiceMethod(Object service, String name) {
 		Class<?> clazz = service.getClass();
 		Method[] methods = clazz.getMethods();
-		Map<HttpMethodType, Method> restMethods = new HashMap<HttpMethodType, Method>(
+		Map<String, Method> restMethods = new HashMap<String, Method>(
 				0);
 		String methodName;
 		HttpMethodType type = null;
@@ -294,6 +306,8 @@ public class ServiceExecutor {
 				type = HttpMethodType.PUT;
 			} else if (m.isAnnotationPresent(Delete.class)) {
 				type = HttpMethodType.DELETE;
+			} else if (m.isAnnotationPresent(Action.class)) {
+				type = HttpMethodType.ACTION;
 			} else {
 				if (methodName.startsWith(RESTful.METHOD_OF_GET)) {
 					type = HttpMethodType.GET;
@@ -306,8 +320,15 @@ public class ServiceExecutor {
 				}
 			}
 
-			if (type != null)
-				restMethods.put(type, m);
+			if (type != null){
+				if(type == HttpMethodType.ACTION) {
+					String value = m.getAnnotation(Action.class).value();
+					if(value.trim().equals(""))
+						value = m.getName();
+					restMethods.put(type.name()+":"+value, m);
+				} else
+					restMethods.put(type.name(), m);
+			}
 		}
 
 		restServiceMethodMap.put(name, restMethods);

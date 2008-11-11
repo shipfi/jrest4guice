@@ -93,11 +93,17 @@ public class JRest4GuiceProcessor {
 		if (uri.indexOf("!delete") != -1) {
 			method_type = HttpMethodType.DELETE;
 		}
-
-		if (method_type != null) {
-			uri = uri.replace("!update", "");
-			uri = uri.replace("!delete", "");
+		
+		if (method_type == null) {
+			if (uri.indexOf("!") != -1) {
+				method_type = HttpMethodType.ACTION;
+			}
 		}
+		
+		if (method_type != null) {
+			uri = uri.substring(0,uri.lastIndexOf("!"));
+		}
+
 		// ==================================================================
 
 		String method = request.getMethod();
