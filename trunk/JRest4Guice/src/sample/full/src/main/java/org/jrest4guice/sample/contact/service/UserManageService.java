@@ -30,31 +30,31 @@ public class UserManageService{
 	@Transactional(type = TransactionalType.READOLNY)
 	public boolean authUser(String name, String password) {
 		User user = this.userEntityManager.loadByNamedQuery(
-				"byNameAndPassword", name, MD5Util.toMD5(password));
+				"named:byNameAndPassword", name, MD5Util.toMD5(password));
 		return user != null;
 	}
 
 	@Transactional(type = TransactionalType.READOLNY)
 	public List<Role> getUserRoles(String name) {
-		return this.roleEntityManager.listByNamedQuery("listByUserName", name);
+		return this.roleEntityManager.listByNamedQuery("named:listByUserName", name);
 	}
 
 	@Transactional(type = TransactionalType.READOLNY)
 	public User findUser(String name) {
-		return this.userEntityManager.loadByNamedQuery("byName", name);
+		return this.userEntityManager.loadByNamedQuery("named:byName", name);
 	}
 
 	@Transactional(type = TransactionalType.READOLNY)
 	@RolesAllowed("admin")
 	public Page<Role> getAllRoles(int pageIndex, int pageSize) {
-		return this.roleEntityManager.pageByNamedQuery("list", new Pagination(
+		return this.roleEntityManager.pageByNamedQuery("named:list", new Pagination(
 				pageIndex, pageSize));
 	}
 
 	@Transactional(type = TransactionalType.READOLNY)
 	@RolesAllowed("admin")
 	public Page<User> getAllUsers(int pageIndex, int pageSize) {
-		return this.userEntityManager.pageByNamedQuery("list", new Pagination(
+		return this.userEntityManager.pageByNamedQuery("named:list", new Pagination(
 				pageIndex, pageSize));
 	}
 
