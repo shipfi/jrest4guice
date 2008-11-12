@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 import net.sf.json.xml.XMLSerializer;
 
 import org.hibernate.validator.InvalidValue;
@@ -132,8 +133,10 @@ public class ServiceResult {
 	}
 
 	public String toJson() {
+		JsonConfig jsonConfig = JsonConfigFactory.createJsonConfig(this.content);
+		JsonConfigFactory.filteExcludes(this, jsonConfig);
 		return JSONObject.fromObject(this,
-				JsonConfigFactory.createJsonConfig(this.content)).toString();
+				jsonConfig).toString();
 	}
 
 	public static ServiceResult createSuccessHttpResult(int resultCount,
