@@ -40,8 +40,10 @@ public abstract class TextResponseWriter implements ResponseWriter {
 			response.setDateHeader("Expires", 0);
 			if(out != null)
 				out.write(textContent.getBytes(charset));
-			else
-				response.getOutputStream().println(textContent);
+			else{
+				response.setCharacterEncoding(charset);
+				response.getWriter().println(textContent);
+			}
 		} catch (IOException e) {
 			System.out.println("向客户端写回数据错误:\n" + e.getMessage());
 			e.printStackTrace();
