@@ -44,7 +44,6 @@ import com.google.inject.util.ReferenceCache;
 import com.google.inject.util.StackTraceElements;
 import com.google.inject.util.Strings;
 import com.google.inject.util.ToStringBuilder;
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLBoundOperation.ANONYMOUS;
 
 /**
  * Default {@link Injector} implementation.
