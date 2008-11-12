@@ -38,22 +38,24 @@ public class JsonConfigFactory {
 	}
 
 	public static void filteExcludes(Object bean, JsonConfig jsonConfig) {
-		List<String> excludes = null;
+		List<String> excludesbyAnnoation = null;
 		String name = bean.getClass().getName();
 		if(excudeMap.containsKey(name)){
-			excludes = excudeMap.get(name);
+			excludesbyAnnoation = excudeMap.get(name);
 		}else{
-			excludes = new ArrayList<String>();
+			excludesbyAnnoation = new ArrayList<String>();
 			Class<?> clazz = bean.getClass();
 			Field[] fields = clazz.getDeclaredFields();
 			for (Field f : fields) {
 				if (f.isAnnotationPresent(JsonExclude.class) || isAnnotationPresent4ORMRelation(f)) {
-					excludes.add(f.getName());
+					excludesbyAnnoation.add(f.getName());
 				}
 			}
-			excudeMap.put(name, excludes);
+			excudeMap.put(name, excludesbyAnnoation);
 		}
 
+		//忽略实例级的为空属性
+		List<String> instanceExcludes = new ArrayList<String>();
 		Class<?> clazz = bean.getClass();
 		Method[] methods = clazz.getDeclaredMethods();
 		Object invoke;
@@ -64,14 +66,16 @@ public class JsonConfigFactory {
 				try {
 					invoke = m.invoke(bean);
 					if(invoke == null){
-						excludes.add(mName.substring(3,4).toLowerCase()+ mName.substring(4));
+						instanceExcludes.add(mName.substring(3,4).toLowerCase()+ mName.substring(4));
 					}
 				} catch (Exception e) {
 				}
 			}
 		}
 		
-		jsonConfig.setExcludes(excludes.toArray(new String[] {}));
+		instanceExcludes.addAll(excludesbyAnnoation);
+		
+		jsonConfig.setExcludes(instanceExcludes.toArray(new String[] {}));
 	}
 
 	private static boolean isAnnotationPresent4ORMRelation(Field field) {
