@@ -1,5 +1,7 @@
 package org.jrest4guice.rest;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ import net.sf.json.xml.XMLSerializer;
 
 import org.hibernate.validator.InvalidValue;
 import org.jrest4guice.client.Page;
+import org.jrest4guice.rest.commons.json.DateJsonValueProcessor;
 import org.jrest4guice.rest.commons.json.JsonConfigFactory;
 
 /**
@@ -134,6 +137,10 @@ public class ServiceResult {
 
 	public String toJson() {
 		JsonConfig jsonConfig = JsonConfigFactory.createJsonConfig(this.content);
+		
+		jsonConfig.registerJsonValueProcessor(Date.class,new DateJsonValueProcessor());
+		jsonConfig.registerJsonValueProcessor(Timestamp.class,new DateJsonValueProcessor());  
+
 		JsonConfigFactory.filteExcludes(this, jsonConfig);
 		return JSONObject.fromObject(this,
 				jsonConfig).toString();
