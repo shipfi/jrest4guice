@@ -1,6 +1,7 @@
 package org.jrest4guice.rest.commons.json;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +20,9 @@ public class JsonConfigFactory {
 	private static Map<String, List<String>> excudeMap = new HashMap<String, List<String>>(0);
 	
 	public static JsonConfig createJsonConfig(Object bean) {
-		JsonConfig jsConfig = new JsonConfig();
+		JsonConfig jsonConfig = new JsonConfig();
 		if(bean == null)
-			return jsConfig;
+			return jsonConfig;
 		if (bean instanceof List) {
 			try {
 				bean = ((List) bean).get(0);
@@ -30,8 +31,13 @@ public class JsonConfigFactory {
 		}
 		
 		if(bean == null)
-			return jsConfig;
+			return jsonConfig;
 
+		filteExcludes(bean, jsonConfig);
+		return jsonConfig;
+	}
+
+	public static void filteExcludes(Object bean, JsonConfig jsonConfig) {
 		List<String> excludes = null;
 		String name = bean.getClass().getName();
 		if(excudeMap.containsKey(name)){
@@ -47,8 +53,25 @@ public class JsonConfigFactory {
 			}
 			excudeMap.put(name, excludes);
 		}
-		jsConfig.setExcludes(excludes.toArray(new String[] {}));
-		return jsConfig;
+
+		Class<?> clazz = bean.getClass();
+		Method[] methods = clazz.getDeclaredMethods();
+		Object invoke;
+		String mName;
+		for (Method m : methods) {
+			mName = m.getName();
+			if(mName.startsWith("get")){
+				try {
+					invoke = m.invoke(bean);
+					if(invoke == null){
+						excludes.add(mName.substring(3,4).toLowerCase()+ mName.substring(4));
+					}
+				} catch (Exception e) {
+				}
+			}
+		}
+		
+		jsonConfig.setExcludes(excludes.toArray(new String[] {}));
 	}
 
 	private static boolean isAnnotationPresent4ORMRelation(Field field) {
