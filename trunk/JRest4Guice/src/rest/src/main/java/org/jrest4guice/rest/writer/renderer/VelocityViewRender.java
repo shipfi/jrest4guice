@@ -31,7 +31,8 @@ public class VelocityViewRender implements ViewRender {
 	public void render(OutputStream out, PageFlow annotation, ServiceResult result,String charset)
 			throws Exception {
 		String url = annotation.success().value();
-		if(!result.isInChain() &&(result.getErrorType() != null || result.getInvalidValues() != null)){
+		Boolean inChain = result.isInChain();
+		if((inChain==null || !inChain) &&(result.getErrorType() != null || result.getInvalidValues() != null)){
 			url = annotation.error().value();
 		}
 		//获取模板
