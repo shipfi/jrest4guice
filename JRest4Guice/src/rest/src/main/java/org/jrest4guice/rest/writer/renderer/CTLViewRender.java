@@ -40,7 +40,8 @@ public class CTLViewRender implements ViewRender {
 			throws Exception {
 		try {
 			String url = annotation.success().value();
-			if(!result.isInChain() &&(result.getErrorType() != null || result.getInvalidValues() != null)){
+			Boolean inChain = result.isInChain();
+			if((inChain==null || !inChain) &&(result.getErrorType() != null || result.getInvalidValues() != null)){
 				url = annotation.error().value();
 			}
 			

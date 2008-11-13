@@ -36,21 +36,21 @@ public class ServiceResult {
 
 	private Object invalidBean;
 	
-	private boolean inChain = false;
+	private Boolean inChain = null;
 	
 	/**
 	 * 所有记录的总数
 	 */
-	private int resultCount;
+	private Integer resultCount = null;
 	/**
 	 * 记录的页数
 	 */
-	private int pageCount;
+	private Integer pageCount = null;
 
 	/**
 	 * 当前页码
 	 */
-	private int pageIndex;
+	private Integer pageIndex = null;
 
 	/**
 	 * 结果的内容
@@ -66,27 +66,27 @@ public class ServiceResult {
 		this.errorMessage = errorMessage;
 	}
 
-	public int getResultCount() {
+	public Integer getResultCount() {
 		return resultCount;
 	}
 
-	public void setResultCount(int resultCount) {
+	public void setResultCount(Integer resultCount) {
 		this.resultCount = resultCount;
 	}
 
-	public int getPageCount() {
+	public Integer getPageCount() {
 		return pageCount;
 	}
 
-	public void setPageCount(int pageCount) {
+	public void setPageCount(Integer pageCount) {
 		this.pageCount = pageCount;
 	}
 
-	public int getPageIndex() {
+	public Integer getPageIndex() {
 		return pageIndex;
 	}
 
-	public void setPageIndex(int pageIndex) {
+	public void setPageIndex(Integer pageIndex) {
 		this.pageIndex = pageIndex;
 	}
 
@@ -146,8 +146,8 @@ public class ServiceResult {
 				jsonConfig).toString();
 	}
 
-	public static ServiceResult createSuccessHttpResult(int resultCount,
-			int pageCount, Object content) {
+	public static ServiceResult createSuccessHttpResult(Integer resultCount,
+			Integer pageCount, Object content) {
 		return new ServiceResult(content);
 	}
 
@@ -159,10 +159,10 @@ public class ServiceResult {
 		}
 		ServiceResult jRestResult = new ServiceResult(content);
 		if (content instanceof Page) {
-			Page page = (Page) content;
+			Page<?> page = (Page<?>) content;
 			jRestResult.setContent(page.getResult());
-			jRestResult.setResultCount((int) page.getTotalCount());
-			jRestResult.setPageCount((int) page.getTotalPageCount());
+			jRestResult.setResultCount(new Integer((int)page.getTotalCount()));
+			jRestResult.setPageCount(new Integer((int)page.getTotalPageCount()));
 			jRestResult.setPageIndex(page.getCurrentPageNo());
 		}
 		return jRestResult;
@@ -197,11 +197,11 @@ public class ServiceResult {
 		return invalidBean;
 	}
 
-	public boolean isInChain() {
+	public Boolean isInChain() {
 		return inChain;
 	}
 
-	public void setInChain(boolean inChain) {
+	public void setInChain(Boolean inChain) {
 		this.inChain = inChain;
 	}
 }
