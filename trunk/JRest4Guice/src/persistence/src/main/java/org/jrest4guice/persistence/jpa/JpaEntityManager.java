@@ -520,9 +520,9 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 			int index = 0;
 			for (final Object key : keys) {
 				if (index == 0 && !hasWhere) {
-					sqls.append(" where e." + key + "=:" + key);
+					sqls.append(" where e." + key + "=:" + key.toString().replaceAll("\\.","_"));
 				} else {
-					sqls.append(" and e." + key + "=:" + key);
+					sqls.append(" and e." + key + "=:" +  key.toString().replaceAll("\\.","_"));
 				}
 				index++;
 			}
@@ -541,50 +541,54 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 	 */
 	private List doDynamicQuery(final Pagination pagination,
 			final Map parameters, final int scope) {
-		Query query = null;
+		try {
+			Query query = null;
 
-		// 是否需要分页
-		final boolean needToPage = pagination != null;
-		int recordAmount = 0;
-		if (needToPage) {// 初始化分页信息
+			// 是否需要分页
+			final boolean needToPage = pagination != null;
+			int recordAmount = 0;
+			if (needToPage) {// 初始化分页信息
+				// 构造动态查询的统计SQL语句
+				query = this.em.createQuery(this.buildDynamicSQL(parameters, true,
+						scope));
+				// 处理参数
+				this.fittingQuery(query, parameters);
+				// 获取记录总数
+				recordAmount = Integer.parseInt(query.getSingleResult().toString());
+			}
+
 			// 构造动态查询的统计SQL语句
-			query = this.em.createQuery(this.buildDynamicSQL(parameters, true,
+			query = this.em.createQuery(this.buildDynamicSQL(parameters, false,
 					scope));
+
+			// 数据分页处理
+			if (needToPage) {
+				this.pagingQuery(query, pagination);
+			}
+
 			// 处理参数
 			this.fittingQuery(query, parameters);
-			// 获取记录总数
-			recordAmount = Integer.parseInt(query.getSingleResult().toString());
-		}
 
-		// 构造动态查询的统计SQL语句
-		query = this.em.createQuery(this.buildDynamicSQL(parameters, false,
-				scope));
+			// 获取查询结果
+			final List result = query.getResultList();
 
-		// 数据分页处理
-		if (needToPage) {
-			this.pagingQuery(query, pagination);
-		}
-
-		// 处理参数
-		this.fittingQuery(query, parameters);
-
-		// 获取查询结果
-		final List result = query.getResultList();
-
-		// 返回查询结果
-		if (needToPage) {
-			Page<E> page = null;
-			if (recordAmount == 0) {
-				page = new Page<E>(pagination.getFirstResult(), recordAmount,
-						pagination.getPageSize(), new ArrayList<E>());
+			// 返回查询结果
+			if (needToPage) {
+				Page<E> page = null;
+				if (recordAmount == 0) {
+					page = new Page<E>(pagination.getFirstResult(), recordAmount,
+							pagination.getPageSize(), new ArrayList<E>());
+				} else {
+					page = new Page<E>(Page.getStartOfPage(pagination
+							.getPageIndex(), pagination.getPageSize()),
+							recordAmount, pagination.getPageSize(), result);
+				}
+				return Arrays.asList(new Page[] { page });
 			} else {
-				page = new Page<E>(Page.getStartOfPage(pagination
-						.getPageIndex(), pagination.getPageSize()),
-						recordAmount, pagination.getPageSize(), result);
+				return result;
 			}
-			return Arrays.asList(new Page[] { page });
-		} else {
-			return result;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -604,7 +608,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 		Object parameter;
 		for (final String key : parameters.keySet()) {
 			parameter = parameters.get(key);
-			query.setParameter(key, parameter);
+			query.setParameter(key.replaceAll("\\.","_"), parameter);
 		}
 	}
 
@@ -622,12 +626,7 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 		}
 		int index = 1;
 		for (final Object parameter : parameters) {
-			// if (parameter instanceof TemporalValue) {
-			// final TemporalValue time = (TemporalValue) parameter;
-			// query.setParameter(index++, time.getValue(), time.getType());
-			// } else {
 			query.setParameter(index++, parameter);
-			// }
 		}
 	}
 

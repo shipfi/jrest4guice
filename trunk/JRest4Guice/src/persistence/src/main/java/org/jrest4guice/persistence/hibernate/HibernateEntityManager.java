@@ -515,9 +515,9 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 			int index = 0;
 			for (final Object key : keys) {
 				if (index == 0 && !hasWhere) {
-					sqls.append(" where e." + key + "=:" + key);
+					sqls.append(" where e." + key + "=:" + key.toString().replaceAll("\\.","_"));
 				} else {
-					sqls.append(" and e." + key + "=:" + key);
+					sqls.append(" and e." + key + "=:" +  key.toString().replaceAll("\\.","_"));
 				}
 				index++;
 			}
@@ -598,12 +598,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 		}
 		for (final String key : parameters.keySet()) {
 			final Object parameter = parameters.get(key);
-			// if (parameter instanceof TemporalValue) {
-			// final TemporalValue time = (TemporalValue) parameter;
-			// query.setParameter(key, time.getValue(), time.getType());
-			// } else {
-			query.setParameter(key, parameter);
-			// }
+			query.setParameter(key.replaceAll("\\.","_"), parameter);
 		}
 	}
 
@@ -621,12 +616,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 		}
 		int index = 0;
 		for (final Object parameter : parameters) {
-			// if (parameter instanceof TemporalValue) {
-			// final TemporalValue time = (TemporalValue) parameter;
-			// query.setParameter(index++, time.getValue(), time.getType());
-			// } else {
 			query.setParameter(index++, parameter);
-			// }
 		}
 	}
 
