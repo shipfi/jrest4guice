@@ -27,22 +27,19 @@ import org.jrest4guice.commons.lang.ParameterNameDiscoverer;
 import org.jrest4guice.rest.annotations.Action;
 import org.jrest4guice.rest.annotations.BodyBytes;
 import org.jrest4guice.rest.annotations.Cache;
-import org.jrest4guice.rest.annotations.Delete;
 import org.jrest4guice.rest.annotations.FileItems;
-import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.HttpMethodType;
+import org.jrest4guice.rest.annotations.MapBean;
 import org.jrest4guice.rest.annotations.MimeType;
 import org.jrest4guice.rest.annotations.ModelBean;
 import org.jrest4guice.rest.annotations.PageFlow;
 import org.jrest4guice.rest.annotations.Parameter;
 import org.jrest4guice.rest.annotations.Path;
-import org.jrest4guice.rest.annotations.Post;
 import org.jrest4guice.rest.annotations.ProduceMime;
-import org.jrest4guice.rest.annotations.Put;
-import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.commons.cache.ResourceCacheManager;
 import org.jrest4guice.rest.exception.Need2RedirectException;
 import org.jrest4guice.rest.exception.ValidatorException;
+import org.jrest4guice.rest.helper.JRestGuiceProcessorHelper;
 import org.jrest4guice.rest.helper.RequestHelper;
 import org.jrest4guice.rest.writer.ResponseWriter;
 import org.jrest4guice.rest.writer.ResponseWriterRegister;
@@ -97,7 +94,7 @@ public class ServiceExecutor {
 			this.initCurrentServiceMethod(instance, name);
 		}
 
-		Method method = service.getMethod();
+		Method method = service.getMethod().get(methodType);
 		if (method == null)
 			method = this.try2GetMethod(name, methodType);
 
@@ -216,6 +213,8 @@ public class ServiceExecutor {
 					value = parameterTypes[index].newInstance();
 					BeanUtils.populate(value, modelMap);
 					isModelBean = true;
+				} else if (annotation instanceof MapBean) {
+					value = this.constructMapBean((MapBean)annotation, modelMap);
 				} else if (annotation instanceof FileItems) {
 					pName = ModelMap.FILE_ITEM_ARGS_KEY;
 					value = modelMap.get(pName);
@@ -277,6 +276,27 @@ public class ServiceExecutor {
 
 		return params;
 	}
+	
+	private Map<String, Object> constructMapBean(MapBean annotation,ModelMap<String, Object> modelMap){
+		String[] keys = annotation.value();
+		if(keys.length<1)
+			return null;
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		Object value;
+		for(String key:keys){
+			key = key.trim();
+			if(key.equals(""))
+				continue;
+			value = modelMap.get(key);
+			if(value== null)
+				continue;
+
+			result.put(key, value);
+		}
+		
+		return result;
+	}
 
 	/**
 	 * 初始化当前Rest服务的方法映射字典
@@ -298,27 +318,7 @@ public class ServiceExecutor {
 					|| m.isAnnotationPresent(Path.class))
 				continue;
 
-			if (m.isAnnotationPresent(Get.class)) {
-				type = HttpMethodType.GET;
-			} else if (m.isAnnotationPresent(Post.class)) {
-				type = HttpMethodType.POST;
-			} else if (m.isAnnotationPresent(Put.class)) {
-				type = HttpMethodType.PUT;
-			} else if (m.isAnnotationPresent(Delete.class)) {
-				type = HttpMethodType.DELETE;
-			} else if (m.isAnnotationPresent(Action.class)) {
-				type = HttpMethodType.ACTION;
-			} else {
-				if (methodName.startsWith(RESTful.METHOD_OF_GET)) {
-					type = HttpMethodType.GET;
-				} else if (methodName.startsWith(RESTful.METHOD_OF_POST)) {
-					type = HttpMethodType.POST;
-				} else if (methodName.startsWith(RESTful.METHOD_OF_PUT)) {
-					type = HttpMethodType.PUT;
-				} else if (methodName.startsWith(RESTful.METHOD_OF_DELETE)) {
-					type = HttpMethodType.DELETE;
-				}
-			}
+			type = JRestGuiceProcessorHelper.getHttpMethodType(m);
 
 			if (type != null){
 				if(type == HttpMethodType.ACTION) {

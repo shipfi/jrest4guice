@@ -1,6 +1,10 @@
 package org.jrest4guice.rest;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.jrest4guice.rest.annotations.HttpMethodType;
 
 /**
  * 
@@ -9,12 +13,12 @@ import java.lang.reflect.Method;
  */
 public class Service {
 	private Object instance;
-	private Method method;
+	private Map<HttpMethodType, Method> methods = new HashMap<HttpMethodType, Method>(0);
 	
-	public Service(Object instance, Method method) {
+	public Service(Object instance, Map<HttpMethodType, Method> methods) {
 		super();
 		this.instance = instance;
-		this.method = method;
+		this.methods = methods;
 	}
 	public Object getInstance() {
 		return instance;
@@ -22,10 +26,10 @@ public class Service {
 	public void setInstance(Object instance) {
 		this.instance = instance;
 	}
-	public Method getMethod() {
-		return method;
+	public Map<HttpMethodType, Method> getMethod() {
+		return methods;
 	}
-	public void setMethod(Method method) {
-		this.method = method;
+	public void setMethod(Map<HttpMethodType, Method> methods) {
+		this.methods = methods;
 	}
 }

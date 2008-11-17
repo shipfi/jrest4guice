@@ -1,31 +1,27 @@
 package org.jrest4guice.rest.commons.json;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import net.sf.json.JsonConfig;
+import net.sf.json.util.PropertyFilter;
 
 import org.jrest4guice.rest.commons.json.annotations.JsonExclude;
 
 public class JsonConfigFactory {
-	private static Map<String, List<String>> excudeMap = new HashMap<String, List<String>>(0);
-	
 	public static JsonConfig createJsonConfig(Object bean) {
 		JsonConfig jsonConfig = new JsonConfig();
 		if(bean == null)
 			return jsonConfig;
 		if (bean instanceof List) {
 			try {
-				bean = ((List) bean).get(0);
+				bean = ((List<?>) bean).get(0);
 			} catch (Exception e) {
 			}
 		}
@@ -38,50 +34,28 @@ public class JsonConfigFactory {
 	}
 
 	public static void filteExcludes(Object bean, JsonConfig jsonConfig) {
-		List<String> excludesbyAnnoation = null;
-		String name = bean.getClass().getName();
-		if(excudeMap.containsKey(name)){
-			excludesbyAnnoation = excudeMap.get(name);
-		}else{
-			excludesbyAnnoation = new ArrayList<String>();
-			Class<?> clazz = bean.getClass();
-			Field[] fields = clazz.getDeclaredFields();
-			for (Field f : fields) {
-				if (f.isAnnotationPresent(JsonExclude.class) || isAnnotationPresent4ORMRelation(f)) {
-					excludesbyAnnoation.add(f.getName());
-				}
-			}
-			excudeMap.put(name, excludesbyAnnoation);
-		}
-
-		//忽略实例级的为空属性
-		List<String> instanceExcludes = new ArrayList<String>();
-		Class<?> clazz = bean.getClass();
-		Method[] methods = clazz.getDeclaredMethods();
-		Object invoke;
-		String mName;
-		for (Method m : methods) {
-			mName = m.getName();
-			if(mName.startsWith("get")){
+		jsonConfig.setJsonPropertyFilter(new PropertyFilter(){
+			@Override
+			public boolean apply(Object source, String name, Object value) {
+				if(value == null)
+					return true;
 				try {
-					invoke = m.invoke(bean);
-					if(invoke == null){
-						instanceExcludes.add(mName.substring(3,4).toLowerCase()+ mName.substring(4));
-					}
+					Field field = source.getClass().getDeclaredField(name);
+					if(field != null && field.isAnnotationPresent(JsonExclude.class))
+						return true;
+					if(ignoreLazyField(field))
+						return true;
 				} catch (Exception e) {
 				}
+				return false;
 			}
-		}
-		
-		instanceExcludes.addAll(excludesbyAnnoation);
-		
-		jsonConfig.setExcludes(instanceExcludes.toArray(new String[] {}));
+		});
 	}
 
-	private static boolean isAnnotationPresent4ORMRelation(Field field) {
-		return field.isAnnotationPresent(OneToOne.class)
-				|| field.isAnnotationPresent(OneToMany.class)
-				|| field.isAnnotationPresent(ManyToOne.class)
-				|| field.isAnnotationPresent(ManyToMany.class);
+	private static boolean ignoreLazyField(Field field) {
+		return (field.isAnnotationPresent(OneToOne.class) && ((OneToOne)field.getAnnotation(OneToOne.class)).fetch()== FetchType.LAZY)
+				|| (field.isAnnotationPresent(OneToMany.class) && ((OneToMany)field.getAnnotation(OneToMany.class)).fetch()== FetchType.LAZY)
+				|| (field.isAnnotationPresent(ManyToOne.class) && ((ManyToOne)field.getAnnotation(ManyToOne.class)).fetch()== FetchType.LAZY)
+				|| (field.isAnnotationPresent(ManyToMany.class) && ((ManyToMany)field.getAnnotation(ManyToMany.class)).fetch()== FetchType.LAZY);
 	}
 }
