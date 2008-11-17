@@ -5,7 +5,6 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jrest4guice.client.ModelMap;
-import org.jrest4guice.rest.exception.Need2RedirectException;
 
 /**
  * 

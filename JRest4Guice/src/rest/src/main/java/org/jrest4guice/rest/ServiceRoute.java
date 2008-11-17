@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.jrest4guice.rest.annotations.HttpMethodType;
+import org.jrest4guice.rest.helper.JRestGuiceProcessorHelper;
+
 /**
  * 
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
@@ -24,7 +27,7 @@ public class ServiceRoute {
 	private Map<String, ServiceRoute> routeChildren = new HashMap<String, ServiceRoute>();
 	private Map<String, List<ServiceRoute>> paramChildren = new HashMap<String, List<ServiceRoute>>();
 	
-	private Method method;
+	private Map<HttpMethodType, Method> methods;
 	
 	public ServiceRoute() {
 		this("");
@@ -33,14 +36,17 @@ public class ServiceRoute {
 	public ServiceRoute(String paramName) {
 		this.paramName = paramName;
 		this.id = UUID.randomUUID().toString();
+		this.methods = new HashMap<HttpMethodType, Method>(0);
 	}
 
-	public Method getMethod() {
-		return method;
+	public Map<HttpMethodType, Method> getMethod() {
+		return methods;
 	}
 
 	public void addRestMethod(Method method) {
-		this.method = method;
+		if(method == null)
+			return;
+		this.methods.put(JRestGuiceProcessorHelper.getHttpMethodType(method), method);
 	}
 
 	public String getId() {

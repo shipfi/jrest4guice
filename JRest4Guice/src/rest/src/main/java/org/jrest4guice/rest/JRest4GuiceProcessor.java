@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jrest4guice.client.ModelMap;
+import org.jrest4guice.commons.collections.MapHelper;
 import org.jrest4guice.commons.lang.ClassUtils;
 import org.jrest4guice.guice.GuiceContext;
 import org.jrest4guice.rest.annotations.HttpMethodType;
@@ -184,7 +185,7 @@ public class JRest4GuiceProcessor {
 			index = Integer.parseInt(methodIndex);
 			List<Method> methods = ClassUtils.getSortedMethodList(clazz);
 			Service service = new Service(GuiceContext.getInstance().getBean(
-					clazz), methods.get(index));
+					clazz), new MapHelper().put(HttpMethodType.POST, methods.get(index)).toMap());
 
 			ServiceExecutor exec = GuiceContext.getInstance().getBean(
 					ServiceExecutor.class);

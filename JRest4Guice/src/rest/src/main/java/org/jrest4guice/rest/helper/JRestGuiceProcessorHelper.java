@@ -1,6 +1,7 @@
 package org.jrest4guice.rest.helper;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,8 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.guice.GuiceContext;
+import org.jrest4guice.rest.annotations.Action;
+import org.jrest4guice.rest.annotations.Delete;
+import org.jrest4guice.rest.annotations.Get;
 import org.jrest4guice.rest.annotations.HttpMethodType;
 import org.jrest4guice.rest.annotations.MimeType;
+import org.jrest4guice.rest.annotations.Post;
+import org.jrest4guice.rest.annotations.Put;
 import org.jrest4guice.rest.annotations.RESTful;
 import org.jrest4guice.rest.commons.cache.ResourceCacheManager;
 import org.jrest4guice.rest.exception.Need2RedirectException;
@@ -109,6 +115,34 @@ public class JRestGuiceProcessorHelper {
 			return HttpMethodType.DELETE;
 		return null;
 	}
+	
+	public static HttpMethodType getHttpMethodType(Method m) {
+		String methodName = m.getName();
+		HttpMethodType type = null;
+		if (m.isAnnotationPresent(Get.class)) {
+			type = HttpMethodType.GET;
+		} else if (m.isAnnotationPresent(Post.class)) {
+			type = HttpMethodType.POST;
+		} else if (m.isAnnotationPresent(Put.class)) {
+			type = HttpMethodType.PUT;
+		} else if (m.isAnnotationPresent(Delete.class)) {
+			type = HttpMethodType.DELETE;
+		} else if (m.isAnnotationPresent(Action.class)) {
+			type = HttpMethodType.ACTION;
+		} else {
+			if (methodName.startsWith(RESTful.METHOD_OF_GET)) {
+				type = HttpMethodType.GET;
+			} else if (methodName.startsWith(RESTful.METHOD_OF_POST)) {
+				type = HttpMethodType.POST;
+			} else if (methodName.startsWith(RESTful.METHOD_OF_PUT)) {
+				type = HttpMethodType.PUT;
+			} else if (methodName.startsWith(RESTful.METHOD_OF_DELETE)) {
+				type = HttpMethodType.DELETE;
+			}
+		}
+		return type;
+	}
+	
 
 	/**
 	 * 填充参数
