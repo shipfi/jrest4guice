@@ -25,9 +25,19 @@ public abstract class ParameterPairContentRader implements RequestContentReader 
 
 		// url中的参数
 		names = request.getParameterNames();
+		String value;
 		while (names.hasMoreElements()) {
 			name = names.nextElement().toString();
-			params.put(name, request.getParameter(name));
+			try {
+				//TODO url中的参数乱码
+				value = new String(request.getParameter(name).getBytes("ISO-8859-1"), charset);
+				params.put(name, value);
+//				if(name.equalsIgnoreCase("search")){
+//					System.out.println(new String(request.getParameter(name).getBytes("ISO-8859-1"), charset));
+//				}
+			} catch (Exception e) {
+				params.put(name, request.getParameter(name));
+			}
 		}
 	}
 }
