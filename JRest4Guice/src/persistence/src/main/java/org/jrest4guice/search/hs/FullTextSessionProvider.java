@@ -13,12 +13,8 @@ import com.google.inject.Provider;
  *
  */
 public class FullTextSessionProvider implements Provider<FullTextSession> {
-	private final Session session;
-
-	@Inject
-	public FullTextSessionProvider(Session session) {
-		this.session = session;
-	}
+	@Inject(optional=true)
+	private Session session;
 
 	public FullTextSession get() {
 		return Search.createFullTextSession(session);

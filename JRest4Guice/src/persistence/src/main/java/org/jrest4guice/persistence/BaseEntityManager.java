@@ -15,7 +15,6 @@ import com.google.inject.ProvidedBy;
  *
  */
 @ProvidedBy(BaseEntityManagerProvider.class)
-@SuppressWarnings("unchecked")
 public interface BaseEntityManager<PK extends Serializable, E extends EntityAble<PK>> {
 
 	public static final String COUNT_SUFFIX = "[count]";
