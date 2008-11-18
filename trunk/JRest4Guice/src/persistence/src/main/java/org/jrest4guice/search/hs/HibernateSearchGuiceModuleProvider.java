@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.search.FullTextSession;
+import org.hibernate.search.jpa.FullTextEntityManager;
 import org.jrest4guice.guice.ModuleProviderTemplate;
 
 import com.google.inject.Binder;
@@ -23,6 +24,8 @@ public class HibernateSearchGuiceModuleProvider extends ModuleProviderTemplate{
 			public void configure(Binder binder) {
 				binder.bind(FullTextSession.class).toProvider(
 						FullTextSessionProvider.class);
+				binder.bind(FullTextEntityManager.class).toProvider(
+						FullTextEntityManagerProvider.class);
 			}
 		});
 
