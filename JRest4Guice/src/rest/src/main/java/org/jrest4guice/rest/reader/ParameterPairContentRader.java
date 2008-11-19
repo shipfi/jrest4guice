@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jrest4guice.client.ModelMap;
+import org.jrest4guice.rest.annotations.RESTful;
 
 /**
  * 
@@ -30,7 +31,10 @@ public abstract class ParameterPairContentRader implements RequestContentReader 
 			name = names.nextElement().toString();
 			try {
 				//TODO url中的参数乱码
-				value = new String(request.getParameter(name).getBytes("ISO-8859-1"), charset);
+				if (RESTful.METHOD_OF_GET.equalsIgnoreCase(request.getMethod()))
+					value = new String(request.getParameter(name).getBytes("ISO-8859-1"), charset);
+				else
+					value = request.getParameter(name);
 				params.put(name, value);
 //				if(name.equalsIgnoreCase("search")){
 //					System.out.println(new String(request.getParameter(name).getBytes("ISO-8859-1"), charset));

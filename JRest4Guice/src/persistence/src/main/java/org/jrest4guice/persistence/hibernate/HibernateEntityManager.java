@@ -16,6 +16,7 @@ import org.jrest4guice.client.Pagination;
 import org.jrest4guice.persistence.BaseEntityManager;
 import org.jrest4guice.persistence.DeletedFlag;
 import org.jrest4guice.persistence.EntityAble;
+import org.jrest4guice.persistence.ParameterObject;
 
 /**
  * 
@@ -489,7 +490,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 	 * @param isCount
 	 * @return
 	 */
-	private String buildDynamicSQL(final Object parameters,
+	private String buildDynamicSQL(final Map parameters,
 			final boolean isCount, final int scope) {
 		final StringBuffer sqls = new StringBuffer();
 		if (isCount) {
@@ -510,18 +511,28 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 		}
 
 		if (parameters != null) {
-			final Collection keys = ((Map) parameters).keySet();
+			final Collection keys = parameters.keySet();
 			// 组装查询条件
 			int index = 0;
+			Object value;
+			String logic,relation;
 			for (final Object key : keys) {
+				value = parameters.get(key);
+				logic = "and";
+				relation = "=";
+				if(value instanceof ParameterObject){
+					logic = ((ParameterObject)value).getLogicSymbol();
+					logic = ((ParameterObject)value).getRelationSymbol();
+				}
 				if (index == 0 && !hasWhere) {
-					sqls.append(" where e." + key + "=:" + key.toString().replaceAll("\\.","_"));
+					sqls.append(" where e." + key + ""+relation+":" + key.toString().replaceAll("\\.","_"));
 				} else {
-					sqls.append(" and e." + key + "=:" +  key.toString().replaceAll("\\.","_"));
+					sqls.append(" "+logic+" e." + key + ""+relation+":" +  key.toString().replaceAll("\\.","_"));
 				}
 				index++;
 			}
 		}
+
 		return sqls.toString();
 	}
 
@@ -596,9 +607,13 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 		if (parameters == null) {
 			return;
 		}
+		Object parameter;
 		for (final String key : parameters.keySet()) {
-			final Object parameter = parameters.get(key);
-			query.setParameter(key.replaceAll("\\.","_"), parameter);
+			parameter = parameters.get(key);
+			if(parameter instanceof ParameterObject)
+				query.setParameter(key.replaceAll("\\.","_"), ((ParameterObject)parameter).getValue());
+			else
+				query.setParameter(key.replaceAll("\\.","_"), parameter);
 		}
 	}
 
