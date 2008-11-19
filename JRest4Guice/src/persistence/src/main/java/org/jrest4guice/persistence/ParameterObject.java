@@ -1,7 +1,5 @@
 package org.jrest4guice.persistence;
 
-import java.util.Date;
-
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang.ObjectUtils.Null;
 import org.jrest4guice.commons.lang.Logic;
@@ -32,13 +30,15 @@ public class ParameterObject {
 		this.name = name;
 	}
 	public Object getValue() {
-		if(this.dataType ==  Null.class)
-			return value;
-		else{
-			Object convert = BeanUtilsBean.getInstance().getConvertUtils().convert(value, this.dataType);
-//			System.out.println(((Date)convert).toLocaleString());
-			return convert;
+		Object result = value;
+		if(this.dataType !=  Null.class){
+			result = BeanUtilsBean.getInstance().getConvertUtils().convert(value, this.dataType);
 		}
+		
+		if(this.relation==Relation.LIKE && result != null && !result.toString().trim().equals(""))
+			result = "%"+result.toString()+"%";
+	
+		return result;
 	}
 	public void setValue(Object value) {
 		this.value = value;
@@ -72,6 +72,9 @@ public class ParameterObject {
 	public String getRelationSymbol() {
 		String symbol = "=";
 		switch (this.relation) {
+		case LIKE:
+			symbol = " like ";
+			break;
 		case EQUAL:
 			symbol = "=";
 			break;

@@ -14,6 +14,7 @@ import javax.persistence.Query;
 import org.apache.commons.beanutils.BeanUtils;
 import org.jrest4guice.client.Page;
 import org.jrest4guice.client.Pagination;
+import org.jrest4guice.commons.lang.Relation;
 import org.jrest4guice.persistence.BaseEntityManager;
 import org.jrest4guice.persistence.DeletedFlag;
 import org.jrest4guice.persistence.EntityAble;
@@ -521,20 +522,22 @@ public class JpaEntityManager<PK extends Serializable, E extends EntityAble<PK>>
 			int index = 0;
 			Object value;
 			String logic,relation,param;
+			ParameterObject pObject;
 			for (Object key : keys) {
 				value = parameters.get(key);
 				logic = "and";
 				relation = "=";
-				param = new String(key.toString());
+				param = new String(key.toString()).replaceAll("\\.","_");
 				if(value instanceof ParameterObject){
-					logic = ((ParameterObject)value).getLogicSymbol();
-					relation = ((ParameterObject)value).getRelationSymbol();
-					key = ((ParameterObject)value).getName();
+					pObject = ((ParameterObject)value);
+					logic = pObject.getLogicSymbol();
+					relation = pObject.getRelationSymbol();
+					key = pObject.getName();
 				}
 				if (index == 0 && !hasWhere) {
-					sqls.append(" where e." + key + ""+relation+":" + param.replaceAll("\\.","_"));
+					sqls.append(" where e." + key + ""+relation+":" + param);
 				} else {
-					sqls.append(" "+logic+" e." + key + ""+relation+":" +  param.replaceAll("\\.","_"));
+					sqls.append(" "+logic+" e." + key + ""+relation+":" +  param);
 				}
 				index++;
 			}

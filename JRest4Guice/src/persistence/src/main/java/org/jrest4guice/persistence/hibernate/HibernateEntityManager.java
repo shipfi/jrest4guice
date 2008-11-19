@@ -515,24 +515,27 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 			// 组装查询条件
 			int index = 0;
 			Object value;
-			String logic,relation;
-			for (final Object key : keys) {
+			String logic,relation,param;
+			ParameterObject pObject;
+			for (Object key : keys) {
 				value = parameters.get(key);
 				logic = "and";
 				relation = "=";
+				param = new String(key.toString()).replaceAll("\\.","_");
 				if(value instanceof ParameterObject){
-					logic = ((ParameterObject)value).getLogicSymbol();
-					logic = ((ParameterObject)value).getRelationSymbol();
+					pObject = ((ParameterObject)value);
+					logic = pObject.getLogicSymbol();
+					relation = pObject.getRelationSymbol();
+					key = pObject.getName();
 				}
 				if (index == 0 && !hasWhere) {
-					sqls.append(" where e." + key + ""+relation+":" + key.toString().replaceAll("\\.","_"));
+					sqls.append(" where e." + key + ""+relation+":" + param);
 				} else {
-					sqls.append(" "+logic+" e." + key + ""+relation+":" +  key.toString().replaceAll("\\.","_"));
+					sqls.append(" "+logic+" e." + key + ""+relation+":" +  param);
 				}
 				index++;
 			}
 		}
-
 		return sqls.toString();
 	}
 
@@ -608,7 +611,7 @@ public class HibernateEntityManager<PK extends Serializable, E extends EntityAbl
 			return;
 		}
 		Object parameter;
-		for (final String key : parameters.keySet()) {
+		for (String key : parameters.keySet()) {
 			parameter = parameters.get(key);
 			if(parameter instanceof ParameterObject)
 				query.setParameter(key.replaceAll("\\.","_"), ((ParameterObject)parameter).getValue());
