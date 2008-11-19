@@ -296,7 +296,7 @@ public class ServiceExecutor {
 			if(value== null || value.toString().trim().equals(""))
 				continue;
 
-			if(!elem.targetName().trim().equals(""));
+			if(!elem.targetName().trim().equals(""))
 				targetName = elem.targetName().trim();
 
 			result.put(key, new ParameterObject(targetName,value,elem.logic(),elem.relation(),elem.dataType()));
