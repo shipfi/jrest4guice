@@ -21,7 +21,9 @@ public class DatePatternConverter {
 	public DatePatternConverter() {
 		this.patterns = new HashMap<Pattern, String>();
 		this.patterns.put(Pattern
-				.compile("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})"), "yyyy-MM-dd");
+				.compile("([0-9]{2,4})年([0-9]{1,2})月([0-9]{1,2})日"), "yyyy年MM月dd日");
+		this.patterns.put(Pattern
+				.compile("([0-9]{2,4})-([0-9]{1,2})-([0-9]{1,2})"), "yyyy-MM-dd");
 
 		this.patterns
 				.put(

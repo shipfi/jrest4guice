@@ -24,9 +24,11 @@ import org.jrest4guice.client.ModelMap;
 import org.jrest4guice.client.Page;
 import org.jrest4guice.commons.i18n.annotations.ResourceBundle;
 import org.jrest4guice.commons.lang.ParameterNameDiscoverer;
+import org.jrest4guice.persistence.ParameterObject;
 import org.jrest4guice.rest.annotations.Action;
 import org.jrest4guice.rest.annotations.BodyBytes;
 import org.jrest4guice.rest.annotations.Cache;
+import org.jrest4guice.rest.annotations.Element;
 import org.jrest4guice.rest.annotations.FileItems;
 import org.jrest4guice.rest.annotations.HttpMethodType;
 import org.jrest4guice.rest.annotations.MapBean;
@@ -278,21 +280,26 @@ public class ServiceExecutor {
 	}
 	
 	private Map<String, Object> constructMapBean(MapBean annotation,ModelMap<String, Object> modelMap){
-		String[] keys = annotation.value();
-		if(keys.length<1)
+		Element[] elements = annotation.value();
+		if(elements.length<1)
 			return null;
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		Object value;
-		for(String key:keys){
-			key = key.trim();
+		String key,targetName;
+		for(Element elem:elements){
+			key = elem.name().trim();
 			if(key.equals(""))
 				continue;
+			targetName = key;
 			value = modelMap.get(key);
-			if(value== null)
+			if(value== null || value.toString().trim().equals(""))
 				continue;
 
-			result.put(key, value);
+			if(!elem.targetName().trim().equals(""));
+				targetName = elem.targetName().trim();
+
+			result.put(key, new ParameterObject(targetName,value,elem.logic(),elem.relation(),elem.dataType()));
 		}
 		
 		return result;
