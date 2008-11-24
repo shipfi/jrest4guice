@@ -1,8 +1,0 @@
-{
-	'permission' : {
-		'id' : 0,
-		'name' : 'name',
-		'authority' : 'authority',
-		'descr' : 'descr'
-	}
-}
