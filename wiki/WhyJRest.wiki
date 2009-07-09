@@ -1,6 +1,4 @@
 ====jrest4guice is a lightweight、Restful service framework, and it supports JPA、JAAS and distributed resource object.====
-*Demo show:*
-[http://www.rest4g.org/full]
 ----
 *Features:*
   * Based on Google guice 
@@ -189,8 +187,6 @@ public class TestRemoteResource {
 
 }}}
 
-*Demo show:*
-[http://cnoss.vicp.net/]
 ----
 *you can get the JRest4Guice source code from svn(use maven)*
 
