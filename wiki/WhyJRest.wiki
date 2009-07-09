@@ -1,47 +1,47 @@
-====一个轻量级的基于Google Guice的Restful服务框架，支持JPA、JAAS、分布式资源对象.====
-*Demo演示:*
+====jrest4guice is a lightweight、Restful service framework, and it supports JPA、JAAS and distributed resource object.====
+*Demo show:*
 [http://www.rest4g.org/full]
 ----
-*特点:*
-  * 基于Google guice 
-  * 零配置，服务的自动扫描注册 
-  * 非侵入式，用户不需要实现特定的接口来实现Restful服务，只需要通过@RESTful来声明  
-  * 支持Post. Get. Put. Delete操作 
-  * 支持对Get操作的缓存机制，实现动态资源静态化（通过@Cache标注声明）
-  * 灵活的注入(支持上下文环境request/response/session以及参数的自动注入) 
-  * 根据客户端要求返回不同类型的数据（xml/json/html）
-  * 通过@PageFlow实现对MVC module2的支持，输出结果支持CTE、Velocity、Freemarker和Spry模板引擎（当返回类型是text/html时才有效）
-  * 支持JPA，通过增强的BaseEntityManager实现实体的CRUD 
-  * 支持事务，通过@Transactional注解声明事务的类型 
-  * 支持JAAS，通过@RolesAllowed注解声明操作所需要的角色
-  * 支持Hibernate validator
-  * 支持拦截器 (interceptor)
-  * 支持分布式资源对象，实现业务逻辑的分布式部署 
-  * 提供了与Struts2集成的插件
+*Features:*
+  * Based on Google guice 
+  * Zero configuration，scan and register services automatically 
+  * Noninvasive, users needn’t implement certain interface to achieve Restful service(just use @RESTful annotation)  
+  * Support  Post、Get、Put、Delete operation 
+  * Support caching mechanisms for Get operation，staticize dynamic resource（use @Cache annotation to declare）
+  * Flexible injection(support context request/response/session and automatic injection of parameters) 
+  * Return different types of data(like xml/json/html) according to the different client
+  * Use @PageFlow to achieve the support of MVC module2, the output can be CTE、Velocity、Freemarker and Spry template engine(only when return type is text/html, can it be valid )
+  * Support JPA, use enhancive BaseEntityManager to achieve the CRUD of entity
+  * Support  transaction, use @Transactional annotation to declare the type of transaction 
+  * Support JAAS,use @RolesAllowed annotation to manipulate the needed rose
+  * Support Hibernate validator
+  * Support interceptor
+  * Support distributed resource object, achieve distributed deployment of business logic 
+  * Support plugin to integrate with Struts2
 
-*代码示例:*
+*Code example:*
 {{{
 
 //=======================================================
-//资源类
+//resource class
 //=======================================================
 
 /**
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
- * 联系人的资源对象
- * 声明remoteable为真（可以通过@RemoteReference的注入到任一资源对象,通常用在跨应用的资源调用上）
+ * resource object of the contact
+ * set remoteable to true（use @RemoteReference annotation to inject into any resource object, and it usually used to resource invoke between cross-applications）
  */
 @RESTful(name = "ContactResource", remoteable = true)
 @Path( { "/contact", "/contacts/{contactId}" })
 public class ContactResource {
 	@Inject
-	private ContactService service;//注入联系人管理的服务对象
+	private ContactService service;//inject contact management service
 
 	/**
-	 * 创建新的联系人 
-	 * PageFlow ：当服务端返回类型是Text/Html类型时，重定向用户的请求到指定的页面，实现最基本功能的MVC。
-	 * 		在这里，指明当操作成功时，重定向到/contacts，当操作失败时，将用户请求重定向到/contact。
-	 * @param contact 联系人实体
+	 * create a new contact
+	 * PageFlow ： When server-end returns Text/Html, it redirects user’s request to given page, achieve the most basic of MVC function.
+	 * Here, if success, redirect the user request to "/contacts";if failure, redirect it to "/contact"
+	 * @param contact
 	 */
 	@Post
 	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT)
@@ -51,8 +51,8 @@ public class ContactResource {
 	}
 
 	/**
-	 * 修改联系人信息 
-	 * @param contact 联系人实体
+	 * modify contact information 
+	 * @param contact
 	 */
 	@Put
 	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT)
@@ -62,9 +62,9 @@ public class ContactResource {
 	}
 
 	/**
-	 * 显示联系人列表 
-	 * @param page 页码 
-	 * @param size 每页记录数
+	 * show contacts list 
+	 * @param page  page number 
+	 * @param size  number of records per page
 	 */
 	@Get
 	@Path("/contacts")
@@ -74,8 +74,8 @@ public class ContactResource {
 	}
 
 	/**
-	 * 显示单个联系人的信息 
-	 * @param contactId 联系对象ID
+	 * show specific contact information 
+	 * @param contactId 
 	 */
 	@Get
 	@PageFlow(success = @PageInfo(value = "/template/contactDetail.ctl"))
@@ -86,8 +86,8 @@ public class ContactResource {
 	}
 
 	/**
-	 * 删除指定ID的联系人 
-	 * @param contactId 联系对象ID
+	 * delete specific contact information 
+	 * @param contactId
 	 */
 	@Delete
 	@PageFlow(success = @PageInfo(value = "/contacts",type=ResultType.REDIRECT))
@@ -98,7 +98,7 @@ public class ContactResource {
 
 
 //=======================================================
-//业务类
+//business class
 //=======================================================
 
 /**
@@ -106,22 +106,22 @@ public class ContactResource {
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  *
  */
-@Transactional//事务支持，缺省为TransactionalType.REQUIRED，可以在方法中覆写
-@Interceptors({//自定义的拦截器（类级别的，作用于所有的方法，可以在方法中覆写）
+@Transactional//Default value is TransactionalType.REQUIRED，it can be overrided  in method
+@Interceptors({//self-defining interceptors(class-level，it works on all methods，and can be override in method）
 	@Interceptor(TestInterceptor.class),
 	@Interceptor(LogInterceptor.class)
 })
 public class ContactService{
-	//注入实体管理器
+	//inject entry management
 	@Inject
 	private BaseEntityManager<String, Contact> entityManager;
 
 	public String createContact(Contact contact) {
 		if (contact == null)
-			throw new RuntimeException("联系人的内容不能为空");
+			throw new RuntimeException("the content of contact can not be null");
 
 		if (this.entityManager.loadByNamedQuery("byName", contact.getName()) != null) {
-			throw new RuntimeException("联系人的姓名相同，请重新输入");
+			throw new RuntimeException("You have input a duplicate contact name，please enter again");
 		}
 
 		this.entityManager.create(contact);
@@ -134,7 +134,7 @@ public class ContactService{
 		for (String id : ids) {
 			contact = this.findContactById(id);
 			if (contact == null)
-				throw new RuntimeException("联系人不存在");
+				throw new RuntimeException("contact not exist!");
 			this.entityManager.delete(contact);
 		}
 	}
@@ -144,8 +144,8 @@ public class ContactService{
 		return this.entityManager.load(contactId);
 	}
 
-	@Transactional(type=TransactionalType.READOLNY)//覆盖类级别的事务类型为只读
-	@Interceptor(ListContactsInterceptor.class)//覆盖类级别的拦截器
+	@Transactional(type=TransactionalType.READOLNY)//override class-level TransactionalType to READOLNY
+	@Interceptor(ListContactsInterceptor.class)//override class-level Interceptor
 	public Page<Contact> listContacts(int pageIndex, int pageSize)
 			throws RuntimeException {
 		return this.entityManager.pageByNamedQuery("list",
@@ -154,11 +154,11 @@ public class ContactService{
 
 	public void updateContact(Contact contact) {
 		if (contact == null)
-			throw new RuntimeException("联系人的内容不能为空");
+			throw new RuntimeException("the content of contact can not be null");
 		
 		Contact tmpContact = this.entityManager.loadByNamedQuery("byName", contact.getName());
 		if(tmpContact != null && !contact.getId().equals(tmpContact.getId()))
-			throw new RuntimeException("联系人的姓名相同，请重新输入");
+			throw new RuntimeException("You have input a duplicate contact name，please enter again");
 
 		this.entityManager.update(contact);
 	}
@@ -166,7 +166,7 @@ public class ContactService{
 
 
 //=======================================================
-//远程调用的案例
+//a case of remote call
 //=======================================================
 
 /**
@@ -177,7 +177,7 @@ public class ContactService{
 @Path( { "/testCallRemote"})
 public class TestRemoteResource {
 	@Inject
-	@RemoteReference//注入远程资源对象
+	@RemoteReference//inject remote resource object
 	private ContactResource service;
 
 	@Get
@@ -189,7 +189,7 @@ public class TestRemoteResource {
 
 }}}
 
-*Demo演示:*
+*Demo show:*
 [http://cnoss.vicp.net/]
 ----
 *请大家直接从SVN中获取JRest4Guice工程即可（使用Maven）*
