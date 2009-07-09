@@ -27,7 +27,8 @@
 /**
  * @author <a href="mailto:zhangyouqun@gmail.com">cnoss (QQ:86895156)</a>
  * resource object of the contact
- * set remoteable to true（use @RemoteReference annotation to inject into any resource object, and it usually used to resource invoke between cross-applications）
+ * set remoteable to true（use @RemoteReference annotation to inject into any 
+ * resource object, and it usually used to resource invoke between cross-applications）
  */
 @RESTful(name = "ContactResource", remoteable = true)
 @Path( { "/contact", "/contacts/{contactId}" })
