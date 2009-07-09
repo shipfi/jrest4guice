@@ -192,9 +192,9 @@ public class TestRemoteResource {
 *Demo show:*
 [http://cnoss.vicp.net/]
 ----
-*请大家直接从SVN中获取JRest4Guice工程即可（使用Maven）*
+*you can get the JRest4Guice source code from svn(use maven)*
 
-*真诚希望大家提出宝贵意见，联系方式：*
+*We sincerely hope that you will give us your valuable criticisms and suggestions,contact information:*
   * Email：zhangyouqun@gmail.com
   * QQ: 86895156
   * MSN: zhangyouqun@hotmail.com
